@@ -1,0 +1,7 @@
+interface:
+  display_name: "Baokuan Opening Setup"
+  short_description: "Use the user's learned Douyin opening formulas with variables"
+  default_prompt: "Use baokuan-kaitou-sheding to choose the best learned opening form, fill its variables, and write a direct-use Douyin opening."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,4 @@
+interface:
+  display_name: "1000-2000字重写"
+  short_description: "1000-2000字强冲突短文案重写。"
+  default_prompt: "Use $duanchongxie to rewrite this copy into a 1000-2000 character high-conflict Douyin script without modifying the original Gemini conversation."

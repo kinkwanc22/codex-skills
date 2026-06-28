@@ -1,0 +1,4 @@
+interface:
+  display_name: "爆款心理学标题包装器"
+  short_description: "短视频知识付费标题包装与机制升维生成"
+  default_prompt: "Use $viral-psych-title-wrapper to turn this Chinese draft into 10 four-line viral psychology title packages."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "文案提取"
+  short_description: "Batch extract Douyin and Bilibili transcripts to TXT/SRT files."
+  default_prompt: "Use $batch-video-copy-extractor to batch extract transcripts from Douyin and Bilibili links."

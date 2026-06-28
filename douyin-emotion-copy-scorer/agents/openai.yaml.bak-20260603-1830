@@ -1,0 +1,7 @@
+interface:
+  display_name: "爆款文案筛选"
+  short_description: "按爆款基因筛选男性情感文案"
+  default_prompt: "Use $douyin-emotion-copy-scorer to score this batch of Douyin male relationship scripts, rank them, and recommend the expansion priority."
+
+policy:
+  allow_implicit_invocation: true

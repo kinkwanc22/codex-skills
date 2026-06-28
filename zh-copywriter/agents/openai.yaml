@@ -1,0 +1,4 @@
+interface:
+  display_name: "中文文案助手"
+  short_description: "中文文案创作、改写润色、平台适配与原创化"
+  default_prompt: "Use $zh-copywriter to turn this rough idea into a polished Chinese social post."

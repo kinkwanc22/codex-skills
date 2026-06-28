@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "文案处理工作流"
+  short_description: "筛选、扩写、复查、扩写后加爆款开头并导出长文稿"
+  default_prompt: "使用文案处理工作流：先筛选爆款文案，选中文案送到 AskMany 扩写，检查字数和爆款潜力，扩写后再用爆款开头设定生成最终开头，最后导出带黄色风险建议的 Word 文档。"
+
+policy:
+  allow_implicit_invocation: true

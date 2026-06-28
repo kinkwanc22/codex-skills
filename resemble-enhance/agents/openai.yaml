@@ -1,0 +1,3 @@
+display_name: Resemble Enhance
+short_description: Denoise and enhance speech audio with the local Resemble Enhance project.
+default_prompt: Enhance or denoise this speech audio using Resemble Enhance.

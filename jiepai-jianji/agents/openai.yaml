@@ -1,0 +1,6 @@
+interface:
+  display_name: "街拍剪辑"
+  short_description: "按口播句尾和静音点自动切换街拍素材"
+  default_prompt: "Use $jiepai-jianji to turn a narration audio, script, and street-shot素材目录 into a 16:9 30fps MP4."
+policy:
+  allow_implicit_invocation: true

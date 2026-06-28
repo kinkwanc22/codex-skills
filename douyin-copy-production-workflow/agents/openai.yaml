@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "Douyin Copy Workflow"
+  short_description: "End-to-end Douyin copy workflow: score, AskMany expand, add openings, export Word"
+  default_prompt: "Use douyin-copy-production-workflow to process this batch: score scripts, expand in AskMany with the full prefix, add three opening versions, verify Word structure, and export final docx files."
+
+policy:
+  allow_implicit_invocation: true

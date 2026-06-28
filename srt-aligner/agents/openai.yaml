@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRT Aligner"
+  short_description: "Match provided copy to audio and generate SRT subtitles."
+  default_prompt: "Use $srt-aligner to match my script with an audio file and generate an SRT subtitle file."

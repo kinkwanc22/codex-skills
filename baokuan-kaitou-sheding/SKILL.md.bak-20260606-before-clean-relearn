@@ -1,0 +1,301 @@
+---
+name: baokuan-kaitou-sheding
+description: Generate and refine viral opening hooks for Douyin Chinese relationship/self-media scripts. Use when the user asks for 爆款开头设定, 文案开头, 改开头, hook, opening, 高阶认知课式开头, 身份点名式开头, 反常识金句, or wants several stronger first-3-seconds openings for a short video or long-form Douyin script.
+---
+
+# 爆款开头设定
+
+Use this skill to create strong Chinese opening hooks for Douyin relationship/self-media scripts in the user's house style.
+
+Core outcome: produce openings that immediately name the viewer's pain, reveal a concrete mechanism, promise a useful cognition upgrade, and make the viewer want to keep listening.
+
+## Operating Principle
+
+Do not only fill templates. First diagnose the script, then choose the right opening model.
+
+Default tone:
+
+- 高阶、直接、口播感强
+- 有反常识、有机制名、有明确痛点
+- 像一节高密度认知课的开场
+- 少空话，少形容词堆叠，少重复黑话
+
+Safety boundary:
+
+- Do not write harassment, threats, stalking, coercion, or non-consensual tactics.
+- Reframe risky angles as 机制识别、边界判断、关系主权、情绪秩序、筛选系统、自我建设.
+- Avoid insulting protected classes or telling the audience to harm, deceive, or control a specific person.
+
+## Workflow
+
+1. Read the user's source theme, title, script, or draft opening.
+2. Extract:
+   - 核心痛点: the viewer's immediate relationship problem.
+   - 底层机制: the psychological or behavioral mechanism being explained.
+   - 受众身份: age, stage, relationship state, or failure pattern.
+   - 结果承诺: what the viewer will understand or fix after watching.
+3. Choose 2-4 opening models from the library below.
+4. Write 5 openings by default unless the user asks for a different number.
+5. Score the openings and recommend the best one.
+6. If the user says 不对味, first adjust intensity, rhythm, mechanism name, and pain precision. Do not restart from generic templates.
+
+## Opening Models
+
+### 0. 最终完整版提效式
+
+Use when the user wants the opening to feel like the final, complete, high-density version of a topic. This is especially suitable for long-form scripts, complete lessons, mechanism collections, and topics that summarize several rules or systems.
+
+Core feeling:
+
+- 这是最后一期、最完整、未删减
+- 主题必须像一套完整体系
+- 直接承诺 viewer can understand the core knowledge quickly
+- Include the Doubao/AI summary and mind-map efficiency prompt before entering the main content
+
+Structure:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+【全文内容总结】的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解【文案核心知识】，轻松拿【核心知识解决痛点】结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Variables:
+
+- 【全文内容总结】: use a compact, high-value topic name. It should sound like a complete system, e.g. 十二个泡妞与赚钱的顶级黑暗思维.
+- 【文案核心知识】: name the underlying system the viewer will understand, e.g. 两性关系、商业、人脉的运行规则.
+- 【核心知识解决痛点】: name the concrete result, status upgrade, or pain resolution, e.g. 顶美和顶薪双重结果.
+
+Example:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+十二个泡妞与赚钱的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解两性关系、商业、人脉的运行规则，轻松拿到顶美和顶薪双重结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Do not use this model for narrow, single-point topics unless they can be packaged as a complete system. If the topic is too small, first expand the theme name into a larger mechanism collection.
+
+### 1. 反常识金句式
+
+Use when the topic can be summarized by one sharp reversal.
+
+Structure:
+
+```text
+【反常识金句】。
+
+【高阶主题名】完整剖析。
+让你在最短时间补齐【认知断层】，
+看懂【底层机制】，
+解决你在关系里【具体痛点】的现状。
+```
+
+Good for:
+
+- 两性本质
+- 框架、吸引力、情绪主权
+- 长期关系中的反复失控
+
+### 2. 身份点名式
+
+Use when the viewer has a clear identity or stage.
+
+Structure:
+
+```text
+如果你现在【年龄/阶段/状态】，
+在关系里总是【具体失败模式】，
+你看我这一期就够了。
+
+我会把【核心机制】拆开讲透，
+让你看清楚自己为什么会【反复进入某种低位循环】，
+以及该怎么重新建立【关系秩序/筛选系统/情绪主权】。
+```
+
+Good for:
+
+- 二十多、三十出头男性
+- 上头、讨好、解释、等待反馈
+- 不会筛选、不会推进关系
+
+### 3. 痛点追问式
+
+Use when the source script begins from a common frustration.
+
+Structure:
+
+```text
+你有没有发现，
+你越是【努力行为】，
+对方反而越【负面反馈】？
+
+这不是你不够好，
+而是你一直没看懂【机制名】。
+这期我直接把它讲透。
+```
+
+Good for:
+
+- 低位付出
+- 被冷淡、被忽视、被试探
+- 观众容易立刻代入的选题
+
+### 4. 机制揭示式
+
+Use when the topic has a clear psychological mechanism.
+
+Structure:
+
+```text
+很多男人在关系里输，
+不是输在条件，
+而是输在完全不懂【机制名】。
+
+一旦你看懂这个机制，
+你就会明白为什么【常见错误行为】只会让你越来越被动。
+```
+
+Good for:
+
+- 损失厌恶、间歇性强化、不可得性
+- 情绪投注、筛选机制、慕强机制
+- 需要讲“为什么”的长文案
+
+### 5. 清单承诺式
+
+Use when the content can become a list, checklist, or practical lesson.
+
+Structure:
+
+```text
+判断一段关系值不值得继续，
+你只需要看这【数字】个信号。
+
+尤其是第【数字】个，
+很多男人直到被消耗完才会反应过来。
+```
+
+Good for:
+
+- 信号、习惯、错误、步骤、标准
+- 收藏价值强的短视频
+- 助理采集来的清单型素材
+
+### 6. 案例切入式
+
+Use when the source has a vivid case or scene.
+
+Structure:
+
+```text
+一个男人最容易掉价的瞬间，
+往往不是他表白的时候，
+而是【具体场景】的时候。
+
+因为从那一刻开始，
+他已经把【关系权重/情绪主权/筛选权】交出去了。
+```
+
+Good for:
+
+- 有场景、有冲突、有具体行为的素材
+- 情绪代入强的口播
+
+## Quality Gate
+
+Every opening should pass at least 4 of these 6 checks:
+
+- 前 3 秒有钩子: first sentence can stop scrolling.
+- 痛点具体: not just “关系问题” or “吸引力不够”.
+- 机制清楚: names a mechanism, pattern, or rule.
+- 承诺明确: viewer knows what they will gain.
+- 口播顺: reads naturally aloud, no written-language stiffness.
+- 不堆黑话: one or two strong concepts are enough.
+
+Reject or rewrite openings that:
+
+- Begin with generic phrases like “今天给大家讲一个很重要的话题”.
+- Use too many abstract labels without a concrete pain.
+- Sound like a course title but not a video opening.
+- Only attack or shame the viewer without giving a useful promise.
+- Promise manipulation, control, revenge, or guaranteed emotional outcomes.
+
+## Useful Vocabulary
+
+Use these sparingly. Pick the exact term that fits the script.
+
+Pain words:
+
+- 上头、掉价、讨好、解释、等待反馈
+- 被冷淡、被试探、被拿捏、被消耗
+- 框架崩塌、情绪失控、低位供养
+- 不会筛选、不会推进、不会止损
+
+Mechanism words:
+
+- 认知断层、底层死穴、弱者程序
+- 关系困局、高位框架、情绪主权
+- 筛选系统、慕强机制、情绪投注
+- 不可得性、定价权、筛选权、关系权重
+
+Promise words:
+
+- 看懂、拆穿、识别、重建、建立
+- 补齐、停止、摆脱、校准、拿回
+- 形成标准、建立秩序、减少内耗
+
+## Output Format
+
+Use Chinese by default.
+
+```markdown
+**开头诊断**
+- 核心痛点：
+- 底层机制：
+- 推荐模型：
+
+**开头 1｜模型名｜评分：X/10**
+...
+
+**开头 2｜模型名｜评分：X/10**
+...
+
+**开头 3｜模型名｜评分：X/10**
+...
+
+**最推荐**
+第 X 个。原因：...
+
+**可继续优化方向**
+...
+```
+
+If the user asks for direct-use output only, omit diagnosis and scoring.
+
+If the user provides an existing opening, include:
+
+```markdown
+**原开头问题**
+...
+
+**改写版本**
+...
+```
+
+## Revision Rules
+
+When the user gives feedback:
+
+- “更狠”: increase directness and pain precision, not insults.
+- “更高级”: add a clearer mechanism name and reduce internet slang.
+- “更口语”: shorten sentences and improve rhythm.
+- “更像 Gary”: make it colder, sharper, and more cognition-lesson-like while keeping boundaries.
+- “不够爆”: strengthen first sentence, conflict, and promise.
+- “太油/太装”: remove decorative words and make the pain more concrete.
+
+When the user says “保存这个风格” or “以后按这个来”, update this skill or a local style reference file with the approved pattern.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Baokuan Opening Setup"
+  short_description: "Write and refine high-retention Douyin opening hooks"
+  default_prompt: "Use baokuan-kaitou-sheding to diagnose my script theme, write 5 stronger opening hooks, score them, and recommend the best direct-use version."
+
+policy:
+  allow_implicit_invocation: true

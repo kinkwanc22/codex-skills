@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Douyin Copy Workflow Custom"
+  short_description: "Process Douyin copy batches with the custom Gemini workflow."
+  default_prompt: "Use $douyin-copy-production-workflow-custom to process this batch with the full custom workflow."

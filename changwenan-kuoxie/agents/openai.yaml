@@ -1,0 +1,7 @@
+interface:
+  display_name: "长文案扩写"
+  short_description: "把原始短文案扩写成约6000字抖音长稿"
+  default_prompt: "Use $changwenan-kuoxie to expand my raw Chinese copy into an adult-oriented Douyin long script of about 6000 Chinese characters."
+
+policy:
+  allow_implicit_invocation: true

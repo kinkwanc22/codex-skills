@@ -1,0 +1,17 @@
+﻿.system/
+**/.auth/
+**/.auth-xhs/
+**/.env
+**/.env.*
+**/.cheat-secrets.json
+**/*api_key*.txt
+**/teamorouter_api_key.txt
+**/node_modules/
+**/__pycache__/
+**/.venv/
+**/venv/
+**/dist/
+**/build/
+**/*.pyc
+**/*.log
+**/usage.jsonl

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Douyin Home Monitor"
+  short_description: "Monitor Douyin home pages and export new works."
+  default_prompt: "Use $douyin-home-monitor to monitor these Douyin home links for new works."

@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "Douyin Copy Workflow Custom"
+  short_description: "End-to-end Douyin copy workflow: local Gemini expand, add openings, export Word"
+  default_prompt: "Use douyin-copy-production-workflow-custom to process this batch: expand every provided script through the local Gemini command with the full instruction block, add three opening versions, verify Word structure, and export final docx files."
+
+policy:
+  allow_implicit_invocation: true

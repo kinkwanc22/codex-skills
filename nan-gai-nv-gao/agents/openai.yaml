@@ -1,0 +1,4 @@
+interface:
+  display_name: "男改女稿"
+  short_description: "Reverse male-audience scripts via Gemini API."
+  default_prompt: "Use $nan-gai-nv-gao to rewrite this relationship script with reversed gender logic via the configured Gemini API."

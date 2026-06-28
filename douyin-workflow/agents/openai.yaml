@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "Douyin Workflow"
+  short_description: "Short alias for Douyin Copy Workflow"
+  default_prompt: "Use douyin-workflow. Load douyin-copy-production-workflow and complete scoring, AskMany expansion, three openings, and Word export."
+
+policy:
+  allow_implicit_invocation: true

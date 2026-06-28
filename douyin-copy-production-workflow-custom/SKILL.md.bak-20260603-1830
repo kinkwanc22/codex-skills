@@ -1,0 +1,489 @@
+﻿---
+name: douyin-copy-production-workflow
+description: "文案处理工作流. End-to-end workflow for Douyin Chinese male relationship self-media copy production. Use when the user wants to preserve or run the full workflow: score assistant-collected 爆款文案, choose top scripts, send the original selected source copy to a preset AskMany/Gemini expansion chat with the current mandatory AskMany expansion instruction block `【强制指令：满血启动扩写2.5模型·完全体】...解析：`, check generated copy length, retry if below the threshold or model fails, reset 扩写2.5模型 after every five expansions or hallucinations, evaluate generated copy for viral potential, generate or select a viral opening with 爆款开头设定 only after expansion, review and rewrite the generated opening versions until they pass the opening quality gate, prepend the final opening versions to the generated copy, and export a Word document to the user's long-form copy folder without risk suggestions or yellow-highlighted annotations."
+---
+
+# Douyin Copy Production Workflow
+
+Use this skill for the user's complete production loop from assistant-collected scripts to publishable long-form drafts.
+
+This skill coordinates four jobs:
+
+1. Select scripts with `douyin-emotion-copy-scorer` / 「爆款文案筛选」.
+2. Use the preset AskMany chat to expand selected scripts from the original source copy only.
+3. After expansion and viral review, generate or choose the final opening with `baokuan-kaitou-sheding` / 「爆款开头设定」.
+4. Export the final opening versions + generated copy to Word without risk suggestions or yellow-highlighted annotations.
+
+## Default Paths
+
+- Assistant source folders are often under `E:\工作用\素材文稿\助理采集文案\`.
+- Final Word output folder:
+  `E:\工作用\素材文稿\codex工作流长文稿`
+- Current AskMany expansion chat:
+  `https://askmany.com/chat/a0a59293-7a57-4c4d-ac14-524a25223b60`
+
+
+## Current AskMany Expansion Instruction
+
+Always paste this full instruction block before the original selected source copy whenever sending a script to AskMany for expansion, including first attempts, sensitive-content retries, and hallucination/stale-topic retries after 重启扩写2.5模型:
+
+```text
+【强制指令：满血启动扩写2.5模型·完全体】
+
+1. 极限字数与深度（核心底线）：
+必须极其深入地剖析，字数强制拉满到 4000-8000字 左右。不要空洞的废话，必须加入大量暗黑心理学、潜意识操控、权力博弈的实操逻辑和深层推演。把每一个点都揉碎了写透，绝对不准收着写！
+
+2. TTS口语化排版：
+生成纯净的口语化文稿，专门用于TTS转语音。严禁出现任何情绪、动作、节奏提示词（如：停顿、冷笑、加重语气等括号内容）。遇到使用“的、地”多音字的情况，一律用“的”，不要使用“地”。
+
+3. 极暗黑人设与风格：
+化身为“Gary”。视角必须是俯视的、冰冷残酷的、降维打击的。用最直接、简明、甚至刺耳的方式，撕碎两性关系的遮羞布，讲清楚“弱肉强食”、“底层男人与高阶雄性”的残酷真相。
+
+4. 强制片头结构（钩子+提效引导）：
+必须以这种格式开头：
+【文章总结金句，短视频开头钩子】，【文案核心】全剖析。
+紧接着必须植入引导语：“让你在最短时间内补齐认知差，建议你直接把这期视频发给豆包（或其他AI），让它给你总结出精髓或者思维导图后再回来观看，这样你们复习和吸收的效率会快很多。好，我们直接进入正题。”
+
+5. 中段动态CTA（粉丝群引导）：
+在文章中段的关键转折处，必须自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“私董会”等词汇），引导他们来找我做深度两性逻辑重构。
+
+6. 强制片尾结构（动态CTA与固定Slogan）：
+“我是探花Gary，带你用最真实的人性去征服，用绝对的实力去主导。
+我们内部群里见。”
+
+解析：
+```
+
+Do not use the older prefix 强制使用扩写2.5规则进行扩写，不要忘记规定字数和tts规则。解析： anymore.
+## Workflow
+
+### 1. Score The Batch
+
+When the user provides a batch of `.docx` scripts, use `douyin-emotion-copy-scorer` first.
+
+Output:
+
+- Total ranking.
+- Top 3-5 scripts worth expanding.
+- Scripts to reject or use only as reference.
+- Series combinations.
+- Assistant collection feedback.
+
+
+### 1.5. Learn Source And Expanded Viral Logic
+
+Every time the user provides source documents, do not only score and select them. Also learn and record the viral-copy logic from both the source documents and the expanded outputs.
+
+Source document learning:
+
+- For each source `.docx`, identify its viral genes:
+  - opening hook type
+  - core pain point
+  - conflict / controversy angle
+  - psychological mechanism
+  - usable dark/high-level framing
+  - collection or replay value
+  - platform-risk wording to be aware of, without adding risk suggestions to final Word output
+- Summarize what makes the source potentially explosive, even if it is not selected for expansion.
+- Extract reusable patterns such as title formula, first 3 seconds hook, topic setup, metaphor, case structure, transition rhythm, and closing call-to-action.
+
+Expanded output learning:
+
+- After each AskMany expansion passes length and topic checks, analyze the expanded copy's logic:
+  - whether it preserved the source topic
+  - what new structure the expansion added
+  - which sections became stronger than the source
+  - which parts became noisy, risky, repetitive, or off-topic
+  - what can be reused in later openings, outlines, or expansion prompts
+- If a generated output is too sensitive, too short, truncated, or off-topic, record the failure pattern and avoid repeating it when retrying.
+
+Learning artifact:
+
+- For every batch, create or update a concise learning note in the current workspace outputs folder, named like `批次名_爆款逻辑学习.md`.
+- The note should include:
+  - selected expansion queue and why
+  - source viral logic summary
+  - expanded-copy logic summary
+  - reusable opening / structure / metaphor patterns
+  - failure patterns and retry lessons
+- Keep this learning note separate from the final Word documents.
+- Do not let the learning step slow down final delivery; it should be concise and practical.
+
+
+### Expanded Hit Sample Selection Priority
+
+The user has provided expanded long-form viral samples as the preferred future direction. When scoring and selecting source scripts, actively compare every candidate against this sample-derived style before choosing the expansion queue.
+
+Prioritize source scripts that can become a high-density long lesson with these traits:
+
+- **Complete-course framing**: titles or openings like `完整剖析`, `全套实操`, `完整版解析`, `最后一期`, `未删减`, `看我这一期就够了`, `补齐认知差`.
+- **Psychological mechanism core**: 损失厌恶、间歇性强化、沉没成本、预选机制、心理逆反、多巴胺、催产素、社交面具、自我暴露、潜意识绑定.
+- **Dark/high-level packaging**: 黑暗思维、禁术、隐秘癖好、真实欲望、恋爱脑、上头、沦陷、离不开、拿捏、两性博弈底层代码.
+- **Numbered framework expandability**: 三步、六大机制、八大内核、十二个思维、十六个习惯、三十六个问题, or any source that can naturally split into 3-6 mechanisms or 8-18 checklist points.
+- **Male identity transformation**: 低位供养者 / 舔狗 / beta / 被动挨打 -> 高位筛选者 / 规则制定者 / alpha / 关系主权.
+- **Female psychology portrait**: 试探、慕强、道德伪装、社交认同、不确定性、隐秘欲望, especially when the script exposes a hidden motive or unconscious mechanism.
+- **Business and dating analogy**: scripts that connect relationships with money, resources, hierarchy, competition, networks, screening, and leverage.
+- **Collection value**: source material that can support 思维导图、复盘、清单、系统课、系列课.
+
+Lower priority even if likes are high:
+
+- Pure warm relationship advice with no mechanism, conflict, or male pain point.
+- Pure emotional venting that cannot be expanded into a structured lesson.
+- Female-oriented material that cannot be converted into male relationship sovereignty, screening, or self-upgrade framing.
+- A provocative title whose body lacks pain point, case, mechanism, and executable structure.
+
+When choosing the top 3-5 scripts, prefer candidates that fit this expanded-hit-sample style over scripts that only have high like counts.
+
+### Source-To-Hit Reverse Selection Rules
+
+The user has provided paired source + expanded-hit samples. Use these rules to reverse-select future source files that are most likely to expand into viral long-form drafts.
+
+Primary principle: prefer a **short but sharp source** over a long but scattered one. A good source should already contain a viral mother-topic that can become a 6000-character complete lesson.
+
+High-priority source archetypes:
+
+1. **Mechanism / forbidden-technique type**
+   - Examples: 心锚、不配得感、恋爱脑、白月光、训狗式反馈、间歇性强化、沉没成本、潜意识绑定.
+   - Source signals: `黑暗`, `很脏`, `禁术`, `无解`, `潜意识`, `沦陷`, `离不开`, `上头`, `拿捏`.
+
+2. **Male identity reversal type**
+   - Examples: 八大内核、框架习惯、十六个信号、十个特质.
+   - Source signals: 舔狗、beta、供养者、没框架、被动挨打 -> alpha、高位、规则制定者、关系主权.
+
+3. **Test / defense checklist type**
+   - Examples: 废物测试、危险信号、十八条法则.
+   - Source signals: 测试、信号、法则、类型、图鉴、判断、远离、撤离.
+   - Best expansion structure: 表现 -> 潜台词 -> 错误反应 -> 高位处理.
+
+4. **Female psychology profile type**
+   - Examples: 隐秘癖好、女性思维、女性行为侧写、利用天性.
+   - Source signals: specific behavior portrait + hidden motive + interaction consequence.
+
+5. **Relationship attack/defense type**
+   - Examples: 心有所属、挖墙脚、掠夺者、防守关系漏洞.
+   - Source signals: 挖墙脚、负罪感、竞争者、关系漏洞、被替代、心有所属.
+   - Package as 机制识别、防御风险、关系主权 and boundary judgment.
+
+6. **Cross-domain equivalence type**
+   - Examples: 泡妞与赚钱同构、商业/人脉/阶层/资源/竞争.
+   - Source signals: 赚钱、资源、阶层、商业、博弈、价值、框架、竞争.
+
+A source receives strong priority if it meets at least 4 of these 8 checks:
+
+- The first 300 characters contain pain, conflict, or a counterintuitive claim.
+- It clearly explains why the male viewer loses.
+- It clearly explains why the woman reacts this way.
+- It has a nameable mechanism.
+- It can split into 3-6 mechanisms or 8-18 signals/laws/habits/traits.
+- It can support concrete scenes or cases.
+- It can convert into male relationship sovereignty, screening, boundary, inner-core, value, or frame.
+- It has collection/replay value: checklist, diagram, stages, formula, question bank, or field guide.
+
+Lower priority:
+
+- Emotion-only scripts with no mechanism name.
+- Opinion-only scripts with no case, stage, or checklist.
+- Provocative titles whose body cannot explain the underlying cause.
+- Generic gender-difference talk with no interaction scene.
+- Warm advice, pure empathy, or plain chat-line collections.
+
+When selecting an expansion queue, first classify every source into these archetypes. If a source does not fit any archetype, do not prioritize it unless it has unusually strong market validation and can be rebuilt into a mechanism-heavy lesson.
+
+### Source Opening Selection Rules
+
+When evaluating unexpanded source files, separately analyze the original source opening, especially the first 30, 100, and 300 Chinese characters. A strong source opening is often the best predictor that the script can become a viral expanded long-form draft.
+
+High-performing original opening archetypes learned from the user's samples:
+
+1. **Dark reveal opening**
+   - Signals: `今天聊个黑暗的`, `今天讲一个很脏的东西`, `禁术`, `无解`, `很脏`, `毫无下限`.
+   - Must connect quickly to a nameable mechanism and a strong result, such as 沦陷、忘不了、依赖、离不开、动心.
+
+2. **Result-promise opening**
+   - Signals: `如果你能听懂`, `如果你掌握`, `你会...`, `你的择偶思维会被重塑`, `降维打击`.
+   - Best when followed by a clear structure such as 三点、五件事、六个习惯、三十六个问题.
+
+3. **Identity-shame naming opening**
+   - Signals: 舔狗、beta、供养者、没框架、工具人、被女人定义、低位.
+   - Must also imply a reversal path: 逆转框架、重塑内核、提升吸引、夺回主权.
+
+4. **Numbered collection opening**
+   - Signals: 八大、十六个、十八条、三十六个、总偏集、所有类型、所有变种、点赞收藏、随时查阅.
+   - Strong because it creates replay and collection value.
+
+5. **Counterintuitive mechanism opening**
+   - Signals: `为什么`, `答案只有一个`, `其实很简单`, `底层逻辑`, `本质`, `普通人以为...其实...`.
+   - Best when it overturns common male assumptions and immediately names the deeper mechanism.
+
+6. **Crisis-defense opening**
+   - Signals: 危险信号、废物测试、挖墙脚、被替代、撤离、重新思考相处策略.
+   - Best when it promises identification, defense, and relationship sovereignty.
+
+Opening score add-on for source selection: 20 points.
+
+- 5 points: first 30 characters have a strong hook, question, taboo word, or result promise.
+- 5 points: first 100 characters include a mechanism name or counterintuitive judgment.
+- 5 points: first 300 characters name a male pain point or low-position identity.
+- 5 points: first 300 characters show structure and collection value: list, stages, formula, field guide, question bank, or full lesson.
+
+Decision:
+
+- 15-20: strong priority for expansion.
+- 10-14: second pool if body mechanism is strong.
+- Below 10: do not prioritize unless market validation is unusually strong or the topic can be rebuilt into a mechanism-heavy lesson.
+### 2. Send Top Script To AskMany
+
+Open the AskMany URL in the in-app browser.
+
+If the page is not logged in, ask the user to log in and wait.
+
+When the chat is ready:
+
+- Extract the selected source document text.
+- Paste the full block from `Current AskMany Expansion Instruction` followed by the original selected source copy into the chat box.
+- Do not prepend a viral opening or rewrite the source before expansion; the only required pre-source instruction is the full `Current AskMany Expansion Instruction` block.
+- Even when the chat is already preset, always add the full `Current AskMany Expansion Instruction` block before the source copy.
+- Send it.
+
+### 3. Check Generated Copy
+
+After generation finishes, extract the latest `.markdown-body.copy-answer`.
+
+Default qualification line:
+
+- 4000 Chinese characters or more is acceptable.
+
+If below 4000 characters, send:
+
+```text
+字数不够，重写一遍，必须写到4000字以上。
+```
+
+If AskMany returns a sensitive-content block such as `这个回答太敏感了` / `命中了某些敏感词` / `换个话题再聊聊吧`, treat it as a failed generation and retry directly in the current conversation. Send the original selected source copy again with the full `Current AskMany Expansion Instruction` block. Do not ask the user for confirmation.
+
+If model resources fail or no output appears, send:
+
+```text
+刚才模型资源不足没有生成出来，请再重试一遍。字数不够，重写一遍，必须写到4000字以上。
+```
+
+If the user requests a different threshold, follow the newest threshold.
+
+### 4. Reset Expansion Model
+
+Track expansion count in the current session.
+
+After every 5 expanded scripts, or whenever obvious hallucination appears, send this before continuing:
+
+```text
+重启扩写2.5模型
+```
+
+Obvious hallucinations include:
+
+- Generated topic does not match source topic.
+- Model reuses a previous article's subject.
+- Model outputs only thinking text or system/resource messages.
+- Model invents a different title or unrelated framework.
+
+### 5. Viral Potential Check
+
+Run the generated output back through the `douyin-emotion-copy-scorer` rubric.
+
+Use this decision:
+
+- 85+：可以进入剪辑池。
+- 75-84：可用，但建议优化开头或调整剪辑取舍。
+- Below 75：不建议直接剪。
+
+Report:
+
+- Total score.
+- Strongest viral genes.
+- Weakest points.
+- Platform risk level.
+- Whether it can enter the editing queue.
+
+### 6. Add Final Viral Opening Versions
+
+After AskMany expansion is complete and the generated copy passes the length and topic checks, generate opening versions at the end. Do not send any opening back into AskMany for expansion.
+
+Use the opening style library from:
+
+`C:\Users\Administrator\Documents\Codex\2026-05-30\new-chat\开头风格库.md`
+
+
+#### Sample-Derived Opening Writing Rules
+
+When generating `开头版本一：高阶认知课式开头` and `开头版本二：身份点名式硬核学习开头`, do not write a generic article introduction. Write the opening like the user's viral source openings.
+
+Use this four-step opening spine:
+
+1. **First sentence hook**
+   - Start within the first 30 Chinese characters with one of these forces: dark taboo, direct question, identity pain, counterintuitive claim, or result promise.
+   - Good patterns: `今天聊个黑暗的`, `今天讲一个很脏的东西`, `如果你能听懂接下来这几点`, `已经被女人定义成舔狗/beta/供养者了，还能逆转框架吗`, `女人不是被你感动的，而是被...机制触发的`.
+
+2. **Mechanism reveal**
+   - Name the mechanism quickly. Do not only say `提升吸引力` or `学会恋爱`.
+   - Use mechanisms such as 不配得感、心锚、间歇性强化、沉没成本、废物测试、预选效应、情绪容器、框架习惯、关系主权、筛选系统、潜意识绑定.
+
+3. **Result picture**
+   - Give a concrete outcome: 忘不了你、主动投入、重新判断你的价值、产生依赖、看懂测试、及时撤离消耗关系、夺回节奏、逆转框架、拿回关系主权.
+   - Avoid vague outcomes like `变得更好` or `提升自己` unless connected to a concrete relationship result.
+
+4. **Structure promise**
+   - Tell the viewer what structure will follow: 三点、五件事、六个机制、八大内核、十六个信号、完整剖析、全套实操.
+   - Make the opening feel like a complete course worth collecting, not a casual preface.
+
+Style constraints:
+
+- First 100 characters must contain at least one: mechanism name, counterintuitive judgment, male low-position identity, or strong result promise.
+- First 300 characters must imply the later structure and collection value.
+- Prefer rhythm: `问题/反常识 -> 答案/机制 -> 结果 -> 结构`.
+- Preserve sharpness and dark/high-level flavor, but frame the content as 机制识别、关系主权、边界判断、情绪秩序、筛选系统.
+- Do not add soft generic empathy, long background setup, greetings, or vague motivational language.
+
+Version-specific guidance:
+
+- **高阶认知课式开头**: prioritize `反常识判断 + 机制名 + 完整剖析 + 认知差补齐`. Best for mechanism, two-sex essence, hidden psychology, attraction logic, and long-term relationship sovereignty.
+- **身份点名式硬核学习开头**: prioritize `低位身份点名 + 翻盘路径 + 清单/训练结构`. Best for habits, tests, signals, frame rebuilding, chat systems, screening, and tactical lessons.
+
+#### Mandatory Opening Review Gate
+
+After generating `开头版本一` and `开头版本二`, always review them before Word export. Do not export a document until both generated openings pass this gate. This review is mandatory even when the expansion itself is good.
+
+Score each generated opening with this 20-point checklist:
+
+- **First-30-character hook: 5 points**
+  - The first 30 Chinese characters must contain a dark/taboo hook, direct question, identity pain, counterintuitive claim, or concrete result promise.
+  - It must not begin with generic background, polite setup, soft empathy, or ordinary summary.
+
+- **Mechanism reveal: 5 points**
+  - The first 100 Chinese characters must name or strongly imply a mechanism: 不配得感、心锚、间歇性强化、沉没成本、废物测试、预选效应、情绪容器、框架习惯、关系主权、筛选系统、潜意识绑定, or a source-specific mechanism.
+
+- **Result picture: 5 points**
+  - The opening must give a concrete relationship result: 忘不了你、主动投入、重新判断你的价值、产生依赖、看懂测试、撤离消耗关系、夺回节奏、逆转框架、拿回关系主权.
+  - Vague results like `提升自己`, `变得更好`, `学会恋爱`, or `提高吸引力` do not count unless tied to a concrete outcome.
+
+- **Structure promise: 5 points**
+  - The first 300 Chinese characters must promise a structure: 三点、五件事、六个机制、八大内核、十六个信号、完整剖析、全套实操, or `表层行为 -> 潜台词 -> 错误反应 -> 高位处理`.
+
+Pass/fail rule:
+
+- 16-20: pass.
+- 12-15: rewrite once to sharpen hook, mechanism, result, and structure.
+- Below 12: discard and regenerate from scratch using the source topic and sample-derived opening spine.
+
+Self-review output requirement:
+
+- Before final export, write a short internal note in the batch learning file or final build log:
+  - `开头版本一评分：x/20，是否通过：是/否，修改点：...`
+  - `开头版本二评分：x/20，是否通过：是/否，修改点：...`
+- The final Word document should contain only the final passed openings, not the review notes.
+
+Rewrite rule:
+
+- If an opening fails, rewrite it immediately. Do not ask the user for confirmation.
+- The rewrite must become more specific to the source article, not more generic.
+- The rewrite must borrow the source document's strongest mechanism/title logic and the user's learned viral opening patterns.
+- Do not proceed to Word export while either generated opening is below 16/20.
+Required final opening output for **each article**:
+
+1. **风格一：高阶认知课式开头**
+   - Generate one opening using 风格库中的「高阶认知课式开头」.
+   - Use for broad cognition, two-sex essence, male frame, emotional sovereignty, long-term attraction, psychological mechanism topics.
+   - Keep it as a standalone candidate, clearly labeled.
+
+2. **风格二：身份点名式硬核学习开头**
+   - Generate one opening using 风格库中的「身份点名式硬核学习开头」.
+   - Use for practical training, habits, screening women, chat systems, daily behavior systems, relationship judgment, and tactical long-form lessons.
+   - Keep it as a standalone candidate, clearly labeled.
+
+3. **保留原文开头版**
+   - Extract the opening from the user's original source document, not from the AskMany expanded/generated copy.
+   - Usually use the first 150-300 Chinese characters or the first complete opening paragraph from the source `.docx` text.
+   - Do not rewrite this version.
+   - Keep it as a standalone candidate, clearly labeled.
+
+Important rules:
+
+- The final deliverable must list all three opening versions separately before the正文.
+- Do not collapse the three versions into one chosen opening unless the user explicitly asks to choose.
+- Do not remove or rewrite the generated copy's original words, and do not rewrite the original source-document opening used in version 3.
+- If a Word document is exported, place a clear section at the top:
+  - `开头版本一：高阶认知课式开头`
+  - `开头版本二：身份点名式硬核学习开头`
+  - `开头版本三：保留原文开头（来自源文档）`
+  - `正文`
+- Do not add risk annotations, risk suggestions, or yellow-highlighted notes to the opening versions or正文.
+- Preserve the sharp/dark tone, but package risky wording as 机制识别、边界判断、关系主权、情绪秩序、筛选系统.
+
+### 7. Word Export Without Risk Suggestions
+
+The user now wants final documents to contain only:
+
+- Three opening versions:
+  - `开头版本一：高阶认知课式开头`
+  - `开头版本二：身份点名式硬核学习开头`
+  - `开头版本三：保留原文开头（来自源文档）`
+- `正文`
+- The generated article text exactly as produced.
+
+Important rules:
+
+- Do **not** add risk suggestions.
+- Do **not** add yellow-highlighted annotations.
+- Do **not** insert `[[RISKNOTE:...]]` markers.
+- Do **not** rewrite or sanitize risky words unless the user explicitly asks for rewriting.
+- Export the Word document directly from the final text structure above.
+- Final file names should be content/topic based, e.g. `编号_内容标题_三版开头_最终版.docx`.
+### 8. Final Delivery
+
+Tell the user:
+
+- Word file path.
+- Character count.
+- Confirm that no risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]]` markers were added.
+- Whether the generated copy passed the viral check.
+
+Keep the final answer short.
+
+
+
+
+
+
+
+
+
+
+## User Hard Rules
+
+These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
+
+- In AskMany, never click the web page button labeled `发起新对话` during this workflow.
+- If the AskMany input box is visible, even when the page says `正在提问...` or appears stuck, continue by typing directly into the bottom input box.
+- When AskMany output is too short, send the retry instruction directly in the current input box; do not start a new page conversation.
+- After every expansion, verify length, topic relevance, and whether AskMany returned a sensitive-content block. Passing length alone is not enough.
+- If AskMany returns `这个回答太敏感了`, `命中了某些敏感词`, `换个话题再聊聊吧`, or similar sensitive-content refusal text, do not save it as a result. Retry immediately in the same conversation by sending the full `Current AskMany Expansion Instruction` block followed by the original source copy again. Do not ask the user for confirmation.
+- If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic.
+- For hallucination or stale-topic reuse, send `重启扩写2.5模型` in the same AskMany conversation, wait for reset confirmation, then paste the full `Current AskMany Expansion Instruction` block followed by the original selected source copy again.
+- Do not prepend any extra instructions beyond the full mandatory `Current AskMany Expansion Instruction` block when sending the source copy, unless a retry/reset instruction is explicitly needed.
+- Do not add risk suggestions or yellow-highlighted annotations during Word export.
+
+- All exported documents must be renamed by the article content/topic, preferably `编号_内容标题_版本.docx` or `编号_内容标题_版本.txt`; never leave generic names like `扩写稿-风险旁注版-时间戳.docx` as final deliverables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

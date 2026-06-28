@@ -1,0 +1,3 @@
+display_name: Xiangongyun TTS
+short_description: Generate speech through the Xiangongyun Gradio TTS instance.
+default_prompt: Generate speech from text using the default Xiangongyun voice.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance 2.0 Video"
+  short_description: "Generate videos through Volcengine Ark Seedance 2.0."
+  default_prompt: "Use Seedance 2.0 to generate a video from my prompt."

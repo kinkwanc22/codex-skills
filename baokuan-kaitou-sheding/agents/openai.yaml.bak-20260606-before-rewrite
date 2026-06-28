@@ -1,0 +1,7 @@
+interface:
+  display_name: "Baokuan Opening Setup"
+  short_description: "Generate high-level viral openings for Douyin male relationship scripts"
+  default_prompt: "Use baokuan-kaitou-sheding to write 5 opening options for my script theme, label each style, and recommend the strongest version."
+
+policy:
+  allow_implicit_invocation: true
