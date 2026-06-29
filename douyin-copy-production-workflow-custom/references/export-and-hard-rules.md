@@ -76,8 +76,8 @@ Latest hard-learned rules from 2026-06-03:
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
 - In the local Gemini terminal, do not send `/new` by default; keep the current session unless the user explicitly asks to clear context.
-- Never replace, shorten, summarize, rewrite, or downgrade the full `Current Gemini Expansion Instruction` block with a short prompt.
-- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always send the full `Current Gemini Expansion Instruction` block + the original source copy wrapped as `【原文开始】...【原文结束】`; do not prepend `/new` unless explicitly requested.
+- Never replace, shorten, summarize, rewrite, or downgrade the selected full Gemini expansion instruction block with a short prompt.
+- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always send the selected full Gemini expansion instruction block + the original source copy wrapped as `【原文开始】...【原文结束】`; do not prepend `/new` unless explicitly requested.
 - If Gemini refuses, returns API/tool failure text, reuses a previous article topic, is below the length threshold, or lacks the required ending, do not save it as a final result. Retry in the same terminal session and record the failure in a batch log; do not send `/new` unless explicitly requested.
 - Preserve the user's high-risk, high-conflict topic direction during expansion, opening writing, and title packaging. Do not proactively downgrade the framing to `机制识别、边界判断、关系主权、健康筛选` unless the user explicitly asks for that safer framing. If Gemini refuses, do the minimum wording adjustment needed to get a complete generation while preserving the original topic's sharpness.
 - For `处理这批文案`, treat the default endpoint as final Word documents with three opening versions, opening review scores,正文, and a concise batch log, not merely raw Gemini expansion text.
@@ -89,13 +89,13 @@ Latest hard-learned rules from 2026-06-03:
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
 - Use the local Gemini command for expansion: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd`.
-- For automated expansion, prefer `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` with a UTF-8 prompt file containing the full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
+- For automated expansion, prefer `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` with a UTF-8 prompt file containing the selected full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
 - Do not open or operate the old web expansion channel in this custom skill.
-- Before every new queued source, paste the full `Current Gemini Expansion Instruction` block followed by the original source copy and `【原文结束】`. Do not send `/new` unless explicitly requested.
+- Before every new queued source, paste the selected full Gemini expansion instruction block followed by the original source copy and `【原文结束】`. Do not send `/new` unless explicitly requested.
 - When Gemini output is too short, send the retry instruction directly in the current terminal session for that same source.
 - After every expansion, verify length, topic relevance, refusal/API failure text, and required ending. Passing length alone is not enough.
-- If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic; retry with the full instruction and original source in the same terminal session unless the user explicitly requests `/new`.
-- Do not prepend any extra instructions beyond the full mandatory `Current Gemini Expansion Instruction` block when sending the source copy, unless a retry/reset instruction is explicitly needed.
+- If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic; retry with the same selected full instruction and original source in the same terminal session unless the user explicitly requests `/new`.
+- Do not prepend any extra instructions beyond the selected full mandatory Gemini expansion instruction block when sending the source copy, unless a retry/reset instruction is explicitly needed.
 - When processing a batch, run `viral-psych-title-wrapper` / 「爆款心理学标题包装器」 before Word export and maintain a batch title ledger to avoid repeated mechanism chains, repeated first-line concepts, and generic interchangeable titles.
 - Current title-wrapper rule: each title candidate is three lines only; do not add 完整未删减版 as a fourth title line unless the user explicitly asks to restore that older format.
 - Do not add risk suggestions or yellow-highlighted annotations during Word export.
