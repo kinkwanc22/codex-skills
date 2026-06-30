@@ -13,6 +13,11 @@ For the current user's recurring Gary/female-lead series, preserve the tested pr
 
 Use `assets/fixed-male-lead.png` as the fixed male identity reference.
 
+For this user's Gary/Lovart workflow, use these synced Windows reference paths by default:
+
+- Fixed male lead: `D:\工作用（同步）\图\人物设定\2896d6707751ecfc30a82a7e9bc680b61f8ccd0efbf28a005f3674f5036a6c0c (1).png`
+- Female reference library: `D:\工作用（同步）\图\人物设定\精品`
+
 Preserve the male lead's real facial identity, facial proportions, short black hairstyle, mature understated temperament, age impression, body type, and natural skin texture. Do not beautify him into a model, celebrity, influencer, or fashion editorial face.
 
 ## Inputs
