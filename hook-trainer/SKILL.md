@@ -86,6 +86,7 @@ Read `references/workflow.md` for command variations.
 - Keep user source files unchanged.
 - Prefer source-local output folders for user-provided directories.
 - Use `/Users/kin/工作用（同步）/开头hook` as the default Hook Trainer source pool.
+- Extract Hook text at about 50 Chinese characters when source text is long enough; skip title/like-count metadata before extracting.
 - Treat V1 labels as first-pass rule-based labels, not final human truth.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
 - When reporting results, show the output folder, record count, top hooks, and any known limitations.

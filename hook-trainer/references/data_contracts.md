@@ -11,6 +11,8 @@ Supported source formats:
 
 Each file is treated as one source script.
 
+Hook text should usually be about 50 Chinese characters when the source text is long enough. Skip source metadata such as `标题：` and `点赞量：` before extracting the hook.
+
 ## parsed.json
 
 ```json

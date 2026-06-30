@@ -59,17 +59,15 @@ def split_sentences(text: str) -> list[str]:
     return [part for part in candidates if part]
 
 
-def extract_hook(text: str, max_sentences: int = 2, max_chars: int = 120) -> str:
+def extract_hook(text: str, target_chars: int = 50, max_chars: int = 70) -> str:
     sentences = split_sentences(text)
     if not sentences:
         return ""
 
     hook_parts: list[str] = []
     for sentence in sentences:
-        if len("".join(hook_parts)) >= max_chars:
-            break
         hook_parts.append(sentence)
-        if len(hook_parts) >= max_sentences:
+        if len("".join(hook_parts)) >= target_chars:
             break
 
     hook = "\n".join(hook_parts).strip()
