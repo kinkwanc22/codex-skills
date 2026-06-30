@@ -69,10 +69,10 @@ After every completed batch, perform a short self-optimization pass before final
 
 Latest hard-learned rules from 2026-06-03:
 
-- The current default final output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹`. The old Windows folder `E:\工作用\素材文稿\codex工作流长文稿` is legacy-only unless the user explicitly asks for it.
+- The current default final output folder is the dual-device synced workflow folder: `/Users/kin/工作用（同步）/7.1后双端同步文件夹` on Mac, and `D:\工作用（同步）\7.1后双端同步文件夹` on Windows. The old Windows folder `E:\工作用\素材文稿\codex工作流长文稿` is legacy-only unless the user explicitly asks for it.
 - Final deliverables must be Word `.docx` files by default. Do not deliver `.txt` as the final format unless the user explicitly asks for txt.
 - Expansion tests and prompt-comparison runs also count as deliverables: export accepted 2.5/2.6 test results as `.docx`, not `.txt`.
-- Current Mac/dual-device synced output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹`; save generated `.docx` results there by default so both devices can pick them up.
+- Current synced output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹` on Mac and `D:\工作用（同步）\7.1后双端同步文件夹` on Windows; save generated `.docx` results there by default so both devices can pick them up.
 - Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
