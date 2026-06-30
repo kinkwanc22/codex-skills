@@ -46,7 +46,7 @@ For Gary series variations:
 - Keep the fixed identity, texture, and negative prompt wording unchanged unless the user explicitly asks to change them.
 - Favor indoor or semi-indoor night scenes with mixed ambient light plus phone flash.
 - Do not ask for full-body framing. Use close waist-up or half-body candid framing by default.
-- If saving locally in this user's workflow, save outputs to `E:\工作用\男课用AI素材\长视频用图`.
+- If saving locally in this user's workflow, save outputs to `D:\工作用（同步）\图\长视频用图`.
 
 ## Interaction Bank
 
@@ -56,7 +56,7 @@ Use these only when the user does not specify an interaction:
 - Woman leans on the man's shoulder in a crowded bar booth; man turns slightly sideways mid-conversation.
 - Woman pulls the man's sleeve while laughing; man holds a drink and looks off-frame naturally.
 - Woman stands close beside the man with one arm loosely around his waist; both look caught mid-moment, not posed.
-- Woman whispers near the man's ear in a noisy bar; man smiles lightly while looking away.
+- Woman leans close beside the man while laughing toward the camera; man smiles lightly while looking away.
 - Woman rests her chin near the man's shoulder from behind; man is relaxed and not directly posing.
 - Woman raises a glass near the man; they are close together but with imperfect, spontaneous body language.
 
@@ -64,7 +64,7 @@ Use these only when the user does not specify an interaction:
 
 Use these when the user asks for a more ambiguous/flirtatious but non-explicit indoor mood. Keep it natural, not erotic, not staged, and not full-body.
 
-- In a private restaurant booth, the woman leans from behind close to the man's ear as if whispering; one hand rests naturally on his shoulder or forearm; the man turns slightly and smiles low, not looking at the camera.
+- In a private restaurant booth, the woman leans from behind near the man's shoulder with her face visible; one hand rests naturally on his shoulder or forearm; the man turns slightly and smiles low, not looking at the camera.
 - In an upscale lounge booth, the woman loosely hugs the man from behind and laughs near his cheek; the man is mid-conversation with someone off-frame.
 - At a dim restaurant table, the woman leans over the man's shoulder to look at something on his phone; their faces are close, and the man smiles while looking down.
 - In a KTV/private room sofa corner, the woman rests her chin near the man's shoulder with a teasing smile; the man holds a glass and glances away.
@@ -94,7 +94,7 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 3. Use `assets/fixed-male-lead.png` as the male identity reference.
 4. Use the built-in `image_gen` tool by default. If the user explicitly asks for CLI/API/model control, follow the system imagegen skill fallback rules.
 5. Prompt for GPT Image 2 / image2 high-fidelity portrait consistency. Ask for vertical 9:16 output in the prompt.
-6. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `E:\工作用\男课用AI素材\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
+6. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
 
 ## Prompt Template
 
