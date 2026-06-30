@@ -21,7 +21,7 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 
 ## Default Paths
 
-- Assistant source folders are often under `E:\工作用\素材文稿\助理采集文案\`.
+- Assistant source folders are often under `/Users/kin/工作用（同步）/素材文稿/助理采集文案/` on Mac or `D:\工作用（同步）\素材文稿\助理采集文案\` on Windows; old `E:\工作用\素材文稿\助理采集文案\` is legacy-only.
 - Final Word output folder for current Mac workflow: `/Users/kin/工作用（同步）/7.1后双端同步文件夹`
 - Final Word output folder for current Windows workflow: `D:\工作用（同步）\7.1后双端同步文件夹`
 - Legacy Windows final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
