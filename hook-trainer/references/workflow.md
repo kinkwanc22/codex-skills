@@ -36,6 +36,8 @@ This writes:
 - `formula_library/opening_library.json`
 - `formula_library/high_frequency_words.json`
 - `formula_library/v2_report.md`
+- `original_frameworks/original_frameworks.json`
+- `original_frameworks/original_frameworks.md`
 
 ## Separate Commands
 
@@ -45,6 +47,7 @@ python3 scripts/analyze_hooks.py output/parsed.json -o output/analysis.json
 python3 scripts/build_hooks_db.py output/analysis.json -o output/hooks.json --replace
 python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion 焦虑 --limit 20 -o output/search_results.json
 python3 scripts/build_formula_library.py output/analysis.json -o output/formula_library --limit 200
+python3 scripts/build_original_frameworks.py output/formula_library/opening_library.json -o output/original_frameworks --limit 200
 python3 scripts/match_openings.py output/formula_library/opening_library.json --text "聊天不要聊事实，要聊情绪" -o output/matched_openings.json
 python3 scripts/generate_openings.py --file /path/to/article.docx -o output/generated_openings.json --markdown output/generated_openings.md --limit 20
 ```
@@ -56,6 +59,7 @@ python3 scripts/generate_openings.py --file /path/to/article.docx -o output/gene
 - Database writes local JSON.
 - Search filters and ranks locally.
 - Formula Builder extracts fine frames, sentence patterns, formulas, high-frequency words, and a reusable opening library.
+- Original Framework Builder turns `opening_library.json` into source-preserving micro frameworks, structure steps, and reusable skeletons.
 - Matcher compares a future topic or draft against `opening_library.json`.
 - Generator creates new openings by extracting article variables, injecting high-frequency words, applying formulas, and scoring candidates.
 

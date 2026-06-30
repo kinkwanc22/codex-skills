@@ -56,6 +56,7 @@ def main() -> int:
     hooks = output_dir / "hooks.json"
     search_results = output_dir / "search_results.json"
     formulas_dir = output_dir / "formula_library"
+    original_frameworks_dir = output_dir / "original_frameworks"
 
     run_step([str(SCRIPT_DIR / "parse_folder.py"), str(args.input_dir), "-o", str(parsed)])
     run_step([str(SCRIPT_DIR / "analyze_hooks.py"), str(parsed), "-o", str(analysis)])
@@ -66,6 +67,16 @@ def main() -> int:
             str(analysis),
             "-o",
             str(formulas_dir),
+            "--limit",
+            str(args.library_size),
+        ]
+    )
+    run_step(
+        [
+            str(SCRIPT_DIR / "build_original_frameworks.py"),
+            str(formulas_dir / "opening_library.json"),
+            "-o",
+            str(original_frameworks_dir),
             "--limit",
             str(args.library_size),
         ]
@@ -91,6 +102,7 @@ def main() -> int:
 
     print(f"Hook Trainer pipeline complete -> {output_dir}")
     print(f"Hook Trainer V2 libraries -> {formulas_dir}")
+    print(f"Hook Trainer original frameworks -> {original_frameworks_dir}")
     return 0
 
 
