@@ -101,3 +101,22 @@ Use this file to match future topics or draft scripts.
 ## formula_library/high_frequency_words.json
 
 Contains high-frequency words and phrases extracted from all hook openings.
+
+## generated_openings.json
+
+Generated openings for a new article or topic.
+
+Each result includes:
+
+- `rank`
+- `frame`: formula frame such as 黑暗真相式 or 高位警告式
+- `opening`: newly generated opening text
+- `used_words`: article variables and high-frequency words used in the opening
+- `scores`: theme fit, explosive word density, conflict, information gap,口播顺滑度,综合分
+
+Generation rule:
+
+- Do not copy old openings directly.
+- Extract variables from the new article.
+- Inject high-frequency words naturally.
+- Keep openings about 50-70 Chinese characters by default.

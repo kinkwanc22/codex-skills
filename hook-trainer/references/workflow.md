@@ -46,6 +46,7 @@ python3 scripts/build_hooks_db.py output/analysis.json -o output/hooks.json --re
 python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion 焦虑 --limit 20 -o output/search_results.json
 python3 scripts/build_formula_library.py output/analysis.json -o output/formula_library --limit 200
 python3 scripts/match_openings.py output/formula_library/opening_library.json --text "聊天不要聊事实，要聊情绪" -o output/matched_openings.json
+python3 scripts/generate_openings.py --file /path/to/article.docx -o output/generated_openings.json --markdown output/generated_openings.md --limit 20
 ```
 
 ## V1 Behavior
@@ -56,6 +57,7 @@ python3 scripts/match_openings.py output/formula_library/opening_library.json --
 - Search filters and ranks locally.
 - Formula Builder extracts fine frames, sentence patterns, formulas, high-frequency words, and a reusable opening library.
 - Matcher compares a future topic or draft against `opening_library.json`.
+- Generator creates new openings by extracting article variables, injecting high-frequency words, applying formulas, and scoring candidates.
 
 No external AI API is called in V1/V2 local mode.
 

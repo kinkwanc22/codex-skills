@@ -69,6 +69,8 @@ The pipeline writes:
 - `formula_library/opening_library.json`: 100-200 reusable opening examples for matching future copy
 - `formula_library/high_frequency_words.json`: high-frequency words and phrases
 - `formula_library/v2_report.md`: readable V2 summary report
+- `generated_openings.json`: V3 generated openings for a new article or topic
+- `generated_openings.md`: readable V3 generated opening report
 
 Read `references/data_contracts.md` when you need exact schemas.
 
@@ -83,6 +85,7 @@ python3 scripts/build_hooks_db.py output/analysis.json -o output/hooks.json --re
 python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion 焦虑 --limit 20 -o output/search_results.json
 python3 scripts/build_formula_library.py output/analysis.json -o output/formula_library --limit 200
 python3 scripts/match_openings.py output/formula_library/opening_library.json --text "聊天不要聊事实，要聊情绪" -o output/matched_openings.json
+python3 scripts/generate_openings.py --file /path/to/article.docx -o output/generated_openings.json --markdown output/generated_openings.md --limit 20
 ```
 
 Read `references/workflow.md` for command variations.
@@ -97,6 +100,8 @@ Read `references/workflow.md` for command variations.
 - Treat V1 labels as first-pass rule-based labels, not final human truth.
 - For V2, always preserve three separate layers: fine frame, sentence formula, and reusable opening example.
 - Use `opening_library.json` to match new drafts or topics against the learned opening library.
+- For V3 generation, do not copy old openings. Extract article variables, inject high-frequency words naturally, apply learned formulas, and score each new opening.
+- Generated openings should be about 50-70 Chinese characters unless the user asks otherwise.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
 - When reporting results, show the output folder, record count, top hooks, and any known limitations.
 
