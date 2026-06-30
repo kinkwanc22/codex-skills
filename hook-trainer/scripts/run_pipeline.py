@@ -18,7 +18,7 @@ def run_step(args: list[str]) -> None:
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run Hook Trainer V1 pipeline.")
+    parser = argparse.ArgumentParser(description="Run Hook Trainer V1/V2 pipeline.")
     parser.add_argument(
         "input_dir",
         type=Path,
@@ -37,6 +37,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--hook-type", dest="hook_type", help="Search hook type.")
     parser.add_argument("--keyword", help="Search keyword.")
     parser.add_argument("--limit", type=int, default=20, help="Top N search results.")
+    parser.add_argument(
+        "--library-size",
+        type=int,
+        default=200,
+        help="Maximum reusable opening library size.",
+    )
     return parser
 
 
@@ -49,10 +55,21 @@ def main() -> int:
     analysis = output_dir / "analysis.json"
     hooks = output_dir / "hooks.json"
     search_results = output_dir / "search_results.json"
+    formulas_dir = output_dir / "formula_library"
 
     run_step([str(SCRIPT_DIR / "parse_folder.py"), str(args.input_dir), "-o", str(parsed)])
     run_step([str(SCRIPT_DIR / "analyze_hooks.py"), str(parsed), "-o", str(analysis)])
     run_step([str(SCRIPT_DIR / "build_hooks_db.py"), str(analysis), "-o", str(hooks), "--replace"])
+    run_step(
+        [
+            str(SCRIPT_DIR / "build_formula_library.py"),
+            str(analysis),
+            "-o",
+            str(formulas_dir),
+            "--limit",
+            str(args.library_size),
+        ]
+    )
 
     search_args = [
         str(SCRIPT_DIR / "search_hooks.py"),
@@ -73,6 +90,7 @@ def main() -> int:
     run_step(search_args)
 
     print(f"Hook Trainer pipeline complete -> {output_dir}")
+    print(f"Hook Trainer V2 libraries -> {formulas_dir}")
     return 0
 
 

@@ -70,3 +70,34 @@ Hook text should usually be about 50 Chinese characters when the source text is 
   "results": []
 }
 ```
+
+## formula_library/formula_library.json
+
+Contains reusable formulas grouped by:
+
+- `fine_frame`: detailed hook frame such as 黑暗真相式, 高位警告式, 反人性式
+- `sentence_pattern`: sentence shape such as 问题追问句, 高压警告句
+- `formula`: reusable variable formula
+- `count`: number of source openings matching the formula
+- `keywords`: frequent words for matching
+- `examples`: representative source openings
+
+## formula_library/opening_library.json
+
+Contains 100-200 reusable openings. Each item includes:
+
+- source file
+- hook
+- coarse type
+- fine frame
+- sentence pattern
+- formula
+- keywords
+- score
+- rank
+
+Use this file to match future topics or draft scripts.
+
+## formula_library/high_frequency_words.json
+
+Contains high-frequency words and phrases extracted from all hook openings.

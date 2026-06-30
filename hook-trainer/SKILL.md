@@ -9,13 +9,14 @@ description: Build and query a local viral opening hook database from folders of
 
 Use this skill to turn a folder of proven short-video scripts into a searchable local hook database.
 
-The V1 pipeline is local and deterministic:
+The pipeline is local and deterministic:
 
 ```text
 source folder -> parsed.json -> analysis.json -> hooks.json -> search_results.json
+              -> formula_library/ -> formulas, opening library, high-frequency words
 ```
 
-No external AI API is called in V1.
+No external AI API is called in the local pipeline.
 
 ## Quick Start
 
@@ -64,6 +65,10 @@ The pipeline writes:
 - `analysis.json`: hook, type, emotion, rhythm, information gap, template
 - `hooks.json`: durable local hook database
 - `search_results.json`: ranked Top N results for the query
+- `formula_library/formula_library.json`: reusable opening formulas and frameworks
+- `formula_library/opening_library.json`: 100-200 reusable opening examples for matching future copy
+- `formula_library/high_frequency_words.json`: high-frequency words and phrases
+- `formula_library/v2_report.md`: readable V2 summary report
 
 Read `references/data_contracts.md` when you need exact schemas.
 
@@ -76,6 +81,8 @@ python3 scripts/parse_folder.py /path/to/source-folder -o output/parsed.json
 python3 scripts/analyze_hooks.py output/parsed.json -o output/analysis.json
 python3 scripts/build_hooks_db.py output/analysis.json -o output/hooks.json --replace
 python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion 焦虑 --limit 20 -o output/search_results.json
+python3 scripts/build_formula_library.py output/analysis.json -o output/formula_library --limit 200
+python3 scripts/match_openings.py output/formula_library/opening_library.json --text "聊天不要聊事实，要聊情绪" -o output/matched_openings.json
 ```
 
 Read `references/workflow.md` for command variations.
@@ -88,6 +95,8 @@ Read `references/workflow.md` for command variations.
 - Use `/Users/kin/工作用（同步）/开头hook` as the default Hook Trainer source pool.
 - Extract Hook text at about 50 Chinese characters when source text is long enough; skip title/like-count metadata before extracting.
 - Treat V1 labels as first-pass rule-based labels, not final human truth.
+- For V2, always preserve three separate layers: fine frame, sentence formula, and reusable opening example.
+- Use `opening_library.json` to match new drafts or topics against the learned opening library.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
 - When reporting results, show the output folder, record count, top hooks, and any known limitations.
 

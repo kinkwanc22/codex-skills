@@ -32,6 +32,10 @@ This writes:
 - `analysis.json`
 - `hooks.json`
 - `search_results.json`
+- `formula_library/formula_library.json`
+- `formula_library/opening_library.json`
+- `formula_library/high_frequency_words.json`
+- `formula_library/v2_report.md`
 
 ## Separate Commands
 
@@ -40,6 +44,8 @@ python3 scripts/parse_folder.py /path/to/source-folder -o output/parsed.json
 python3 scripts/analyze_hooks.py output/parsed.json -o output/analysis.json
 python3 scripts/build_hooks_db.py output/analysis.json -o output/hooks.json --replace
 python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion 焦虑 --limit 20 -o output/search_results.json
+python3 scripts/build_formula_library.py output/analysis.json -o output/formula_library --limit 200
+python3 scripts/match_openings.py output/formula_library/opening_library.json --text "聊天不要聊事实，要聊情绪" -o output/matched_openings.json
 ```
 
 ## V1 Behavior
@@ -48,8 +54,10 @@ python3 scripts/search_hooks.py output/hooks.json --niche 男性情感 --emotion
 - Analyzer uses deterministic rule-based classification.
 - Database writes local JSON.
 - Search filters and ranks locally.
+- Formula Builder extracts fine frames, sentence patterns, formulas, high-frequency words, and a reusable opening library.
+- Matcher compares a future topic or draft against `opening_library.json`.
 
-No external AI API is called in V1.
+No external AI API is called in V1/V2 local mode.
 
 ## Known Limits
 

@@ -14,6 +14,7 @@ from xml.etree import ElementTree
 
 
 SUPPORTED_EXTENSIONS = {".txt", ".md", ".srt", ".docx"}
+IGNORED_DIR_NAMES = {"hook_trainer_output", "__pycache__"}
 SRT_TIMESTAMP_RE = re.compile(
     r"^\s*\d{1,2}:\d{2}:\d{2}[,.]\d{1,3}\s+-->\s+"
     r"\d{1,2}:\d{2}:\d{2}[,.]\d{1,3}.*$"
@@ -29,11 +30,12 @@ def discover_files(input_dir: Path) -> list[Path]:
     if not input_dir.is_dir():
         raise NotADirectoryError(f"Input path is not a folder: {input_dir}")
 
-    files = [
-        path
-        for path in input_dir.rglob("*")
-        if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS
-    ]
+    files = []
+    for path in input_dir.rglob("*"):
+        if any(part in IGNORED_DIR_NAMES for part in path.relative_to(input_dir).parts[:-1]):
+            continue
+        if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS:
+            files.append(path)
     return sorted(files, key=lambda path: str(path.relative_to(input_dir)).lower())
 
 
