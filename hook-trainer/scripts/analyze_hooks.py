@@ -12,6 +12,7 @@ from typing import Iterable
 
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[。！？!?])\s*|\n+")
 MARKDOWN_HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s+")
+METADATA_LINE_RE = re.compile(r"^\s*(标题|点赞量|赞量|发布时间|作者|来源)\s*[:：]")
 
 HOOK_TYPE_RULES = [
     ("反常识", ("其实", "不是", "真正", "你以为", "很多人以为", "误会")),
@@ -47,6 +48,8 @@ def write_json(records: Iterable[dict[str, object]], output_path: Path) -> None:
 
 def clean_line(line: str) -> str:
     if MARKDOWN_HEADING_RE.match(line):
+        return ""
+    if METADATA_LINE_RE.match(line):
         return ""
     return line.strip().strip(" -\t")
 

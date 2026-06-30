@@ -19,13 +19,33 @@ No external AI API is called in V1.
 
 ## Quick Start
 
-For most requests, run the end-to-end pipeline:
+Default source folder:
+
+```text
+/Users/kin/工作用（同步）/开头hook
+```
+
+Default output folder:
+
+```text
+/Users/kin/工作用（同步）/开头hook/hook_trainer_output
+```
+
+When the user says "分析开头hook文件夹", "分析默认hook素材池", or "用 hook-trainer 分析我放进去的文稿", use the default source folder.
+
+For most requests with the default folder, run:
+
+```bash
+python3 scripts/run_pipeline.py --niche 男性情感 --limit 20
+```
+
+For a custom source folder, run:
 
 ```bash
 python3 scripts/run_pipeline.py /path/to/source-folder -o /path/to/output --niche 男性情感 --limit 20
 ```
 
-Use the user's source folder as input. If the user does not specify an output folder, create a new `hook_trainer_output` folder inside the source folder when permissions allow; otherwise use the current workspace output folder.
+Use the user's source folder as input when provided. If no source folder is provided, use the default source folder above. If the user does not specify an output folder, write to `hook_trainer_output` inside the source folder.
 
 ## Supported Inputs
 
@@ -65,6 +85,7 @@ Read `references/workflow.md` for command variations.
 - Preserve the staged pipeline. Do not merge Parser, Analyzer, Database, and Search into one hidden blob.
 - Keep user source files unchanged.
 - Prefer source-local output folders for user-provided directories.
+- Use `/Users/kin/工作用（同步）/开头hook` as the default Hook Trainer source pool.
 - Treat V1 labels as first-pass rule-based labels, not final human truth.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
 - When reporting results, show the output folder, record count, top hooks, and any known limitations.

@@ -2,7 +2,25 @@
 
 ## End-to-End Command
 
-Run this from the skill folder or pass absolute paths:
+Run this from the skill folder to analyze the default Hook pool:
+
+```bash
+python3 scripts/run_pipeline.py --niche 男性情感 --limit 20
+```
+
+Default source folder:
+
+```text
+/Users/kin/工作用（同步）/开头hook
+```
+
+Default output folder:
+
+```text
+/Users/kin/工作用（同步）/开头hook/hook_trainer_output
+```
+
+For a custom source folder, pass absolute paths:
 
 ```bash
 python3 scripts/run_pipeline.py /path/to/source-folder -o /path/to/output --niche 男性情感 --limit 20

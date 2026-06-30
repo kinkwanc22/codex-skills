@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_SOURCE_DIR = Path("/Users/kin/工作用（同步）/开头hook")
 
 
 def run_step(args: list[str]) -> None:
@@ -18,13 +19,18 @@ def run_step(args: list[str]) -> None:
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run Hook Trainer V1 pipeline.")
-    parser.add_argument("input_dir", type=Path, help="Folder containing .txt/.md/.srt/.docx files.")
+    parser.add_argument(
+        "input_dir",
+        type=Path,
+        nargs="?",
+        default=DEFAULT_SOURCE_DIR,
+        help="Folder containing .txt/.md/.srt/.docx files. Defaults to the user's 开头hook folder.",
+    )
     parser.add_argument(
         "-o",
         "--output-dir",
         type=Path,
-        default=Path("hook_trainer_output"),
-        help="Output directory for parsed, analysis, database, and search results.",
+        help="Output directory. Defaults to hook_trainer_output inside the source folder.",
     )
     parser.add_argument("--niche", default="男性情感", help="Search niche.")
     parser.add_argument("--emotion", help="Search emotion.")
@@ -36,7 +42,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_arg_parser().parse_args()
-    output_dir = args.output_dir
+    output_dir = args.output_dir or (args.input_dir / "hook_trainer_output")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     parsed = output_dir / "parsed.json"
@@ -72,4 +78,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
