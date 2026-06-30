@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hook Trainer"
+  short_description: "Analyze viral hooks into a searchable local database"
+  default_prompt: "Use $hook-trainer to parse a folder of viral scripts, analyze hooks, build hooks.json, and search Top hooks."
