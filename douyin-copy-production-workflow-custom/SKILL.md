@@ -22,7 +22,9 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 ## Default Paths
 
 - Assistant source folders are often under `E:\工作用\素材文稿\助理采集文案\`.
-- Final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
+- Final Word output folder for current Mac/dual-device workflow: `/Users/kin/工作用（同步）/7.1后双端同步文件夹`
+- Legacy Windows final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
+- Expansion tests/comparison runs must also be exported as `.docx` files into the current Mac/dual-device workflow folder; do not deliver `.txt` unless the user explicitly asks for txt.
 - Current Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`
 - Current Gemini expansion command: `.\outputs\run_gemini_chat.cmd`
 - Other-copy Gemini isolation rule: for non-male-relationship copy or unrelated tests, use `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` so the saved male relationship expansion conversation in `gemini_session.json` is preserved; do not use `/new` for this.

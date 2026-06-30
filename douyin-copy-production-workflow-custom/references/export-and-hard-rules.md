@@ -1,4 +1,4 @@
-﻿# Export, Delivery, And Hard Rules
+# Export, Delivery, And Hard Rules
 
 Read this file before exporting Word documents, reporting final delivery, or updating the workflow after a completed batch.
 
@@ -69,9 +69,11 @@ After every completed batch, perform a short self-optimization pass before final
 
 Latest hard-learned rules from 2026-06-03:
 
-- The fixed final output folder is exactly `E:\工作用\素材文稿\codex工作流长文稿`. Do not confuse it with `素材文案` or `长文案`.
+- The current default final output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹`. The old Windows folder `E:\工作用\素材文稿\codex工作流长文稿` is legacy-only unless the user explicitly asks for it.
 - Final deliverables must be Word `.docx` files by default. Do not deliver `.txt` as the final format unless the user explicitly asks for txt.
-- Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the fixed final folder.
+- Expansion tests and prompt-comparison runs also count as deliverables: export accepted 2.5/2.6 test results as `.docx`, not `.txt`.
+- Current Mac/dual-device synced output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹`; save generated `.docx` results there by default so both devices can pick them up.
+- Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
@@ -99,7 +101,7 @@ These rules come from the user's live workflow corrections and must override the
 - When processing a batch, run `viral-psych-title-wrapper` / 「爆款心理学标题包装器」 before Word export and maintain a batch title ledger to avoid repeated mechanism chains, repeated first-line concepts, and generic interchangeable titles.
 - Current title-wrapper rule: each title candidate is three lines only; do not add 完整未删减版 as a fourth title line unless the user explicitly asks to restore that older format.
 - Do not add risk suggestions or yellow-highlighted annotations during Word export.
-- All exported documents must be renamed by the article content/topic, preferably `编号_内容标题_版本.docx` or `编号_内容标题_版本.txt`; never leave generic names like `扩写稿-风险旁注版-时间戳.docx` as final deliverables.
+- All exported documents must be renamed by the article content/topic, preferably `编号_内容标题_版本.docx`; never leave `.txt` outputs or generic names like `扩写稿-风险旁注版-时间戳.docx` as final deliverables.
 
 Latest hard-learned rules from 2026-06-03 evening:
 
