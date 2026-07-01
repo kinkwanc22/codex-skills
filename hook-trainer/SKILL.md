@@ -106,6 +106,9 @@ Read `references/workflow.md` for command variations.
 - For V2.5 original frameworks, preserve the original hook text first. Treat labels like 黑暗真相式 as coarse tags; the useful layer is `micro_framework`, `structure_steps`, and `reusable_skeleton`.
 - Use `opening_library.json` to match new drafts or topics against the learned opening library.
 - When the user says the generated opening is not right, feels stiff, or feels like 生搬硬套, inspect `original_frameworks/original_frameworks.md` before changing the generator.
+- Preserve the title's core hook theme before applying safety or polish. If the source title or draft contains words such as `隐秘`, `禁忌`, `不愿意承认`, `潜意识`, `深处`, or `难以启齿`, the opening must keep the hidden/forbidden contrast: public claim vs private pull, mouth-denial vs subconscious reaction, decent surface vs darker mechanism. Do not flatten it into generic advice like "别低位讨好" or "保持边界".
+- For hidden/forbidden psychology topics, use sharp but speakable high-frequency words naturally: `黑暗`, `真相`, `隐秘`, `潜意识`, `反人性`, `上头`, `上瘾`, `离不开`, `沉没成本`, `损失厌恶`, `高位`, `框架`, `稀缺`, `臣服`, `掌控`, `博弈`, `人性`. Avoid over-sanitizing into bland terms such as only `边界感`, `价值感`, `社交认同`, or `关系投入`.
+- When rewriting risky or provocative source material, reduce explicit vulgarity but keep the contradiction and pressure. Preferred direction: 黑暗但可播, 狠但不脏, 压迫但不露骨.
 - For V3 generation, do not copy old openings. Extract article variables, inject high-frequency words naturally, apply learned formulas, and score each new opening.
 - Generated openings should be about 50-70 Chinese characters unless the user asks otherwise.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
