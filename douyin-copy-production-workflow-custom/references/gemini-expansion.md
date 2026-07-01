@@ -231,20 +231,25 @@ Do not use any older short expansion prefix; always use the full selected instru
 
 ### 2. Send Each Queued Script To Local Gemini
 
-Run the local Gemini 3.1 Pro command-line chat:
+Run the local Gemini runner. Default to Mac unless the user explicitly asks for Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling.
+
+Mac default:
+
+```bash
+cd /Users/kin/Documents/Codex/2026-07-02/gemini
+./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt
+```
+
+Windows fallback when explicitly needed:
 
 ```powershell
 cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
-.\outputs\run_gemini_chat.cmd
+.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the same command with `--prompt-file --isolated`:
-
-```powershell
-.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
-```
+For automated expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file --isolated`.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
@@ -292,7 +297,7 @@ Track expansion count in the current session.
 
 For interactive terminal use, do not send `/new` by default. Keep using the current Gemini terminal session for normal first attempts and retries unless the user explicitly asks to clear context.
 
-For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + original source copy + retry reason, then rerun `run_gemini_chat.cmd --prompt-file <retry-prompt> --isolated`. Treat this as the normal automated equivalent of a same-source retry.
+For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + original source copy + retry reason, then rerun the selected host runner, preferably `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --isolated --output-file <expanded.txt>` on Mac. Treat this as the normal automated equivalent of a same-source retry.
 
 If obvious hallucination appears, retry in the same terminal session with the same selected instruction block and the original source copy. Record the failure in the batch log.
 

@@ -91,8 +91,9 @@ Latest hard-learned rules from 2026-06-03:
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
-- Use the local Gemini command for expansion: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd`.
-- For automated expansion, prefer `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` with a UTF-8 prompt file containing the selected full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
+- Default to the Mac local Gemini runner for expansion unless the user explicitly asks for Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling: `cd /Users/kin/Documents/Codex/2026-07-02/gemini` then `./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt`.
+- Use the Windows Gemini runner only when explicitly needed: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
+- For automated expansion, prefer the selected host runner with a UTF-8 prompt file containing the selected full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
 - Do not open or operate the old web expansion channel in this custom skill.
 - Before every new queued source, paste the selected full Gemini expansion instruction block followed by the original source copy and `【原文结束】`. Do not send `/new` unless explicitly requested.
 - When Gemini output is too short, send the retry instruction directly in the current terminal session for that same source.

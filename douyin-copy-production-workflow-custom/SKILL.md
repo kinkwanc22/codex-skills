@@ -26,9 +26,12 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 - Final Word output folder for current Windows workflow: `D:\工作用（同步）\7.1后双端同步文件夹`
 - Legacy Windows final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
 - Expansion tests/comparison runs must also be exported as `.docx` files into the current dual-device synced workflow folder; do not deliver `.txt` unless the user explicitly asks for txt.
-- Current Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`
-- Current Gemini expansion command: `.\outputs\run_gemini_chat.cmd`
-- Other-copy Gemini isolation rule: for non-male-relationship copy or unrelated tests, use `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` so the saved male relationship expansion conversation in `gemini_session.json` is preserved; do not use `/new` for this.
+- Gemini execution choice: default to the Mac local runner unless the user explicitly asks to use Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling.
+- Current Mac Gemini expansion command directory: active Codex workspace when it contains `scripts/run_gemini_chat.sh`; current tested workspace is `/Users/kin/Documents/Codex/2026-07-02/gemini`.
+- Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --isolated --output-file <expanded.txt>`.
+- Windows fallback Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`.
+- Windows fallback Gemini expansion command: `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
+- Other-copy Gemini isolation rule: for non-male-relationship copy or unrelated tests, use `--prompt-file <prompt> --isolated` on the selected host so saved male relationship expansion conversation state is preserved; do not use `/new` for this.
 - Opening source of truth: invoke `baokuan-kaitou-sheding` / `$爆款开头设定`; do not hand-write openings from memory.
 
 ## Reference Files
@@ -52,16 +55,17 @@ Read `references/source-learning-and-style.md` and create a concise batch learni
 
 Read `references/gemini-expansion.md`.
 
-Use the local Gemini command for expansion:
+Use the Mac local Gemini runner by default:
+
+```bash
+cd /Users/kin/Documents/Codex/2026-07-02/gemini
+./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt
+```
+
+Use Windows only when the user explicitly asks for Windows or the task depends on Windows-only files, old Windows projects, or Windows-only tooling:
 
 ```powershell
 cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
-.\outputs\run_gemini_chat.cmd
-```
-
-For automated expansion, prefer:
-
-```powershell
 .\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
