@@ -75,6 +75,7 @@ Latest hard-learned rules from 2026-06-03:
 - Current synced output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹` on Mac and `D:\工作用（同步）\7.1后双端同步文件夹` on Windows; save generated `.docx` results there by default so both devices can pick them up.
 - Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
+- Do not use `soffice`, LibreOffice, or `render_docx.py` for this Douyin copy workflow. The local `soffice` renderer can trigger a macOS crash/update dialog and interrupt the user's work. For these text-first Word deliverables, verify by checking the `.docx` zip/package structure, required headings, absence of risk markers, file size, and current timestamp instead.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
 - In the local Gemini terminal, do not send `/new` by default; keep the current session unless the user explicitly asks to clear context.
