@@ -1,6 +1,6 @@
 ---
 name: bar-couple-photo-gen
-description: Generate 9:16 photorealistic candid man-woman interaction images with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce GPT Image 2 / image2 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
+description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary couple video prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce GPT Image 2 / image2 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
 ---
 
 # Bar Couple Photo Generator
@@ -28,6 +28,27 @@ Require only one of these female-lead inputs:
 - A text description of the female character's appearance, age impression, hair, body type, outfit, temperament, and desired vibe.
 
 If the user also gives a specific interaction scene, use it. Otherwise choose one plausible casual social interaction from the interaction bank.
+
+## Prompt Choice
+
+Before generating Gary-series couple media, ask the user which approved prompt to use unless they already specify it clearly:
+
+1. `真实抓拍照片提示词` - the existing candid 9:16/16:9 phone-photo prompt used for image generation.
+2. `酒店酒廊情侣小视频提示词` - the fixed Chinese video prompt below.
+
+If the user chooses the video prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the current male/female references as identity references unless the user provides other references.
+
+```text
+生成一段真实朋友圈抓拍情侣小视频。保持参考图中男主和女主的人物身份、面貌、服装、人物关系、酒店休息区场景、沙发位置、酒桌前景和手机直闪质感一致，不改变角色长相。整体像朋友用 iPhone 在高级酒店酒廊里随手拍下的一段聊天小视频，非摆拍，非商业，非宣传片，强烈生活流纪实感。
+男主和女主坐在酒店休息区沙发上，开场女主亲密靠在男主身边，身体贴近男主肩膀和胸口，双腿向镜头前方伸展，高跟鞋靠近镜头，形成明显前景透视。男主身体微微后靠，右手自然搭在女主身后或沙发靠背上，左手朝画面左侧轻轻比划，像正在和镜头外的朋友聊天。男主不要看镜头，始终看向画面左侧或镜头旁边的人，嘴巴自然开合说话，眉毛和表情有轻微变化，头部轻轻转动或点一下，肩膀和上半身有放松的小幅晃动，像边聊天边随口回应，表情沉稳自然。
+女主不能静止，要有连续可见的自然动作。她先靠在男主身边，然后缓慢坐直一点，低头看向自己的腿和裙摆，轻轻移动双腿，把一条腿收回并自然交叠，手放在膝盖或腿边，像被朋友随手拍到时下意识整理坐姿。随后女主抬起一只手轻轻碰耳边或整理头发，眼神看向侧前方，表情安静克制。最后女主可以重新靠近男主，轻轻靠在男主肩膀或胸口附近，形成自然亲密感。两个人动作不同步，不要同时做一样的动作；男主偏聊天动作，女主偏整理坐姿和靠近动作。
+画面外有人抽烟，有少量烟雾从画面边缘轻轻飘进来，不能遮挡人物脸。动作节奏正常，像真实生活视频，不要慢动作，不要夸张表演。两位人物都要有可见的面部、头部、肩膀、手部和身体小动作，不能只是照片轻微动效，也不能只有嘴巴动。
+镜头固定在原图位置，低机位近距离，接近茶几高度，竖屏 9:16，近距离广角，构图轻微歪斜。不要推拉摇移，不环绕，不变焦，不重新构图；允许非常轻微的手持呼吸感和手机小抖动，但主体构图保持不变。前景保留黑色酒桌、威士忌酒杯、白色杯子和玻璃反光，背景保留灰色墙面、深色柜门、玻璃门、落地灯。保持真实手机夜拍画质、现场光线、机顶直闪、轻微噪点、局部失焦、轻微运动模糊、真人皮肤纹理、自然肤色和轻微瑕疵。适度去噪，但不要磨皮，不要过度锐化，不要把色块糊成一片。
+重点约束：
+这不是动态照片或轻微运镜效果，必须生成真实视频动作；男主必须有自然说话、头部、表情、肩膀和手势变化，女主必须有整理坐姿、移动双腿、整理头发、重新靠近男主等连续动作。人物保持原位置和原关系，不离开沙发，不突然大幅换姿势。
+负面提示词：
+人物静止，像照片一样不动，动态照片，轻微动效，只有一个人动，只有嘴巴动，动作不可见，表情僵硬，动作过大，突然换姿势，离开原位置，人物关系改变，直视镜头，刻意摆拍，慢动作，电影运镜，推镜头，拉镜头，摇镜头，环绕，变焦，重新构图，商业广告，宣传片，时尚大片，专业打光，棚拍，磨皮，美颜，塑料皮肤，网红脸，改变面貌，五官变形，身份不一致，手部畸形，肢体畸形，多余手指，人物重复，背景扭曲，画面融化，严重闪烁，跳帧，鬼影，烟雾遮脸。
+```
 
 ## Default Output
 
@@ -94,12 +115,13 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 
 ## Generation Workflow
 
-1. If the user provides a female reference image, use it as the female identity reference.
-2. If the user provides only text, describe the female lead explicitly in the prompt and keep her ordinary, natural, and consistent with the user's description.
-3. Use `assets/fixed-male-lead.png` as the male identity reference.
-4. Use the built-in `image_gen` tool by default. If the user explicitly asks for CLI/API/model control, follow the system imagegen skill fallback rules.
-5. Prompt for GPT Image 2 / image2 high-fidelity portrait consistency. Ask for vertical 9:16 output in the prompt.
-6. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
+1. Before Gary-series generation, ask the user whether to use `真实抓拍照片提示词` or `酒店酒廊情侣小视频提示词`, unless the choice is already explicit.
+2. If the user provides a female reference image, use it as the female identity reference.
+3. If the user provides only text, describe the female lead explicitly in the prompt and keep her ordinary, natural, and consistent with the user's description.
+4. Use `assets/fixed-male-lead.png` as the male identity reference.
+5. Use the built-in `image_gen` tool by default. If the user explicitly asks for CLI/API/model control, follow the system imagegen skill fallback rules.
+6. Prompt for GPT Image 2 / image2 high-fidelity portrait consistency. Ask for vertical 9:16 output in the prompt.
+7. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
 
 ## Prompt Template
 
