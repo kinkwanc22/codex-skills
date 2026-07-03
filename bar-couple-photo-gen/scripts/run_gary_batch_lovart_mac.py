@@ -31,6 +31,16 @@ SCENES = [
     "小型聚会包间",
 ]
 
+SOFA_SCENES = [
+    "高级酒店酒廊",
+    "酒店大堂酒廊",
+    "高级餐厅休息区",
+    "私人会所休息区",
+    "高级酒廊沙发区",
+    "朋友聚会包间",
+    "KTV包间沙发区",
+]
+
 INTERACTIONS = [
     "女生从男生身后靠近，一只手自然搭在男生肩膀或手臂上，脸完整清楚露出来，朝镜头自然笑，表情带着暧昧的笑意",
     "女生从背后轻轻靠近男生，脸完整清楚可见，笑着看向镜头，和男生保持自然贴近",
@@ -164,7 +174,7 @@ def write_json(path, obj):
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def build_prompt(scene, interaction, aspect):
+def build_photo_prompt(scene, interaction, aspect):
     if aspect == "16x9":
         first_line = "生成16:9横版手机照片，画面保留更多真实室内环境，但人物仍是近距离半身抓拍，不要全身照。"
     else:
@@ -172,16 +182,46 @@ def build_prompt(scene, interaction, aspect):
     return f"{first_line}\n{scene}的真实抓拍照片，{interaction}。\n{FIXED_SUFFIX}"
 
 
-def choose_different_pair(previous=None):
-    scene = random.choice(SCENES)
-    interaction = random.choice(INTERACTIONS)
+def build_sofa_prompt(scene):
+    return (
+        f"{scene}里的真实朋友圈抓拍照片，使用图1和图2作为人物参考，固定男主 Gary 的真实面貌、五官比例、短发、年龄感、体型和沉稳气质一致；"
+        "女主使用当前图2作为人物参考，保持她的真实面貌、五官比例、发型、年龄感、体型和气质一致，不要美化成模特或网红脸。"
+        "男主和女生并肩坐在沙发上，距离很近，像朋友聚会聊天时被旁边朋友随手拍下的一瞬间。"
+        "男主坐在左侧，身体微微后靠，一只手自然搭在女生身后或沙发靠背上，另一只手朝画面外轻轻比划，像正在说话；"
+        "男主看向画面左侧或镜头旁边的人，不看镜头，表情自然沉稳，不是刻意摆拍。\n"
+        "女生坐在男主右侧，身体自然贴近男主，姿态放松，脸完整清楚可见。"
+        "她的腿可以自然靠近茶几方向，形成一点前景透视，但不要刻意摆腿，不要夸张展示腿部。"
+        "两人的动作不完全统一，男主像在随口聊天，女生像临时被拍到时自然靠近或整理坐姿，整体像朋友聚会中的真实瞬间。\n"
+        f"竖图 9:16，近距离低机位手机抓拍，镜头高度接近茶几，从人物正前方略偏右的位置拍摄。"
+        "前景可以有黑色酒桌、威士忌酒杯、白色杯子或玻璃反光，但不要喧宾夺主。"
+        f"背景符合{scene}的真实环境，有生活化室内空间细节、暗部层次、灯具或玻璃反光。"
+        "业余手机摄影风格，轻微歪斜构图，机顶直闪，人物皮肤有闪光灯高光，背景轻微失焦，轻微运动模糊，真实夜拍噪点，"
+        "保留真实皮肤纹理、轻微瑕疵和自然肤色。非摆拍，非商业摄影，非精修，强烈生活流纪实感。\n"
+        "负面提示词：\n"
+        "网红脸，模特感，明星脸，过度精修，磨皮，美颜滤镜，塑料皮肤，脸部过于完美，鼻子过高，五官过度立体，夸张妆容，"
+        "时尚大片，杂志封面，棚拍，商业摄影，专业布光，电影感过强，光线过于干净，背景虚假，摆拍感，刻意看镜头，夸张姿势，"
+        "不自然表情，人物重复，脸部结构错误，多余手指，手部畸形，肢体畸形，腿部畸形，比例错误，CG感，3D感，动漫感，AI感过强，"
+        "过度锐化，低质量脸部，身份不一致，改变男主面貌，改变女主面貌，刻意展示腿部，夸张前景透视"
+    )
+
+
+def build_prompt(scene, interaction, aspect, prompt_preset):
+    if prompt_preset == "sofa":
+        return build_sofa_prompt(scene)
+    return build_photo_prompt(scene, interaction, aspect)
+
+
+def choose_different_pair(previous=None, prompt_preset="photo"):
+    scene_pool = SOFA_SCENES if prompt_preset == "sofa" else SCENES
+    scene = random.choice(scene_pool)
+    interaction = "沙发前景抓拍" if prompt_preset == "sofa" else random.choice(INTERACTIONS)
     if previous is None:
         return scene, interaction
     for _ in range(20):
         if (scene, interaction) != previous:
             return scene, interaction
-        scene = random.choice(SCENES)
-        interaction = random.choice(INTERACTIONS)
+        scene = random.choice(scene_pool)
+        interaction = "沙发前景抓拍" if prompt_preset == "sofa" else random.choice(INTERACTIONS)
     return scene, interaction
 
 
@@ -201,7 +241,7 @@ def build_tasks(female_files, args):
             for i in range(target):
                 female_path = selected[i % len(selected)]
                 previous = previous_by_female.get(female_path.name)
-                scene, interaction = choose_different_pair(previous)
+                scene, interaction = choose_different_pair(previous, args.prompt_preset)
                 previous_by_female[female_path.name] = (scene, interaction)
                 tasks.append({
                     "aspect": aspect,
@@ -237,6 +277,7 @@ def main():
     parser.add_argument("--female-count", type=int, default=0)
     parser.add_argument("--aspect-mode", choices=["vertical", "horizontal", "both"], default="vertical")
     parser.add_argument("--run-label", default="_gary_batch")
+    parser.add_argument("--prompt-preset", choices=["photo", "sofa"], default="photo")
     args = parser.parse_args()
     load_lovart_env()
 
@@ -280,6 +321,7 @@ def main():
         "target_vertical": args.target_vertical,
         "target_horizontal": args.target_horizontal,
         "aspect_mode": args.aspect_mode,
+        "prompt_preset": args.prompt_preset,
         "prompt_language": "中文",
         "max_network_retries": args.max_network_retries,
         "max_generation_attempts": args.max_generation_attempts,
@@ -298,7 +340,7 @@ def main():
         aspect = task["aspect"]
         scene = task["scene"]
         interaction = task["interaction"]
-        prompt = build_prompt(scene, interaction, aspect)
+        prompt = build_prompt(scene, interaction, aspect, args.prompt_preset)
         aspect_output_dir = log_dir / aspect if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical" else output_root
         aspect_output_dir.mkdir(parents=True, exist_ok=True)
         base = {
