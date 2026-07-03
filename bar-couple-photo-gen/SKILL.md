@@ -1,6 +1,6 @@
 ---
 name: bar-couple-photo-gen
-description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary sofa foreground photo prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce GPT Image 2 / image2 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
+description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary hotel lounge sofa photo prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce GPT Image 2 / image2 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
 ---
 
 # Bar Couple Photo Generator
@@ -34,18 +34,17 @@ If the user also gives a specific interaction scene, use it. Otherwise choose on
 Before generating Gary-series couple media, ask the user which approved prompt to use unless they already specify it clearly:
 
 1. `真实抓拍照片提示词` - the existing candid 9:16/16:9 phone-photo prompt used for image generation.
-2. `沙发前景抓拍照片提示词` - a fixed-Gary, variable-female, variable-scene sofa/foreground candid photo prompt.
+2. `高级酒店酒廊沙发抓拍照片提示词` - the fixed-Gary, random-female hotel lounge sofa candid photo prompt below.
 
-If the user chooses the sofa foreground photo prompt, use the following prompt text as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. Like the first prompt, only change `{scene}` and the female reference unless the user explicitly asks for a deeper change.
-
-For sofa foreground prompt variations, choose `{scene}` from realistic indoor/semi-indoor social spaces such as `高级酒店酒廊`, `酒店大堂酒廊`, `高级餐厅休息区`, `私人会所休息区`, `高级酒廊沙发区`, `朋友聚会包间`, `KTV包间沙发区`, or another user-specified scene. Keep the sofa seating, low camera position, foreground table/glass perspective, fixed male identity, variable female identity, and candid phone-flash realism stable.
+If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
 ```text
-{scene}里的真实朋友圈抓拍照片，使用图1和图2作为人物参考，固定男主 Gary 的人物身份、真实面貌、五官比例、短发、年龄感、体型和沉稳气质一致；女主使用当前图2作为人物参考，保持她的真实面貌、五官比例、发型、年龄感、体型、服装气质一致。两人的人物关系保持自然亲近，不改变角色长相，不要美化成模特或网红脸。男主和女生并肩坐在浅色沙发上，距离很近，像正在和朋友聊天时被随手拍下。男主坐在左侧，身体微微后靠，一只手自然搭在女生身后或沙发靠背上，另一只手朝画面外轻轻比划，像正在说话；男主看向画面左侧，不看镜头，表情自然沉稳。
-女生坐在男主右侧，身体贴近男主，姿态放松，腿向镜头前方伸展，一只腿自然搭近酒桌或靠近茶几边缘，高跟鞋和腿部形成明显前景透视。镜头正对两人但人物不刻意看镜头，像朋友聚会中临时拍下的一张原图。女生表情松弛自然，不是模特感，不要网红脸，鼻子不要太高，五官保持普通真实，真实皮肤纹理、轻微瑕疵和面部细节保留。
-竖图 9:16，近距离低机位拍摄，镜头高度接近茶几，从人物正前方略偏右的位置拍摄，人物主要位于画面下三分之二。前景有黑色酒桌、威士忌酒杯、白色杯子、玻璃反光；背景符合{scene}的真实环境，有生活化室内空间细节、暗部层次、灯具或玻璃反光。业余手机摄影风格，近距离广角，轻微歪斜构图，轻微运动模糊，局部失焦，夜拍噪点，机顶直闪，人物皮肤有闪光灯高光，背景偏暗，高光轻微溢出。非摆拍，非商业摄影，非精修，强烈生活流纪实感，像朋友聚会时无意拍到的一张真实照片。
+高级酒店酒廊里的真实朋友圈抓拍照片，参考图1和图2的人物身份、面貌、服装、人物关系保持一致，不改变角色长相。男主和女生并肩坐在浅色沙发上，距离很近，像正在和朋友聊天时被随手拍下。男主坐在左侧，身体微微后靠，一只手自然搭在女生身后或沙发靠背上，另一只手朝画面外轻轻比划，像正在说话；男主看向画面左侧，不看镜头，表情自然沉稳。
 负面提示词：
-网红脸，模特感，明星脸，过度精修，磨皮，美颜滤镜，塑料皮肤，脸部过于完美，鼻子过高，五官过度立体，夸张妆容，时尚大片，杂志封面，棚拍，商业摄影，专业布光，电影感过强，光线过于干净，背景虚假，摆拍感，刻意看镜头，夸张姿势，不自然表情，人物重复，脸部结构错误，多余手指，手部畸形，肢体畸形，腿部畸形，比例错误，CG感，3D感，动漫感，AI感过强，过度锐化，低质量脸部，身份不一致，改变男主面貌，改变女主面貌
+网红脸，模特感，明星脸，过度精修，磨皮，美颜滤镜，塑料皮肤，脸部过于完美，鼻子过高，五官过度立体，夸张妆容，时尚大片，杂志封面，棚拍，商业摄影，专业布光，电影感过强，光线过于干净，背景虚假，摆拍感，刻意看镜头，夸张姿势，不自然表情，人物重复，脸部结构错误，多余手指，手部畸形，肢体畸形，腿部畸形，比例错误，CG感，3D感，动漫感，AI感过强，过度锐化，低质量脸部
+
+女生坐在男主右侧，身体贴近男主，姿态放松，腿向镜头前方伸展，一只腿自然搭近酒桌或靠近茶几边缘，高跟鞋和腿部形成明显前景透视。镜头正对两人但人物不刻意看镜头，像朋友聚会中临时拍下的一张原图。女生表情松弛自然，不是模特感，不要网红脸，鼻子不要太高，五官保持普通真实，真实皮肤纹理、轻微瑕疵和面部细节保留。
+竖图 9:16，近距离低机位拍摄，镜头高度接近茶几，从人物正前方略偏右的位置拍摄，人物主要位于画面下三分之二。前景有黑色酒桌、威士忌酒杯、白色杯子、玻璃反光；背景有灰色墙面、深色柜门、玻璃门、落地灯。业余手机摄影风格，近距离广角，轻微歪斜构图，轻微运动模糊，局部失焦，夜拍噪点，机顶直闪，人物皮肤有闪光灯高光，背景偏暗，高光轻微溢出。非摆拍，非商业摄影，非精修，强烈生活流纪实感，像朋友聚会时无意拍到的一张真实照片。
 ```
 
 ## Default Output
@@ -113,7 +112,7 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 
 ## Generation Workflow
 
-1. Before Gary-series generation, ask the user whether to use `真实抓拍照片提示词` or `沙发前景抓拍照片提示词`, unless the choice is already explicit.
+1. Before Gary-series generation, ask the user whether to use `真实抓拍照片提示词` or `高级酒店酒廊沙发抓拍照片提示词`, unless the choice is already explicit.
 2. If the user provides a female reference image, use it as the female identity reference.
 3. If the user provides only text, describe the female lead explicitly in the prompt and keep her ordinary, natural, and consistent with the user's description.
 4. Use `assets/fixed-male-lead.png` as the male identity reference.
