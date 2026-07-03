@@ -254,7 +254,7 @@ Mac default:
 
 ```bash
 cd /Users/kin/Documents/Codex/2026-07-02/gemini
-./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt
+./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --output-file work/expanded.txt
 ```
 
 Windows fallback when explicitly needed:
@@ -266,11 +266,17 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file --isolated`.
+For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`, so the migrated Gary-style long conversation in `gemini_session.json` is used and updated.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
-Use `--isolated` for automated expansion to avoid stale session memory contaminating the new draft. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
+For `2.5 Direct Draft`, also load the local legacy style pack if it exists:
+
+`/Users/kin/Documents/Codex/2026-07-02/gemini/work/legacy_style_samples/2.5_legacy_style_pack.md`
+
+Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old Windows 2.5 pressure and mechanism density without wasting context or copying old topics.
+
+Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
 
 When building the prompt file, append the source text immediately after `【原文开始】`, then close it with `【原文结束】`. This source wrapper is part of the prompt, not an optional note.
 
@@ -314,7 +320,7 @@ Track expansion count in the current session.
 
 For interactive terminal use, do not send `/new` by default. Keep using the current Gemini terminal session for normal first attempts and retries unless the user explicitly asks to clear context.
 
-For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + original source copy + retry reason, then rerun the selected host runner, preferably `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --isolated --output-file <expanded.txt>` on Mac. Treat this as the normal automated equivalent of a same-source retry.
+For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + original source copy + retry reason, then rerun the selected host runner, preferably `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --output-file <expanded.txt>` on Mac. Treat this as the normal automated equivalent of a same-source retry in the same long-running expansion conversation.
 
 If obvious hallucination appears, retry in the same terminal session with the same selected instruction block and the original source copy. Record the failure in the batch log.
 
