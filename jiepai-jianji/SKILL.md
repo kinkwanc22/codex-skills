@@ -35,6 +35,12 @@ Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/fast
 - `scripts/transcribe_words.py`: Optional faster-whisper transcription helper. Generates word-level timestamp JSON for tighter sentence-end alignment.
 - `agents/openai.yaml`: UI metadata for display name, short description, and default prompt.
 
+## Default Paths
+
+- Default Windows street-shot/B-roll material directory: `E:\工作用\视频素材\街拍片段`.
+- When the user provides only narration audio and script, use this directory as `--videos` unless they name another material folder.
+- Keep outputs in the current thread's `outputs/` folder unless the user asks for another destination.
+
 ## Requirements
 
 - Use Python 3.
@@ -89,7 +95,7 @@ Example final render:
 
 ```powershell
 python ".\scripts\make_street_cut_video.py" `
-  --videos "E:\path\to\street-shots" `
+  --videos "E:\工作用\视频素材\街拍片段" `
   --audio "E:\path\to\narration.wav" `
   --script "E:\path\to\script.docx" `
   --output ".\outputs\final_16x9_30fps.mp4" `
