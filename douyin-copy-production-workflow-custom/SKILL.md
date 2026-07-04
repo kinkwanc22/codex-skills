@@ -69,7 +69,7 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 .\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
-Build each UTF-8 prompt file with the selected full Gemini instruction block from `references/gemini-expansion.md`, followed immediately by the original source text wrapped as `【原文开始】...【原文结束】`. If the user asks for 单案例、一案到底、一个案例贯穿全文, use the `2.6 Single Case` direction.
+Build each UTF-8 prompt file with the selected full Gemini instruction block from `references/gemini-expansion.md`, followed immediately by the original source text wrapped as `【原文开始】...【原文结束】`. If the user asks for 单案例、一案到底、一个案例贯穿全文, use the `2.6 Single Case` direction. If the user asks for `2.7`, `融合版`, or wants the same effect as the approved 316 body-signal fusion draft, use `2.7 Hybrid Fusion`.
 
 Do not use the old web expansion channel. Do not send `/new` unless the user explicitly asks.
 
