@@ -15,13 +15,14 @@ This skill exists to avoid modifying the user's original `douyin-copy-production
 
 Hard rules:
 
-- Always use `.\outputs\run_gemini_chat.cmd --prompt-file <path> --isolated`.
-- Never run the bare command `.\outputs\run_gemini_chat.cmd` for expansion in this skill.
+- Prefer the Mac local runner: `./scripts/run_gemini_chat.sh --prompt-file <path> --isolated --output-file <path>` from `/Users/kin/Documents/Codex/2026-07-02/gemini`.
+- Use the Windows runner only as a fallback: `.\outputs\run_gemini_chat.cmd --prompt-file <path> --isolated` from `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`.
+- Never run the bare interactive command `./scripts/run_gemini_chat.sh` or `.\outputs\run_gemini_chat.cmd` for expansion in this skill.
 - Never send `/new`.
 - Never use interactive Gemini chat merely to get a clean context.
 - Treat every first attempt, refusal retry, length retry, stale-topic retry, and hallucination retry as a fresh isolated prompt-file request.
 
-Reason: the original custom workflow may rely on a long-running saved conversation in `gemini_session.json`. The `--isolated` flag uses a clean temporary conversation and does not save user or assistant messages back to that session.
+Reason: the original custom workflow may rely on a long-running saved conversation in `gemini_session.json`. The `--isolated` flag uses a clean temporary conversation and does not save user or assistant messages back to that session. On Mac, `--output-file` is required so validation can read the exact generated draft from disk.
 
 ## Current Gemini Expansion Instruction
 
@@ -108,19 +109,29 @@ Do not use any older short expansion prefix; always use the full `Current Gemini
 
 ## Automated Prompt-File Usage
 
-Run the local Gemini command from:
+Run the Mac local Gemini command from:
+
+```bash
+cd /Users/kin/Documents/Codex/2026-07-02/gemini
+```
+
+For every expansion, write the full instruction block + source copy to a UTF-8 prompt file, then call:
+
+```bash
+./scripts/run_gemini_chat.sh --prompt-file /path/to/prompt.txt --isolated --output-file /path/to/expanded.txt
+```
+
+Use the Windows command only as an explicit fallback:
 
 ```powershell
 cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 ```
 
-For every expansion, write the full instruction block + source copy to a UTF-8 prompt file, then call:
-
 ```powershell
 .\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
-If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
+If the Mac command reports `Missing TEAMO_API_KEY`, use the existing `.env.local` in `/Users/kin/Documents/Codex/2026-07-02/gemini` or ask the user for the key only if that file is missing or incomplete. Do not use the old web expansion channel in this custom skill.
 
 When building the prompt file:
 
@@ -129,12 +140,13 @@ When building the prompt file:
 - Do not prepend a viral opening or rewrite the source before expansion.
 - Do not add `/new`.
 - Do not use interactive terminal paste for multi-line prompts.
+- On Mac, save prompt files and generated outputs under the current project's `work/` folder whenever possible.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
 ## Check Generated Copy
 
-After generation finishes, capture the latest `Gemini:` response from the terminal output.
+After generation finishes, read the Mac `--output-file` draft first. If using Windows fallback, capture the latest `Gemini:` response from the terminal output.
 
 Default qualification line:
 
@@ -170,7 +182,7 @@ If the user requests a different threshold, follow the newest threshold and reco
 
 This isolated workflow does not continue a Gemini session. Treat each prompt-file request as independent and temporary.
 
-If obvious hallucination appears, build a new UTF-8 retry prompt file with the full instruction block, the original source copy, and a concise retry reason. Then rerun `run_gemini_chat.cmd --prompt-file <retry-prompt> --isolated`.
+If obvious hallucination appears, build a new UTF-8 retry prompt file with the full instruction block, the original source copy, and a concise retry reason. Then rerun `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --isolated --output-file <retry-output>` on Mac, or `run_gemini_chat.cmd --prompt-file <retry-prompt> --isolated` on Windows fallback.
 
 Obvious hallucinations include:
 

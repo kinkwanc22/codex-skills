@@ -67,17 +67,18 @@ After every completed batch, perform a short self-optimization pass before final
 - Prefer hard procedural rules over vague reminders.
 - Keep the update concise and focused on preventing the exact failure from recurring.
 
-Latest hard-learned rules from 2026-06-03:
+Latest hard-learned rules from 2026-06-03, updated for Mac-first execution on 2026-07-04:
 
-- The fixed final output folder is exactly `E:\工作用\素材文稿\codex工作流长文稿`. Do not confuse it with `素材文案` or `长文案`.
+- The default Mac final output folder is a content-specific `codex短重写输出_<YYYYMMDD>` folder beside the source folder, usually under `/Users/kin/工作用（同步）/素材文稿/...`.
+- The old Windows final output folder `E:\工作用\素材文稿\codex工作流长文稿` is now fallback only. Do not use it when running on Mac unless the user explicitly asks for Windows output.
 - Final deliverables must be Word `.docx` files by default. Do not deliver `.txt` as the final format unless the user explicitly asks for txt.
 - Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the fixed final folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
-- In this isolated workflow, do not use the local Gemini interactive terminal for expansion. Always use `--prompt-file <path> --isolated`.
+- In this isolated workflow, do not use the local Gemini interactive terminal for expansion. On Mac, always use `./scripts/run_gemini_chat.sh --prompt-file <path> --isolated --output-file <path>` from `/Users/kin/Documents/Codex/2026-07-02/gemini`. On Windows fallback, use `.\outputs\run_gemini_chat.cmd --prompt-file <path> --isolated`.
 - Never replace, shorten, summarize, rewrite, or downgrade the full `Current Gemini Expansion Instruction` block with a short prompt.
-- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always build a UTF-8 prompt file containing the full `Current Gemini Expansion Instruction` block + the original source copy wrapped as `【原文开始】...【原文结束】`, then run `.\outputs\run_gemini_chat.cmd --prompt-file <path> --isolated`.
+- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always build a UTF-8 prompt file containing the full `Current Gemini Expansion Instruction` block + the original source copy wrapped as `【原文开始】...【原文结束】`, then run the Mac local command with `--prompt-file --isolated --output-file`. Use the Windows `.cmd` command only as fallback.
 - If Gemini refuses, returns API/tool failure text, reuses a previous article topic, is below the length threshold, or lacks the required ending, do not save it as a final result. Retry with a new isolated prompt file and record the failure in a batch log; do not send `/new`.
 - Preserve the user's high-risk, high-conflict topic direction during expansion, opening writing, and title packaging. Do not proactively downgrade the framing to `机制识别、边界判断、关系主权、健康筛选` unless the user explicitly asks for that safer framing. If Gemini refuses, do the minimum wording adjustment needed to get a complete generation while preserving the original topic's sharpness.
 - For `处理这批文案`, treat the default endpoint as final Word documents with three opening versions, opening review scores,正文, and a concise batch log, not merely raw Gemini expansion text.
@@ -88,8 +89,9 @@ Latest hard-learned rules from 2026-06-03:
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
-- Use the local Gemini command only through isolated prompt files: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
-- For automated expansion, require `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` with a UTF-8 prompt file containing the full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
+- Use the Mac local Gemini command only through isolated prompt files by default: `cd /Users/kin/Documents/Codex/2026-07-02/gemini` then `./scripts/run_gemini_chat.sh --prompt-file /path/to/prompt.txt --isolated --output-file /path/to/expanded.txt`.
+- For automated expansion, require the Mac local command with a UTF-8 prompt file containing the full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
+- Use the Windows command `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated` only as fallback.
 - Do not open or operate the old web expansion channel in this custom skill.
 - Before every new queued source, write the full `Current Gemini Expansion Instruction` block followed by the original source copy and `【原文结束】` into a UTF-8 prompt file. Run it with `--isolated`.
 - When Gemini output is too short, create a new isolated retry prompt file for that same source.

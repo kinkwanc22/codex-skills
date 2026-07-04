@@ -21,11 +21,16 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 
 ## Default Paths
 
-- Assistant source folders are often under `E:\工作用\素材文稿\助理采集文案\`.
-- Final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
-- Current Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`
-- Current Gemini expansion command: `.\outputs\run_gemini_chat.cmd`
-- Mandatory isolation rule: always call Gemini with `--prompt-file <path> --isolated` for this skill. Never run the bare interactive command for expansion, because it can read or write the original long-running Gemini conversation.
+- Mac source folders are often under `/Users/kin/工作用（同步）/素材文稿/`.
+- Mac final Word output folder: create a content-specific `codex短重写输出_<YYYYMMDD>` folder beside the source folder unless the user gives another output path.
+- Mac Gemini expansion command directory: `/Users/kin/Documents/Codex/2026-07-02/gemini`
+- Mac Gemini expansion command: `./scripts/run_gemini_chat.sh`
+- Mac local command shape: `./scripts/run_gemini_chat.sh --prompt-file <path> --isolated --output-file <path>`
+- Windows fallback source folders are often under `D:\工作用（同步）\素材文稿\` or `E:\工作用\素材文稿\助理采集文案\`.
+- Windows fallback final Word output folder: `D:\工作用（同步）\素材文稿\codex工作流长文稿` or `E:\工作用\素材文稿\codex工作流长文稿`, depending on where the current synced root lives.
+- Windows fallback Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`
+- Windows fallback Gemini expansion command: `.\outputs\run_gemini_chat.cmd`
+- Mandatory isolation rule: always call Gemini with `--prompt-file <path> --isolated`; on Mac also pass `--output-file <path>` so the generated draft is saved for validation. Never run the bare interactive command for expansion, because it can read or write the original long-running Gemini conversation.
 - Never send `/new`; it can overwrite the saved Gemini session.
 - Opening source of truth: invoke `baokuan-kaitou-sheding` / `$爆款开头设定`; do not hand-write openings from memory.
 
@@ -55,14 +60,25 @@ For every expansion and retry, build a UTF-8 prompt file containing:
 1. The full current Gemini instruction block from `references/gemini-expansion.md`.
 2. The original source text wrapped as `【原文开始】...【原文结束】`.
 
-Then run only:
+Then run only the Mac local command by default:
+
+```bash
+cd /Users/kin/Documents/Codex/2026-07-02/gemini
+./scripts/run_gemini_chat.sh --prompt-file /path/to/prompt.txt --isolated --output-file /path/to/expanded.txt
+```
+
+Use the Windows command only as an explicit fallback:
 
 ```powershell
 cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 .\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
-Do not run:
+Do not run either bare interactive command:
+
+```bash
+./scripts/run_gemini_chat.sh
+```
 
 ```powershell
 .\outputs\run_gemini_chat.cmd
@@ -92,7 +108,7 @@ For every accepted article, execute these subskills in order:
 
 Read `references/export-and-hard-rules.md`.
 
-Export final `.docx` files to `E:\工作用\素材文稿\codex工作流长文稿` with content/topic-based filenames. Do not leave generic names such as risk-note or timestamp-only filenames.
+Export final `.docx` files on Mac into a content-specific `codex短重写输出_<YYYYMMDD>` folder beside the source folder, or the user-specified output folder, with content/topic-based filenames. Do not leave generic names such as risk-note or timestamp-only filenames.
 
 Before final delivery, verify each `.docx` contains the required headings and has no risk suggestions, yellow highlights, or `[[RISKNOTE:...]]` markers.
 
