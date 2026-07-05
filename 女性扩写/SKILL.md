@@ -7,9 +7,9 @@ description: 女性向长文案扩写工作流。Use for 女性扩写, 女号文
 
 This is the short, UI-friendly Chinese alias for the full female-facing skill:
 
-`/Users/kin/.codex/skills/douyin-copy-production-workflow-female-custom/SKILL.md`
+`/Users/kin/.codex/skills/douyin- women-copy-production-workflow-female-custom/SKILL.md`
 
-When this alias is invoked, follow the full workflow in `douyin-copy-production-workflow-female-custom` as the source of truth.
+When this alias is invoked, follow the full workflow in `douyin- women-copy-production-workflow-female-custom` as the source of truth.
 
 Use it for:
 

@@ -1,5 +1,5 @@
 ---
-name: douyin-copy-production-workflow-female-custom
+name: douyin- women-copy-production-workflow-female-custom
 description: Complete female-facing Douyin copy production workflow. Use for 女性版扩写, 女号文案, 女性向情感文案, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end women-audience relationship copy production.
 ---
 
