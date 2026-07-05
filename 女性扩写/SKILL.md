@@ -1,11 +1,11 @@
 ---
-name: douyin-workflow-female-custom
-description: Short alias for douyin-copy-production-workflow-female-custom. Use for 女性版扩写, 女号文案, 女性向情感文案, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end women-audience Douyin copy production.
+name: 女性扩写
+description: 女性向长文案扩写工作流。Use for 女性扩写, 女号文案, 女性向情感文案, 女性版2.5/2.6/2.7扩写, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end women-audience Douyin copy production.
 ---
 
-# Douyin Workflow Female Custom Alias
+# 女性扩写
 
-This is a short, UI-friendly alias for the full female-facing skill:
+This is the short, UI-friendly Chinese alias for the full female-facing skill:
 
 `/Users/kin/.codex/skills/douyin-copy-production-workflow-female-custom/SKILL.md`
 
@@ -13,6 +13,7 @@ When this alias is invoked, follow the full workflow in `douyin-copy-production-
 
 Use it for:
 
+- 女性扩写
 - 女性版扩写
 - 女号文案
 - 女性向情感文案
