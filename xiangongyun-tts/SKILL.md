@@ -24,12 +24,13 @@ final output directory: E:\工作用\GARY素材音频\扩写长音频
 
 ## Xiangongyun Instance Preflight
 
-Before generating TTS, automatically make sure the user's Xiangongyun `语音生成` instance is running.
+Before generating TTS, automatically make sure the user's Xiangongyun `语音生成` instance is running. Use the Xiangongyun Open API first; use Chrome console operation only as a fallback.
 
 Default console and service URLs:
 
 ```text
 console: https://www.xiangongyun.com/console/instance
+api base: https://api.xiangongyun.com
 instance name: 语音生成
 instance id prefix: WGPY****XXK6
 webui: https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com/
@@ -37,7 +38,44 @@ default GPU: RTX 4090 D
 default GPU count: 1
 ```
 
-Preflight workflow:
+API credential rule:
+
+- Read the Xiangongyun access token only from a local secret source, preferably `XIANGONGYUN_ACCESS_TOKEN`.
+- Use `Authorization: Bearer $XIANGONGYUN_ACCESS_TOKEN`.
+- Never echo the token in chat, logs, docs, git commits, status files, or generated deliverables.
+- If the token is missing, do not ask the user to paste it again unless necessary; fall back to the Chrome console preflight when the user is already logged in.
+
+API-first preflight workflow:
+
+1. Call `GET https://api.xiangongyun.com/open/instances`.
+2. Match the user's TTS instance by `name == "语音生成"` or by known ID prefix `WGPY...XXK6`.
+3. If the matched instance `status` is already running, continue to WebUI readiness check.
+4. If the instance is stopped, call `POST https://api.xiangongyun.com/open/instance/boot` with JSON body:
+
+```json
+{
+  "id": "<instance id>",
+  "gpu_model": "RTX 4090 D",
+  "gpu_count": 1
+}
+```
+
+5. Poll `GET https://api.xiangongyun.com/open/instance/{id}` every 10-20 seconds until the status is running and progress is complete enough for `web_url` / Gradio to respond.
+6. Prefer the `web_url` returned by the API when present. If it is missing, construct the public port URL from the official rule:
+
+```text
+https://<container-id>-<port>.container.x-gpu.com
+```
+
+For the current TTS Gradio app, the known URL is:
+
+```text
+https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com/
+```
+
+7. Confirm the Gradio page or endpoint is reachable and shows/serves the TTS app before running synthesis.
+
+Chrome fallback preflight:
 
 1. Open the Xiangongyun console in Chrome: `https://www.xiangongyun.com/console/instance`.
 2. Locate the instance named `语音生成`.
@@ -54,13 +92,14 @@ Boundaries:
 - Do not recharge the account automatically.
 - Do not switch to a more expensive GPU automatically.
 - Do not change the instance image or persistent configuration automatically.
+- Do not write the access token into this skill, project docs, or repo files.
 - If login, CAPTCHA, payment, verification, or account-risk prompts appear, stop and ask the user to handle that step.
 - If the WebUi URL is blocked or unavailable after the instance is `运行中`, report the blocker instead of guessing another service URL.
 
 ## Workflow
 
 1. Run the Xiangongyun Instance Preflight above and confirm the `语音生成` Gradio WebUi is reachable.
-2. Extract the text to synthesize from the user's request.
+2. Extract the text to synthesize from the user's request, pasted text, or provided document.
 3. Use `浩威青叔4.0.pt` unless the user names another voice.
 4. Use speed `1.0` unless the user gives a value from `0.5` to `2.0`.
 5. Choose the synthesis strategy:
@@ -74,6 +113,43 @@ Boundaries:
 10. Return links to the filtered `.wav` and `.srt`, then summarize QC findings.
 
 Do not echo API tokens or hidden credentials. This Gradio app does not require the Xiangongyun API token for TTS generation; it uses the public container URL.
+
+## Document-To-Audio Automation
+
+The user's desired default is: provide a document, and the skill fully generates final audio without manual intermediate steps.
+
+Accepted inputs:
+
+- Plain text pasted in chat.
+- `.txt` / `.md` source files.
+- `.docx` Word drafts exported from ContentFactory or the user's Douyin copy workflows.
+- A folder containing one or more final manuscripts, when the user asks for batch audio.
+
+Document handling rules:
+
+1. Identify the final body text only. Ignore file metadata, comments, table-of-contents material, revision notes, risk notes, filenames, and non-script instructions.
+2. Preserve the spoken order of the manuscript.
+3. Keep Chinese punctuation meaningful for TTS pause behavior; do not aggressively strip punctuation.
+4. For `.docx`, extract visible paragraph text and skip empty paragraphs. If the document has multiple versions, select the version the user names; otherwise prefer the most final-looking body section.
+5. Save the extracted source text to `work/source.txt` before synthesis when a local workspace is available.
+6. Run hybrid long-form synthesis by default for long manuscripts.
+7. Run silence filtering, QC, and SRT generation automatically after synthesis.
+8. Return the final filtered WAV and matching SRT. Mention any skipped post-processing step only when it could not run.
+
+End-to-end default chain:
+
+```text
+document/text input
+-> extract final spoken text
+-> API preflight starts Xiangongyun instance if needed
+-> Gradio TTS synthesis
+-> silence filtering
+-> ASR/QC
+-> SRT alignment
+-> final .wav + .srt
+```
+
+Batch rule: if multiple documents are provided, process them one by one, keep a manifest in `work/tts-manifest.jsonl` when possible, and resume from the last completed item after interruptions.
 
 ## Recommended Long-Form Strategy
 
@@ -220,5 +296,4 @@ The Gradio endpoint is queue-based:
 - Data order: `[voice, reference_audio_or_null, text, speed]`
 
 Use the queue protocol instead of `/gradio_api/call/infer`; `/call/infer` may return a misleading `404: Not Found` even when the queue protocol works.
-
 

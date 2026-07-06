@@ -32,6 +32,12 @@ Convert text into natural-sounding speech audio. Two paths:
 1. **Quick mode** (`--mode direct`): Single voice, low-latency, sync. For casual chat, reading snippets, instant audio.
 2. **Script mode** (`--mode smart`): Multi-speaker, per-segment voice assignment. For dialogue, audiobooks, scripted content.
 
+## User Default Routing
+
+For this user, Chinese long-form narration, Douyin manuscripts, ContentFactory outputs, Word drafts, and requests for `浩威青叔4.0.pt`, `仙宫云`, `语音生成`, or fully automated audio generation should route to the local `xiangongyun-tts` skill instead of the generic ListenHub flow.
+
+Use `xiangongyun-tts` as the default when the user wants to provide a document or manuscript and receive final audio. That workflow automatically handles Xiangongyun API instance preflight, Gradio TTS synthesis, silence filtering, QC, and SRT generation.
+
 ## Hard Constraints
 
 - Always check CLI auth following `shared/cli-authentication.md`
