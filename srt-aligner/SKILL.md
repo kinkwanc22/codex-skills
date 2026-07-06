@@ -14,16 +14,21 @@ Use this skill to turn a final script plus audio into an `.srt` subtitle file.
    - Final script/copy text, preferably as `.txt` or pasted text saved to a file.
    - Output filename, defaulting to the audio basename plus `.srt`.
 2. Get timing data from the audio:
-   - Prefer a transcript with word timestamps, such as Whisper JSON with `segments[].words[]`.
-   - If only segment timestamps are available, use them as a fallback.
-   - If no transcript exists yet, use the available local ASR/video subtitle workflow to transcribe the audio first, requesting word timestamps when possible.
+   - Strongly prefer Whisper JSON with word timestamps, such as `segments[].words[]`.
+   - If no timed transcript exists yet, use the local ASR/video subtitle workflow and request word timestamps whenever the tool supports it.
+   - If only segment timestamps or an existing `.srt` are available, the script can still produce a best-effort result, but it must be treated as review-needed.
 3. Run `scripts/align_srt.mjs` to align the final script onto the timed transcript.
-4. Inspect the SRT for obvious timing/text problems:
+4. Read the generated report before calling the SRT final:
+   - `timingMode: "word"` is the preferred mode.
+   - `timingMode: "segment-text"` means segment text was used as pseudo word timing.
+   - `timingMode: "segment-proportional"` means the result is rough timing only.
+   - Check `weakCues` and `estimatedCues`; these are the subtitles most likely to need manual review.
+5. Inspect the SRT for obvious timing/text problems:
    - Empty subtitles.
    - Overlong lines.
    - Large gaps caused by unmatched text.
    - Garbled ASR words leaking into the final script. The output text should come from the user script, not the raw ASR transcript.
-5. Save the final `.srt` in the requested output location.
+6. Save the final `.srt` in the requested output location and mention whether the report found weak cues.
 
 ## Alignment Script
 
@@ -40,9 +45,10 @@ node scripts/align_srt.mjs `
   --script copy.txt `
   --timed whisper.json `
   --out output.srt `
-  --max-chars 32 `
+  --report output.report.json `
+  --max-chars 30 `
   --min-duration 0.8 `
-  --max-duration 6
+  --max-duration 5.5
 ```
 
 Supported timed inputs:
@@ -53,13 +59,20 @@ Supported timed inputs:
 
 ## Heuristics
 
-- Keep Chinese subtitle chunks around 18-32 characters unless the user asks otherwise.
+- Keep Chinese subtitle chunks around 18-30 characters unless the user asks otherwise.
 - Keep English subtitle chunks around 42-70 characters.
 - Prefer splitting at `。！？；，、,.!?;:` and line breaks.
 - When the final script differs slightly from ASR, trust the user's script for subtitle text and use ASR only for timing.
-- If word timestamps are missing, distribute script chunks across segment timings by character count.
-- If alignment confidence looks poor, tell the user and provide the best-effort SRT plus a short note about where manual review is needed.
+- The aligner now uses global token matching for word timestamps, so skipped words, repeated phrases, and short ASR insertions should not push the whole SRT off track.
+- If word timestamps are missing but segment text exists, it distributes segment time across segment tokens and performs global matching against that pseudo timing.
+- If only empty segment timing exists, it distributes script chunks across the full segment duration by character count and marks all cues as estimated.
+- If alignment confidence looks poor, tell the user and provide the best-effort SRT plus the report path.
 
 ## Output
 
-Return the `.srt` file path and mention the timing source used: word timestamps, segment timestamps, or fallback proportional timing.
+Return:
+
+- The `.srt` file path.
+- The `.report.json` file path.
+- The timing source used: word timestamps, segment text pseudo timing, or proportional fallback.
+- Whether `weakCues` / `estimatedCues` need review.
