@@ -22,20 +22,56 @@ output: wav
 final output directory: E:\工作用\GARY素材音频\扩写长音频
 ```
 
+## Xiangongyun Instance Preflight
+
+Before generating TTS, automatically make sure the user's Xiangongyun `语音生成` instance is running.
+
+Default console and service URLs:
+
+```text
+console: https://www.xiangongyun.com/console/instance
+instance name: 语音生成
+instance id prefix: WGPY****XXK6
+webui: https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com/
+default GPU: RTX 4090 D
+default GPU count: 1
+```
+
+Preflight workflow:
+
+1. Open the Xiangongyun console in Chrome: `https://www.xiangongyun.com/console/instance`.
+2. Locate the instance named `语音生成`.
+3. If it is already `运行中`, open its `WeBUi` / Gradio URL and continue TTS generation.
+4. If it is `已关机`, automatically click `开机`.
+5. In the startup popover, keep the default `RTX 4090 D` and `1` GPU unless the user explicitly requested another configuration.
+6. Click `确认开机` without asking the user again. The user has approved this recurring default behavior.
+7. Wait until the instance state becomes `运行中` and the `WeBUi` link is available.
+8. Open `https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com/` and confirm the Gradio page shows `请输入目标文本` and `生成语音` before running the TTS script.
+
+Boundaries:
+
+- Do not create a new instance automatically.
+- Do not recharge the account automatically.
+- Do not switch to a more expensive GPU automatically.
+- Do not change the instance image or persistent configuration automatically.
+- If login, CAPTCHA, payment, verification, or account-risk prompts appear, stop and ask the user to handle that step.
+- If the WebUi URL is blocked or unavailable after the instance is `运行中`, report the blocker instead of guessing another service URL.
+
 ## Workflow
 
-1. Extract the text to synthesize from the user's request.
-2. Use `浩威青叔4.0.pt` unless the user names another voice.
-3. Use speed `1.0` unless the user gives a value from `0.5` to `2.0`.
-4. Choose the synthesis strategy:
+1. Run the Xiangongyun Instance Preflight above and confirm the `语音生成` Gradio WebUi is reachable.
+2. Extract the text to synthesize from the user's request.
+3. Use `浩威青叔4.0.pt` unless the user names another voice.
+4. Use speed `1.0` unless the user gives a value from `0.5` to `2.0`.
+5. Choose the synthesis strategy:
    - Short text or quick test: run `scripts/generate_xiangongyun_tts.mjs`.
    - Long narration: prefer `scripts/generate_hybrid_xiangongyun_tts.mjs`.
    - Full segmentation is a fallback only when long-body synthesis repeatedly misreads content.
-5. Save final deliverable audio under `E:\工作用\GARY素材音频\扩写长音频` by default. Use the current project's `outputs/` directory only when the user explicitly asks for workspace-local output.
-6. Automatically run the AutoCutVideo-style silence/pause filter on the generated WAV unless the user explicitly asks to keep the raw TTS audio.
-7. Treat the filtered WAV as the final deliverable. Keep raw WAVs as intermediates under the current project's `work/` directory when possible; do not leave raw WAVs in the final output directory unless the user explicitly asks to keep them there.
-8. Generate a matching `.srt` subtitle file for every final filtered WAV when source text is available. Use only original-script + ASR timestamp sequence alignment; never use proportional duration allocation. Save it next to the final WAV in `E:\工作用\GARY素材音频\扩写长音频` by default.
-9. Return links to the filtered `.wav` and `.srt`, then summarize QC findings.
+6. Save final deliverable audio under `E:\工作用\GARY素材音频\扩写长音频` by default. Use the current project's `outputs/` directory only when the user explicitly asks for workspace-local output.
+7. Automatically run the AutoCutVideo-style silence/pause filter on the generated WAV unless the user explicitly asks to keep the raw TTS audio.
+8. Treat the filtered WAV as the final deliverable. Keep raw WAVs as intermediates under the current project's `work/` directory when possible; do not leave raw WAVs in the final output directory unless the user explicitly asks to keep them there.
+9. Generate a matching `.srt` subtitle file for every final filtered WAV when source text is available. Use only original-script + ASR timestamp sequence alignment; never use proportional duration allocation. Save it next to the final WAV in `E:\工作用\GARY素材音频\扩写长音频` by default.
+10. Return links to the filtered `.wav` and `.srt`, then summarize QC findings.
 
 Do not echo API tokens or hidden credentials. This Gradio app does not require the Xiangongyun API token for TTS generation; it uses the public container URL.
 
