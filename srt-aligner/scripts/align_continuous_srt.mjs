@@ -32,7 +32,8 @@ const protectedTerms = [
   "聊天记录", "每一条消息", "进入正题", "思维导图", "游刃有余", "掀桌子走人",
   "鸡毛蒜皮", "拒绝沟通", "实行冷暴力", "如履薄冰", "死缠烂打",
   "吸血鬼", "能量黑洞", "心理学机制", "框架控制理论", "关系里", "后再回来观看",
-  "总结出精髓",
+  "总结出精髓", "你的情绪价值和物质资源", "情绪价值和物质资源", "时间和精力", "框架和尊严", "认知和操作",
+  "事业和生活", "底线和原则",
 ].sort((a, b) => b.length - a.length);
 
 fs.mkdirSync(path.dirname(out), { recursive: true });
@@ -84,6 +85,11 @@ console.log(JSON.stringify({
 function makeSubtitleLines(text, opts) {
   if (opts.keepLines) return cleanInputLines(text, false);
 
+  const inputLines = cleanInputLines(text, false);
+  if (looksLineBroken(inputLines, opts.maxChars)) {
+    return repairInputLines(inputLines, opts.maxChars);
+  }
+
   const pieces = text
     .replace(/\r/g, "\n")
     .replace(/\s+/g, "")
@@ -93,6 +99,54 @@ function makeSubtitleLines(text, opts) {
   const lines = [];
   for (const piece of pieces) lines.push(...splitPiece(piece, opts.maxChars));
   return polishShortLines(lines, opts.maxChars);
+}
+
+function looksLineBroken(lines, maxLen) {
+  if (lines.length < 10) return false;
+  const lengths = lines.map(visibleLen).sort((a, b) => a - b);
+  return quantile(lengths, 0.8) <= maxLen && quantile(lengths, 0.95) <= maxLen + 6;
+}
+
+function repairInputLines(inputLines, maxLen) {
+  let lines = inputLines.flatMap((line) => visibleLen(line) > maxLen ? splitPiece(line, maxLen) : [line]);
+  for (let pass = 0; pass < 6; pass++) {
+    let changed = false;
+    const out = [];
+    for (let i = 0; i < lines.length; i++) {
+      const current = lines[i];
+      const next = lines[i + 1];
+      if (next && boundaryNeedsRepair(current, next)) {
+        out.push(...splitPiece(current + next, maxLen));
+        i++;
+        changed = true;
+      } else {
+        out.push(current);
+      }
+    }
+    lines = polishShortLines(out, maxLen);
+    if (!changed) break;
+  }
+  return fixLeadingConnectors(lines, maxLen);
+}
+
+function boundaryNeedsRepair(current, next) {
+  if (badLineTail(current) || badLineHead(next)) return true;
+  const combined = current + next;
+  return protectedTerms.some((term) => (
+    term.length >= 2 && combined.includes(term) && !current.includes(term) && !next.includes(term)
+  ));
+}
+
+function fixLeadingConnectors(lines, maxLen) {
+  const out = [...lines];
+  for (let i = 1; i < out.length; i++) {
+    const head = Array.from(out[i])[0];
+    if (!"和与跟".includes(head)) continue;
+    if (visibleLen(out[i - 1] + head) > maxLen) continue;
+    out[i - 1] += head;
+    out[i] = Array.from(out[i]).slice(1).join("");
+  }
+  return out.filter(Boolean);
 }
 
 function cleanInputLines(text, splitLong) {
@@ -192,6 +246,7 @@ function badLineTail(text) {
 }
 
 function badLineHead(text) {
+  if (/^(你的|她的|他的|我的|我们的|你们的|他们的|自己的|对方的)/.test(text)) return false;
   return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|只|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
 }
 

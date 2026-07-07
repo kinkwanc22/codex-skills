@@ -55,14 +55,15 @@ If the script is already correctly line-broken and each line must become exactly
 --keep-lines
 ```
 
-Default behavior is **optimize lines first, then align timing**. Do not add `--keep-lines` unless the user explicitly asks to preserve their exact line breaks.
+Default behavior is **repair/optimize the user's line-broken copy first, then align timing**. Do not add `--keep-lines` unless the user explicitly asks to preserve their exact line breaks without repairs.
 
 Continuous mode does all of these:
 
 - Uses the user's final script as subtitle text and uses rough SRT/ASR only for timing.
 - Removes punctuation from subtitle text.
-- Rebuilds subtitle line breaks by default, even when the input manuscript already has line breaks.
-- Treats manuscript line breaks as soft boundaries by default, so a word or sentence split across two pasted lines can be repaired before timing alignment.
+- Uses the user's pasted line breaks as the primary structure when the input already looks like line-broken subtitle copy.
+- Treats manuscript line breaks as soft boundaries, so a word or sentence split across two pasted lines can be repaired locally before timing alignment.
+- Avoids full-script reflow for line-broken subtitle copy; it only repairs suspicious adjacent boundaries unless the input is a long unbroken manuscript.
 - Keeps each subtitle cue at or below `--max-chars`.
 - Preserves one input line as one subtitle only when `--keep-lines` is provided.
 - Uses Chinese word segmentation plus protected phrases to avoid splitting one word across cue boundaries.
