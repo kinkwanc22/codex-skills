@@ -1,24 +1,19 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { spawnSync } from "node:child_process";
 
 const args = parseArgs(process.argv.slice(2));
 if (!args.script || !args.timed || !args.out) {
-  fail("Usage: node align_continuous_srt.mjs --script final.txt --timed rough.srt|timed.json --out final.srt [--max-chars 17] [--keep-lines] [--qa final.qa.json] [--line-file final.lines.txt]");
+  fail("Usage: node align_continuous_srt.mjs --script final.txt --timed rough.srt|timed.json --out final.srt [--max-chars 17] [--keep-lines]");
 }
 
 const maxChars = Number(args["max-chars"] ?? 17);
+const minDuration = Number(args["min-duration"] ?? 0.12);
 const keepLines = Boolean(args["keep-lines"]);
-const minDuration = Number(args["min-duration"] ?? 0.2);
-const maxDuration = Number(args["max-duration"] ?? 8.0);
 const out = path.resolve(String(args.out));
-const outDir = path.dirname(out);
-const reportPath = path.resolve(String(args.report ?? out.replace(/\.srt$/i, "") + ".report.json"));
 const qaPath = path.resolve(String(args.qa ?? out.replace(/\.srt$/i, "") + ".qa.json"));
+const reportPath = path.resolve(String(args.report ?? out.replace(/\.srt$/i, "") + ".report.json"));
 const linePath = path.resolve(String(args["line-file"] ?? out.replace(/\.srt$/i, "") + ".lines.txt"));
-const rawAlignedPath = path.resolve(String(args["raw-out"] ?? out.replace(/\.srt$/i, "") + ".raw.srt"));
 
 const protectedTerms = [
   "主动权", "高低位", "冷暴力", "情绪价值", "高密度情绪价值", "沉没成本", "转换成本",
@@ -29,42 +24,30 @@ const protectedTerms = [
   "外强中干", "全天候", "情绪垃圾桶", "无限提款机", "离家出走", "相亲市场",
   "婚恋市场", "精明现实", "冤大头", "香饽饽", "无缝衔接", "创可贴", "止痛药",
   "定时炸弹", "软骨头", "愁云惨雾", "醍醐灌顶", "一拍两散", "废物测试",
-  "心理按摩", "心理七寸",
+  "心理按摩", "心理七寸", "拿回主动权", "立于不败之地", "具体聊天记录",
+  "聊天记录", "每一条消息", "进入正题", "思维导图", "游刃有余", "掀桌子走人",
+  "鸡毛蒜皮", "拒绝沟通", "实行冷暴力", "如履薄冰", "死缠烂打",
+  "吸血鬼", "能量黑洞", "心理学机制", "框架控制理论", "关系里", "后再回来观看",
+  "总结出精髓",
 ].sort((a, b) => b.length - a.length);
 
-fs.mkdirSync(outDir, { recursive: true });
+fs.mkdirSync(path.dirname(out), { recursive: true });
 
 const scriptText = fs.readFileSync(args.script, "utf8").replace(/^\uFEFF/, "");
 const lines = makeSubtitleLines(scriptText, { maxChars, keepLines });
 if (!lines.length) fail("No subtitle lines found after cleaning script.");
+
+const timed = loadTimedInput(args.timed);
+if (!timed.units.length) fail("Timed input has no usable text units.");
+
+const scriptUnits = flattenLineUnits(lines);
+const matches = lcsMatches(scriptUnits, timed.units, Number(args["max-lcs-cells"] ?? 220000000));
+const aligned = buildAlignedCues(lines, scriptUnits, timed, matches, { minDuration });
+const qaReport = qa(aligned.cues, lines, aligned.report);
+
 fs.writeFileSync(linePath, lines.join("\n") + "\n", "utf8");
-
-const here = path.dirname(fileURLToPath(import.meta.url));
-const aligner = path.join(here, "align_srt.mjs");
-const run = spawnSync(process.execPath, [
-  aligner,
-  "--script", linePath,
-  "--timed", args.timed,
-  "--out", rawAlignedPath,
-  "--report", reportPath,
-  "--max-chars", "999",
-  "--min-duration", String(minDuration),
-  "--max-duration", String(maxDuration),
-  "--max-lcs-cells", String(args["max-lcs-cells"] ?? 200000000),
-], { encoding: "utf8" });
-
-if (run.status !== 0) {
-  console.error(run.stdout);
-  console.error(run.stderr);
-  process.exit(run.status ?? 1);
-}
-
-const timedEnd = getFinalEnd(args.timed);
-const finalCues = forceContinuous(parseSrt(fs.readFileSync(rawAlignedPath, "utf8")), timedEnd);
-fs.writeFileSync(out, writeSrt(finalCues), "utf8");
-
-const alignerReport = safeJson(run.stdout);
-const qaReport = qa(finalCues, lines, alignerReport);
+fs.writeFileSync(out, writeSrt(aligned.cues), "utf8");
+fs.writeFileSync(reportPath, JSON.stringify(aligned.report, null, 2) + "\n", "utf8");
 fs.writeFileSync(qaPath, JSON.stringify(qaReport, null, 2) + "\n", "utf8");
 
 console.log(JSON.stringify({
@@ -72,42 +55,51 @@ console.log(JSON.stringify({
   qa: qaPath,
   report: reportPath,
   lineFile: linePath,
-  rawOut: rawAlignedPath,
-  cues: finalCues.length,
-  maxChars,
-  keepLines,
-  aligner: alignerReport,
+  cues: aligned.cues.length,
+  timingMode: timed.mode,
+  confidence: aligned.report.summary.confidence,
+  matchedUnits: aligned.report.summary.matchedUnits,
+  scriptUnits: aligned.report.summary.scriptUnits,
+  timedUnits: aligned.report.summary.timedUnits,
+  weakCues: aligned.report.summary.weakCues,
+  estimatedCues: aligned.report.summary.estimatedCues,
   qaSummary: {
     blank_text: qaReport.blank_text,
     punctuation_issues: qaReport.punctuation_issues,
     overlaps: qaReport.overlaps,
     max_gap_between_cues_sec: qaReport.max_gap_between_cues_sec,
+    max_chars_per_cue: qaReport.max_chars_per_cue,
     lineCountMatches: qaReport.lineCountMatches,
   },
 }, null, 2));
 
 function makeSubtitleLines(text, opts) {
-  if (opts.keepLines) {
-    return text
-      .replace(/\r/g, "\n")
-      .split("\n")
-      .map((line) => stripPunctuation(line))
-      .filter(Boolean);
-  }
+  if (opts.keepLines) return cleanInputLines(text, false);
 
-  const nonempty = text.replace(/\r/g, "\n").split("\n").map((s) => s.trim()).filter(Boolean);
-  const lineLike = nonempty.length >= 10 && quantile(nonempty.map((s) => visibleLen(stripPunctuation(s))).sort((a, b) => a - b), 0.8) <= opts.maxChars;
-  if (lineLike) return nonempty.map((line) => stripPunctuation(line)).filter(Boolean);
+  const inputLines = cleanInputLines(text, false);
+  const looksLineBroken = inputLines.length >= 10
+    && quantile(inputLines.map(visibleLen).sort((a, b) => a - b), 0.8) <= opts.maxChars
+    && inputLines.every((line) => visibleLen(line) <= Math.max(opts.maxChars + 4, 21));
+  if (looksLineBroken) return inputLines;
 
   const pieces = text
     .replace(/\r/g, "\n")
-    .replace(/\s+/g, "")
+    .replace(/[ \t]+/g, "")
     .split(/(?<=[。！？!?；;，,、：:])/u)
     .map((s) => stripPunctuation(s))
     .filter(Boolean);
-  const out = [];
-  for (const piece of pieces) out.push(...splitPiece(piece, opts.maxChars));
-  return mergeBadTinyLines(out, opts.maxChars);
+  const lines = [];
+  for (const piece of pieces) lines.push(...splitPiece(piece, opts.maxChars));
+  return polishShortLines(lines, opts.maxChars);
+}
+
+function cleanInputLines(text, splitLong) {
+  return text
+    .replace(/\r/g, "\n")
+    .split("\n")
+    .map((line) => stripPunctuation(line))
+    .filter(Boolean)
+    .flatMap((line) => splitLong ? splitPiece(line, maxChars) : [line]);
 }
 
 function splitPiece(piece, maxLen) {
@@ -115,21 +107,45 @@ function splitPiece(piece, maxLen) {
   const out = [];
   let start = 0;
   while (start < units.length) {
-    let end = start;
+    let hardEnd = start;
     let len = 0;
-    while (end < units.length && len + visibleLen(units[end]) <= maxLen) {
-      len += visibleLen(units[end]);
-      end++;
+    while (hardEnd < units.length && len + visibleLen(units[hardEnd]) <= maxLen) {
+      len += visibleLen(units[hardEnd]);
+      hardEnd++;
     }
-    if (end >= units.length) {
+    if (hardEnd >= units.length) {
       out.push(units.slice(start).join(""));
       break;
     }
-    const split = chooseSplit(units, start, end);
+    const split = chooseSplit(units, start, hardEnd, maxLen);
     out.push(units.slice(start, split).join(""));
     start = split;
   }
   return out.filter(Boolean);
+}
+
+function chooseSplit(units, start, hardEnd, maxLen) {
+  const target = Math.max(8, Math.min(14, maxLen - 2));
+  let best = hardEnd;
+  let bestScore = Infinity;
+  for (let i = start + 4; i <= hardEnd; i++) {
+    const left = units.slice(start, i).join("");
+    const right = units.slice(i, Math.min(units.length, i + 4)).join("");
+    const len = visibleLen(left);
+    const remaining = visibleLen(units.slice(i).join(""));
+    if (len > maxLen) continue;
+    let score = Math.abs(len - target) * 2;
+    if (badLineTail(left)) score += 18;
+    if (badLineHead(right)) score += 12;
+    if (remaining > 0 && remaining <= 6) score += 20 - remaining;
+    if (strongLineTail(left)) score -= 6;
+    if (i === hardEnd) score += 2;
+    if (score < bestScore) {
+      bestScore = score;
+      best = i;
+    }
+  }
+  return best;
 }
 
 function protectTokenize(text) {
@@ -148,32 +164,70 @@ function protectTokenize(text) {
   return units;
 }
 
-function chooseSplit(units, start, hardEnd) {
-  const goodTail = /[的了呢啊吗吧呀嘛么上里中后前时就也都过到人事者点步层种套回]/u;
-  for (let i = hardEnd; i > start + 5; i--) {
-    if (goodTail.test(units[i - 1])) return i;
-  }
-  return hardEnd;
+function badLineTail(text) {
+  return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
 }
 
-function mergeBadTinyLines(lines, maxLen) {
+function badLineHead(text) {
+  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|只|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为|而|但|所以|因为)/u.test(text);
+}
+
+function strongLineTail(text) {
+  return /(了|吗|呢|啊|吧|呀|么|时候|问题|关系|女人|男人|兄弟|逻辑|价值|主动权|高低位|冷暴力|情绪价值|断联|新欢|框架|底线|尊严)$/.test(text);
+}
+
+function polishShortLines(lines, maxLen) {
   const out = [];
   for (const line of lines) {
     const prev = out[out.length - 1];
-    if (prev && visibleLen(line) <= 2 && visibleLen(prev + line) <= maxLen) out[out.length - 1] = prev + line;
-    else out.push(line);
+    if (prev && visibleLen(line) <= 3 && visibleLen(prev + line) <= maxLen && !strongLineTail(prev)) {
+      out[out.length - 1] = prev + line;
+    } else {
+      out.push(line);
+    }
+  }
+  for (let i = 0; i < out.length - 1; i++) {
+    if (visibleLen(out[i]) <= 3 && visibleLen(out[i] + out[i + 1]) <= maxLen && !strongLineTail(out[i])) {
+      out[i + 1] = out[i] + out[i + 1];
+      out.splice(i, 1);
+      i--;
+    }
   }
   return out;
 }
 
-function stripPunctuation(s) {
-  return s
-    .normalize("NFKC")
-    .replace(/[“”‘’"'.。,，、！？!?；;：:（）()【】\[\]《》<>—…·\-]/g, "")
-    .replace(/\s+/g, "");
+function loadTimedInput(filename) {
+  const text = fs.readFileSync(filename, "utf8").replace(/^\uFEFF/, "").trim();
+  if (/\.srt$/i.test(filename)) {
+    const segments = parseSrtSegments(text);
+    return { mode: "srt-char", segments, units: segments.flatMap(segmentToTimedUnits) };
+  }
+
+  const data = JSON.parse(text);
+  const segments = [];
+  const units = [];
+  for (const seg of data.segments ?? []) {
+    const start = Number(seg.start);
+    const end = Number(seg.end);
+    const segText = String(seg.text ?? "").trim();
+    if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
+      segments.push({ start, end, text: segText });
+    }
+    for (const word of seg.words ?? []) {
+      const ws = Number(word.start);
+      const we = Number(word.end);
+      if (!Number.isFinite(ws) || !Number.isFinite(we) || we <= ws) continue;
+      const chars = textUnits(String(word.word ?? word.text ?? ""));
+      chars.forEach((token, i) => {
+        units.push({ token, start: ws + (we - ws) * (i / chars.length), end: ws + (we - ws) * ((i + 1) / chars.length) });
+      });
+    }
+  }
+  if (units.length) return { mode: "word-char", segments, units };
+  return { mode: "json-segment-char", segments, units: segments.flatMap(segmentToTimedUnits) };
 }
 
-function parseSrt(text) {
+function parseSrtSegments(text) {
   return text.replace(/\r/g, "").split(/\n\s*\n/).flatMap((block) => {
     const lines = block.split("\n").filter(Boolean);
     const timeIndex = lines.findIndex((line) => line.includes("-->"));
@@ -181,45 +235,234 @@ function parseSrt(text) {
     const [a, b] = lines[timeIndex].split("-->").map((s) => s.trim());
     const start = parseTime(a);
     const end = parseTime(b);
-    const cueText = stripPunctuation(lines.slice(timeIndex + 1).join(""));
-    if (!cueText) return [];
-    return [{ start, end, text: cueText }];
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return [];
+    return [{ start, end, text: lines.slice(timeIndex + 1).join("") }];
   });
 }
 
-function getFinalEnd(timedPath) {
-  const text = fs.readFileSync(timedPath, "utf8").replace(/^\uFEFF/, "").trim();
-  if (/\.srt$/i.test(timedPath)) {
-    const cues = parseSrt(text);
-    return cues.length ? cues.at(-1).end : null;
-  }
-  try {
-    const data = JSON.parse(text);
-    const segments = data.segments ?? [];
-    for (let i = segments.length - 1; i >= 0; i--) {
-      const end = Number(segments[i].end);
-      if (Number.isFinite(end)) return end;
+function segmentToTimedUnits(segment) {
+  const units = textUnits(segment.text);
+  if (!units.length) return [];
+  const duration = segment.end - segment.start;
+  return units.map((token, i) => ({
+    token,
+    start: segment.start + duration * (i / units.length),
+    end: segment.start + duration * ((i + 1) / units.length),
+  }));
+}
+
+function flattenLineUnits(lines) {
+  const out = [];
+  lines.forEach((line, lineIndex) => {
+    textUnits(line).forEach((token) => out.push({ token, lineIndex }));
+  });
+  return out;
+}
+
+function textUnits(text) {
+  const out = [];
+  const re = /[\p{Script=Han}]|[a-zA-Z0-9]+/gu;
+  for (const match of stripPunctuation(text).toLowerCase().matchAll(re)) out.push(match[0]);
+  return out;
+}
+
+function lcsMatches(a, b, maxCells) {
+  const n = a.length;
+  const m = b.length;
+  if ((n + 1) * (m + 1) > maxCells) return bandedGreedyMatches(a, b);
+
+  const width = m + 1;
+  const dp = new Uint16Array((n + 1) * width);
+  for (let i = n - 1; i >= 0; i--) {
+    const row = i * width;
+    const nextRow = (i + 1) * width;
+    for (let j = m - 1; j >= 0; j--) {
+      dp[row + j] = a[i].token === b[j].token
+        ? dp[nextRow + j + 1] + 1
+        : Math.max(dp[nextRow + j], dp[row + j + 1]);
     }
-  } catch {}
-  return null;
-}
-
-function forceContinuous(cues, finalEnd) {
-  const clean = cues.filter((cue) => cue.text).map((cue) => ({ ...cue }));
-  for (let i = 0; i < clean.length; i++) {
-    if (i > 0 && clean[i].start < clean[i - 1].end) clean[i].start = clean[i - 1].end;
-    if (i > 0) clean[i - 1].end = clean[i].start;
-    if (clean[i].end <= clean[i].start) clean[i].end = clean[i].start + 0.2;
   }
-  if (clean.length && finalEnd && finalEnd > clean.at(-1).start) clean.at(-1).end = finalEnd;
-  return clean;
+
+  const matches = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (a[i].token === b[j].token) {
+      matches.push({ scriptIndex: i, timedIndex: j });
+      i++;
+      j++;
+    } else if (dp[(i + 1) * width + j] >= dp[i * width + j + 1]) {
+      i++;
+    } else {
+      j++;
+    }
+  }
+  return matches;
 }
 
-function writeSrt(cues) {
-  return cues.map((cue, i) => `${i + 1}\n${fmt(cue.start)} --> ${fmt(cue.end)}\n${cue.text}\n`).join("\n");
+function bandedGreedyMatches(a, b) {
+  const matches = [];
+  let cursor = 0;
+  const windowSize = Number(args["greedy-window"] ?? 1200);
+  for (let i = 0; i < a.length; i++) {
+    const end = Math.min(b.length, cursor + windowSize);
+    let found = -1;
+    for (let j = cursor; j < end; j++) {
+      if (a[i].token === b[j].token) {
+        found = j;
+        break;
+      }
+    }
+    if (found >= 0) {
+      matches.push({ scriptIndex: i, timedIndex: found });
+      cursor = found + 1;
+    }
+  }
+  return matches;
 }
 
-function qa(cues, sourceLines, alignerReport) {
+function buildAlignedCues(lines, scriptUnits, timed, matches, opts) {
+  const byLine = lines.map(() => []);
+  for (const match of matches) {
+    const lineIndex = scriptUnits[match.scriptIndex].lineIndex;
+    byLine[lineIndex].push(timed.units[match.timedIndex]);
+  }
+
+  const lineStats = lines.map((text, i) => {
+    const units = byLine[i];
+    const unitCount = textUnits(text).length || 1;
+    return {
+      text,
+      confidence: units.length / unitCount,
+      matchedUnits: units.length,
+      estimated: units.length === 0,
+      rawStart: units[0]?.start ?? null,
+      rawEnd: units.at(-1)?.end ?? null,
+      unitCount,
+    };
+  });
+
+  fillMissingLineTimes(lineStats, timed);
+  const boundaries = buildCueBoundaries(lineStats, timed, opts.minDuration);
+  const cues = lineStats.map((line, i) => ({
+    start: boundaries[i],
+    end: boundaries[i + 1],
+    text: line.text,
+    confidence: line.confidence,
+    matchedUnits: line.matchedUnits,
+    estimated: line.estimated,
+  }));
+  for (const cue of cues) {
+    if (cue.end <= cue.start) cue.end = cue.start + opts.minDuration;
+  }
+  if (cues.length) cues.at(-1).end = Math.max(cues.at(-1).end, timed.units.at(-1).end);
+
+  const weak = cues
+    .map((cue, i) => ({ cue, index: i + 1 }))
+    .filter(({ cue }) => cue.estimated || cue.confidence < 0.45);
+  return {
+    cues,
+    report: {
+      timingMode: timed.mode,
+      summary: {
+        cues: cues.length,
+        confidence: round(matches.length / Math.max(1, scriptUnits.length)),
+        matchedUnits: matches.length,
+        scriptUnits: scriptUnits.length,
+        timedUnits: timed.units.length,
+        weakCues: weak.length,
+        estimatedCues: cues.filter((cue) => cue.estimated).length,
+      },
+      weakCues: weak.slice(0, 200).map(({ cue, index }) => ({
+        index,
+        start: round(cue.start),
+        end: round(cue.end),
+        confidence: round(cue.confidence),
+        estimated: cue.estimated,
+        text: cue.text,
+      })),
+    },
+  };
+}
+
+function fillMissingLineTimes(lineStats, timed) {
+  for (let i = 0; i < lineStats.length; i++) {
+    if (lineStats[i].rawStart !== null) continue;
+    let prev = i - 1;
+    while (prev >= 0 && lineStats[prev].rawEnd === null) prev--;
+    let next = i + 1;
+    while (next < lineStats.length && lineStats[next].rawStart === null) next++;
+    const first = i;
+    let last = i;
+    while (last + 1 < lineStats.length && lineStats[last + 1].rawStart === null) last++;
+    const start = prev >= 0 ? lineStats[prev].rawEnd : timed.units[0].start;
+    const end = next < lineStats.length ? lineStats[next].rawStart : timed.units.at(-1).end;
+    const totalChars = lineStats.slice(first, last + 1).reduce((sum, line) => sum + Math.max(1, visibleLen(line.text)), 0);
+    let cursor = start;
+    for (let j = first; j <= last; j++) {
+      const share = Math.max(1, visibleLen(lineStats[j].text)) / Math.max(1, totalChars);
+      lineStats[j].rawStart = cursor;
+      cursor += Math.max(0, end - start) * share;
+      lineStats[j].rawEnd = cursor;
+    }
+    i = last;
+  }
+}
+
+function buildCueBoundaries(lineStats, timed, minDur) {
+  const finalEnd = timed.units.at(-1).end;
+  const boundaries = new Array(lineStats.length + 1);
+  boundaries[0] = Number.isFinite(lineStats[0]?.rawStart)
+    ? Math.min(lineStats[0].rawStart, timed.units[0].start)
+    : timed.units[0].start;
+  for (let i = 1; i < lineStats.length; i++) {
+    const prevEnd = lineStats[i - 1].rawEnd;
+    const currStart = lineStats[i].rawStart;
+    if (Number.isFinite(prevEnd) && Number.isFinite(currStart)) {
+      boundaries[i] = prevEnd <= currStart ? (prevEnd + currStart) / 2 : currStart;
+    } else if (Number.isFinite(currStart)) {
+      boundaries[i] = currStart;
+    } else if (Number.isFinite(prevEnd)) {
+      boundaries[i] = prevEnd;
+    } else {
+      boundaries[i] = null;
+    }
+  }
+  boundaries[boundaries.length - 1] = finalEnd;
+
+  let anchor = 0;
+  for (let i = 1; i < boundaries.length; i++) {
+    if (!Number.isFinite(boundaries[i])) continue;
+    const span = i - anchor;
+    const start = boundaries[anchor];
+    const end = boundaries[i];
+    if (span > 1) {
+      const totalChars = lineStats
+        .slice(anchor, i)
+        .reduce((sum, line) => sum + Math.max(1, visibleLen(line.text)), 0);
+      let cursor = start;
+      for (let j = anchor + 1; j < i; j++) {
+        const prevChars = Math.max(1, visibleLen(lineStats[j - 1].text));
+        cursor += (end - start) * (prevChars / Math.max(1, totalChars));
+        boundaries[j] = cursor;
+      }
+    }
+    anchor = i;
+  }
+
+  for (let i = 1; i < boundaries.length; i++) {
+    if (boundaries[i] < boundaries[i - 1] + minDur) boundaries[i] = boundaries[i - 1] + minDur;
+  }
+  if (boundaries.at(-1) > finalEnd) {
+    boundaries[boundaries.length - 1] = finalEnd;
+    for (let i = boundaries.length - 2; i >= 0; i--) {
+      if (boundaries[i] > boundaries[i + 1] - minDur) boundaries[i] = boundaries[i + 1] - minDur;
+    }
+  }
+  return boundaries;
+}
+
+function qa(cues, sourceLines, alignReport) {
   let maxGap = 0;
   let overlaps = 0;
   let blanks = 0;
@@ -237,7 +480,7 @@ function qa(cues, sourceLines, alignerReport) {
       if (punctuationExamples.length < 10) punctuationExamples.push({ index: i + 1, text: cue.text });
     }
     if (i + 1 < cues.length) {
-      const gap = Math.round((cues[i + 1].start - cue.end) * 1000) / 1000;
+      const gap = round(cues[i + 1].start - cue.end);
       maxGap = Math.max(maxGap, gap);
       if (gap < -0.001) overlaps++;
     }
@@ -255,8 +498,19 @@ function qa(cues, sourceLines, alignerReport) {
     max_chars_per_cue: maxChars,
     starts_at_sec: cues[0]?.start ?? null,
     ends_at_sec: cues.at(-1)?.end ?? null,
-    alignerSummary: alignerReport?.confidence ? alignerReport : null,
+    alignerSummary: alignReport.summary,
   };
+}
+
+function writeSrt(cues) {
+  return cues.map((cue, i) => `${i + 1}\n${fmt(cue.start)} --> ${fmt(cue.end)}\n${cue.text}\n`).join("\n");
+}
+
+function stripPunctuation(s) {
+  return String(s)
+    .normalize("NFKC")
+    .replace(/[“”‘’"'.。,，、！？!?；;：:（）()【】\[\]《》<>—…·\-]/g, "")
+    .replace(/\s+/g, "");
 }
 
 function parseArgs(argv) {
@@ -297,12 +551,8 @@ function quantile(values, q) {
   return values[Math.min(values.length - 1, Math.max(0, Math.floor((values.length - 1) * q)))];
 }
 
-function safeJson(text) {
-  try {
-    return JSON.parse(text);
-  } catch {
-    return null;
-  }
+function round(value) {
+  return Math.round(Number(value) * 1000) / 1000;
 }
 
 function fail(message) {

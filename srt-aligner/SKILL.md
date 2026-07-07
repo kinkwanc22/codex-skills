@@ -61,7 +61,10 @@ Continuous mode does all of these:
 - Removes punctuation from subtitle text.
 - Keeps each subtitle cue at or below `--max-chars` when it needs to split a long manuscript.
 - Preserves one input line as one subtitle when `--keep-lines` is provided.
-- Uses global matching with a higher LCS ceiling so repeated long-form Chinese phrases do not jump to the wrong later occurrence.
+- Uses a dedicated character-level global aligner for long Chinese narration, so repeated phrases are less likely to jump to the wrong later occurrence.
+- Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
+- Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, and `心理学机制` from bad line splits.
+- Avoids leaving Chinese function words or measure words at bad line edges, such as splitting `一个`, `就是`, or `X的`.
 - Forces adjacent cues to touch exactly: previous `end` equals next `start`.
 - Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, and max characters per cue.
 
@@ -113,7 +116,7 @@ Continuous mode is especially useful with existing rough `.srt` files because it
 - If word timestamps are missing but segment text exists, it distributes segment time across segment tokens and performs global matching against that pseudo timing.
 - If only empty segment timing exists, it distributes script chunks across the full segment duration by character count and marks all cues as estimated.
 - If alignment confidence looks poor, tell the user and provide the best-effort SRT plus the report path.
-- For long Chinese rough-SRT alignment, if confidence is unexpectedly poor, retry with continuous mode or with `--max-lcs-cells 200000000` so the aligner uses global LCS instead of greedy fallback.
+- For long Chinese rough-SRT alignment, if confidence is unexpectedly poor, prefer continuous mode first. It has its own character-level report and `weakCues` list for local review.
 
 ## Output
 
