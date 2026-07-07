@@ -15,6 +15,9 @@ const out = path.resolve(String(args.out));
 const qaPath = path.resolve(String(args.qa ?? out.replace(/\.srt$/i, "") + ".qa.json"));
 const reportPath = path.resolve(String(args.report ?? out.replace(/\.srt$/i, "") + ".report.json"));
 const linePath = path.resolve(String(args["line-file"] ?? out.replace(/\.srt$/i, "") + ".lines.txt"));
+const zhSegmenter = typeof Intl !== "undefined" && Intl.Segmenter
+  ? new Intl.Segmenter("zh-Hans", { granularity: "word" })
+  : null;
 
 const protectedTerms = [
   "主动权", "高低位", "冷暴力", "情绪价值", "高密度情绪价值", "沉没成本", "转换成本",
@@ -112,6 +115,14 @@ function splitPiece(piece, maxLen) {
       len += visibleLen(units[hardEnd]);
       hardEnd++;
     }
+    if (hardEnd === start) {
+      const chars = Array.from(units[start]);
+      out.push(chars.slice(0, maxLen).join(""));
+      const rest = chars.slice(maxLen).join("");
+      if (rest) units[start] = rest;
+      else start++;
+      continue;
+    }
     if (hardEnd >= units.length) {
       out.push(units.slice(start).join(""));
       break;
@@ -134,8 +145,8 @@ function chooseSplit(units, start, hardEnd, maxLen) {
     const remaining = visibleLen(units.slice(i).join(""));
     if (len > maxLen) continue;
     let score = Math.abs(len - target) * 2;
-    if (badLineTail(left)) score += 18;
-    if (badLineHead(right)) score += 12;
+    if (badLineTail(left)) score += 120;
+    if (badLineHead(right)) score += 120;
     if (remaining > 0 && remaining <= 6) score += 20 - remaining;
     if (strongLineTail(left)) score -= 6;
     if (i === hardEnd) score += 2;
@@ -156,19 +167,32 @@ function protectTokenize(text) {
       i += hit.length;
       continue;
     }
-    const cp = Array.from(text.slice(i))[0];
-    units.push(cp);
-    i += cp.length;
+    const token = nextWordToken(text, i);
+    units.push(token);
+    i += token.length;
   }
   return units;
 }
 
+function nextWordToken(text, index) {
+  if (!zhSegmenter) return Array.from(text.slice(index))[0];
+  const iterator = zhSegmenter.segment(text.slice(index))[Symbol.iterator]();
+  const first = iterator.next().value?.segment;
+  if (!first) return Array.from(text.slice(index))[0];
+  const chars = Array.from(first);
+  if (chars.length > 1 && /^[的地得了和跟与把被对给在从向为而但就能会要想以一这那每某另]/u.test(first)) {
+    return chars[0];
+  }
+  return first;
+}
+
 function badLineTail(text) {
+  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的)$/.test(text)) return false;
   return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
 }
 
 function badLineHead(text) {
-  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|只|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为|而|但|所以|因为)/u.test(text);
+  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|只|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
 }
 
 function strongLineTail(text) {
