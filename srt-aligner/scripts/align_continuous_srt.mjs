@@ -34,6 +34,12 @@ const protectedTerms = [
   "吸血鬼", "能量黑洞", "心理学机制", "框架控制理论", "关系里", "后再回来观看",
   "总结出精髓", "你的情绪价值和物质资源", "情绪价值和物质资源", "时间和精力", "框架和尊严", "认知和操作",
   "事业和生活", "底线和原则", "无数人",
+  "两性博弈", "表象下", "道德评价体系", "普通老实男生", "老实男生",
+  "技巧分享", "真相以及技巧分享", "高价值女性", "女强人", "邻家女孩",
+  "权力的博弈", "价值的交换", "框架的碰撞", "残酷真相", "坏男人",
+  "这些特质组合起来", "组合起来", "充满煽动性的几句话", "充满煽动性",
+  "几句话", "以及最重要的", "最重要的", "绝对内核稳定", "领袖气质",
+  "拥有绝对内核稳定", "调动全场情绪", "全场情绪", "有领袖气质",
 ].sort((a, b) => b.length - a.length);
 
 fs.mkdirSync(path.dirname(out), { recursive: true });
@@ -128,11 +134,16 @@ function repairInputLines(inputLines, maxLen) {
     lines = restoreSentenceAnchors(lines, maxLen);
     if (!changed) break;
   }
+  lines = fixLeadingParticles(lines, maxLen);
   return fixLeadingConnectors(lines, maxLen);
 }
 
 function boundaryNeedsRepair(current, next) {
   if (badLineTail(current) || badLineHead(next)) return true;
+  return hasProtectedTermSplit(current, next);
+}
+
+function hasProtectedTermSplit(current, next) {
   const combined = current + next;
   return protectedTerms.some((term) => (
     term.length >= 2 && combined.includes(term) && !current.includes(term) && !next.includes(term)
@@ -151,9 +162,29 @@ function fixLeadingConnectors(lines, maxLen) {
   return out.filter(Boolean);
 }
 
+function fixLeadingParticles(lines, maxLen) {
+  const out = [...lines];
+  for (let i = 1; i < out.length; i++) {
+    if (!/^(的|地|得|了|起来)/.test(out[i])) continue;
+    const units = protectTokenize(out[i - 1]);
+    if (units.length < 2) continue;
+    let moveStart = units.length - 1;
+    if (moveStart > 0 && /^(在|从|向|对|给|把|被|和|跟|与)$/.test(units[moveStart - 1])) {
+      moveStart--;
+    }
+    const stay = units.slice(0, moveStart).join("");
+    const moved = units.slice(moveStart).join("");
+    if (visibleLen(stay) < 4) continue;
+    if (visibleLen(moved + out[i]) > maxLen) continue;
+    out[i - 1] = stay;
+    out[i] = moved + out[i];
+  }
+  return out.filter(Boolean);
+}
+
 function restoreSentenceAnchors(lines, maxLen) {
   let out = [...lines];
-  const anchors = ["为什么", "因为", "只要", "如果", "但是", "那么", "所以", "记住", "好", "当然", "首先", "其次"];
+  const anchors = ["为什么", "因为", "只要", "如果", "但是", "那么", "所以", "以及", "记住", "好", "当然", "首先", "其次"];
   for (let i = 0; i < out.length; i++) {
     for (const anchor of anchors) {
       const idx = out[i].indexOf(anchor);
@@ -176,7 +207,7 @@ function shouldSplitAtAnchor(before, anchor) {
   const len = visibleLen(before);
   if (anchor === "为什么") return len >= 3;
   if (anchor === "好") return len >= 6;
-  if (["因为", "如果", "所以", "但", "但是", "只要", "那么"].includes(anchor)) return len >= 7;
+  if (["因为", "如果", "所以", "但", "但是", "只要", "那么", "以及"].includes(anchor)) return len >= 7;
   return len >= 5;
 }
 
@@ -257,13 +288,14 @@ function chooseSplit(units, start, hardEnd, maxLen) {
   const target = Math.max(8, Math.min(14, maxLen - 2));
   let best = hardEnd;
   let bestScore = Infinity;
-  for (let i = start + 4; i <= hardEnd; i++) {
+  for (let i = start + 1; i <= hardEnd; i++) {
     const left = units.slice(start, i).join("");
     const right = units.slice(i, Math.min(units.length, i + 4)).join("");
     const len = visibleLen(left);
     const remaining = visibleLen(units.slice(i).join(""));
     if (len > maxLen) continue;
     let score = Math.abs(len - target) * 2;
+    if (len < 6) score += (6 - len) * 10;
     if (badLineTail(left)) score += 120;
     if (badLineHead(right)) score += 120;
     if (remaining > 0 && remaining <= 6) score += 20 - remaining;
@@ -307,14 +339,15 @@ function nextWordToken(text, index) {
 
 function badLineTail(text) {
   if (/^(好|好的|为什么|那么|所以|当然|首先|其次)$/.test(text)) return false;
-  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的|搞砸的)$/.test(text)) return false;
-  return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
+  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的|搞砸的|情绪的|气质的)$/.test(text)) return false;
+  return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|最|几|以及|拥有|什么|怎么)$/.test(text);
 }
 
 function badLineHead(text) {
   if (/^(好|好的|为什么|只要|如果|因为|但是|所以|那么|当然|首先|其次)/.test(text)) return false;
   if (/^(你的|她的|他的|我的|我们的|你们的|他们的|自己的|对方的)/.test(text)) return false;
-  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
+  if (/^在.+(里|中|上|下|内|外|前|后)/.test(text)) return false;
+  return /^(起来|[\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
 }
 
 function strongLineTail(text) {

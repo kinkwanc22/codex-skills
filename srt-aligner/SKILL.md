@@ -69,9 +69,10 @@ Continuous mode does all of these:
 - Uses Chinese word segmentation plus protected phrases to avoid splitting one word across cue boundaries.
 - Uses a dedicated character-level global aligner for long Chinese narration, so repeated phrases are less likely to jump to the wrong later occurrence.
 - Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
-- Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, and `心理学机制` from bad line splits, while also using generic Chinese word boundaries for unseen words.
+- Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, `两性博弈`, `道德评价体系`, and `心理学机制` from bad line splits, while also using generic Chinese word boundaries for unseen words.
 - Avoids leaving Chinese function words or measure words at bad line edges, such as splitting `一个`, `就是`, or `X的`.
-- Repairs common sentence-anchor collisions inside one subtitle line, such as `游刃有余为什么因为...`, by splitting short logic anchors like `为什么`, `因为`, `只要`, `如果`, `但是`, and `所以` into cleaner cue boundaries when the split is locally safe.
+- Repairs common phrase and sentence-anchor collisions inside one subtitle line, such as `游刃有余为什么因为...`, by splitting short logic anchors like `为什么`, `因为`, `只要`, `如果`, `但是`, `所以`, and `以及` into cleaner cue boundaries when the split is locally safe.
+- Runs a final line-edge pass for Chinese particles, so subtitles do not start with orphaned fragments like `的...` or `起来...` when the previous line can donate the needed word group without exceeding `--max-chars`.
 - Forces adjacent cues to touch exactly: previous `end` equals next `start`.
 - Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, max characters per cue, and line-break QA issues.
 
