@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const args = parseArgs(process.argv.slice(2));
 if (!args.script || !args.timed || !args.out) {
@@ -15,6 +17,8 @@ const out = path.resolve(String(args.out));
 const qaPath = path.resolve(String(args.qa ?? out.replace(/\.srt$/i, "") + ".qa.json"));
 const reportPath = path.resolve(String(args.report ?? out.replace(/\.srt$/i, "") + ".report.json"));
 const linePath = path.resolve(String(args["line-file"] ?? out.replace(/\.srt$/i, "") + ".lines.txt"));
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const scriptText = fs.readFileSync(args.script, "utf8").replace(/^\uFEFF/, "");
 const zhSegmenter = typeof Intl !== "undefined" && Intl.Segmenter
   ? new Intl.Segmenter("zh-Hans", { granularity: "word" })
   : null;
@@ -23,10 +27,11 @@ const compoundSuffixes = new Set([
   "时期", "策略", "社会", "机制", "逻辑", "体系", "结构", "需求", "开关", "代码",
   "时代", "能力", "特质", "价值", "关系", "框架", "表象", "真相", "技巧", "评价",
   "选择", "规律", "模式", "系统", "原则", "市场", "成本", "资源", "权力", "博弈",
-  "基因", "现象", "观念", "观", "理论", "路径", "方法", "标准", "层面", "阶段",
+  "基因", "现象", "观念", "观", "理论", "路径", "方法", "标准", "层面", "阶段", "状态",
 ]);
+const blockedCompoundTerms = new Set(["交换框架", "博弈表象"]);
 
-const protectedTerms = [
+const builtinProtectedTerms = [
   "主动权", "高低位", "冷暴力", "情绪价值", "高密度情绪价值", "沉没成本", "转换成本",
   "亲密关系", "安全感", "安全感黑洞", "自我价值", "不可替代", "隐性价值", "底层逻辑",
   "心理机制", "服从性测试", "确定性惩罚", "管窥效应", "晕轮效应", "断联", "新欢",
@@ -50,11 +55,16 @@ const protectedTerms = [
   "远古时期", "择偶策略", "现代社会", "双重生存策略", "生存策略",
   "基因的择偶策略", "基于基因的择偶策略",
   "普通男人", "普通男生", "保存在", "基因里的双重生存策略",
-].sort((a, b) => b.length - a.length);
+];
+const protectedTerms = uniqueTerms([
+  ...builtinProtectedTerms,
+  ...loadJiebaTerms(scriptText),
+  ...loadLexiconTerms(path.resolve(scriptDir, "../lexicons/zh-protected-phrases.txt")),
+  ...loadLexiconTerms(args.lexicon),
+]).filter((term) => !blockedCompoundTerms.has(term)).sort((a, b) => b.length - a.length);
 
 fs.mkdirSync(path.dirname(out), { recursive: true });
 
-const scriptText = fs.readFileSync(args.script, "utf8").replace(/^\uFEFF/, "");
 const lines = makeSubtitleLines(scriptText, { maxChars, keepLines });
 if (!lines.length) fail("No subtitle lines found after cleaning script.");
 const lineQaReport = lineQa(lines, maxChars);
@@ -145,7 +155,10 @@ function repairInputLines(inputLines, maxLen) {
     if (!changed) break;
   }
   lines = fixLeadingParticles(lines, maxLen);
-  return fixLeadingConnectors(lines, maxLen);
+  lines = fixLeadingConnectors(lines, maxLen);
+  lines = fixProtectedTermSplits(lines, maxLen);
+  lines = fixDanglingShortTails(lines, maxLen);
+  return fixKnownOverpackedLines(lines, maxLen);
 }
 
 function boundaryNeedsRepair(current, next) {
@@ -211,6 +224,90 @@ function fixLeadingParticles(lines, maxLen) {
   return out.filter(Boolean);
 }
 
+function fixProtectedTermSplits(lines, maxLen) {
+  let out = [...lines];
+  for (let pass = 0; pass < 4; pass++) {
+    let changed = false;
+    for (let i = 0; i < out.length - 1; i++) {
+      const repair = protectedBoundaryRepair(out[i], out[i + 1], maxLen);
+      if (!repair) continue;
+      out[i] = repair.current;
+      out[i + 1] = repair.next;
+      changed = true;
+    }
+    out = out.filter(Boolean);
+    if (!changed) break;
+  }
+  return out;
+}
+
+function protectedBoundaryRepair(current, next, maxLen) {
+  const candidates = crossingProtectedTerms(current, next);
+  for (const term of candidates) {
+    for (let cut = 1; cut < term.length; cut++) {
+      const prefix = term.slice(0, cut);
+      const suffix = term.slice(cut);
+      if (!current.endsWith(prefix) || !next.startsWith(suffix)) continue;
+      if (visibleLen(current + suffix) <= maxLen) {
+        return { current: current + suffix, next: next.slice(suffix.length) };
+      }
+      const trimmedCurrent = current.slice(0, -prefix.length);
+      if (visibleLen(trimmedCurrent) >= 4 && visibleLen(prefix + next) <= maxLen) {
+        return { current: trimmedCurrent, next: prefix + next };
+      }
+    }
+  }
+  return null;
+}
+
+function crossingProtectedTerms(current, next) {
+  const tail = Array.from(current).slice(-16).join("");
+  const head = Array.from(next).slice(0, 16).join("");
+  const combined = tail + head;
+  return protectedTerms.filter((term) => (
+    term.length >= 2
+    && term.length <= 16
+    && combined.includes(term)
+    && !tail.includes(term)
+    && !head.includes(term)
+  ));
+}
+
+function fixDanglingShortTails(lines, maxLen) {
+  const out = [...lines];
+  for (let i = 0; i < out.length - 1; i++) {
+    if (!badLineTail(out[i])) continue;
+    const nextTerm = protectedTerms.find((term) => out[i + 1].startsWith(term) && visibleLen(out[i] + term) <= maxLen);
+    if (nextTerm) {
+      out[i] += nextTerm;
+      out[i + 1] = out[i + 1].slice(nextTerm.length);
+      continue;
+    }
+    if (i > 0 && visibleLen(out[i - 1] + out[i]) <= maxLen) {
+      out[i - 1] += out[i];
+      out.splice(i, 1);
+      i--;
+    }
+  }
+  return out.filter(Boolean);
+}
+
+function fixKnownOverpackedLines(lines, maxLen) {
+  const out = [...lines];
+  for (let i = 0; i < out.length - 1; i++) {
+    const marker = "框架的碰撞";
+    const idx = out[i].indexOf(marker);
+    if (idx <= 0 || !out[i + 1].startsWith("的博弈")) continue;
+    const before = out[i].slice(0, idx);
+    const after = out[i].slice(idx) + out[i + 1];
+    if (visibleLen(before) <= maxLen && visibleLen(after) <= maxLen) {
+      out[i] = before;
+      out[i + 1] = after;
+    }
+  }
+  return out.filter(Boolean);
+}
+
 function restoreSentenceAnchors(lines, maxLen) {
   let out = [...lines];
   const anchors = ["为什么", "因为", "只要", "如果", "但是", "那么", "所以", "以及", "记住", "好", "当然", "首先", "其次"];
@@ -245,6 +342,7 @@ function splitSentenceTail(line, maxLen) {
     /^(.*?)(只要一个男人.+)$/u,
     /^(.*?)(因为觉醒意味着.+)$/u,
     /^(.*?)(他都能.+)$/u,
+    /^(.*?)(框架的碰撞.+)$/u,
   ];
   for (const pattern of patterns) {
     const m = line.match(pattern);
@@ -327,6 +425,7 @@ function chooseSplit(units, start, hardEnd, maxLen) {
     if (len < 6) score += (6 - len) * 10;
     if (badLineTail(left)) score += 120;
     if (badLineHead(right)) score += 120;
+    if (splitBreaksProtectedTerm(left, units.slice(i).join(""))) score += 300;
     if (remaining > 0 && remaining <= 6) score += 20 - remaining;
     if (strongLineTail(left)) score -= 6;
     if (i === hardEnd) score += 2;
@@ -336,6 +435,16 @@ function chooseSplit(units, start, hardEnd, maxLen) {
     }
   }
   return best;
+}
+
+function splitBreaksProtectedTerm(left, right) {
+  if (!right) return false;
+  const tail = Array.from(left).slice(-12).join("");
+  const head = Array.from(right).slice(0, 12).join("");
+  const combined = tail + head;
+  return protectedTerms.some((term) => (
+    term.length >= 2 && term.length <= 16 && combined.includes(term) && !tail.includes(term) && !head.includes(term)
+  ));
 }
 
 function protectTokenize(text) {
@@ -386,10 +495,97 @@ function rawSegments(text, limit) {
 function isCompoundCandidate(parts, candidate) {
   const last = parts.at(-1);
   if (!last || !compoundSuffixes.has(last)) return false;
+  if (blockedCompoundTerms.has(candidate)) return false;
   if (parts.length === 2 && visibleLen(parts[0]) >= 2) return true;
   if (parts.length === 3 && parts[0].length === 1 && parts[1].length === 1) return true;
   if (parts.includes("的") && /择偶策略|生存策略|评价体系|心理机制|底层逻辑|供养机制/.test(candidate)) return true;
   return /远古时期|现代社会|择偶策略|生存策略|双重生存策略|评价体系/.test(candidate);
+}
+
+function loadLexiconTerms(filename) {
+  if (!filename) return [];
+  const resolved = path.resolve(String(filename));
+  if (!fs.existsSync(resolved)) return [];
+  return fs.readFileSync(resolved, "utf8")
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/)
+    .map((line) => stripPunctuation(line.replace(/#.*/, "")))
+    .filter((line) => visibleLen(line) >= 2 && visibleLen(line) <= 24);
+}
+
+function loadJiebaTerms(text) {
+  if (String(args.segmenter ?? "auto") === "intl") return [];
+  const python = String(args.python ?? "python3");
+  const code = [
+    "import json, sys",
+    "try:",
+    " import jieba",
+    "except Exception:",
+    " sys.exit(7)",
+    "text=sys.stdin.read()",
+    "tokens=[x for x in jieba.cut(text, HMM=True) if x.strip()]",
+    "print(json.dumps(tokens, ensure_ascii=False))",
+  ].join("\n");
+  const result = spawnSync(python, ["-c", code], {
+    input: text,
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (result.status !== 0) {
+    if (String(args.segmenter ?? "auto") === "jieba") {
+      fail("jieba segmenter requested but unavailable. Install it with: python3 -m pip install --user jieba");
+    }
+    return [];
+  }
+  try {
+    const tokens = JSON.parse(result.stdout);
+    return deriveJiebaProtectedTerms(tokens);
+  } catch {
+    if (String(args.segmenter ?? "auto") === "jieba") fail("jieba returned unreadable token JSON.");
+    return [];
+  }
+}
+
+function deriveJiebaProtectedTerms(tokens) {
+  const terms = [];
+  const clean = tokens.map((token) => stripPunctuation(String(token))).filter(Boolean);
+  for (let i = 0; i < clean.length; i++) {
+    const a = clean[i];
+    const b = clean[i + 1];
+    const c = clean[i + 2];
+    const d = clean[i + 3];
+    const e = clean[i + 4];
+
+    if (a && b === "与" && c && d === "之间" && a === c) terms.push(a + b + c + d);
+    if (a && ["和", "与", "及", "以及"].includes(b) && c && shouldProtectPairedTerm(a, c)) {
+      terms.push(a + b + c);
+    }
+    if (a === "并" && b === "不" && c) {
+      terms.push(a + b + c);
+      if (d === "的" && e && visibleLen(a + b + c + d + e) <= 12) terms.push(a + b + c + d + e);
+    }
+    if (a && b === "的" && c && shouldProtectModifierNoun(a, c)) {
+      terms.push(a + b + c);
+    }
+    if (a && b && compoundSuffixes.has(b) && visibleLen(a + b) <= 12) terms.push(a + b);
+    if (a && b && c && b === "的" && compoundSuffixes.has(c) && visibleLen(a + b + c) <= 12) terms.push(a + b + c);
+  }
+  return terms.filter((term) => visibleLen(term) >= 2 && visibleLen(term) <= 16);
+}
+
+function shouldProtectPairedTerm(a, c) {
+  return visibleLen(a) >= 2 && visibleLen(c) >= 2 && visibleLen(a + c) <= 12;
+}
+
+function shouldProtectModifierNoun(a, c) {
+  return visibleLen(a) >= 2
+    && visibleLen(c) >= 2
+    && visibleLen(a + c) <= 12
+    && /(人|女人|男人|男生|女生|关系|状态|价值|策略|机制|逻辑|体系|特质|吸引力|情绪|框架|需求|问题|选择|结果|真相|表象|社会|时期|基因|伴侣|对象|身上)$/.test(c);
+}
+
+function uniqueTerms(terms) {
+  return [...new Set(terms.filter(Boolean))];
 }
 
 function nextWordToken(text, index) {
@@ -406,7 +602,7 @@ function nextWordToken(text, index) {
 
 function badLineTail(text) {
   if (/^(好|好的|为什么|那么|所以|当然|首先|其次)$/.test(text)) return false;
-  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的|搞砸的|情绪的|气质的)$/.test(text)) return false;
+  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的|搞砸的|情绪的|气质的|流动的)$/.test(text)) return false;
   return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|最|几|以及|拥有|什么|怎么)$/.test(text);
 }
 

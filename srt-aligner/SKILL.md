@@ -67,6 +67,7 @@ Continuous mode does all of these:
 - Keeps each subtitle cue at or below `--max-chars`.
 - Preserves one input line as one subtitle only when `--keep-lines` is provided.
 - Uses Chinese word segmentation plus protected phrases to avoid splitting one word across cue boundaries.
+- When `jieba` is available, continuous mode uses it as the primary Chinese dictionary layer, then derives subtitle-safe phrase blocks from the token stream. This helps keep phrases such as `人与人之间`, `并不友好的女人`, `择偶策略`, `远古时期`, and `情绪状态` from being split awkwardly.
 - Uses a dedicated character-level global aligner for long Chinese narration, so repeated phrases are less likely to jump to the wrong later occurrence.
 - Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
 - Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, `两性博弈`, `道德评价体系`, and `心理学机制` from bad line splits, while also using generic Chinese word boundaries for unseen words.
@@ -76,6 +77,14 @@ Continuous mode does all of these:
 - Runs a final line-edge pass for Chinese particles, so subtitles do not start with orphaned fragments like `的...` or `起来...` when the previous line can donate the needed word group without exceeding `--max-chars`.
 - Forces adjacent cues to touch exactly: previous `end` equals next `start`.
 - Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, max characters per cue, and line-break QA issues.
+
+Useful segmentation options:
+
+```powershell
+--segmenter jieba
+```
+
+Requires `python3 -m pip install --user jieba`. If `--segmenter jieba` is requested and jieba is unavailable, the script fails clearly. With the default `--segmenter auto`, it uses jieba when installed and falls back to the built-in tokenizer otherwise.
 
 For the user's current standard, the QA target is:
 
