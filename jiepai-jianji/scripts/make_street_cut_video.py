@@ -199,6 +199,11 @@ def list_videos(video_dir, ffprobe, min_duration, min_bitrate):
     return videos
 
 
+def default_opening_video_dir(video_dir):
+    candidate = Path(video_dir) / "可用"
+    return candidate if candidate.exists() and candidate.is_dir() else None
+
+
 def detect_silence_points(ffmpeg, audio, noise="-35dB", min_silence=0.18):
     cmd = [
         str(ffmpeg),
@@ -378,6 +383,7 @@ def write_concat_file(path, segment_paths):
 def main():
     parser = argparse.ArgumentParser(description="Random street-shot B-roll editor for narration videos.")
     parser.add_argument("--videos", required=True, type=Path)
+    parser.add_argument("--opening-videos", type=Path, help="Optional first-segment-only source folder.")
     parser.add_argument("--audio", required=True, type=Path)
     parser.add_argument("--script", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
@@ -428,6 +434,10 @@ def main():
     durations = [max(0.1, boundaries[i + 1] - boundaries[i]) for i in range(len(boundaries) - 1)]
 
     videos = list_videos(args.videos, ffprobe, args.min_source_duration, args.min_source_bitrate)
+    opening_video_dir = args.opening_videos or default_opening_video_dir(args.videos)
+    opening_videos = None
+    if opening_video_dir:
+        opening_videos = list_videos(opening_video_dir, ffprobe, args.min_source_duration, args.min_source_bitrate)
     rng = random.Random(args.seed)
     segment_paths = []
     last_source = None
@@ -445,11 +455,13 @@ def main():
         "detected_silence_points": silence_points,
         "estimated_sentence_end_points": sentence_points,
         "alignment_stats": alignment_stats,
+        "opening_video_dir": str(opening_video_dir) if opening_video_dir else None,
         "segments": [],
     }
 
     for index, duration in enumerate(durations, start=1):
-        pool = [v for v in videos if v["path"] != last_source] or videos
+        source_pool = opening_videos if index == 1 and opening_videos else videos
+        pool = [v for v in source_pool if v["path"] != last_source] or source_pool
         item = rng.choice(pool)
         source = item["path"]
         last_source = source
@@ -463,6 +475,7 @@ def main():
             {
                 "index": index,
                 "source": str(source),
+                "opening_segment": bool(index == 1 and opening_videos),
                 "duration": duration,
                 "source_start": start,
                 "source_duration": item["duration"],

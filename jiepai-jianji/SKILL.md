@@ -38,7 +38,9 @@ Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/fast
 ## Default Paths
 
 - Default Windows street-shot/B-roll material directory: `E:\工作用\视频素材\街拍片段`.
+- Default first-segment material directory: `E:\工作用\视频素材\街拍片段\可用`.
 - When the user provides only narration audio and script, use this directory as `--videos` unless they name another material folder.
+- For every audio/video render, the first B-roll segment must come from the first-segment material directory. The remaining segments continue to use the full street-shot/B-roll material directory.
 - Keep outputs in the current thread's `outputs/` folder unless the user asks for another destination.
 
 ## Requirements
@@ -66,6 +68,8 @@ Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/fast
    - Use `medium` or `large-v3` for a more accurate final pass if the user accepts the slower runtime.
 
 4. Render with `scripts/make_street_cut_video.py`.
+   - On this Windows setup, pass `--opening-videos "E:\工作用\视频素材\街拍片段\可用"` so the first segment is selected only from the approved opening-material folder.
+   - If `--opening-videos` is omitted, the renderer automatically uses a `可用` subfolder under `--videos` when it exists.
    - Use `--cut-mode timed-sentence-silence` when a timed JSON exists.
    - Use `--cut-mode sentence-silence` when no timed JSON exists but the script should still influence cut points.
    - Use `--cut-mode silence` when only audio pauses should drive cuts.
@@ -96,6 +100,7 @@ Example final render:
 ```powershell
 python ".\scripts\make_street_cut_video.py" `
   --videos "E:\工作用\视频素材\街拍片段" `
+  --opening-videos "E:\工作用\视频素材\街拍片段\可用" `
   --audio "E:\path\to\narration.wav" `
   --script "E:\path\to\script.docx" `
   --output ".\outputs\final_16x9_30fps.mp4" `
@@ -119,6 +124,7 @@ python ".\scripts\make_street_cut_video.py" `
 - No transitions by default. The user disliked 0.15-0.25 second crossfade for this workflow.
 - Add a small audio-duration cushion on the last segment so FFmpeg does not truncate narration.
 - Use a random seed for reproducibility when iterating.
+- First segment: use the approved `可用` subfolder first; later segments remain randomized from the full material pool.
 
 ## Troubleshooting
 
