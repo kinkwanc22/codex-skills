@@ -33,7 +33,7 @@ const protectedTerms = [
   "鸡毛蒜皮", "拒绝沟通", "实行冷暴力", "如履薄冰", "死缠烂打",
   "吸血鬼", "能量黑洞", "心理学机制", "框架控制理论", "关系里", "后再回来观看",
   "总结出精髓", "你的情绪价值和物质资源", "情绪价值和物质资源", "时间和精力", "框架和尊严", "认知和操作",
-  "事业和生活", "底线和原则",
+  "事业和生活", "底线和原则", "无数人",
 ].sort((a, b) => b.length - a.length);
 
 fs.mkdirSync(path.dirname(out), { recursive: true });
@@ -109,6 +109,7 @@ function looksLineBroken(lines, maxLen) {
 
 function repairInputLines(inputLines, maxLen) {
   let lines = inputLines.flatMap((line) => visibleLen(line) > maxLen ? splitPiece(line, maxLen) : [line]);
+  lines = restoreSentenceAnchors(lines, maxLen);
   for (let pass = 0; pass < 6; pass++) {
     let changed = false;
     const out = [];
@@ -123,7 +124,8 @@ function repairInputLines(inputLines, maxLen) {
         out.push(current);
       }
     }
-    lines = polishShortLines(out, maxLen);
+    lines = out.filter(Boolean);
+    lines = restoreSentenceAnchors(lines, maxLen);
     if (!changed) break;
   }
   return fixLeadingConnectors(lines, maxLen);
@@ -147,6 +149,69 @@ function fixLeadingConnectors(lines, maxLen) {
     out[i] = Array.from(out[i]).slice(1).join("");
   }
   return out.filter(Boolean);
+}
+
+function restoreSentenceAnchors(lines, maxLen) {
+  let out = [...lines];
+  const anchors = ["为什么", "因为", "只要", "如果", "但是", "那么", "所以", "记住", "好", "当然", "首先", "其次"];
+  for (let i = 0; i < out.length; i++) {
+    for (const anchor of anchors) {
+      const idx = out[i].indexOf(anchor);
+      if (idx <= 0) continue;
+      const before = out[i].slice(0, idx);
+      const after = out[i].slice(idx);
+      if (!before || !after) continue;
+      if (!shouldSplitAtAnchor(before, anchor)) continue;
+      if (visibleLen(after) > maxLen) continue;
+      out.splice(i, 1, before, after);
+      i++;
+      break;
+    }
+  }
+  out = out.flatMap((line) => splitSentenceTail(line, maxLen));
+  return mergeIncompleteAnchorLines(out.filter(Boolean), maxLen);
+}
+
+function shouldSplitAtAnchor(before, anchor) {
+  const len = visibleLen(before);
+  if (anchor === "为什么") return len >= 3;
+  if (anchor === "好") return len >= 6;
+  if (["因为", "如果", "所以", "但", "但是", "只要", "那么"].includes(anchor)) return len >= 7;
+  return len >= 5;
+}
+
+function splitSentenceTail(line, maxLen) {
+  const patterns = [
+    /^(.*?)(只要一个男人.+)$/u,
+    /^(.*?)(因为觉醒意味着.+)$/u,
+    /^(.*?)(他都能.+)$/u,
+  ];
+  for (const pattern of patterns) {
+    const m = line.match(pattern);
+    if (!m || !m[1] || !m[2]) continue;
+    if (visibleLen(m[1]) <= maxLen && visibleLen(m[2]) <= maxLen) return [m[1], m[2]];
+  }
+  return [line];
+}
+
+function mergeIncompleteAnchorLines(lines, maxLen) {
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const current = lines[i];
+    const next = lines[i + 1];
+    if (
+      next
+      && /^(只要|如果|因为|但是|所以|那么|你要|你会).{0,8}$/.test(current)
+      && visibleLen(next) <= 5
+      && visibleLen(current + next) <= maxLen
+    ) {
+      out.push(current + next);
+      i++;
+    } else {
+      out.push(current);
+    }
+  }
+  return out;
 }
 
 function cleanInputLines(text, splitLong) {
@@ -241,13 +306,15 @@ function nextWordToken(text, index) {
 }
 
 function badLineTail(text) {
-  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的)$/.test(text)) return false;
+  if (/^(好|好的|为什么|那么|所以|当然|首先|其次)$/.test(text)) return false;
+  if (/(上的|里的|中的|后的|前的|内的|外的|底下的|基础上的|关系里的|过程里的|搞砸的)$/.test(text)) return false;
   return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
 }
 
 function badLineHead(text) {
+  if (/^(好|好的|为什么|只要|如果|因为|但是|所以|那么|当然|首先|其次)/.test(text)) return false;
   if (/^(你的|她的|他的|我的|我们的|你们的|他们的|自己的|对方的)/.test(text)) return false;
-  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|只|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
+  return /^([\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
 }
 
 function strongLineTail(text) {

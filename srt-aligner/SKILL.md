@@ -71,6 +71,7 @@ Continuous mode does all of these:
 - Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
 - Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, and `心理学机制` from bad line splits, while also using generic Chinese word boundaries for unseen words.
 - Avoids leaving Chinese function words or measure words at bad line edges, such as splitting `一个`, `就是`, or `X的`.
+- Repairs common sentence-anchor collisions inside one subtitle line, such as `游刃有余为什么因为...`, by splitting short logic anchors like `为什么`, `因为`, `只要`, `如果`, `但是`, and `所以` into cleaner cue boundaries when the split is locally safe.
 - Forces adjacent cues to touch exactly: previous `end` equals next `start`.
 - Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, max characters per cue, and line-break QA issues.
 
