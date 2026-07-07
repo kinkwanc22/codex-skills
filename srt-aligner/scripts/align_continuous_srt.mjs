@@ -19,6 +19,13 @@ const zhSegmenter = typeof Intl !== "undefined" && Intl.Segmenter
   ? new Intl.Segmenter("zh-Hans", { granularity: "word" })
   : null;
 
+const compoundSuffixes = new Set([
+  "时期", "策略", "社会", "机制", "逻辑", "体系", "结构", "需求", "开关", "代码",
+  "时代", "能力", "特质", "价值", "关系", "框架", "表象", "真相", "技巧", "评价",
+  "选择", "规律", "模式", "系统", "原则", "市场", "成本", "资源", "权力", "博弈",
+  "基因", "现象", "观念", "观", "理论", "路径", "方法", "标准", "层面", "阶段",
+]);
+
 const protectedTerms = [
   "主动权", "高低位", "冷暴力", "情绪价值", "高密度情绪价值", "沉没成本", "转换成本",
   "亲密关系", "安全感", "安全感黑洞", "自我价值", "不可替代", "隐性价值", "底层逻辑",
@@ -40,6 +47,9 @@ const protectedTerms = [
   "这些特质组合起来", "组合起来", "充满煽动性的几句话", "充满煽动性",
   "几句话", "以及最重要的", "最重要的", "绝对内核稳定", "领袖气质",
   "拥有绝对内核稳定", "调动全场情绪", "全场情绪", "有领袖气质",
+  "远古时期", "择偶策略", "现代社会", "双重生存策略", "生存策略",
+  "基因的择偶策略", "基于基因的择偶策略",
+  "普通男人", "普通男生", "保存在", "基因里的双重生存策略",
 ].sort((a, b) => b.length - a.length);
 
 fs.mkdirSync(path.dirname(out), { recursive: true });
@@ -140,6 +150,7 @@ function repairInputLines(inputLines, maxLen) {
 
 function boundaryNeedsRepair(current, next) {
   if (badLineTail(current) || badLineHead(next)) return true;
+  if (hasCompoundBoundarySplit(current, next)) return true;
   return hasProtectedTermSplit(current, next);
 }
 
@@ -148,6 +159,24 @@ function hasProtectedTermSplit(current, next) {
   return protectedTerms.some((term) => (
     term.length >= 2 && combined.includes(term) && !current.includes(term) && !next.includes(term)
   ));
+}
+
+function hasCompoundBoundarySplit(current, next) {
+  const tail = Array.from(current).slice(-6).join("");
+  const head = Array.from(next).slice(0, 6).join("");
+  const combined = tail + head;
+  if (crossesBoundary(current, next, /[远古上古古代原始旧石器新石器]时期/u)) return true;
+  if (crossesBoundary(current, next, /[择配选求]偶策略/u)) return true;
+  if (crossesBoundary(current, next, /现代社会/u)) return true;
+  for (const suffix of compoundSuffixes) {
+    if (head.startsWith(suffix) && /[\p{Script=Han}]{2,}$/.test(tail)) return true;
+  }
+  return false;
+}
+
+function crossesBoundary(current, next, pattern) {
+  const combined = current + next;
+  return pattern.test(combined) && !pattern.test(current) && !pattern.test(next);
 }
 
 function fixLeadingConnectors(lines, maxLen) {
@@ -318,11 +347,49 @@ function protectTokenize(text) {
       i += hit.length;
       continue;
     }
+    const compound = nextCompoundToken(text, i);
+    if (compound) {
+      units.push(compound);
+      i += compound.length;
+      continue;
+    }
     const token = nextWordToken(text, i);
     units.push(token);
     i += token.length;
   }
   return units;
+}
+
+function nextCompoundToken(text, index) {
+  if (!zhSegmenter) return null;
+  const raw = rawSegments(text.slice(index), 6).filter((token) => /[\p{Script=Han}]/u.test(token));
+  if (raw.length < 2) return null;
+  for (let count = Math.min(5, raw.length); count >= 2; count--) {
+    const candidate = raw.slice(0, count).join("");
+    if (visibleLen(candidate) > 12) continue;
+    if (isCompoundCandidate(raw.slice(0, count), candidate)) return candidate;
+  }
+  return null;
+}
+
+function rawSegments(text, limit) {
+  const out = [];
+  for (const item of zhSegmenter.segment(text)) {
+    const segment = item.segment.trim();
+    if (!segment) continue;
+    out.push(segment);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+function isCompoundCandidate(parts, candidate) {
+  const last = parts.at(-1);
+  if (!last || !compoundSuffixes.has(last)) return false;
+  if (parts.length === 2 && visibleLen(parts[0]) >= 2) return true;
+  if (parts.length === 3 && parts[0].length === 1 && parts[1].length === 1) return true;
+  if (parts.includes("的") && /择偶策略|生存策略|评价体系|心理机制|底层逻辑|供养机制/.test(candidate)) return true;
+  return /远古时期|现代社会|择偶策略|生存策略|双重生存策略|评价体系/.test(candidate);
 }
 
 function nextWordToken(text, index) {
@@ -347,6 +414,7 @@ function badLineHead(text) {
   if (/^(好|好的|为什么|只要|如果|因为|但是|所以|那么|当然|首先|其次)/.test(text)) return false;
   if (/^(你的|她的|他的|我的|我们的|你们的|他们的|自己的|对方的)/.test(text)) return false;
   if (/^在.+(里|中|上|下|内|外|前|后)/.test(text)) return false;
+  if (/^在[\p{Script=Han}]{2,}(社会|时代|时期|阶段|市场|关系|体系|机制|结构|环境|场景|语境)/u.test(text)) return false;
   return /^(起来|[\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);
 }
 
@@ -395,6 +463,9 @@ function lineQa(lines, maxLen) {
         issues.push({ index: i + 1, type: "protected_term_split", term, text: line, next });
       }
     }
+    if (next && hasCompoundBoundarySplit(line, next)) {
+      issues.push({ index: i + 1, type: "compound_boundary_split", text: line, next });
+    }
   }
   return {
     summary: {
@@ -403,6 +474,7 @@ function lineQa(lines, maxLen) {
       badLineTail: issues.filter((x) => x.type === "bad_line_tail").length,
       badLineHead: issues.filter((x) => x.type === "bad_line_head").length,
       protectedTermSplit: issues.filter((x) => x.type === "protected_term_split").length,
+      compoundBoundarySplit: issues.filter((x) => x.type === "compound_boundary_split").length,
     },
     issues: issues.slice(0, 200),
   };
