@@ -10,6 +10,7 @@ if (!args.script || !args.timed || !args.out) {
 const maxChars = Number(args["max-chars"] ?? 17);
 const minDuration = Number(args["min-duration"] ?? 0.12);
 const keepLines = Boolean(args["keep-lines"]);
+const optimizeLines = !keepLines;
 const out = path.resolve(String(args.out));
 const qaPath = path.resolve(String(args.qa ?? out.replace(/\.srt$/i, "") + ".qa.json"));
 const reportPath = path.resolve(String(args.report ?? out.replace(/\.srt$/i, "") + ".report.json"));
@@ -36,6 +37,7 @@ fs.mkdirSync(path.dirname(out), { recursive: true });
 const scriptText = fs.readFileSync(args.script, "utf8").replace(/^\uFEFF/, "");
 const lines = makeSubtitleLines(scriptText, { maxChars, keepLines });
 if (!lines.length) fail("No subtitle lines found after cleaning script.");
+const lineQaReport = lineQa(lines, maxChars);
 
 const timed = loadTimedInput(args.timed);
 if (!timed.units.length) fail("Timed input has no usable text units.");
@@ -43,7 +45,7 @@ if (!timed.units.length) fail("Timed input has no usable text units.");
 const scriptUnits = flattenLineUnits(lines);
 const matches = lcsMatches(scriptUnits, timed.units, Number(args["max-lcs-cells"] ?? 220000000));
 const aligned = buildAlignedCues(lines, scriptUnits, timed, matches, { minDuration });
-const qaReport = qa(aligned.cues, lines, aligned.report);
+const qaReport = qa(aligned.cues, lines, aligned.report, lineQaReport);
 
 fs.writeFileSync(linePath, lines.join("\n") + "\n", "utf8");
 fs.writeFileSync(out, writeSrt(aligned.cues), "utf8");
@@ -63,6 +65,8 @@ console.log(JSON.stringify({
   timedUnits: aligned.report.summary.timedUnits,
   weakCues: aligned.report.summary.weakCues,
   estimatedCues: aligned.report.summary.estimatedCues,
+  keepLines,
+  optimizeLines,
   qaSummary: {
     blank_text: qaReport.blank_text,
     punctuation_issues: qaReport.punctuation_issues,
@@ -70,21 +74,16 @@ console.log(JSON.stringify({
     max_gap_between_cues_sec: qaReport.max_gap_between_cues_sec,
     max_chars_per_cue: qaReport.max_chars_per_cue,
     lineCountMatches: qaReport.lineCountMatches,
+    lineQaIssues: qaReport.lineQa.summary.totalIssues,
   },
 }, null, 2));
 
 function makeSubtitleLines(text, opts) {
   if (opts.keepLines) return cleanInputLines(text, false);
 
-  const inputLines = cleanInputLines(text, false);
-  const looksLineBroken = inputLines.length >= 10
-    && quantile(inputLines.map(visibleLen).sort((a, b) => a - b), 0.8) <= opts.maxChars
-    && inputLines.every((line) => visibleLen(line) <= Math.max(opts.maxChars + 4, 21));
-  if (looksLineBroken) return inputLines;
-
   const pieces = text
     .replace(/\r/g, "\n")
-    .replace(/[ \t]+/g, "")
+    .replace(/\s+/g, "")
     .split(/(?<=[。！？!?；;，,、：:])/u)
     .map((s) => stripPunctuation(s))
     .filter(Boolean);
@@ -165,7 +164,7 @@ function protectTokenize(text) {
 }
 
 function badLineTail(text) {
-  return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
+  return /(的|地|得|和|跟|与|把|被|对|给|在|从|向|为|是|就|能|会|要|想|可以|以|而|但|因为|所以|如果|只要|就是|这个|那个|一个|一种|一|这|那|每|某|另|什么|怎么)$/.test(text);
 }
 
 function badLineHead(text) {
@@ -194,6 +193,40 @@ function polishShortLines(lines, maxLen) {
     }
   }
   return out;
+}
+
+function lineQa(lines, maxLen) {
+  const issues = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const next = lines[i + 1] ?? "";
+    if (visibleLen(line) > maxLen) {
+      issues.push({ index: i + 1, type: "over_max_chars", text: line, len: visibleLen(line) });
+    }
+    if (badLineTail(line)) {
+      issues.push({ index: i + 1, type: "bad_line_tail", text: line });
+    }
+    if (next && badLineHead(next)) {
+      issues.push({ index: i + 2, type: "bad_line_head", text: next, prev: line });
+    }
+    for (const term of protectedTerms) {
+      if (term.length < 2) continue;
+      const combined = line + next;
+      if (next && combined.includes(term) && !line.includes(term) && !next.includes(term)) {
+        issues.push({ index: i + 1, type: "protected_term_split", term, text: line, next });
+      }
+    }
+  }
+  return {
+    summary: {
+      totalIssues: issues.length,
+      overMaxChars: issues.filter((x) => x.type === "over_max_chars").length,
+      badLineTail: issues.filter((x) => x.type === "bad_line_tail").length,
+      badLineHead: issues.filter((x) => x.type === "bad_line_head").length,
+      protectedTermSplit: issues.filter((x) => x.type === "protected_term_split").length,
+    },
+    issues: issues.slice(0, 200),
+  };
 }
 
 function loadTimedInput(filename) {
@@ -462,7 +495,7 @@ function buildCueBoundaries(lineStats, timed, minDur) {
   return boundaries;
 }
 
-function qa(cues, sourceLines, alignReport) {
+function qa(cues, sourceLines, alignReport, lineQaReport) {
   let maxGap = 0;
   let overlaps = 0;
   let blanks = 0;
@@ -499,6 +532,7 @@ function qa(cues, sourceLines, alignReport) {
     starts_at_sec: cues[0]?.start ?? null,
     ends_at_sec: cues.at(-1)?.end ?? null,
     alignerSummary: alignReport.summary,
+    lineQa: lineQaReport,
   };
 }
 

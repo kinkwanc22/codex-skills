@@ -55,18 +55,21 @@ If the script is already correctly line-broken and each line must become exactly
 --keep-lines
 ```
 
+Default behavior is **optimize lines first, then align timing**. Do not add `--keep-lines` unless the user explicitly asks to preserve their exact line breaks.
+
 Continuous mode does all of these:
 
 - Uses the user's final script as subtitle text and uses rough SRT/ASR only for timing.
 - Removes punctuation from subtitle text.
-- Keeps each subtitle cue at or below `--max-chars` when it needs to split a long manuscript.
-- Preserves one input line as one subtitle when `--keep-lines` is provided.
+- Rebuilds subtitle line breaks by default, even when the input manuscript already has line breaks.
+- Keeps each subtitle cue at or below `--max-chars`.
+- Preserves one input line as one subtitle only when `--keep-lines` is provided.
 - Uses a dedicated character-level global aligner for long Chinese narration, so repeated phrases are less likely to jump to the wrong later occurrence.
 - Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
 - Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, and `心理学机制` from bad line splits.
 - Avoids leaving Chinese function words or measure words at bad line edges, such as splitting `一个`, `就是`, or `X的`.
 - Forces adjacent cues to touch exactly: previous `end` equals next `start`.
-- Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, and max characters per cue.
+- Writes a `.qa.json` report checking line count, blank text, punctuation, overlaps, max gap, max characters per cue, and line-break QA issues.
 
 For the user's current standard, the QA target is:
 
@@ -76,6 +79,7 @@ For the user's current standard, the QA target is:
 - `max_gap_between_cues_sec: 0`
 - `lineCountMatches: true`
 - `max_chars_per_cue <= 17`
+- `lineQa.summary.totalIssues: 0` or manually reviewed
 
 ## Alignment Script
 
