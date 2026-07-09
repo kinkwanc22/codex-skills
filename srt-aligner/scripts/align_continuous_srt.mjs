@@ -29,7 +29,9 @@ const compoundSuffixes = new Set([
   "选择", "规律", "模式", "系统", "原则", "市场", "成本", "资源", "权力", "博弈",
   "基因", "现象", "观念", "观", "理论", "路径", "方法", "标准", "层面", "阶段", "状态",
 ]);
-const blockedCompoundTerms = new Set(["交换框架", "博弈表象"]);
+const blockedCompoundTerms = new Set(["交换框架", "博弈表象", "机制和生物学"]);
+const actionNouns = new Set(["绑架", "灌输", "洗脑", "运转", "吸引", "消耗", "供养", "剥削", "打压", "筛选", "改变", "觉醒"]);
+const adverbialModifiers = new Set(["精密", "精准", "彻底", "极度", "高度", "深度", "快速", "真正", "完全", "直接", "强行"]);
 
 const builtinProtectedTerms = [
   "主动权", "高低位", "冷暴力", "情绪价值", "高密度情绪价值", "沉没成本", "转换成本",
@@ -156,6 +158,7 @@ function repairInputLines(inputLines, maxLen) {
   }
   lines = fixLeadingParticles(lines, maxLen);
   lines = fixLeadingConnectors(lines, maxLen);
+  lines = fixTrailingConnectors(lines, maxLen);
   lines = fixProtectedTermSplits(lines, maxLen);
   lines = fixDanglingShortTails(lines, maxLen);
   return fixKnownOverpackedLines(lines, maxLen);
@@ -200,6 +203,19 @@ function fixLeadingConnectors(lines, maxLen) {
     if (visibleLen(out[i - 1] + head) > maxLen) continue;
     out[i - 1] += head;
     out[i] = Array.from(out[i]).slice(1).join("");
+  }
+  return out.filter(Boolean);
+}
+
+function fixTrailingConnectors(lines, maxLen) {
+  const out = [...lines];
+  for (let i = 0; i < out.length - 1; i++) {
+    const m = out[i].match(/(以及|和|与|跟)$/);
+    if (!m) continue;
+    const connector = m[1];
+    if (visibleLen(connector + out[i + 1]) > maxLen) continue;
+    out[i] = out[i].slice(0, -connector.length);
+    out[i + 1] = connector + out[i + 1];
   }
   return out.filter(Boolean);
 }
@@ -342,6 +358,7 @@ function splitSentenceTail(line, maxLen) {
     /^(.*?)(只要一个男人.+)$/u,
     /^(.*?)(因为觉醒意味着.+)$/u,
     /^(.*?)(他都能.+)$/u,
+    /^(.*?绑架)(给你灌输.+)$/u,
     /^(.*?)(框架的碰撞.+)$/u,
   ];
   for (const pattern of patterns) {
@@ -564,8 +581,20 @@ function deriveJiebaProtectedTerms(tokens) {
       terms.push(a + b + c);
       if (d === "的" && e && visibleLen(a + b + c + d + e) <= 12) terms.push(a + b + c + d + e);
     }
+    if (a === "给" && b && c && actionNouns.has(c) && visibleLen(a + b + c) <= 8) {
+      terms.push(a + b + c);
+    }
     if (a && b === "的" && c && shouldProtectModifierNoun(a, c)) {
       terms.push(a + b + c);
+    }
+    if (a && b && c && shouldProtectNounAction(a, b, c)) {
+      terms.push(a + b + c);
+    }
+    if (a && b && shouldProtectAdverbialAction(a, b)) {
+      terms.push(a + b);
+    }
+    if (a && b && shouldProtectAdjectiveNoun(a, b)) {
+      terms.push(a + b);
     }
     if (a && b && compoundSuffixes.has(b) && visibleLen(a + b) <= 12) terms.push(a + b);
     if (a && b && c && b === "的" && compoundSuffixes.has(c) && visibleLen(a + b + c) <= 12) terms.push(a + b + c);
@@ -582,6 +611,25 @@ function shouldProtectModifierNoun(a, c) {
     && visibleLen(c) >= 2
     && visibleLen(a + c) <= 12
     && /(人|女人|男人|男生|女生|关系|状态|价值|策略|机制|逻辑|体系|特质|吸引力|情绪|框架|需求|问题|选择|结果|真相|表象|社会|时期|基因|伴侣|对象|身上)$/.test(c);
+}
+
+function shouldProtectNounAction(a, b, c) {
+  return visibleLen(a) >= 2
+    && visibleLen(b) >= 2
+    && actionNouns.has(c)
+    && visibleLen(a + b + c) <= 12;
+}
+
+function shouldProtectAdverbialAction(a, b) {
+  return adverbialModifiers.has(a)
+    && actionNouns.has(b)
+    && visibleLen(a + b) <= 8;
+}
+
+function shouldProtectAdjectiveNoun(a, b) {
+  return /^(虚假|真实|底层|深层|核心|绝对|具体|冷冰冰)$/.test(a)
+    && /(观|机制|逻辑|状态|价值|特质|需求|关系|表象|真相|词|内容|体系)$/.test(b)
+    && visibleLen(a + b) <= 10;
 }
 
 function uniqueTerms(terms) {
@@ -609,6 +657,8 @@ function badLineTail(text) {
 function badLineHead(text) {
   if (/^(好|好的|为什么|只要|如果|因为|但是|所以|那么|当然|首先|其次)/.test(text)) return false;
   if (/^(你的|她的|他的|我的|我们的|你们的|他们的|自己的|对方的)/.test(text)) return false;
+  if (/^和[\p{Script=Han}]{4,}(逻辑|机制|价值|资源|关系|状态|需求|体系|策略|框架)/u.test(text)) return false;
+  if (/^给[\p{Script=Han}]{1,4}(灌输|提供|制造|建立|创造|带来|造成|留下)/u.test(text)) return false;
   if (/^在.+(里|中|上|下|内|外|前|后)/.test(text)) return false;
   if (/^在[\p{Script=Han}]{2,}(社会|时代|时期|阶段|市场|关系|体系|机制|结构|环境|场景|语境)/u.test(text)) return false;
   return /^(起来|[\p{Script=Han}]的|个|种|条|些|位|段|套|层|次|点|件|的|地|得|了|吗|呢|啊|吧|和|跟|与|把|被|对|给|在|从|向|为)/u.test(text);

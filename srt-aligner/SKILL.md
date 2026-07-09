@@ -13,6 +13,8 @@ For the user's Jianying/CapCut workflow, prefer the continuous mode below when t
 - A correct final manuscript or correct line-broken subtitle copy.
 - Requirements like `每一行文本对应一条字幕`, `无标点`, `字幕之间不要有空白`, `max_gap_between_cues_sec = 0`, `无重叠`, or `每行不超过17字`.
 
+If the user only provides a line-broken subtitle text and asks to process long lines, do not generate SRT. Run the line-only mode below: preserve existing short lines, remove punctuation, and split only lines longer than the requested character limit.
+
 ## Workflow
 
 1. Collect inputs:
@@ -36,6 +38,27 @@ For the user's Jianying/CapCut workflow, prefer the continuous mode below when t
    - Large gaps caused by unmatched text.
    - Garbled ASR words leaking into the final script. The output text should come from the user script, not the raw ASR transcript.
 7. Save the final `.srt` in the requested output location and mention whether the report found weak cues.
+
+## Line-Only Text Mode
+
+Use this when the user provides only 分行字幕 / pasted subtitle text and asks to handle lines over 17 characters. This mode does not need audio or SRT.
+
+```powershell
+node scripts/optimize_line_breaks.mjs `
+  --script line-broken-copy.txt `
+  --out optimized-lines.txt `
+  --max-chars 17
+```
+
+Line-only mode:
+
+- Preserves user-provided short lines as-is after punctuation/space cleanup.
+- Splits only lines longer than `--max-chars`.
+- Prefers semantic split points such as `或者`, `并且`, `但是`, `所以`, `因为`, `如果`, `甚至`, `而是`, `就是`, `以及`, and `和`.
+- Avoids leaving obvious function words at line tails or heads when a nearby split is available.
+- Writes a `.qa.json` beside the output with line count, max length, over-limit lines, blank lines, and punctuation issues.
+
+If the user later provides audio and a rough SRT, feed the optimized line file into continuous mode with `--keep-lines`.
 
 ## Jianying Continuous Mode
 
@@ -68,6 +91,7 @@ Continuous mode does all of these:
 - Preserves one input line as one subtitle only when `--keep-lines` is provided.
 - Uses Chinese word segmentation plus protected phrases to avoid splitting one word across cue boundaries.
 - When `jieba` is available, continuous mode uses it as the primary Chinese dictionary layer, then derives subtitle-safe phrase blocks from the token stream. This helps keep phrases such as `人与人之间`, `并不友好的女人`, `择偶策略`, `远古时期`, and `情绪状态` from being split awkwardly.
+- The jieba layer also derives limited collocation blocks, such as `社会道德绑架`, `给你灌输`, and `精密运转`, so the line breaker avoids splitting common noun-action and modifier-action structures.
 - Uses a dedicated character-level global aligner for long Chinese narration, so repeated phrases are less likely to jump to the wrong later occurrence.
 - Computes cue boundaries from the previous line's last matched character and the next line's first matched character, which is more stable when rough SRT has local ASR errors.
 - Protects common relationship-copy phrases and fixed expressions such as `主动权`, `情绪价值`, `思维导图`, `游刃有余`, `吸血鬼`, `两性博弈`, `道德评价体系`, and `心理学机制` from bad line splits, while also using generic Chinese word boundaries for unseen words.
