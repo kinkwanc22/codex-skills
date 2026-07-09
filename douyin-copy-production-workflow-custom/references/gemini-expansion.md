@@ -326,7 +326,7 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 结尾要先把全文观点自然收束，再动态植入粉丝群引导。
 最后一句必须是：
 
-我是探花Gary，我们内部群里见，感谢观看
+我是探花Gary，我们粉丝群里见，感谢观看
 
 八、TTS口语化排版：
 生成纯净的口语化文稿，专门用于TTS转语音。严禁出现任何情绪、动作、节奏提示词（如：停顿、冷笑、加重语气等括号内容）。遇到使用“的、地”多音字的情况，一律用“的”，不要使用“地”。
@@ -432,7 +432,7 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 正文硬性最低 4300 个中文字符，目标 4800-5600 个中文字符。
 如果正文里出现“导师式的机制判断”“机制判断”“关系后果是什么”“高位男人下一步”“执行变化”“我们来复盘一下”这类结构外露句，视为不合格，必须在输出前自行改写成自然口播。
 每个核心低价值行为都必须写透，但不要用模板句开段。可以自然使用“第一种、第二种”做口播推进，但不能像答题一样逐项报六层结构。
-结尾要先自然收束全文，再植入粉丝群动态CTA，最后一句必须是：我是探花Gary，我们内部群里见，感谢观看。
+结尾要先自然收束全文，再植入粉丝群动态CTA，最后一句必须是：我是探花Gary，我们粉丝群里见，感谢观看。
 
 十五、专业名词自然嵌入规则
 
@@ -623,4 +623,4 @@ Obvious hallucinations include:
 - Model outputs only thinking text or system/resource messages.
 - Model invents a different title or unrelated framework.
 - Output is below 6000 Chinese characters.
-- Output lacks the required fixed ending with `我是探花Gary` and `我们内部群里见`.
+- Output lacks the required fixed ending. For `2.8 Safe Draft`, require `我是探花Gary` and `我们粉丝群里见`; for other Gemini directions, require `我是探花Gary` and `我们内部群里见`.
