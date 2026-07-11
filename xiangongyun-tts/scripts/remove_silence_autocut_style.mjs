@@ -3,8 +3,12 @@ import { spawn } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 
-const DEFAULT_FFMPEG = "C:\\Program Files\\AutoCutVideo\\ffmpeg.exe";
-const DEFAULT_FFPROBE = "C:\\Program Files\\AutoCutVideo\\ffprobe.exe";
+const DEFAULT_FFMPEG = process.platform === "win32"
+  ? "C:\\Program Files\\AutoCutVideo\\ffmpeg.exe"
+  : "ffmpeg";
+const DEFAULT_FFPROBE = process.platform === "win32"
+  ? "C:\\Program Files\\AutoCutVideo\\ffprobe.exe"
+  : "ffprobe";
 
 const args = parseArgs(process.argv.slice(2));
 const input = args.input || args.i;

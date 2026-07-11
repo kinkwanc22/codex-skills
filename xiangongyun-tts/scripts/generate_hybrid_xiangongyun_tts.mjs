@@ -3,12 +3,16 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { pipeline } from "node:stream/promises";
 
-const BASE_URL = "https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com";
+const DEFAULT_BASE_URL = "https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com";
 const DEFAULT_VOICE = "浩威青叔4.0.pt";
 const DEFAULT_SPEED = 1.0;
 const DEFAULT_INTRO_CHARS = 280;
 const DEFAULT_INTRO_GAP_MS = 320;
 const DEFAULT_BODY_GAP_MS = 650;
+const DEFAULT_READY_ATTEMPTS = 12;
+const DEFAULT_RETRY_ATTEMPTS = 6;
+const DEFAULT_RETRY_DELAY_MS = 5000;
+const RETRYABLE_HTTP_STATUS = new Set([429, 502, 503, 504]);
 
 function parseArgs(argv) {
   const args = {};
@@ -39,7 +43,60 @@ function usage() {
     "  --work-dir          Segment work dir, default: work/hybrid-tts",
     `  --intro-gap-ms      Silence between intro chunks, default: ${DEFAULT_INTRO_GAP_MS}`,
     `  --body-gap-ms       Silence between intro and body, default: ${DEFAULT_BODY_GAP_MS}`,
+    `  --base-url          Gradio base URL, default: ${DEFAULT_BASE_URL}`,
+    `  --ready-attempts    WebUI readiness checks, default: ${DEFAULT_READY_ATTEMPTS}`,
+    `  --retry-attempts    Queue HTTP retries, default: ${DEFAULT_RETRY_ATTEMPTS}`,
+    `  --retry-delay-ms    Delay between retries, default: ${DEFAULT_RETRY_DELAY_MS}`,
   ].join("\n");
+}
+
+function sleep(ms) {
+  return new Promise((resolvePromise) => setTimeout(resolvePromise, ms));
+}
+
+async function fetchWithRetry(url, options, { label, attempts, delayMs }) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      if (!RETRYABLE_HTTP_STATUS.has(response.status) || attempt === attempts) return response;
+      await response.arrayBuffer();
+      console.warn(`[retry ${attempt}/${attempts}] ${label}: HTTP ${response.status}`);
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts) throw error;
+      console.warn(`[retry ${attempt}/${attempts}] ${label}: ${error.message}`);
+    }
+    await sleep(delayMs);
+  }
+  throw lastError || new Error(`${label} failed after ${attempts} attempts`);
+}
+
+async function waitForWebUi({ baseUrl, attempts, delayMs }) {
+  let lastStatus = "unreachable";
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(`${baseUrl}/`);
+      lastStatus = `HTTP ${response.status}`;
+      if (response.ok) {
+        const html = await response.text();
+        if (html.includes("gradio") || html.includes("请输入目标文本") || html.includes("生成语音")) {
+          console.log(`[ready] Gradio WebUI available after ${attempt} check(s)`);
+          return;
+        }
+        lastStatus = "HTTP 200 without Gradio app markers";
+      } else {
+        await response.arrayBuffer();
+      }
+    } catch (error) {
+      lastStatus = error.message;
+    }
+    if (attempt < attempts) {
+      console.log(`[wait ${attempt}/${attempts}] Gradio not ready: ${lastStatus}`);
+      await sleep(delayMs);
+    }
+  }
+  throw new Error(`Gradio WebUI not ready after ${attempts} checks: ${lastStatus}`);
 }
 
 function splitSentences(text) {
@@ -94,19 +151,23 @@ function splitIntro(intro) {
   return chunks.filter(Boolean);
 }
 
-async function submitJob({ text, voice, speed }) {
+async function submitJob({ text, voice, speed, baseUrl, retryAttempts, retryDelayMs }) {
   const sessionHash = Math.random().toString(36).slice(2);
-  const response = await fetch(`${BASE_URL}/gradio_api/queue/join`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      data: [voice, null, text, speed],
-      event_data: null,
-      fn_index: 3,
-      trigger_id: 14,
-      session_hash: sessionHash,
-    }),
-  });
+  const response = await fetchWithRetry(
+    `${baseUrl}/gradio_api/queue/join`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: [voice, null, text, speed],
+        event_data: null,
+        fn_index: 3,
+        trigger_id: 14,
+        session_hash: sessionHash,
+      }),
+    },
+    { label: "queue join", attempts: retryAttempts, delayMs: retryDelayMs },
+  );
 
   if (!response.ok) {
     throw new Error(`Queue join failed: HTTP ${response.status} ${await response.text()}`);
@@ -120,9 +181,11 @@ async function submitJob({ text, voice, speed }) {
   return { eventId: body.event_id, sessionHash };
 }
 
-async function pollJob({ sessionHash, eventId }) {
-  const response = await fetch(
-    `${BASE_URL}/gradio_api/queue/data?session_hash=${encodeURIComponent(sessionHash)}`,
+async function pollJob({ sessionHash, eventId, baseUrl, retryAttempts, retryDelayMs }) {
+  const response = await fetchWithRetry(
+    `${baseUrl}/gradio_api/queue/data?session_hash=${encodeURIComponent(sessionHash)}`,
+    {},
+    { label: "queue stream", attempts: retryAttempts, delayMs: retryDelayMs },
   );
 
   if (!response.ok) {
@@ -195,6 +258,15 @@ function readWav(buffer, file) {
   return { fmt, data };
 }
 
+async function isUsableWav(file) {
+  try {
+    const parsed = readWav(await readFile(file), file);
+    return parsed.data.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function wavHeader(fmt, dataSize) {
   const header = Buffer.alloc(44);
   header.write("RIFF", 0);
@@ -253,9 +325,16 @@ const speed = Number(args.speed || DEFAULT_SPEED);
 const introChars = Number(args["intro-chars"] || DEFAULT_INTRO_CHARS);
 const introGapMs = Number(args["intro-gap-ms"] || DEFAULT_INTRO_GAP_MS);
 const bodyGapMs = Number(args["body-gap-ms"] || DEFAULT_BODY_GAP_MS);
+const baseUrl = String(args["base-url"] || DEFAULT_BASE_URL).replace(/\/+$/u, "");
+const readyAttempts = Number(args["ready-attempts"] || DEFAULT_READY_ATTEMPTS);
+const retryAttempts = Number(args["retry-attempts"] || DEFAULT_RETRY_ATTEMPTS);
+const retryDelayMs = Number(args["retry-delay-ms"] || DEFAULT_RETRY_DELAY_MS);
 if (!Number.isFinite(speed) || speed < 0.5 || speed > 2.0) {
   throw new Error("--speed must be a number from 0.5 to 2.0");
 }
+if (!Number.isInteger(readyAttempts) || readyAttempts < 1) throw new Error("--ready-attempts must be >= 1");
+if (!Number.isInteger(retryAttempts) || retryAttempts < 1) throw new Error("--retry-attempts must be >= 1");
+if (!Number.isFinite(retryDelayMs) || retryDelayMs < 0) throw new Error("--retry-delay-ms must be >= 0");
 
 const source = (await readFile(String(args["source-file"]), "utf8")).trim();
 if (!source) throw new Error("Source file is empty");
@@ -309,20 +388,38 @@ console.log(
 );
 
 const parts = [];
+let webUiReady = false;
+async function ensureWebUiReady() {
+  if (webUiReady) return;
+  await waitForWebUi({ baseUrl, attempts: readyAttempts, delayMs: retryDelayMs });
+  webUiReady = true;
+}
+
 for (let i = 0; i < introChunks.length; i += 1) {
   const outPath = resolve(workDir, `intro-${String(i + 1).padStart(3, "0")}.wav`);
+  if (await isUsableWav(outPath)) {
+    console.log(`[resume intro ${i + 1}/${introChunks.length}] ${basename(outPath)}`);
+    parts.push({ file: outPath, gapMs: i === introChunks.length - 1 ? bodyGapMs : introGapMs });
+    continue;
+  }
   console.log(`[intro ${i + 1}/${introChunks.length}] ${introChunks[i].length} chars -> ${basename(outPath)}`);
-  const job = await submitJob({ text: introChunks[i], voice, speed });
-  const fileUrl = await pollJob(job);
+  await ensureWebUiReady();
+  const job = await submitJob({ text: introChunks[i], voice, speed, baseUrl, retryAttempts, retryDelayMs });
+  const fileUrl = await pollJob({ ...job, baseUrl, retryAttempts, retryDelayMs });
   await downloadFile(fileUrl, outPath);
   parts.push({ file: outPath, gapMs: i === introChunks.length - 1 ? bodyGapMs : introGapMs });
 }
 
 const bodyPath = resolve(workDir, "body.wav");
-console.log(`[body] ${bodyText.length} chars -> ${basename(bodyPath)}`);
-const bodyJob = await submitJob({ text: bodyText, voice, speed });
-const bodyFileUrl = await pollJob(bodyJob);
-await downloadFile(bodyFileUrl, bodyPath);
+if (await isUsableWav(bodyPath)) {
+  console.log(`[resume body] ${basename(bodyPath)}`);
+} else {
+  console.log(`[body] ${bodyText.length} chars -> ${basename(bodyPath)}`);
+  await ensureWebUiReady();
+  const bodyJob = await submitJob({ text: bodyText, voice, speed, baseUrl, retryAttempts, retryDelayMs });
+  const bodyFileUrl = await pollJob({ ...bodyJob, baseUrl, retryAttempts, retryDelayMs });
+  await downloadFile(bodyFileUrl, bodyPath);
+}
 parts.push({ file: bodyPath, gapMs: 0 });
 
 const fmt = await concatWavs(parts, resolve(String(args.out)));
