@@ -551,7 +551,7 @@ Mac default:
 
 ```bash
 cd /Users/kin/Documents/Codex/2026-07-02/gemini
-./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --output-file work/expanded.txt
+./scripts/run_gemini_chat.sh --session 2.5 --prompt-file work/prompt.txt --output-file work/expanded.txt
 ```
 
 Windows fallback when explicitly needed:
@@ -563,17 +563,17 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`, so the migrated Gary-style long conversation in `gemini_session.json` is used and updated.
+For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`. The Mac runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json` and 2.8 prompts to `work/gemini_session_28_safe.json`; use explicit `--session 2.5` or `--session 2.8` when the direction is known. Do not run 2.5 and 2.8 through the same saved conversation.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
-For `2.5 Direct Draft`, also load the local legacy style pack if it exists:
+For `2.5 Direct Draft`, use `--session 2.5` so the old Gary-style 2.5 conversation is preserved and updated. Also load the local legacy style pack if it exists:
 
 `/Users/kin/Documents/Codex/2026-07-02/gemini/work/legacy_style_samples/2.5_legacy_style_pack.md`
 
 Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old Windows 2.5 pressure and mechanism density without wasting context or copying old topics.
 
-Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
+For `2.8 Safe Draft`, use `--session 2.8` so safety tuning stays separate from the old 2.5 voice. Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
 
 When building the prompt file, append the source text immediately after `【原文开始】`, then close it with `【原文结束】`. This source wrapper is part of the prompt, not an optional note.
 
