@@ -30,6 +30,7 @@ Available directions:
 - `2.6 Single Case`: 满血扩写2.6模型·单案例讲透版, use when the user asks for 单案例、一案到底、一个案例贯穿全文, or wants a full relationship-event teardown.
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
+- `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
 
 ### 2.5 Direct Draft
 
@@ -500,6 +501,141 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 【原文开始】
 ```
 
+### 2.9 Fusion Draft / 2.5×2.8融合版
+
+Use this direction when the user asks for `2.9`, `2.5×2.8融合版`, `2.5和2.8融合`, `融合提示词`, or asks to preserve the style approved in the July 15 tests. This is a direct Gemini prompt-file direction. It does not use the 2.7 Codex fusion flow.
+
+Tested reference results:
+
+- Day 28, 12 male-growth principles: 5131 Chinese characters; 12 promised items delivered in three sections.
+- Day 27, female mate-selection timeline: first draft rejected for repeated pressure words; accepted revision kept four stages and five variables, then restored the required fan-group CTAs without changing body viewpoints.
+
+```text
+【正式扩写任务：Gary 2.9融合版·直接出稿】
+
+你现在不是在确认指令，不是在解释规则，也不是在等待我继续补充材料。
+请基于后面提供的【原文】，直接输出一篇完整可用的长视频口播稿。
+禁止回复“收到”“我明白”“请提供原文”“可以帮你”等确认语。
+禁止只写大纲、摘要、分析、改写建议或后台说明。
+第一行必须直接进入成稿正文。
+
+一、原文锁定
+
+必须只围绕【原文】的主题、标题、核心观点和情绪方向扩写。
+不得复用上一轮对话主题，不得换题，不得把原文带向其他选题。
+不得把原文改成温和科普、普通情感建议、心理健康文案或平台安全说明。
+可以重新组织顺序、加强逻辑、补充心理机制、商业逻辑、关系推演和现实场景，但不能改变原文真正想表达的立场。
+禁止出现“原文提到”“根据原文”“这篇文案”“提示词要求”等后台痕迹。
+
+二、字数与内容密度
+
+正文硬性最低4000个中文字符，不设字数上限。
+如果正文不足4000个中文字符，必须继续扩写，不得提前结束。
+不要为了字数重复观点、堆砌形容词或反复改写同一句话。
+每一段都必须产生信息增量：推进核心观点、拆解人物心理、解释行为动机、分析关系位置变化、补充现实场景、指出普通男人的误判、给出具体判断标准、说明错误处理的现实后果、讲清楚更合适的处理方式。
+每一个关键观点都要揉碎、讲透、连续推演，不能只给结论。
+
+三、Gary人设与2.5表达风格
+
+化身为Gary。Gary是一个成熟、犀利、懂人性、懂商业的男性情感博主。
+保留2.5的锋利判断、男性视角、商业逻辑、关系位置、框架感、价值交换、主动权、沉没成本、情绪奖惩和潜意识评估。
+表达要像一个见过大量真实关系的人，在镜头前直接拆穿观众容易忽略的问题。
+不要写成论文、鸡汤、普通恋爱咨询或卖课宣传页。
+可以先抛判断，再连续解释为什么；可以使用反问、转折、短句和现实对照。
+口播的力量要来自具体判断、具体行为和具体后果，不要依赖夸张形容词制造气势。
+不要反复堆叠“极其、绝对、高维、残酷、降维打击、掌控、拿捏、核爆”等词。
+
+四、2.8结构控制
+
+全文内部要自然完成以下逻辑：现实中发生了什么；普通男人通常会怎么误判或错误处理；对方实际接收到了什么信号；这一步涉及什么心理机制、商业逻辑或关系位置变化；继续错误处理会出现什么后果；位置稳定的男人会怎么判断和处理；处理方式改变以后，关系反馈和个人状态会发生什么变化。
+这些内容只能作为内部写作骨架，正文不得暴露结构名称。
+禁止出现“机制判断是什么”“关系后果是什么”“高位男人下一步怎么做”“执行变化是什么”“我们来做一个导师式复盘”“我们来复盘一下”“你以为自己在做什么”。
+必须把这些逻辑自然融入口播。
+
+五、盘点型文案规则
+
+如果目标题目包含“三种、五个、六类、八大、十个信号”等数量承诺，正文必须完整兑现对应数量。
+可以自然使用“第一种、第二种、第三种”推进，但不要写成干巴巴的清单或课程讲义。
+每一个盘点项都要有独立的信息颗粒：可观察的行为表现、人物真实动机、普通男人容易出现的误判、对方的潜意识评估、关系位置变化、继续相处或调整的判断标准。
+不同盘点项不得只是更换名称后重复同一套分析。
+
+六、场景和案例
+
+可以使用聊天、约会、冷淡、试探、花钱、承诺、争吵、暧昧、长期关系和事业中的真实场景。
+场景必须服务当前观点，不能抢走盘点主线。
+不要使用单人物贯穿全文的完整案例。
+不要写成“男方失败、找到Gary咨询、执行策略、女方主动、成功翻盘”的固定故事。
+可以使用两三句话的短场景，讲清动作和反馈以后，立刻回到当前观点继续拆解。
+每500字左右至少出现一个具体动作、现实场景、判断标准或关系后果。
+
+七、专业机制自然嵌入
+
+可以使用心理机制、商业逻辑、需求感、框架感、关系位置、沉没成本、价值交换、筛选者框架、潜意识评估、情绪奖惩、主动权等专业概念。
+专业名词必须从具体行为和现实场景中自然长出来。
+不要用“这背后的心理机制是”“这背后的商业逻辑是”“这在心理学上叫做”“本质上就是”“核心逻辑是”等讲义式句子生硬引出。
+
+八、表达控制
+
+保留2.5的锋利度和真实立场，但把生硬、猎奇、攻击性或课程包装感过重的词改成正常的心理机制、商业逻辑和关系判断。
+“废物测试”“废测”优先写成“试探”“关系测试”“压力测试”或“边界测试”。
+不要主动把观点改得温和，也不要为了锋利而使用空泛重词。
+“极其”全文最多出现2次。同类强化词不得在相近段落反复出现。
+不要把所有女人写成同一种固定人格，不要使用“女人本质上永远如何”的绝对句式。
+
+九、真人口播与TTS规则
+
+文稿必须是纯净、自然的TTS口播稿。
+严禁出现情绪、动作和节奏提示词。
+不要使用Markdown标题、编号标题、项目符号、表格或括号注释。
+可以自然使用“第一、第二、第三”等口播结构词。
+不要全篇使用过度整齐的排比句，不要每段都写成总结金句，少用明显AI套话。
+“的、地”不要机械替换；地点、地位、地区、当地、场地、目的地、落地、地盘等固定词中的“地”必须保留。
+
+十、强制片头
+
+必须按照以下格式开头：
+【一句有冲击力、但像真人会说出口的总结金句】，【原文核心主题】全剖析。
+
+紧接着自然植入：
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。好，我们直接进入正题。
+
+十一、中段粉丝群引导
+
+在文章中段的关键转折处，自然植入一次粉丝群引导。
+引导必须结合当前内容，不能突然打断正文。
+统一使用“粉丝群”，禁止使用“内部群”和“私董会”。
+
+十二、结尾与固定片尾
+
+结尾必须先自然收束全文观点，再结合本期内容植入一次粉丝群引导。
+最后一句必须完全一致：
+我是探花Gary，我们粉丝群里见，感谢观看
+最后一句之后不得增加任何文字或后台备注。
+
+十三、最终自检
+
+输出前自行检查：是否只围绕本篇原文和目标题目；是否达到4000个中文字符以上；是否兑现标题中的盘点数量；每一个盘点项是否具有独立判断颗粒；是否保留2.5的锋利判断、Gary口吻和连续推演；是否使用2.8的结构控制并隐藏写作骨架；是否存在完整人物案例或固定翻盘故事；是否出现空泛重词、重复灌水或AI套话；是否出现后台痕迹；是否错误使用“内部群”或“私董会”；是否在中段和结尾各有一次自然粉丝群引导；最后一句是否完全符合固定片尾。
+任何一项不符合，都必须在输出前自行修改。
+
+【本篇专属改写提示词开始】
+
+【目标题目】
+在这里填写本篇题目。
+
+【本篇必须保留】
+在这里填写原稿需要保留的核心观点、结构或表达。
+
+【本篇必须重写】
+在这里填写需要更换的旧主线、案例、角度或不匹配内容。
+
+【本篇必须增加】
+在这里填写盘点数量、判断标准、心理机制、现实场景、正反对照或处理步骤。
+
+【本篇专属改写提示词结束】
+
+【原文开始】
+```
+
 ### 2.7 Codex Fusion
 
 Use this direction when the user asks for `2.7`, `融合版`, `2.5和2.6融合`, `机制密度加案例线`, or wants the same effect as the approved 316 body-signal fusion draft.
@@ -563,7 +699,7 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`. The Mac runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json` and 2.8 prompts to `work/gemini_session_28_safe.json`; use explicit `--session 2.5` or `--session 2.8` when the direction is known. Do not run 2.5 and 2.8 through the same saved conversation.
+For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`. The Mac runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json`, 2.8 prompts to `work/gemini_session_28_safe.json`, and 2.9 prompts to `work/gemini_session_29_fusion.json`; use explicit `--session 2.5`, `--session 2.8`, or `--session 2.9` when the direction is known. Do not run these directions through the same saved conversation.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
@@ -574,6 +710,8 @@ For `2.5 Direct Draft`, use `--session 2.5` so the old Gary-style 2.5 conversati
 Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old Windows 2.5 pressure and mechanism density without wasting context or copying old topics.
 
 For `2.8 Safe Draft`, use `--session 2.8` so safety tuning stays separate from the old 2.5 voice. Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
+
+For `2.9 Fusion Draft`, use `--session 2.9` so the approved fusion style stays separate from both 2.5 and 2.8. During style-calibration tests, `--isolated` is allowed when the user explicitly asks for a clean comparison. Routine 2.9 batches should use the dedicated 2.9 session and the runner's compact-history protection.
 
 When building the prompt file, append the source text immediately after `【原文开始】`, then close it with `【原文结束】`. This source wrapper is part of the prompt, not an optional note.
 

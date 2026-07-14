@@ -28,7 +28,7 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 - Expansion tests/comparison runs must also be exported as `.docx` files into the current dual-device synced workflow folder; do not deliver `.txt` unless the user explicitly asks for txt.
 - Gemini execution choice: default to the Mac local runner unless the user explicitly asks to use Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling.
 - Current Mac Gemini expansion command directory: active Codex workspace when it contains `scripts/run_gemini_chat.sh`; current tested workspace is `/Users/kin/Documents/Codex/2026-07-02/gemini`.
-- Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --output-file <expanded.txt>`. The runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json` and 2.8 prompts to `work/gemini_session_28_safe.json`; explicit commands may use `--session 2.5` or `--session 2.8`.
+- Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --output-file <expanded.txt>`. The runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json`, 2.8 prompts to `work/gemini_session_28_safe.json`, and 2.9 prompts to `work/gemini_session_29_fusion.json`; explicit commands may use `--session 2.5`, `--session 2.8`, or `--session 2.9`.
 - Windows fallback Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`.
 - Windows fallback Gemini expansion command: `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
 - Other-copy Gemini isolation rule: for non-male-relationship copy or unrelated tests, use `--prompt-file <prompt> --isolated` on the selected host so saved male relationship expansion conversation state is preserved; do not use `/new` for this.
@@ -73,13 +73,17 @@ Build each UTF-8 prompt file with the selected full Gemini instruction block fro
 
 If the user asks for `2.7`, `融合版`, `2.5和2.6融合`, or wants the same effect as the approved 316 body-signal fusion draft, do not ask Gemini to write a separate 2.7 draft from the source. First generate and validate the Gemini 2.5 and 2.6 drafts, then have Codex locally fuse those two accepted drafts using the `2.7 Codex Fusion` rules in `references/gemini-expansion.md`.
 
-Do not use the old web expansion channel. Do not send `/new` unless the user explicitly asks. Keep 2.5 and 2.8 in separate saved Gemini sessions: 2.5 uses the legacy old-Gary session, while 2.8 uses the safe-version session. Do not run both directions through the default mixed `gemini_session.json`.
+If the user asks for `2.9`, `2.5×2.8融合版`, `2.5和2.8融合`, or `融合提示词`, use the saved `2.9 Fusion Draft` direction in `references/gemini-expansion.md`. This is a direct Gemini prompt-file direction: 2.5 supplies Gary voice, sharp judgment, male perspective, business logic, and continuous deduction; 2.8 supplies hidden structure, concrete evidence, reduced adjective pressure, topic isolation, and stable output control. Do not substitute the unrelated 2.7 single-case fusion flow.
+
+Do not use the old web expansion channel. Do not send `/new` unless the user explicitly asks. Keep 2.5, 2.8, and 2.9 in separate saved Gemini sessions: 2.5 uses the legacy old-Gary session, 2.8 uses the safe-version session, and 2.9 uses the fusion session. Do not run these directions through the default mixed `gemini_session.json`.
 
 ### 3. Validate Each Expanded Draft
 
 Read `references/gemini-expansion.md` for the exact checks and retry language.
 
 Verify length, topic relevance, refusal/API failure text, stale-topic contamination, and required ending. Default target length is 6000-8000 Chinese characters. The minimum acceptable length is 6000 Chinese characters unless the user gives a newer threshold.
+
+For `2.9 Fusion Draft`, the user's current rule overrides that generic default: hard minimum 4000 Chinese characters, with no upper limit. Validate promised list counts, hidden structure, repeated pressure words, natural professional-term insertion, mid-article and ending fan-group CTAs, and the exact fixed ending.
 
 ### 4. Add Openings And Titles
 
