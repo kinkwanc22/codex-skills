@@ -114,6 +114,7 @@ Read `references/workflow.md` for command variations.
 - When rewriting risky or provocative source material, reduce explicit vulgarity but keep the contradiction and pressure. Preferred direction: 黑暗但可播, 狠但不脏, 压迫但不露骨.
 - For V3 generation, do not copy old openings. Extract article variables, inject high-frequency words naturally, apply learned formulas, and score each new opening.
 - Generated openings should be about 50-70 Chinese characters unless the user asks otherwise.
+- When the user teaches an explicit opening formula, store and use its sentence movement before applying general signal-reading or high-frequency-word rules. Classify the formula by opening engine first: social resistance, cross-domain capability, age-targeted enoughness, female-subconscious resistance, sudden-behavior test, exclusive complete analysis, conversational myth-busting, or current dating-market rule. Similar reversal formulas must keep their distinct source of pressure instead of collapsing into one generic `女人的潜意识` template.
 - When the user provides `.docx`, parse it directly; do not ask them to manually convert unless parsing fails.
 - When reporting results, show the output folder, record count, top hooks, and any known limitations.
 

@@ -401,6 +401,137 @@ Approved example:
 
 Do not mix this form with Opening 1, 2, 3, or 4. Opening 5 is best when the viewer's immediate pain is "I have no technique/no direction and cannot推进", and the topic can be packaged as a named tactical mechanism with a three-step technical chain.
 
+### Opening 6: 社会阻力反转式
+
+Use this form when the topic exposes a socially discouraged trait, desire, or behavior, then reverses it into a relationship advantage. The opening must move through `社会禁止 -> 外部阻拦 -> 泡妞场景里的反向动作 -> 三段结果 -> 主题落点`.
+
+Template:
+
+```text
+这个社会是不允许【被压制的特质/行为】，
+甚至【外部力量】会阻止你【关键动作】，
+但只要你能在泡妞时【反向关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Keep `这个社会是不允许` as the fixed opening move. Do not weaken it into `很多人不建议` or turn the paragraph into a summary.
+
+### Opening 7: 能力跨域成功式
+
+Use this form when one relationship capability can be elevated into a broader rule for business, social status, execution, or success. The opening must move through `稀缺男性能力 -> 跨域成功判断 -> 两个领域同构 -> 主题落点`.
+
+Template:
+
+```text
+能让女人【核心反应】的男人，
+无论做什么事都能成功，
+因为【领域A】和【领域B】，他们的底层逻辑是相通的，
+今天我们要聊的是，【主题】。
+```
+
+The first variable must be a concrete female reaction, not a vague phrase such as `喜欢你`. The cross-domain claim should feel bold but logically connected to the script.
+
+### Opening 8: 年龄点名一期足够式
+
+Use this shorter form when the video promises one clear relationship capability to men in their twenties or early thirties. It is more direct and compact than Opening 2.
+
+Template:
+
+```text
+如果你现在二十多三十岁出头，
+想学会【核心动作】，让女人【目标反应】，
+你看我这一期就够了，今天我们要讲的是，【主题】。
+```
+
+Keep the first line and `你看我这一期就够了` fixed. The middle line must contain both a learnable action and a visible result.
+
+### Opening 9: 女性潜意识阻力反转式
+
+Use this form when the conflict comes from a woman's subconscious screening, fear, defense, or instinct rather than from society. It is a distinct form from Opening 6 and must move through `潜意识不允许 -> 女性防御阻拦 -> 男方反向动作 -> 三段关系结果 -> 主题落点`.
+
+Template:
+
+```text
+女人的潜意识是不允许你【被排斥的行为/身份】，
+甚至【女性防御/本能】会阻止你【关键推进】，
+但只要你能在泡妞时【反向关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Do not replace `女人的潜意识` with generic psychology language. The second line must name the actual internal resistance taught by the source.
+
+### Opening 10: 突发行为考验式
+
+Use this form when the article begins from a sudden female behavior such as becoming cold, replying slowly, provoking, withdrawing, testing, or becoming unusually proactive.
+
+Template:
+
+```text
+当一个女生突然【异常行为】，其实才是最考验你【被考验的能力/框架】的时候。
+```
+
+This is a short trigger line, not a complete article summary. Continue directly into the source mechanism or body. Prefer a visible behavior over abstract words.
+
+### Opening 11: 独家禁教完整剖析式
+
+Use this form for high-value, controversial, or uncommon lessons that need authority, scarcity, and a complete-analysis promise. It may be followed by the age-targeted enoughness block.
+
+Template:
+
+```text
+这是一期别的情感博主根本不敢教的，也可能只有我能给你讲清楚的，怎么样通过【核心机制】，达成【核心结果】的完整未删减版剖析。
+如果你现在二十多三十岁出头，
+想学会【核心动作】，让女人【目标反应】，
+你看我这一期就够了。
+```
+
+The first sentence must promise a specific mechanism and outcome. Do not use `干货`, `技巧`, or `方法` as empty variables.
+
+### Opening 12: 兄弟质疑翻案式
+
+Use this form when the source can overturn a common male interpretation of a woman's reaction. It should sound conversational and grounded in real cases.
+
+Template:
+
+```text
+我和兄弟们说啊，女人对你【表面反应】/女人【表面行为】，真的是因为【常见解释】吗？
+不一定，大部分实战情况告诉我们，【反转真相】。
+```
+
+Keep `我和兄弟们说啊` and `不一定，大部分实战情况告诉我们` as the voice anchors. The second sentence must overturn the exact explanation raised in the first.
+
+### Opening 13: 男女版本规则反转式
+
+Use this form when the script describes a current dating-market rule, asymmetry, or changed relationship environment. It must move through `当前版本规则 -> 女性不会主动做什么 -> 男方关键动作 -> 三段结果 -> 主题落点`.
+
+Template:
+
+```text
+在现在这个男女版本里，女人是不会【默认不会发生的行为/结果】的，
+但只要你能在【关键场景】时【关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Do not generalize the first line into timeless human nature. Its power comes from naming the current dating-market version.
+
+## New Form Selection Rule - 2026-07-16
+
+Before filling variables, classify the source by its strongest opening engine:
+
+- `社会规范压制` -> Opening 6
+- `关系能力可迁移到事业/人脉` -> Opening 7
+- `年龄人群 + 单项技能承诺` -> Opening 8
+- `女性潜意识防御或筛选` -> Opening 9
+- `突然出现的具体行为信号` -> Opening 10
+- `稀缺争议知识 + 完整剖析` -> Opening 11
+- `男性常见误判 + 实战翻案` -> Opening 12
+- `当前男女市场规则` -> Opening 13
+
+Openings 6, 9, and 13 share a reversal rhythm but are not synonyms. Preserve their different source of pressure: society, female subconscious, or the current dating-market version. In a multi-opening batch, rotate these engines only when each one genuinely fits the source fingerprint.
+
 ## Output Rules
 
 Default output:
