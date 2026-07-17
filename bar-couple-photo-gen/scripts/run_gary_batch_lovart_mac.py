@@ -276,6 +276,27 @@ def write_json(path, obj):
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def png_dimensions(path):
+    try:
+        header = Path(path).read_bytes()[:24]
+    except OSError:
+        return None
+    if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
+        return None
+    return int.from_bytes(header[16:20], "big"), int.from_bytes(header[20:24], "big")
+
+
+def select_current_downloads(downloaded, settings):
+    expected = (settings["width"], settings["height"])
+    matching = [
+        item for item in downloaded
+        if item.get("local_path") and png_dimensions(item["local_path"]) == expected
+    ]
+    if matching:
+        return matching[-settings["num_images"]:]
+    return downloaded[-settings["num_images"]:]
+
+
 def generation_settings(
     aspect,
     quality=DEFAULT_QUALITY,
@@ -668,6 +689,7 @@ def main():
                     raise LovartError(
                         f"生成完成但无产物：{result.get('warning', '')} {result.get('agent_message', '')}"
                     )
+                downloaded = select_current_downloads(downloaded, settings)
 
                 record = {
                     **base,
