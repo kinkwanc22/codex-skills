@@ -72,6 +72,8 @@ When the user explicitly asks for the Lovart UI `2K` size presets, pass `--resol
 
 Use `--female-path` when a previously selected female reference must be excluded and a newly randomized top-level library file has already been chosen. The path must belong directly to `--female-dir`.
 
+After the mandatory Lovart `config --json` and `threads --json` checks, pass related existing aspect threads with `--vertical-thread-id` and `--horizontal-thread-id` so follow-up tests reuse their prior conversations.
+
 ## Coffee Candid Universal Preset
 
 Preset id: `coffee_candid_universal`

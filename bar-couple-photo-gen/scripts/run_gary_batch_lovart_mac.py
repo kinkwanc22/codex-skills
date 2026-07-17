@@ -443,6 +443,8 @@ def main():
     parser.add_argument("--female-path", default=None)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--project-id", default=DEFAULT_PROJECT_ID)
+    parser.add_argument("--vertical-thread-id", default=None)
+    parser.add_argument("--horizontal-thread-id", default=None)
     parser.add_argument("--max-network-retries", type=int, default=3)
     parser.add_argument("--max-generation-attempts", type=int, default=2)
     parser.add_argument("--limit", type=int, default=0)
@@ -545,6 +547,8 @@ def main():
         "run_id": run_id,
         "started_at": now_iso(),
         "project_id": args.project_id,
+        "vertical_thread_id": args.vertical_thread_id,
+        "horizontal_thread_id": args.horizontal_thread_id,
         "male_path": args.male_path,
         "female_dir": args.female_dir,
         "female_path": args.female_path,
@@ -595,6 +599,9 @@ def main():
         )
         aspect_output_dir = log_dir / aspect if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical" else output_root
         aspect_output_dir.mkdir(parents=True, exist_ok=True)
+        reused_thread_id = (
+            args.horizontal_thread_id if aspect == "16x9" else args.vertical_thread_id
+        )
         base = {
             "run_id": run_id,
             "index": index,
@@ -606,6 +613,7 @@ def main():
             "interaction": interaction,
             "prompt_variables": prompt_variables,
             "generation_settings": settings,
+            "reused_thread_id": reused_thread_id,
             "started_at": now_iso(),
         }
         write_json(current_path, {**base, "status": "running", "updated_at": now_iso()})
@@ -640,6 +648,7 @@ def main():
                         [
                             "chat",
                             "--project-id", args.project_id,
+                            *(["--thread-id", reused_thread_id] if reused_thread_id else []),
                             "--prompt", prompt,
                             "--attachments", male_url, female_url,
                             "--prefer-models", json.dumps(
