@@ -17,9 +17,15 @@ AGENT = r"/Users/kin/.codex/skills/lovart-skill/agent_skill.py"
 DEFAULT_QUALITY = "medium"
 DEFAULT_NUM_IMAGES = 1
 
-ASPECT_SETTINGS = {
-    "9x16": {"aspect_ratio": "9:16", "width": 1008, "height": 1792},
-    "16x9": {"aspect_ratio": "16:9", "width": 1792, "height": 1008},
+RESOLUTION_PROFILES = {
+    "default": {
+        "9x16": {"aspect_ratio": "9:16", "width": 1008, "height": 1792, "size_preset": "9:16"},
+        "16x9": {"aspect_ratio": "16:9", "width": 1792, "height": 1008, "size_preset": "16:9"},
+    },
+    "2k": {
+        "9x16": {"aspect_ratio": "9:16", "width": 2016, "height": 3584, "size_preset": "9:16（2K）"},
+        "16x9": {"aspect_ratio": "16:9", "width": 2048, "height": 1152, "size_preset": "16:9（2K）"},
+    },
 }
 
 QUALITY_MODELS = {
@@ -270,9 +276,15 @@ def write_json(path, obj):
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def generation_settings(aspect, quality=DEFAULT_QUALITY, num_images=DEFAULT_NUM_IMAGES):
+def generation_settings(
+    aspect,
+    quality=DEFAULT_QUALITY,
+    num_images=DEFAULT_NUM_IMAGES,
+    resolution_profile="default",
+):
     return {
-        **ASPECT_SETTINGS[aspect],
+        **RESOLUTION_PROFILES[resolution_profile][aspect],
+        "resolution_profile": resolution_profile,
         "quality": quality,
         "num_images": num_images,
         "preferred_model": QUALITY_MODELS[quality],
@@ -286,6 +298,8 @@ def build_parameter_line(aspect, settings, coffee_environment=False):
         f"生成{ratio}{orientation}手机照片，W {settings['width']} / H {settings['height']}，"
         f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
     )
+    if settings["resolution_profile"] == "2k":
+        line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
     if aspect == "16x9":
         environment = "咖啡厅环境" if coffee_environment else "真实室内环境"
         line += f"画面保留更多{environment}，但人物仍是近距离抓拍，不要全身照。"
@@ -426,6 +440,7 @@ def main():
     parser.add_argument("--python-exe", default=sys.executable)
     parser.add_argument("--male-path", default=DEFAULT_MALE)
     parser.add_argument("--female-dir", default=DEFAULT_FEMALE_DIR)
+    parser.add_argument("--female-path", default=None)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--project-id", default=DEFAULT_PROJECT_ID)
     parser.add_argument("--max-network-retries", type=int, default=3)
@@ -443,6 +458,7 @@ def main():
     )
     parser.add_argument("--quality", choices=["auto", "low", "medium", "high"], default=DEFAULT_QUALITY)
     parser.add_argument("--num-images", type=int, choices=[1, 2, 4], default=DEFAULT_NUM_IMAGES)
+    parser.add_argument("--resolution-profile", choices=["default", "2k"], default="default")
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--dry-run", "--print-prompt", dest="dry_run", action="store_true")
     args = parser.parse_args()
@@ -455,7 +471,12 @@ def main():
         ]
         previews = []
         for aspect in aspects:
-            settings = generation_settings(aspect, args.quality, args.num_images)
+            settings = generation_settings(
+                aspect,
+                args.quality,
+                args.num_images,
+                args.resolution_profile,
+            )
             variables = random_coffee_variables() if args.prompt_preset == "coffee_candid_universal" else None
             if args.prompt_preset == "sofa":
                 scene, interaction = random.choice(SOFA_SCENES), "沙发前景抓拍"
@@ -499,10 +520,18 @@ def main():
     current_path = log_dir / "current.json"
 
     female_dir = Path(args.female_dir)
-    female_files = [
-        p for p in female_dir.iterdir()
-        if p.is_file() and p.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
-    ]
+    if args.female_path:
+        female_path = Path(args.female_path)
+        if not female_path.is_file() or female_path.parent != female_dir:
+            raise LovartError(f"指定女主图必须是素材库当前层的图片：{female_path}")
+        if female_path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
+            raise LovartError(f"不支持的女主图片格式：{female_path}")
+        female_files = [female_path]
+    else:
+        female_files = [
+            p for p in female_dir.iterdir()
+            if p.is_file() and p.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+        ]
     random.shuffle(female_files)
     if args.limit and args.limit > 0:
         female_files = female_files[: args.limit]
@@ -518,6 +547,7 @@ def main():
         "project_id": args.project_id,
         "male_path": args.male_path,
         "female_dir": args.female_dir,
+        "female_path": args.female_path,
         "output_dir": args.output_dir,
         "log_dir": str(log_dir),
         "total": len(tasks),
@@ -529,7 +559,8 @@ def main():
         "prompt_language": "中文",
         "quality": args.quality,
         "num_images": args.num_images,
-        "aspect_settings": ASPECT_SETTINGS,
+        "resolution_profile": args.resolution_profile,
+        "aspect_settings": RESOLUTION_PROFILES[args.resolution_profile],
         "max_network_retries": args.max_network_retries,
         "max_generation_attempts": args.max_generation_attempts,
     }
@@ -548,7 +579,12 @@ def main():
         scene = task["scene"]
         interaction = task["interaction"]
         prompt_variables = task.get("prompt_variables")
-        settings = generation_settings(aspect, args.quality, args.num_images)
+        settings = generation_settings(
+            aspect,
+            args.quality,
+            args.num_images,
+            args.resolution_profile,
+        )
         prompt = build_prompt(
             scene,
             interaction,

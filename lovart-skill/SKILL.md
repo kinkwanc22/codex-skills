@@ -414,6 +414,8 @@ When `bar-couple-photo-gen` or its Mac runner calls this skill for Gary/couple s
 
 The local runner passes the Medium model through `--prefer-models` and puts the exact count and dimensions in the prompt parameter line. Use its `--dry-run` / `--print-prompt` mode for offline prompt and parameter checks; that mode must not upload files or make a network call.
 
+If the user explicitly selects the Lovart UI 2K presets, the Gary runner may use `--resolution-profile 2k`. This maps `9:16（2K）` to `W 2016 / H 3584` and `16:9（2K）` to `W 2048 / H 1152`, while retaining Medium quality and one image unless separately overridden. Do not enable this profile implicitly.
+
 **VIDEO:**
 
 | Tool name | Display name |

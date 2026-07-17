@@ -63,6 +63,15 @@ For Gary/couple image generation through Lovart, use these defaults unless the u
 
 The Mac batch runner is `scripts/run_gary_batch_lovart_mac.py`. It owns these technical defaults and supports an offline `--dry-run` / `--print-prompt` mode that must not read credentials, upload references, or call Lovart.
 
+When the user explicitly asks for the Lovart UI `2K` size presets, pass `--resolution-profile 2k`:
+
+- `9:16（2K）`: `W 2016 / H 3584`.
+- `16:9（2K）`: `W 2048 / H 1152`.
+- Keep quality at `medium` and image count at `1` unless the user explicitly overrides them.
+- This is an explicit override only; it does not change the ordinary default sizes above.
+
+Use `--female-path` when a previously selected female reference must be excluded and a newly randomized top-level library file has already been chosen. The path must belong directly to `--female-dir`.
+
 ## Coffee Candid Universal Preset
 
 Preset id: `coffee_candid_universal`
