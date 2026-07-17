@@ -49,7 +49,44 @@ If the user chooses the hotel lounge sofa prompt, use the following prompt text 
 
 ## Default Output
 
-Generate one vertical 9:16 photorealistic image unless the user asks for multiple variants. Prefer GPT Image 2 / image2 high-fidelity portrait consistency. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
+Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. Prefer GPT Image 2 Medium / image2 high-fidelity portrait consistency. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
+
+## Fixed Lovart Defaults
+
+For Gary/couple image generation through Lovart, use these defaults unless the user explicitly overrides them:
+
+- Quality: `medium`, routed with `generate_image_gpt_image_2_medium`.
+- Number of images per generation: `1`.
+- Vertical `9:16`: `W 1008 / H 1792`.
+- Horizontal `16:9`: `W 1792 / H 1008`.
+- Do not silently use `auto`, `high`, `2k`, `4k`, `2 img`, or `4 img`.
+
+The Mac batch runner is `scripts/run_gary_batch_lovart_mac.py`. It owns these technical defaults and supports an offline `--dry-run` / `--print-prompt` mode that must not read credentials, upload references, or call Lovart.
+
+## Coffee Candid Universal Preset
+
+Preset id: `coffee_candid_universal`
+
+Chinese name: `高级咖啡厅后方抓拍`
+
+This preset works for both `9:16` and `16:9`. Keep aspect wording and dimensions in the generated parameter line, outside the fixed core prompt. For `16:9`, the first line must say that the frame keeps more of the coffee-shop environment while the people remain a close candid crop and are not full-body.
+
+Fixed core prompt:
+
+```text
+使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，不要美化成模特或网红脸。{scene}的真实抓拍照片，男主和女主在沙发上聊天，{camera_angle}，能清楚看到女主的脸，距离很近，表情放松，不看镜头，真实到像朋友圈原图的手机抓拍，像正在聊天或临时合影时被朋友随手拍下，背景里有其他人，主角不看镜头，动作不统一，表情自然松弛，人物都是普通人，人物在图片下三分之二位置，女生鼻子不要太高，不是模特，不精修，不夸张打扮，保持与参考图角色一致，不改变面貌，真实皮肤纹理和轻微瑕疵保留。业余手机摄影风格，构图歪斜，轻微运动模糊，局部失焦，夜拍噪点，高光溢出，直闪，机顶闪光人像，非摆拍，非商业感，非宣传照，强烈生活流纪实感，像朋友聚会时无意拍到的一张照片，画面合规。
+本次随机现场细节：{position_relation}；{interaction_action}；{background_evidence}；{lighting_texture}。
+负面提示词：网红脸，磨皮，美颜，时尚大片，棚拍，专业打光，AI感过强，塑料皮肤，脸部过于完美，多余手指，肢体畸形，摆拍，棚拍，商业摄影，时尚大片，杂志封面，网红风，网红脸，模特感，过度美颜，磨皮，滤镜感，塑料皮肤，过度锐化，人物过于完美，夸张姿势，不自然表情，刻意看镜头，电影感过强，CG感，3D感，动漫感，AI感过强，光线过于干净，背景虚假，人物重复，多余手指，手部畸形，肢体畸形，脸部结构错误
+```
+
+Random-variable pools:
+
+- Scene: `高级咖啡厅`, `酒店大堂咖啡厅`, `商场咖啡厅`, `夜间咖啡厅`, `咖啡厅包间`, `复古咖啡馆`, `书店咖啡厅`, `临街咖啡厅`, `酒店休息区咖啡厅`.
+- Camera angle: `从男主后方拍摄`, `从男主侧后方拍摄`, `从沙发斜后方拍摄`, `从旁边朋友座位拍摄`, `从桌边斜侧面拍摄`, `从女主正前方略偏男主背后拍摄`.
+- Position: `男主背对镜头女主面对男主`, `男主侧背对镜头女主坐在对面沙发`, `男主靠近镜头只露出侧脸和肩膀女主在画面中心`, `男主身体挡住一部分前景女主脸清楚可见`.
+- Interaction: `女主看着男主笑`, `女主低头笑了一下`, `女主手里拿着咖啡杯`, `女主一只手放在桌边`, `男主身体微微前倾像在说话`, `男主手搭在沙发靠背`, `男主侧身听女主说话`, `两人靠近看手机但女主脸可见`.
+- Background evidence: `背景有其他客人`, `咖啡师和吧台`, `落地窗和路灯`, `桌面咖啡杯`, `蛋糕柜`, `暖黄吊灯`, `绿植和玻璃反光`, `邻桌模糊人影`.
+- Lighting: `暖黄咖啡厅灯光混合手机直闪`, `夜间室内暖光加窗外冷光`, `吧台灯光和机顶闪光混合`, `沙发区暗光加局部高光溢出`, `咖啡厅低照度环境加手机夜拍噪点`.
 
 ## Prompt Assembly
 

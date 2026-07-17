@@ -402,6 +402,18 @@ Available models for `--prefer-models`:
 | `generate_image_seedream_v4` | Seedream 4 |
 | `generate_image_midjourney` | Midjourney |
 
+### Gary / Couple Image Default Profile
+
+When `bar-couple-photo-gen` or its Mac runner calls this skill for Gary/couple stills, use the following defaults unless the user explicitly overrides them:
+
+- Prefer `generate_image_gpt_image_2_medium`; do not fall back to GPT Image 2 Auto or High merely because the user omitted quality.
+- Generate `1 img` per request.
+- `9:16` uses `W 1008 / H 1792`.
+- `16:9` uses `W 1792 / H 1008`.
+- Do not silently request high quality, auto quality, 2k/4k, 2 images, or 4 images.
+
+The local runner passes the Medium model through `--prefer-models` and puts the exact count and dimensions in the prompt parameter line. Use its `--dry-run` / `--print-prompt` mode for offline prompt and parameter checks; that mode must not upload files or make a network call.
+
 **VIDEO:**
 
 | Tool name | Display name |

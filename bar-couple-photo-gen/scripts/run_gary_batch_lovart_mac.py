@@ -14,6 +14,27 @@ DEFAULT_FEMALE_DIR = r"/Users/kin/工作用（同步）/图/人物设定/精品"
 DEFAULT_OUTPUT_DIR = r"/Users/kin/工作用（同步）/图/长视频用图"
 DEFAULT_PROJECT_ID = "70c9b703e8e7481487c4d452d64441dc"
 AGENT = r"/Users/kin/.codex/skills/lovart-skill/agent_skill.py"
+DEFAULT_QUALITY = "medium"
+DEFAULT_NUM_IMAGES = 1
+
+ASPECT_SETTINGS = {
+    "9x16": {"aspect_ratio": "9:16", "width": 1008, "height": 1792},
+    "16x9": {"aspect_ratio": "16:9", "width": 1792, "height": 1008},
+}
+
+QUALITY_MODELS = {
+    "auto": "generate_image_gpt_image_2",
+    "low": "generate_image_gpt_image_2_low",
+    "medium": "generate_image_gpt_image_2_medium",
+    "high": "generate_image_gpt_image_2_high",
+}
+
+QUALITY_LABELS = {
+    "auto": "自动（auto）",
+    "low": "低（low）",
+    "medium": "中（medium）",
+    "high": "高（high）",
+}
 
 
 SCENES = [
@@ -39,6 +60,64 @@ SOFA_SCENES = [
     "高级酒廊沙发区",
     "朋友聚会包间",
     "KTV包间沙发区",
+]
+
+COFFEE_SCENES = [
+    "高级咖啡厅",
+    "酒店大堂咖啡厅",
+    "商场咖啡厅",
+    "夜间咖啡厅",
+    "咖啡厅包间",
+    "复古咖啡馆",
+    "书店咖啡厅",
+    "临街咖啡厅",
+    "酒店休息区咖啡厅",
+]
+
+COFFEE_CAMERA_ANGLES = [
+    "从男主后方拍摄",
+    "从男主侧后方拍摄",
+    "从沙发斜后方拍摄",
+    "从旁边朋友座位拍摄",
+    "从桌边斜侧面拍摄",
+    "从女主正前方略偏男主背后拍摄",
+]
+
+COFFEE_POSITIONS = [
+    "男主背对镜头女主面对男主",
+    "男主侧背对镜头女主坐在对面沙发",
+    "男主靠近镜头只露出侧脸和肩膀女主在画面中心",
+    "男主身体挡住一部分前景女主脸清楚可见",
+]
+
+COFFEE_INTERACTIONS = [
+    "女主看着男主笑",
+    "女主低头笑了一下",
+    "女主手里拿着咖啡杯",
+    "女主一只手放在桌边",
+    "男主身体微微前倾像在说话",
+    "男主手搭在沙发靠背",
+    "男主侧身听女主说话",
+    "两人靠近看手机但女主脸可见",
+]
+
+COFFEE_BACKGROUND_EVIDENCE = [
+    "背景有其他客人",
+    "咖啡师和吧台",
+    "落地窗和路灯",
+    "桌面咖啡杯",
+    "蛋糕柜",
+    "暖黄吊灯",
+    "绿植和玻璃反光",
+    "邻桌模糊人影",
+]
+
+COFFEE_LIGHTING = [
+    "暖黄咖啡厅灯光混合手机直闪",
+    "夜间室内暖光加窗外冷光",
+    "吧台灯光和机顶闪光混合",
+    "沙发区暗光加局部高光溢出",
+    "咖啡厅低照度环境加手机夜拍噪点",
 ]
 
 INTERACTIONS = [
@@ -70,6 +149,23 @@ FIXED_SUFFIX = (
     "电影感过强，CG感，3D感，动漫感，AI感过强，滤镜感，过度锐化，光线过于干净，背景虚假，刻意摆拍，"
     "夸张姿势，不自然表情，刻意直视镜头，人物重复，多余人物，多余手指，手部畸形，肢体畸形，"
     "脸部结构错误，五官变形，身份不一致，改变面貌，低清，严重噪点，画面脏污，水印，文字"
+)
+
+COFFEE_CANDID_CORE = (
+    "使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，"
+    "不要美化成模特或网红脸。{scene}的真实抓拍照片，男主和女主在沙发上聊天，{camera_angle}，"
+    "能清楚看到女主的脸，距离很近，表情放松，不看镜头，真实到像朋友圈原图的手机抓拍，"
+    "像正在聊天或临时合影时被朋友随手拍下，背景里有其他人，主角不看镜头，动作不统一，"
+    "表情自然松弛，人物都是普通人，人物在图片下三分之二位置，女生鼻子不要太高，不是模特，"
+    "不精修，不夸张打扮，保持与参考图角色一致，不改变面貌，真实皮肤纹理和轻微瑕疵保留。"
+    "业余手机摄影风格，构图歪斜，轻微运动模糊，局部失焦，夜拍噪点，高光溢出，直闪，"
+    "机顶闪光人像，非摆拍，非商业感，非宣传照，强烈生活流纪实感，像朋友聚会时无意拍到的一张照片，画面合规。\n"
+    "本次随机现场细节：{position_relation}；{interaction_action}；{background_evidence}；{lighting_texture}。\n"
+    "负面提示词：网红脸，磨皮，美颜，时尚大片，棚拍，专业打光，AI感过强，塑料皮肤，脸部过于完美，"
+    "多余手指，肢体畸形，摆拍，棚拍，商业摄影，时尚大片，杂志封面，网红风，网红脸，模特感，"
+    "过度美颜，磨皮，滤镜感，塑料皮肤，过度锐化，人物过于完美，夸张姿势，不自然表情，刻意看镜头，"
+    "电影感过强，CG感，3D感，动漫感，AI感过强，光线过于干净，背景虚假，人物重复，多余手指，"
+    "手部畸形，肢体畸形，脸部结构错误"
 )
 
 
@@ -174,17 +270,46 @@ def write_json(path, obj):
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def build_photo_prompt(scene, interaction, aspect):
+def generation_settings(aspect, quality=DEFAULT_QUALITY, num_images=DEFAULT_NUM_IMAGES):
+    return {
+        **ASPECT_SETTINGS[aspect],
+        "quality": quality,
+        "num_images": num_images,
+        "preferred_model": QUALITY_MODELS[quality],
+    }
+
+
+def build_parameter_line(aspect, settings, coffee_environment=False):
+    ratio = settings["aspect_ratio"]
+    orientation = "横版" if aspect == "16x9" else "竖版"
+    line = (
+        f"生成{ratio}{orientation}手机照片，W {settings['width']} / H {settings['height']}，"
+        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+    )
     if aspect == "16x9":
-        first_line = "生成16:9横版手机照片，画面保留更多真实室内环境，但人物仍是近距离半身抓拍，不要全身照。"
-    else:
-        first_line = "生成9:16竖版手机照片。"
+        environment = "咖啡厅环境" if coffee_environment else "真实室内环境"
+        line += f"画面保留更多{environment}，但人物仍是近距离抓拍，不要全身照。"
+    return line
+
+
+def build_photo_prompt(scene, interaction, aspect, settings):
+    first_line = build_parameter_line(aspect, settings)
     return f"{first_line}\n{scene}的真实抓拍照片，{interaction}。\n{FIXED_SUFFIX}"
 
 
-def build_sofa_prompt(scene):
+def build_sofa_prompt(scene, aspect, settings):
+    if aspect == "16x9":
+        composition = (
+            "横图 16:9，近距离低机位拍摄，画面保留更多酒廊环境，但人物仍是近距离半身抓拍，不要全身照。"
+        )
+    else:
+        composition = (
+            "竖图 9:16，近距离低机位拍摄，镜头高度接近茶几，从人物正前方略偏右的位置拍摄，"
+            "人物主要位于画面下三分之二。"
+        )
     return (
-        "高级酒店酒廊里的真实朋友圈抓拍照片，参考图1和图2的人物身份、面貌、服装、人物关系保持一致，不改变角色长相。"
+        f"{build_parameter_line(aspect, settings)}\n"
+        f"{scene}里的真实朋友圈抓拍照片，参考图1和图2的人物身份、面貌、服装、人物关系保持一致，不改变角色长相。"
         "男主和女生并肩坐在浅色沙发上，距离很近，像正在和朋友聊天时被随手拍下。"
         "男主坐在左侧，身体微微后靠，一只手自然搭在女生身后或沙发靠背上，另一只手朝画面外轻轻比划，像正在说话；"
         "男主看向画面左侧，不看镜头，表情自然沉稳。\n"
@@ -195,17 +320,35 @@ def build_sofa_prompt(scene):
         "女生坐在男主右侧，身体贴近男主，姿态放松，腿向镜头前方伸展，一只腿自然搭近酒桌或靠近茶几边缘，高跟鞋和腿部形成明显前景透视。"
         "镜头正对两人但人物不刻意看镜头，像朋友聚会中临时拍下的一张原图。女生表情松弛自然，不是模特感，不要网红脸，鼻子不要太高，"
         "五官保持普通真实，真实皮肤纹理、轻微瑕疵和面部细节保留。\n"
-        "竖图 9:16，近距离低机位拍摄，镜头高度接近茶几，从人物正前方略偏右的位置拍摄，人物主要位于画面下三分之二。"
+        f"{composition}"
         "前景有黑色酒桌、威士忌酒杯、白色杯子、玻璃反光；背景有灰色墙面、深色柜门、玻璃门、落地灯。"
         "业余手机摄影风格，近距离广角，轻微歪斜构图，轻微运动模糊，局部失焦，夜拍噪点，机顶直闪，人物皮肤有闪光灯高光，背景偏暗，高光轻微溢出。"
         "非摆拍，非商业摄影，非精修，强烈生活流纪实感，像朋友聚会时无意拍到的一张真实照片。"
     )
 
 
-def build_prompt(scene, interaction, aspect, prompt_preset):
+def random_coffee_variables():
+    return {
+        "scene": random.choice(COFFEE_SCENES),
+        "camera_angle": random.choice(COFFEE_CAMERA_ANGLES),
+        "position_relation": random.choice(COFFEE_POSITIONS),
+        "interaction_action": random.choice(COFFEE_INTERACTIONS),
+        "background_evidence": random.choice(COFFEE_BACKGROUND_EVIDENCE),
+        "lighting_texture": random.choice(COFFEE_LIGHTING),
+    }
+
+
+def build_coffee_prompt(aspect, settings, variables):
+    first_line = build_parameter_line(aspect, settings, coffee_environment=True)
+    return f"{first_line}\n{COFFEE_CANDID_CORE.format(**variables)}"
+
+
+def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_variables=None):
+    if prompt_preset == "coffee_candid_universal":
+        return build_coffee_prompt(aspect, settings, prompt_variables or random_coffee_variables())
     if prompt_preset == "sofa":
-        return build_sofa_prompt(scene)
-    return build_photo_prompt(scene, interaction, aspect)
+        return build_sofa_prompt(scene, aspect, settings)
+    return build_photo_prompt(scene, interaction, aspect, settings)
 
 
 def choose_different_pair(previous=None, prompt_preset="photo"):
@@ -232,31 +375,50 @@ def build_tasks(female_files, args):
             aspect_targets.append(("9x16", args.target_vertical))
         if args.aspect_mode in {"horizontal", "both"}:
             aspect_targets.append(("16x9", args.target_horizontal))
+        has_explicit_targets = bool(args.target_vertical or args.target_horizontal)
         for aspect, target in aspect_targets:
             if target <= 0:
-                continue
+                if has_explicit_targets:
+                    continue
+                target = len(selected)
             for i in range(target):
                 female_path = selected[i % len(selected)]
-                previous = previous_by_female.get(female_path.name)
-                scene, interaction = choose_different_pair(previous, args.prompt_preset)
-                previous_by_female[female_path.name] = (scene, interaction)
+                if args.prompt_preset == "coffee_candid_universal":
+                    prompt_variables = random_coffee_variables()
+                    scene = prompt_variables["scene"]
+                    interaction = prompt_variables["interaction_action"]
+                else:
+                    previous = previous_by_female.get(female_path.name)
+                    scene, interaction = choose_different_pair(previous, args.prompt_preset)
+                    previous_by_female[female_path.name] = (scene, interaction)
+                    prompt_variables = None
                 tasks.append({
                     "aspect": aspect,
                     "female_path": female_path,
                     "scene": scene,
                     "interaction": interaction,
+                    "prompt_variables": prompt_variables,
                 })
         return tasks
 
-    return [
-        {
+    tasks = []
+    for female_path in female_files:
+        if args.prompt_preset == "coffee_candid_universal":
+            prompt_variables = random_coffee_variables()
+            scene = prompt_variables["scene"]
+            interaction = prompt_variables["interaction_action"]
+        else:
+            prompt_variables = None
+            scene = random.choice(SOFA_SCENES if args.prompt_preset == "sofa" else SCENES)
+            interaction = "沙发前景抓拍" if args.prompt_preset == "sofa" else random.choice(INTERACTIONS)
+        tasks.append({
             "aspect": "9x16",
             "female_path": female_path,
-            "scene": random.choice(SCENES),
-            "interaction": random.choice(INTERACTIONS),
-        }
-        for female_path in female_files
-    ]
+            "scene": scene,
+            "interaction": interaction,
+            "prompt_variables": prompt_variables,
+        })
+    return tasks
 
 
 def main():
@@ -274,8 +436,53 @@ def main():
     parser.add_argument("--female-count", type=int, default=0)
     parser.add_argument("--aspect-mode", choices=["vertical", "horizontal", "both"], default="vertical")
     parser.add_argument("--run-label", default="_gary_batch")
-    parser.add_argument("--prompt-preset", choices=["photo", "sofa"], default="photo")
+    parser.add_argument(
+        "--prompt-preset",
+        choices=["photo", "sofa", "coffee_candid_universal"],
+        default="photo",
+    )
+    parser.add_argument("--quality", choices=["auto", "low", "medium", "high"], default=DEFAULT_QUALITY)
+    parser.add_argument("--num-images", type=int, choices=[1, 2, 4], default=DEFAULT_NUM_IMAGES)
+    parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--dry-run", "--print-prompt", dest="dry_run", action="store_true")
     args = parser.parse_args()
+    if args.seed is not None:
+        random.seed(args.seed)
+
+    if args.dry_run:
+        aspects = ["9x16", "16x9"] if args.aspect_mode == "both" else [
+            "16x9" if args.aspect_mode == "horizontal" else "9x16"
+        ]
+        previews = []
+        for aspect in aspects:
+            settings = generation_settings(aspect, args.quality, args.num_images)
+            variables = random_coffee_variables() if args.prompt_preset == "coffee_candid_universal" else None
+            if args.prompt_preset == "sofa":
+                scene, interaction = random.choice(SOFA_SCENES), "沙发前景抓拍"
+            elif args.prompt_preset == "coffee_candid_universal":
+                scene, interaction = variables["scene"], variables["interaction_action"]
+            else:
+                scene, interaction = random.choice(SCENES), random.choice(INTERACTIONS)
+            previews.append({
+                "dry_run": True,
+                "network_called": False,
+                "uploads_performed": False,
+                "prompt_preset": args.prompt_preset,
+                "aspect": aspect,
+                "settings": settings,
+                "random_variables": variables,
+                "prompt": build_prompt(
+                    scene,
+                    interaction,
+                    aspect,
+                    args.prompt_preset,
+                    settings,
+                    variables,
+                ),
+            })
+        print(json.dumps(previews, ensure_ascii=False, indent=2))
+        return
+
     load_lovart_env()
 
     output_root = Path(args.output_dir)
@@ -320,6 +527,9 @@ def main():
         "aspect_mode": args.aspect_mode,
         "prompt_preset": args.prompt_preset,
         "prompt_language": "中文",
+        "quality": args.quality,
+        "num_images": args.num_images,
+        "aspect_settings": ASPECT_SETTINGS,
         "max_network_retries": args.max_network_retries,
         "max_generation_attempts": args.max_generation_attempts,
     }
@@ -337,7 +547,16 @@ def main():
         aspect = task["aspect"]
         scene = task["scene"]
         interaction = task["interaction"]
-        prompt = build_prompt(scene, interaction, aspect, args.prompt_preset)
+        prompt_variables = task.get("prompt_variables")
+        settings = generation_settings(aspect, args.quality, args.num_images)
+        prompt = build_prompt(
+            scene,
+            interaction,
+            aspect,
+            args.prompt_preset,
+            settings,
+            prompt_variables,
+        )
         aspect_output_dir = log_dir / aspect if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical" else output_root
         aspect_output_dir.mkdir(parents=True, exist_ok=True)
         base = {
@@ -349,6 +568,8 @@ def main():
             "female_name": female_path.name,
             "scene": scene,
             "interaction": interaction,
+            "prompt_variables": prompt_variables,
+            "generation_settings": settings,
             "started_at": now_iso(),
         }
         write_json(current_path, {**base, "status": "running", "updated_at": now_iso()})
@@ -385,6 +606,11 @@ def main():
                             "--project-id", args.project_id,
                             "--prompt", prompt,
                             "--attachments", male_url, female_url,
+                            "--prefer-models", json.dumps(
+                                {"IMAGE": [settings["preferred_model"]]},
+                                ensure_ascii=False,
+                                separators=(",", ":"),
+                            ),
                             "--json",
                             "--download",
                             "--output-dir", str(aspect_output_dir),
