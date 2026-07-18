@@ -866,7 +866,11 @@ def main():
         "summary_path": str(summary_path),
         "manifest_path": str(manifest_path),
     }
-    final_path = log_dir / (f"{run_tag}_final_summary.json" if args.batch_dir else "final_summary.json")
+    final_path = (
+        records_dir / f"{run_tag}_final_summary.json"
+        if args.batch_dir
+        else log_dir / "final_summary.json"
+    )
     write_json(final_path, final)
     write_json(current_path, {**final, "status": "finished", "updated_at": now_iso()})
     log(f"批量完成：成功 {final['success']}，跳过 {final['skipped']}")
