@@ -63,6 +63,8 @@ For Gary/couple image generation through Lovart, use these defaults unless the u
 
 The Mac batch runner is `scripts/run_gary_batch_lovart_mac.py`. It owns these technical defaults and supports an offline `--dry-run` / `--print-prompt` mode that must not read credentials, upload references, or call Lovart.
 
+For local saving, group every same-character, same-request batch into one dated folder under the user's long-video image directory. Name it with a readable date, female source stem, and batch purpose, for example `2026-07-19_IMG_9757_三套横版2K`. Pass that exact folder with `--batch-dir` to every preset invocation in the batch. All generated images and the shared `manifest.jsonl` then stay in that one folder; do not create one output folder per preset.
+
 When the user explicitly asks for the Lovart UI `2K` size presets, pass `--resolution-profile 2k`:
 
 - `9:16（2K）`: `W 2016 / H 3584`.

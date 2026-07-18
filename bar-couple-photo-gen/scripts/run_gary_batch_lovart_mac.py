@@ -463,6 +463,11 @@ def main():
     parser.add_argument("--female-dir", default=DEFAULT_FEMALE_DIR)
     parser.add_argument("--female-path", default=None)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument(
+        "--batch-dir",
+        default=None,
+        help="将同一角色同一批次的多个 preset 直接保存到同一个日期批次目录",
+    )
     parser.add_argument("--project-id", default=DEFAULT_PROJECT_ID)
     parser.add_argument("--vertical-thread-id", default=None)
     parser.add_argument("--horizontal-thread-id", default=None)
@@ -532,15 +537,30 @@ def main():
     output_root = Path(args.output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-    if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical":
+    if args.batch_dir:
+        log_dir = Path(args.batch_dir)
+    elif args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical":
         log_dir = output_root / f"{args.run_label}_{run_id}"
     else:
         log_dir = output_root / f"_gary_batch_{run_id}"
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    summary_path = log_dir / "manifest.jsonl"
-    manifest_path = log_dir / "run_manifest.json"
-    current_path = log_dir / "current.json"
+    run_tag = f"{args.run_label}_{run_id}"
+    if args.batch_dir:
+        summary_path = log_dir / f"{run_tag}_manifest.jsonl"
+        manifest_path = log_dir / f"{run_tag}_run_manifest.json"
+        current_path = log_dir / f"{run_tag}_current.json"
+        batch_summary_path = log_dir / "manifest.jsonl"
+    else:
+        summary_path = log_dir / "manifest.jsonl"
+        manifest_path = log_dir / "run_manifest.json"
+        current_path = log_dir / "current.json"
+        batch_summary_path = None
+
+    def record_result(record):
+        write_jsonl(summary_path, record)
+        if batch_summary_path is not None:
+            write_jsonl(batch_summary_path, record)
 
     female_dir = Path(args.female_dir)
     if args.female_path:
@@ -574,6 +594,7 @@ def main():
         "female_dir": args.female_dir,
         "female_path": args.female_path,
         "output_dir": args.output_dir,
+        "batch_dir": args.batch_dir,
         "log_dir": str(log_dir),
         "total": len(tasks),
         "female_count": len(female_files),
@@ -618,7 +639,10 @@ def main():
             settings,
             prompt_variables,
         )
-        aspect_output_dir = log_dir / aspect if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical" else output_root
+        if args.batch_dir:
+            aspect_output_dir = log_dir
+        else:
+            aspect_output_dir = log_dir / aspect if args.target_vertical or args.target_horizontal or args.aspect_mode != "vertical" else output_root
         aspect_output_dir.mkdir(parents=True, exist_ok=True)
         reused_thread_id = (
             args.horizontal_thread_id if aspect == "16x9" else args.vertical_thread_id
@@ -653,7 +677,7 @@ def main():
                 "error": str(exc),
                 "finished_at": now_iso(),
             }
-            write_jsonl(summary_path, record)
+            record_result(record)
             log(f"[{index}/{len(tasks)}] 上传失败，跳过：{female_path.name}")
             write_json(current_path, {**record, "updated_at": now_iso()})
             continue
@@ -701,7 +725,7 @@ def main():
                     "urls": [item.get("url") for item in downloaded],
                     "finished_at": now_iso(),
                 }
-                write_jsonl(summary_path, record)
+                record_result(record)
                 write_json(current_path, {**record, "updated_at": now_iso()})
                 log(f"[{index}/{len(tasks)}] 成功：{downloaded[0].get('local_path')}")
                 success = True
@@ -720,7 +744,7 @@ def main():
                         "error": error,
                         "finished_at": now_iso(),
                     }
-                    write_jsonl(summary_path, record)
+                    record_result(record)
                     write_json(current_path, {**record, "updated_at": now_iso()})
 
         if not success:
@@ -743,7 +767,7 @@ def main():
         "summary_path": str(summary_path),
         "manifest_path": str(manifest_path),
     }
-    final_path = log_dir / "final_summary.json"
+    final_path = log_dir / (f"{run_tag}_final_summary.json" if args.batch_dir else "final_summary.json")
     write_json(final_path, final)
     write_json(current_path, {**final, "status": "finished", "updated_at": now_iso()})
     log(f"批量完成：成功 {final['success']}，跳过 {final['skipped']}")
