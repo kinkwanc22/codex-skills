@@ -297,6 +297,83 @@ def select_current_downloads(downloaded, settings):
     return downloaded[-settings["num_images"]:]
 
 
+def recorded_output_paths(manifest_path):
+    paths = set()
+    if not manifest_path or not manifest_path.exists():
+        return paths
+    for line in manifest_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        for output_path in record.get("output_paths") or []:
+            paths.add(str(Path(output_path).resolve()))
+    return paths
+
+
+def move_with_collision_guard(source, destination_dir):
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    destination = destination_dir / source.name
+    counter = 1
+    while destination.exists():
+        destination = destination_dir / f"{source.stem}_{counter}{source.suffix}"
+        counter += 1
+    source.replace(destination)
+    return destination
+
+
+def archive_unselected_downloads(downloaded, selected, output_dir, records_dir, protected_paths):
+    selected_paths = {
+        str(Path(item["local_path"]).resolve())
+        for item in selected
+        if item.get("local_path")
+    }
+    archived = []
+    archive_dir = records_dir / "historical_downloads"
+    output_dir_resolved = output_dir.resolve()
+    for item in downloaded:
+        local_path = item.get("local_path")
+        if not local_path:
+            continue
+        path = Path(local_path)
+        resolved = str(path.resolve())
+        if resolved in selected_paths or resolved in protected_paths:
+            continue
+        if not path.exists() or path.parent.resolve() != output_dir_resolved:
+            continue
+        archived.append(str(move_with_collision_guard(path, archive_dir)))
+    return archived
+
+
+def organize_existing_batch(batch_dir):
+    records_dir = batch_dir / ".records"
+    records_dir.mkdir(parents=True, exist_ok=True)
+    manifest_candidates = [batch_dir / "manifest.jsonl", records_dir / "manifest.jsonl"]
+    keep_paths = set()
+    for manifest_path in manifest_candidates:
+        keep_paths.update(recorded_output_paths(manifest_path))
+
+    archived_images = []
+    for path in batch_dir.glob("*.png"):
+        if str(path.resolve()) not in keep_paths:
+            archived_images.append(
+                str(move_with_collision_guard(path, records_dir / "historical_downloads"))
+            )
+
+    moved_records = []
+    for path in list(batch_dir.glob("*.json")) + list(batch_dir.glob("*.jsonl")):
+        moved_records.append(str(move_with_collision_guard(path, records_dir)))
+
+    return {
+        "batch_dir": str(batch_dir),
+        "kept_images": sorted(keep_paths),
+        "archived_images": archived_images,
+        "moved_records": moved_records,
+    }
+
+
 def generation_settings(
     aspect,
     quality=DEFAULT_QUALITY,
@@ -489,9 +566,20 @@ def main():
     parser.add_argument("--resolution-profile", choices=["default", "2k"], default="default")
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--dry-run", "--print-prompt", dest="dry_run", action="store_true")
+    parser.add_argument(
+        "--organize-batch-only",
+        action="store_true",
+        help="仅整理现有批次：根目录保留 manifest 记录的成品，历史图片和日志移入隐藏目录",
+    )
     args = parser.parse_args()
     if args.seed is not None:
         random.seed(args.seed)
+
+    if args.organize_batch_only:
+        if not args.batch_dir:
+            parser.error("--organize-batch-only 必须同时指定 --batch-dir")
+        print(json.dumps(organize_existing_batch(Path(args.batch_dir)), ensure_ascii=False, indent=2))
+        return
 
     if args.dry_run:
         aspects = ["9x16", "16x9"] if args.aspect_mode == "both" else [
@@ -547,10 +635,12 @@ def main():
 
     run_tag = f"{args.run_label}_{run_id}"
     if args.batch_dir:
-        summary_path = log_dir / f"{run_tag}_manifest.jsonl"
-        manifest_path = log_dir / f"{run_tag}_run_manifest.json"
-        current_path = log_dir / f"{run_tag}_current.json"
-        batch_summary_path = log_dir / "manifest.jsonl"
+        records_dir = log_dir / ".records"
+        records_dir.mkdir(parents=True, exist_ok=True)
+        summary_path = records_dir / f"{run_tag}_manifest.jsonl"
+        manifest_path = records_dir / f"{run_tag}_run_manifest.json"
+        current_path = records_dir / f"{run_tag}_current.json"
+        batch_summary_path = records_dir / "manifest.jsonl"
     else:
         summary_path = log_dir / "manifest.jsonl"
         manifest_path = log_dir / "run_manifest.json"
@@ -708,12 +798,21 @@ def main():
                         timeout=900,
                     ),
                 )
-                downloaded = result.get("downloaded") or []
-                if not result.get("generation_succeeded") or not downloaded:
+                all_downloaded = result.get("downloaded") or []
+                if not result.get("generation_succeeded") or not all_downloaded:
                     raise LovartError(
                         f"生成完成但无产物：{result.get('warning', '')} {result.get('agent_message', '')}"
                     )
-                downloaded = select_current_downloads(downloaded, settings)
+                downloaded = select_current_downloads(all_downloaded, settings)
+                if args.batch_dir:
+                    protected_paths = recorded_output_paths(batch_summary_path)
+                    archive_unselected_downloads(
+                        all_downloaded,
+                        downloaded,
+                        aspect_output_dir,
+                        records_dir,
+                        protected_paths,
+                    )
 
                 record = {
                     **base,
