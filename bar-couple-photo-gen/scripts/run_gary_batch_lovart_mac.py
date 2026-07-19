@@ -297,6 +297,18 @@ def select_current_downloads(downloaded, settings):
     return downloaded[-settings["num_images"]:]
 
 
+def artifact_urls(result):
+    urls = set()
+    for item in result.get("items") or []:
+        if item.get("type") != "generator":
+            continue
+        for artifact in item.get("artifacts") or []:
+            content = artifact.get("content")
+            if content:
+                urls.add(content)
+    return urls
+
+
 def recorded_output_paths(manifest_path):
     paths = set()
     if not manifest_path or not manifest_path.exists():
@@ -365,6 +377,29 @@ def organize_existing_batch(batch_dir):
     moved_records = []
     for path in list(batch_dir.glob("*.json")) + list(batch_dir.glob("*.jsonl")):
         moved_records.append(str(move_with_collision_guard(path, records_dir)))
+
+    shared_manifest = records_dir / "manifest.jsonl"
+    if shared_manifest.exists():
+        unique_lines = []
+        seen_outputs = set()
+        for line in shared_manifest.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                unique_lines.append(line)
+                continue
+            output_key = tuple(record.get("output_paths") or [])
+            if output_key and output_key in seen_outputs:
+                continue
+            if output_key:
+                seen_outputs.add(output_key)
+            unique_lines.append(json.dumps(record, ensure_ascii=False, separators=(",", ":")))
+        shared_manifest.write_text(
+            "\n".join(unique_lines) + ("\n" if unique_lines else ""),
+            encoding="utf-8",
+        )
 
     return {
         "batch_dir": str(batch_dir),
@@ -773,6 +808,27 @@ def main():
             continue
 
         success = False
+        existing_urls = set()
+        if reused_thread_id:
+            try:
+                baseline_result = run_agent(
+                    args.python_exe,
+                    ["result", "--thread-id", reused_thread_id, "--json"],
+                    timeout=180,
+                )
+                existing_urls = artifact_urls(baseline_result)
+            except Exception as exc:
+                log(f"[{index}/{len(tasks)}] 读取线程基线失败，将停止以避免误认历史产物：{exc}")
+                record = {
+                    **base,
+                    "status": "skipped",
+                    "reason": "thread_baseline_failed",
+                    "error": str(exc),
+                    "finished_at": now_iso(),
+                }
+                record_result(record)
+                write_json(current_path, {**record, "updated_at": now_iso()})
+                continue
         for gen_attempt in range(1, args.max_generation_attempts + 1):
             try:
                 result = with_network_retry(
@@ -799,11 +855,15 @@ def main():
                     ),
                 )
                 all_downloaded = result.get("downloaded") or []
-                if not result.get("generation_succeeded") or not all_downloaded:
+                new_downloaded = [
+                    item for item in all_downloaded
+                    if item.get("url") and item.get("url") not in existing_urls
+                ]
+                if not result.get("generation_succeeded") or not new_downloaded:
                     raise LovartError(
                         f"生成完成但无产物：{result.get('warning', '')} {result.get('agent_message', '')}"
                     )
-                downloaded = select_current_downloads(all_downloaded, settings)
+                downloaded = select_current_downloads(new_downloaded, settings)
                 if args.batch_dir:
                     protected_paths = recorded_output_paths(batch_summary_path)
                     archive_unselected_downloads(
