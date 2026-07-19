@@ -159,16 +159,15 @@ FIXED_SUFFIX = (
 
 COFFEE_CANDID_CORE = (
     "使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，"
-    "不要美化成模特或网红脸。{scene}的真实抓拍照片，男主和女主在沙发上聊天，{camera_angle}，"
+    "不要美化成模特或网红脸。高级餐厅的真实抓拍照片，男主和女主在沙发上聊天，从男主后方拍摄，"
     "能清楚看到女主的脸，距离很近，表情放松，不看镜头，真实到像朋友圈原图的手机抓拍，"
     "像正在聊天或临时合影时被朋友随手拍下，背景里有其他人，主角不看镜头，动作不统一，"
     "表情自然松弛，人物都是普通人，人物在图片下三分之二位置，女生鼻子不要太高，不是模特，"
     "不精修，不夸张打扮，保持与参考图角色一致，不改变面貌，真实皮肤纹理和轻微瑕疵保留。"
-    "业余手机摄影风格，构图歪斜，轻微运动模糊，局部失焦，夜拍噪点，高光溢出，直闪，"
-    "机顶闪光人像，非摆拍，非商业感，非宣传照，强烈生活流纪实感，像朋友聚会时无意拍到的一张照片，画面合规。\n"
-    "本次随机现场细节：{position_relation}；{interaction_action}；{background_evidence}；{lighting_texture}。\n"
-    "负面提示词：网红脸，磨皮，美颜，时尚大片，棚拍，专业打光，AI感过强，塑料皮肤，脸部过于完美，"
-    "多余手指，肢体畸形，摆拍，棚拍，商业摄影，时尚大片，杂志封面，网红风，网红脸，模特感，"
+    "业余手机摄影风格，构图歪斜，轻微运动模糊，局部失焦，夜拍噪点，高光溢出，直闪 ，"
+    "机顶闪光人像，非摆拍，非商业感，非宣传照，强烈生活流纪实感，像朋友聚会时无意拍到的一张照片，画面合规。 "
+    "负面提示词： 网红脸，磨皮，美颜，时尚大片，棚拍，专业打光，AI感过强，塑料皮肤，脸部过于完美，多余手指，肢体畸形 "
+    "负面提示词： 摆拍，棚拍，商业摄影，时尚大片，杂志封面，网红风，网红脸，模特感，"
     "过度美颜，磨皮，滤镜感，塑料皮肤，过度锐化，人物过于完美，夸张姿势，不自然表情，刻意看镜头，"
     "电影感过强，CG感，3D感，动漫感，AI感过强，光线过于干净，背景虚假，人物重复，多余手指，"
     "手部畸形，肢体畸形，脸部结构错误"
@@ -434,7 +433,7 @@ def build_parameter_line(aspect, settings, coffee_environment=False):
     if settings["resolution_profile"] == "2k":
         line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
     if aspect == "16x9":
-        environment = "咖啡厅环境" if coffee_environment else "真实室内环境"
+        environment = "高级餐厅环境" if coffee_environment else "真实室内环境"
         line += f"画面保留更多{environment}，但人物仍是近距离抓拍，不要全身照。"
     return line
 
@@ -474,25 +473,14 @@ def build_sofa_prompt(scene, aspect, settings):
     )
 
 
-def random_coffee_variables():
-    return {
-        "scene": random.choice(COFFEE_SCENES),
-        "camera_angle": random.choice(COFFEE_CAMERA_ANGLES),
-        "position_relation": random.choice(COFFEE_POSITIONS),
-        "interaction_action": random.choice(COFFEE_INTERACTIONS),
-        "background_evidence": random.choice(COFFEE_BACKGROUND_EVIDENCE),
-        "lighting_texture": random.choice(COFFEE_LIGHTING),
-    }
-
-
-def build_coffee_prompt(aspect, settings, variables):
+def build_coffee_prompt(aspect, settings):
     first_line = build_parameter_line(aspect, settings, coffee_environment=True)
-    return f"{first_line}\n{COFFEE_CANDID_CORE.format(**variables)}"
+    return f"{first_line}\n{COFFEE_CANDID_CORE}"
 
 
 def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_variables=None):
     if prompt_preset == "coffee_candid_universal":
-        return build_coffee_prompt(aspect, settings, prompt_variables or random_coffee_variables())
+        return build_coffee_prompt(aspect, settings)
     if prompt_preset == "sofa":
         return build_sofa_prompt(scene, aspect, settings)
     return build_photo_prompt(scene, interaction, aspect, settings)
@@ -531,9 +519,9 @@ def build_tasks(female_files, args):
             for i in range(target):
                 female_path = selected[i % len(selected)]
                 if args.prompt_preset == "coffee_candid_universal":
-                    prompt_variables = random_coffee_variables()
-                    scene = prompt_variables["scene"]
-                    interaction = prompt_variables["interaction_action"]
+                    prompt_variables = None
+                    scene = "高级餐厅"
+                    interaction = "从男主后方拍摄"
                 else:
                     previous = previous_by_female.get(female_path.name)
                     scene, interaction = choose_different_pair(previous, args.prompt_preset)
@@ -551,9 +539,9 @@ def build_tasks(female_files, args):
     tasks = []
     for female_path in female_files:
         if args.prompt_preset == "coffee_candid_universal":
-            prompt_variables = random_coffee_variables()
-            scene = prompt_variables["scene"]
-            interaction = prompt_variables["interaction_action"]
+            prompt_variables = None
+            scene = "高级餐厅"
+            interaction = "从男主后方拍摄"
         else:
             prompt_variables = None
             scene = random.choice(SOFA_SCENES if args.prompt_preset == "sofa" else SCENES)
@@ -628,11 +616,11 @@ def main():
                 args.num_images,
                 args.resolution_profile,
             )
-            variables = random_coffee_variables() if args.prompt_preset == "coffee_candid_universal" else None
+            variables = None
             if args.prompt_preset == "sofa":
                 scene, interaction = random.choice(SOFA_SCENES), "沙发前景抓拍"
             elif args.prompt_preset == "coffee_candid_universal":
-                scene, interaction = variables["scene"], variables["interaction_action"]
+                scene, interaction = "高级餐厅", "从男主后方拍摄"
             else:
                 scene, interaction = random.choice(SCENES), random.choice(INTERACTIONS)
             previews.append({
