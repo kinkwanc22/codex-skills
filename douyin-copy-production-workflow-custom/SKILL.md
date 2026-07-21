@@ -28,7 +28,7 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 - Expansion tests/comparison runs must also be exported as `.docx` files into the current dual-device synced workflow folder; do not deliver `.txt` unless the user explicitly asks for txt.
 - Gemini execution choice: default to the Mac local runner unless the user explicitly asks to use Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling.
 - Current Mac Gemini expansion command directory: active Codex workspace when it contains `scripts/run_gemini_chat.sh`; current tested workspace is `/Users/kin/Documents/Codex/2026-07-02/gemini`.
-- Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --output-file <expanded.txt>`. The runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json`, 2.8 prompts to `work/gemini_session_28_safe.json`, and 2.9 prompts to `work/gemini_session_29_fusion.json`; explicit commands may use `--session 2.5`, `--session 2.8`, or `--session 2.9`.
+- Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --output-file <expanded.txt>`. For 2.5, use the approved July 5 batch method and add `--isolated` for every source. Use `--session 2.5` only when the user explicitly asks to continue that saved conversation. Keep 2.8 and 2.9 in their dedicated sessions unless their rules call for isolation.
 - Current formal 2.9 active prompt for the Gary project: `/Users/kin/Documents/Codex/2026-07-10/qu/work/ACTIVE_2.9_PROMPT_强结论正式版.txt`. The earlier stable rollback baseline remains `/Users/kin/Documents/Codex/2026-07-10/qu/work/ACTIVE_2.9_PROMPT_昨晚12个男性成长版.txt`; do not delete or silently overwrite it.
 - Windows fallback Gemini expansion command directory: `C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api`.
 - Windows fallback Gemini expansion command: `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
@@ -61,7 +61,7 @@ Use the Mac local Gemini runner by default:
 
 ```bash
 cd /Users/kin/Documents/Codex/2026-07-02/gemini
-./scripts/run_gemini_chat.sh --session 2.5 --prompt-file work/prompt.txt --output-file work/expanded.txt
+./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt
 ```
 
 Use Windows only when the user explicitly asks for Windows or the task depends on Windows-only files, old Windows projects, or Windows-only tooling:
@@ -71,19 +71,19 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 .\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated
 ```
 
-Build each UTF-8 prompt file with the selected full Gemini instruction block from `references/gemini-expansion.md`, followed immediately by the original source text wrapped as `【原文开始】...【原文结束】`. If the user asks for 单案例、一案到底、一个案例贯穿全文, use the `2.6 Single Case` direction.
+Build each UTF-8 prompt file with the selected full Gemini instruction block from `references/gemini-expansion.md`, followed by any required direction-specific injection and the original source text wrapped as `【原文开始】...【原文结束】`. For 2.5, the official baseline is the complete July 5-style block + short `旧2.5风格参照` injection + source, with each source run using `--isolated`. Do not inject the representative sample excerpts in routine runs. If the user asks for 单案例、一案到底、一个案例贯穿全文, use the `2.6 Single Case` direction.
 
 If the user asks for `2.7`, `融合版`, `2.5和2.6融合`, or wants the same effect as the approved 316 body-signal fusion draft, do not ask Gemini to write a separate 2.7 draft from the source. First generate and validate the Gemini 2.5 and 2.6 drafts, then have Codex locally fuse those two accepted drafts using the `2.7 Codex Fusion` rules in `references/gemini-expansion.md`.
 
 If the user asks for `2.9`, `2.5×2.8融合版`, `2.5和2.8融合`, or `融合提示词`, use the saved `2.9 Fusion Draft` direction in `references/gemini-expansion.md`. This is a direct Gemini prompt-file direction: 2.5 supplies Gary voice, sharp judgment, male perspective, business logic, and continuous deduction; 2.8 supplies hidden structure, concrete evidence, reduced adjective pressure, topic isolation, and stable output control. The formally approved strong-conclusion layer is part of 2.9 by default: preserve source-supported human-nature games, interest judgments, dark insights, relationship power changes, and sharp conclusions instead of automatically neutralizing them. Do not substitute the unrelated 2.7 single-case fusion flow.
 
-Do not use the old web expansion channel. Do not send `/new` unless the user explicitly asks. Keep 2.5, 2.8, and 2.9 in separate saved Gemini sessions: 2.5 uses the legacy old-Gary session, 2.8 uses the safe-version session, and 2.9 uses the fusion session. Do not run these directions through the default mixed `gemini_session.json`.
+Do not use the old web expansion channel. Do not send `/new` unless the user explicitly asks. The official 2.5 workflow is isolated per source and does not write to a saved conversation. Keep 2.8 and 2.9 in their separate dedicated sessions, and do not run these directions through the default mixed `gemini_session.json`.
 
 ### 3. Validate Each Expanded Draft
 
 Read `references/gemini-expansion.md` for the exact checks and retry language.
 
-Verify length, topic relevance, refusal/API failure text, stale-topic contamination, and required ending. Default target length is 6000-8000 Chinese characters. The minimum acceptable length is 6000 Chinese characters unless the user gives a newer threshold.
+Verify length, topic relevance, refusal/API failure text, stale-topic contamination, and required ending. For the current 2.5 baseline, the hard minimum is 4000 Chinese characters with no upper limit; 6000-8000 is a preferred depth range when the source supports it, not a cap or hard gate. Other directions follow their own rules or the user's newest threshold.
 
 For `2.9 Fusion Draft`, the user's current rule overrides that generic default: hard minimum 4000 Chinese characters, with no upper limit. Validate promised list counts, hidden structure, repeated pressure words, natural professional-term insertion, mid-article and ending fan-group CTAs, and the exact fixed ending. Also validate that source-supported strong conclusions were not softened into generic advice, every key list item contains a memorable Gary judgment, conditions sharpen rather than cancel the conclusion, and terms such as `位置稳的男人` do not appear as awkward character labels.
 

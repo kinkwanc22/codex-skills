@@ -80,8 +80,8 @@ Latest hard-learned rules from 2026-06-03:
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
 - In the local Gemini terminal, do not send `/new` by default; keep the current session unless the user explicitly asks to clear context.
 - Never replace, shorten, summarize, rewrite, or downgrade the selected full Gemini expansion instruction block with a short prompt.
-- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always send the selected full Gemini expansion instruction block + the original source copy wrapped as `【原文开始】...【原文结束】`; do not prepend `/new` unless explicitly requested.
-- If Gemini refuses, returns API/tool failure text, reuses a previous article topic, is below the length threshold, or lacks the required ending, do not save it as a final result. Retry in the same terminal session and record the failure in a batch log; do not send `/new` unless explicitly requested.
+- For first attempts, refusal retries, stale-topic retries, hallucination retries, and length retries, always send the selected full Gemini expansion instruction block + its documented direction-specific injection + the original source copy wrapped as `【原文开始】...【原文结束】`; do not prepend `/new` unless explicitly requested. For 2.5, rerun the complete prompt with `--isolated`.
+- If Gemini refuses, returns API/tool failure text, reuses a previous article topic, is below the length threshold, or lacks the required ending, do not save it as a final result. For 2.5, rebuild the complete prompt and retry with `--isolated`; for other directions, follow their session rules. Record the failure in a batch log and do not send `/new` unless explicitly requested.
 - Preserve the user's high-risk, high-conflict topic direction during expansion, opening writing, and title packaging. Do not proactively downgrade the framing to `机制识别、边界判断、关系主权、健康筛选` unless the user explicitly asks for that safer framing. If Gemini refuses, do the minimum wording adjustment needed to get a complete generation while preserving the original topic's sharpness.
 - For `处理这批文案`, treat the default endpoint as final Word documents with three opening versions, opening review scores,正文, and a concise batch log, not merely raw Gemini expansion text.
 - Do not treat raw Gemini expansion documents as final deliverables. Final deliverables must include the three opening sections before正文 unless the user explicitly asks for expansion-only drafts.
@@ -91,20 +91,22 @@ Latest hard-learned rules from 2026-06-03:
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
-- `2.5 Direct Draft` now defaults to the old explosive Gary direction: dark, realistic, harsh, interest-driven, power-sensitive, and conclusion-forward. Do not automatically soften 2.5 into safe psychology education, boundary management, self-management, healthy-relationship advice, or neutral communication guidance.
-- For 2.5, retain and amplify source-supported manipulation tension, human-nature games, interest calculations, jealousy pressure, fear of loss, punishment and consequence, relationship power changes, and harsh judgments. Phrases such as `拿捏、坏男人、权力博弈、怕失去、嫉妒、服从、代价` are not to be removed merely for sounding aggressive.
+- `2.5 Direct Draft` officially uses the approved 2026-07-05 batch logic: full restored 2.5 instruction block + the short `旧2.5风格参照` injection + source manuscript, with one `--isolated` request per source.
+- 2.5 remains dark, realistic, harsh, interest-driven, power-sensitive, and conclusion-forward. Do not automatically soften it into safe psychology education, boundary management, self-management, healthy-relationship advice, or neutral communication guidance.
+- Preserve source-supported human-nature games, interest calculations, relationship leverage, emotional reward and punishment, and harsh judgments through scenes and mechanism chains. Darkness must come from the reasoning and consequences, not from forcing a checklist of words such as `拿捏、惩罚、服从、坏男人` into every article. Use such words only when the source and sentence naturally call for them.
+- Do not add large sample packs, representative excerpts, or extra topic skeletons to a routine 2.5 prompt. They are reserved for an explicitly requested style-calibration test; routine production uses only the short injection so it does not copy old topics.
 - Aggressive does not mean copying an old manuscript. When reusing a viral mother topic, first rebuild a genuinely new content skeleton, then expand it in old 2.5 language movement. Reject both failure modes: `语感对但内容照搬旧稿` and `内容新但被改成温和安全版`.
 - Do not impose 2.8 hidden-six-layer control or 2.9 orderly per-item mechanism templates on a 2.5 draft. Let item length, entry style, pressure, analogy, and deduction depth vary naturally like the approved old 2.5 manuscripts.
 
 - Default to the Mac local Gemini runner for expansion unless the user explicitly asks for Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling: `cd /Users/kin/Documents/Codex/2026-07-02/gemini` then `./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt`.
 - Use the Windows Gemini runner only when explicitly needed: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
-- For automated expansion, prefer the selected host runner with a UTF-8 prompt file containing the selected full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
+- For automated expansion, prefer the selected host runner with a UTF-8 prompt file containing the selected full instruction block + its documented direction-specific injection + original source copy wrapped as `【原文开始】...【原文结束】`.
 - Do not open or operate the old web expansion channel in this custom skill.
-- Before every new queued source, paste the selected full Gemini expansion instruction block followed by the original source copy and `【原文结束】`. Do not send `/new` unless explicitly requested.
+- Before every new queued 2.5 source, paste the selected full Gemini expansion instruction block, the short legacy injection, and then the original source copy ending with `【原文结束】`; run it with `--isolated`. Do not send `/new` unless explicitly requested.
 - When Gemini output is too short, send the retry instruction directly in the current terminal session for that same source.
 - After every expansion, verify length, topic relevance, refusal/API failure text, and required ending. Passing length alone is not enough.
-- If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic; retry with the same selected full instruction and original source in the same terminal session unless the user explicitly requests `/new`.
-- Do not prepend any extra instructions beyond the selected full mandatory Gemini expansion instruction block when sending the source copy, unless a retry/reset instruction is explicitly needed.
+- If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic. For 2.5, rebuild the complete prompt and retry with `--isolated`; for other directions, follow their session rules. Do not send `/new` unless the user explicitly requests it.
+- Do not prepend any extra instructions beyond the selected full mandatory Gemini expansion instruction block and its documented direction-specific injection, unless a retry instruction is explicitly needed.
 - When processing a batch, run `viral-psych-title-wrapper` / 「爆款心理学标题包装器」 before Word export and maintain a batch title ledger to avoid repeated mechanism chains, repeated first-line concepts, and generic interchangeable titles.
 - Current title-wrapper rule: each title candidate is three lines only; do not add 完整未删减版 as a fourth title line unless the user explicitly asks to restore that older format.
 - Do not add risk suggestions or yellow-highlighted annotations during Word export.
@@ -113,4 +115,4 @@ These rules come from the user's live workflow corrections and must override the
 Latest hard-learned rules from 2026-06-03 evening:
 
 - Browser automation is not needed for expansion in this custom skill; the expansion channel is the local Gemini terminal command.
-- If Gemini returns below 6000 Chinese characters, do not mark it passed. Retry with the full instruction and original source, or mark it as not entering the final Word pool if retries trigger refusal.
+- If a 2.5 draft returns below 4000 Chinese characters, do not mark it passed. Retry the complete prompt with `--isolated`, or mark it as not entering the final Word pool if retries trigger refusal. Other directions follow their own current threshold.

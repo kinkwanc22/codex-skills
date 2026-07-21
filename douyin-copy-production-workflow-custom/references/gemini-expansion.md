@@ -13,7 +13,9 @@ Read this file before sending any source copy to Gemini, building prompt files, 
 
 Preserve the user's long-running male relationship expansion conversation in `gemini_session.json`.
 
-For male relationship Douyin expansion handled by this custom workflow, keep the existing default: do not send `/new` unless the user explicitly asks.
+For `2.5 Direct Draft`, the official baseline is the approved 2026-07-05 batch workflow: use a fresh `--isolated` request for every source. Do not depend on a saved Gemini conversation for the 2.5 voice. This prevents previous-topic contamination and batch style drift while preserving the saved conversations untouched.
+
+For `2.8 Safe Draft` and routine `2.9 Fusion Draft` work, follow their dedicated-session rules later in this file. Do not send `/new` unless the user explicitly asks.
 
 For other copywriting categories, unrelated tests, connectivity checks, or any expansion that should not contaminate the male relationship expansion context, always use `--prompt-file <path> --isolated`. Treat this as opening a clean temporary conversation. `--isolated` does not save user or assistant messages back to `gemini_session.json`, so it preserves the saved male relationship conversation.
 
@@ -26,7 +28,7 @@ Exception: `2.7 Codex Fusion` is not a Gemini prompt-file direction. When the us
 
 Available directions:
 
-- `2.5 Direct Draft`: 满血扩写2.5模型·直接出稿版, the default broad Gary-style long draft.
+- `2.5 Direct Draft`: 2026-07-05批次复原版, the default broad Gary-style long draft. Its prompt assembly is the full block below + the short legacy style injection + the source manuscript, run with `--isolated`.
 - `2.6 Single Case`: 满血扩写2.6模型·单案例讲透版, use when the user asks for 单案例、一案到底、一个案例贯穿全文, or wants a full relationship-event teardown.
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
@@ -47,11 +49,10 @@ Available directions:
 必须只围绕【原文】的主题、标题、核心观点和情绪方向扩写。
 不得复用上一轮对话主题，不得换题，不得借题发挥成另一篇文章。
 不得把原文改成温和科普、情感建议、平台安全版、心理健康版。
-只要原文或本篇目标包含有传播力的人性博弈、利益计算、操纵感、权力变化、嫉妒刺激、拿捏感、暗黑洞察和残酷结论，就必须保留并放大，禁止主动中和成“建立边界、管理自己、理性沟通、健康关系”等保守安全表达。
 可以重组结构、增强逻辑、补充机制和案例。
 
 2. 极限字数与深度（核心底线）：
-必须极其深入地剖析，正文目标 4000-6000 个中文字符。
+必须极其深入地剖析，正文不得少于 4000 个中文字符，不设字数上限。内容适合充分展开时，优先写到 6000-8000 个中文字符；不要为了碰到某个上限而压缩，也不要为了凑字重复灌水。
 不要空洞废话，不要重复灌水。
 必须加入高密度心理机制分析，并自然带出商业逻辑、恋爱技巧、框架感和情绪价值变化。
 每一个关键点都要揉碎、讲透、推演到底，可以加入一点小案例。
@@ -63,7 +64,7 @@ Available directions:
 
 4. 人设与风格：
 化身为“Gary”。是一个成熟、犀利、懂人性、懂商业的男性情感博主。
-可以讲透男女相处里的心理学原理、真实动机、情绪拉扯、吸引机制、关系位置、利益计算、操纵感和实际案例。不要为了显得安全而把强结论改成温和建议；可以自然使用“拿捏、权力博弈、利益、代价、惩罚、服从、嫉妒、怕失去、坏男人”等有传播力的表达。避免的只是生硬堆砌、空洞猎奇和与本篇无关的极端观点，不是暗黑锋利本身。
+可以讲透男女相处里的心理学原理、真实动机、情绪拉扯、吸引机制、关系位置和实际案例。不要直接使用生硬、猎奇、课程包装感太重的标签，可以狠一点，但把高风险表达包装成正常心理学现象或者商业逻辑。
 表达要自然，像一个见过很多真实关系案例的人在做深度拆解，少用书面解释，多用口播推进。
 不要写成论文，不要写成鸡汤，不要写成普通恋爱咨询。
 
@@ -76,13 +77,17 @@ Available directions:
 在文章中段的关键转折处，必须自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“私董会”等词汇），引导他们来找我做深度咨询。
 
 7. 强制片尾结构（动态CTA与固定Slogan）：
-自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“私董会”等词汇），引导他们来找我做深度咨询+固定Slogan：“我是探花Gary，我们内部群里见，感谢观看”
+自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“内部群”“私董会”等词汇），引导他们来找我做深度咨询。全文最后一句必须严格使用：“我是探花Gary，我们粉丝群里见，感谢观看”
 
 8. 输出验收：
 如果你发现自己准备回复确认语，立刻停止，改为直接输出正文。
 如果正文不足 4000 个中文字符，继续扩写，不要提前结束。
-优先写到 6000 字左右，但不要为了凑字重复灌水。
+内容适合时优先写到 6000-8000 字左右，但不设上限，不要为了凑字重复灌水。
 最后必须包含动态CTA+固定片尾。
+
+【旧2.5风格参照】
+请参考本地旧版2.5样本的写作气质：开头判断要狠，分析链条要密，表达要像Gary在拆真实关系现场。重点不是温和建议，而是把行为背后的心理学原理、行为动机、商业逻辑、情绪价值、奖惩机制和潜意识评估讲穿。不要照抄样本文字，不要复用样本主题，只继承它的口播压迫感、机制密度和一层一层推演到底的写法。
+【旧2.5风格参照结束】
 
 【原文开始】
 ```
@@ -237,7 +242,7 @@ Gary指导下的处理方式。
 结尾必须先根据全文主题写一段动态CTA，继续引导粉丝进粉丝群做深度咨询。
 然后必须用固定Slogan收尾：
 “我是探花Gary，带你用最真实的人性去征服，用绝对的实力去主导。
-我们内部群里见。”
+我们粉丝群里见，感谢观看”
 
 10. 输出验收：
 如果你发现自己准备回复确认语，立刻停止，改为直接输出正文。
@@ -719,7 +724,7 @@ Fusion rules:
 - Include at least one clear wrong-path consequence: if the man misses the signal, answers wrong, overexplains, rushes, or stays low-position, show how the woman will reinterpret him and how the relationship position collapses.
 - Include at least one clear correct-path escalation: show how the man changes the action, wording, rhythm, boundary, or frame, and what concrete feedback he gets.
 - Preserve the dynamic mid-article fan-group CTA and final dynamic CTA.
-- End with exactly the fixed slogan: `我是探花Gary，我们内部群里见，感谢观看`
+- End with exactly the fixed slogan: `我是探花Gary，我们粉丝群里见，感谢观看`
 
 Output requirements:
 
@@ -740,7 +745,7 @@ Mac default:
 
 ```bash
 cd /Users/kin/Documents/Codex/2026-07-02/gemini
-./scripts/run_gemini_chat.sh --session 2.5 --prompt-file work/prompt.txt --output-file work/expanded.txt
+./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt
 ```
 
 Windows fallback when explicitly needed:
@@ -752,15 +757,15 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated male relationship expansion, write the selected full instruction block + source copy to a UTF-8 prompt file, then call the selected host runner with `--prompt-file` and no `--isolated`. The Mac runner auto-routes 2.5 prompts to `work/gemini_session_25_legacy.json`, 2.8 prompts to `work/gemini_session_28_safe.json`, and 2.9 prompts to `work/gemini_session_29_fusion.json`; use explicit `--session 2.5`, `--session 2.8`, or `--session 2.9` when the direction is known. Do not run these directions through the same saved conversation.
+For automated male relationship expansion, write the selected full instruction block + any required direction-specific injection + source copy to a UTF-8 prompt file. For 2.5 use `--isolated` per source. For 2.8 and 2.9 use their dedicated-session rules below. Do not run different directions through the same saved conversation.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
-For `2.5 Direct Draft`, use `--session 2.5` so the old Gary-style 2.5 conversation is preserved and updated. Also load the local legacy style pack if it exists:
+For `2.5 Direct Draft`, use `--isolated` for every source. The approved July 5 batch did not depend on a saved 2.5 conversation; its voice came from the complete 2.5 block plus the short legacy injection. Load the local legacy style pack:
 
 `/Users/kin/Documents/Codex/2026-07-02/gemini/work/legacy_style_samples/2.5_legacy_style_pack.md`
 
-Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old Windows 2.5 pressure and mechanism density without wasting context or copying old topics.
+Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. The full 2.5 block above already embeds the same injection so prompt builders have a canonical copy; do not duplicate it. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old 2.5 pressure and mechanism density without wasting context or copying old topics.
 
 For `2.8 Safe Draft`, use `--session 2.8` so safety tuning stays separate from the old 2.5 voice. Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
 
@@ -773,7 +778,7 @@ When the Gemini chat is ready:
 - Extract the queued source document text.
 - Pick the correct Gemini direction from `Gemini Expansion Instruction Choices`. If the requested direction is 2.7/fusion, first run 2.5 and 2.6 through Gemini, then stop Gemini work and switch to local Codex fusion.
 - Paste the selected full instruction block followed by the original source copy into the terminal chat, or use `--prompt-file` for automated runs.
-- Do not prepend a viral opening or rewrite the source before expansion; the only required pre-source instruction is the selected full block from `Gemini Expansion Instruction Choices`.
+- Do not prepend a viral opening or rewrite the source before expansion. Use only the selected full block and its documented direction-specific injection; for 2.5 this means the short `旧2.5风格参照` block already embedded above.
 - Send it and capture the Gemini response text from the terminal output as the expanded draft.
 
 ### 3. Check Generated Copy
@@ -782,14 +787,14 @@ After generation finishes, capture the latest `Gemini:` response from the termin
 
 Default qualification line:
 
-- Target length: 6000-8000 Chinese characters.
-- Minimum acceptable length: 6000 Chinese characters unless the user gives a newer threshold.
-- If output is below 6000 Chinese characters, do not mark it passed and do not export it as final.
+- Generic target length: 6000-8000 Chinese characters.
+- For the current `2.5 Direct Draft`, the hard minimum is 4000 Chinese characters with no upper limit; 6000-8000 is a preferred depth range when the source supports it, not a gate.
+- For other directions, use their own stated threshold or the user's newest threshold.
 
-If below 6000 characters, send:
+If a current 2.5 output is below 4000 Chinese characters, send:
 
 ```text
-字数不够，重写一遍，必须写到6000字以上，并且必须写完整片尾。
+字数不够，重写一遍，必须写到4000字以上，不设上限，并且必须写完整片尾。
 ```
 
 If Gemini returns a refusal, safety block, tool/API failure text, or a non-draft answer instead of an expanded article, treat it as a failed generation and retry directly in the current terminal session. Send the original source copy again with the same selected instruction block. Do not ask the user for confirmation.
@@ -806,11 +811,11 @@ If the user requests a different threshold, follow the newest threshold and reco
 
 Track expansion count in the current session.
 
-For interactive terminal use, do not send `/new` by default. Keep using the current Gemini terminal session for normal first attempts and retries unless the user explicitly asks to clear context.
+For interactive terminal use, do not send `/new` by default. For 2.5, do not use the interactive saved session in routine production; rebuild the prompt and rerun it with `--isolated`. Other directions follow their dedicated-session rules unless the user explicitly asks to clear context.
 
-For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + original source copy + retry reason, then rerun the selected host runner, preferably `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --output-file <expanded.txt>` on Mac. Treat this as the normal automated equivalent of a same-source retry in the same long-running expansion conversation.
+For automated runs, prefer building a new UTF-8 retry prompt file with the same selected instruction block + documented injection + original source copy + retry reason. For 2.5, rerun `./scripts/run_gemini_chat.sh --prompt-file <retry-prompt> --isolated --output-file <expanded.txt>` on Mac. This is a fresh isolated retry of the same source, not a continuation of a saved conversation.
 
-If obvious hallucination appears, retry in the same terminal session with the same selected instruction block and the original source copy. Record the failure in the batch log.
+If obvious hallucination appears in 2.5, rebuild the complete prompt and retry with `--isolated`; for other directions, follow their session rule. Record the failure in the batch log.
 
 Obvious hallucinations include:
 
@@ -818,5 +823,5 @@ Obvious hallucinations include:
 - Model reuses a previous article's subject.
 - Model outputs only thinking text or system/resource messages.
 - Model invents a different title or unrelated framework.
-- Output is below 6000 Chinese characters.
-- Output lacks the required fixed ending. For `2.8 Safe Draft`, require `我是探花Gary` and `我们粉丝群里见`; for other Gemini directions, require `我是探花Gary` and `我们内部群里见`.
+- Output is below the selected direction's current threshold; for 2.5 this is 4000 Chinese characters.
+- Output lacks the required fixed ending. For current Gary directions require the exact final sentence `我是探花Gary，我们粉丝群里见，感谢观看` and reject any occurrence of `内部群`.
