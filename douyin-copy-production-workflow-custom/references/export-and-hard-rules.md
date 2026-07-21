@@ -91,6 +91,11 @@ Latest hard-learned rules from 2026-06-03:
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
+- `2.5 Direct Draft` now defaults to the old explosive Gary direction: dark, realistic, harsh, interest-driven, power-sensitive, and conclusion-forward. Do not automatically soften 2.5 into safe psychology education, boundary management, self-management, healthy-relationship advice, or neutral communication guidance.
+- For 2.5, retain and amplify source-supported manipulation tension, human-nature games, interest calculations, jealousy pressure, fear of loss, punishment and consequence, relationship power changes, and harsh judgments. Phrases such as `拿捏、坏男人、权力博弈、怕失去、嫉妒、服从、代价` are not to be removed merely for sounding aggressive.
+- Aggressive does not mean copying an old manuscript. When reusing a viral mother topic, first rebuild a genuinely new content skeleton, then expand it in old 2.5 language movement. Reject both failure modes: `语感对但内容照搬旧稿` and `内容新但被改成温和安全版`.
+- Do not impose 2.8 hidden-six-layer control or 2.9 orderly per-item mechanism templates on a 2.5 draft. Let item length, entry style, pressure, analogy, and deduction depth vary naturally like the approved old 2.5 manuscripts.
+
 - Default to the Mac local Gemini runner for expansion unless the user explicitly asks for Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling: `cd /Users/kin/Documents/Codex/2026-07-02/gemini` then `./scripts/run_gemini_chat.sh --prompt-file work/prompt.txt --isolated --output-file work/expanded.txt`.
 - Use the Windows Gemini runner only when explicitly needed: `cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api` then `.\outputs\run_gemini_chat.cmd --prompt-file C:\path\to\prompt.txt --isolated`.
 - For automated expansion, prefer the selected host runner with a UTF-8 prompt file containing the selected full instruction block + original source copy wrapped as `【原文开始】...【原文结束】`.
