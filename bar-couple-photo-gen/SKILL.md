@@ -61,11 +61,18 @@ For Gary/couple image generation through Lovart, use these defaults unless the u
 - Horizontal `16:9`: `W 1792 / H 1008`.
 - Do not silently use `auto`, `high`, `2k`, `4k`, `2 img`, or `4 img`.
 
+For this user's standing Gary batch preference, requests phrased as `一批`, `批量`, or an equivalent multi-image/multi-preset batch use the quality-stable batch profile unless the user explicitly overrides it:
+
+- Keep quality at `medium` and generate exactly `1 img` per Lovart call.
+- Use the Lovart UI `2K` sizes: vertical `2016x3584`, horizontal `2048x1152`.
+- Run every requested image as its own `chat` call without a reused Lovart thread id, so each image starts from a clean conversation and does not inherit accumulated prompt context.
+- This standing batch preference is the only automatic `2K` exception. Ordinary single-image tests keep the non-2K defaults above.
+
 The Mac batch runner is `scripts/run_gary_batch_lovart_mac.py`. It owns these technical defaults and supports an offline `--dry-run` / `--print-prompt` mode that must not read credentials, upload references, or call Lovart.
 
 For local saving, group every same-character, same-request batch into one dated folder under the user's long-video image directory. Name it with a readable date, female source stem, and batch purpose, for example `2026-07-19_IMG_9757_三套横版2K`. Pass that exact folder with `--batch-dir` to every preset invocation in the batch. The visible batch-folder root must contain only the requested final images. Put manifests, current-state files, run summaries, and Lovart historical downloads under the hidden `.records` subdirectory; do not create one visible output folder per preset and do not leave historical thread images beside the current batch outputs.
 
-When the user explicitly asks for the Lovart UI `2K` size presets, pass `--resolution-profile 2k`:
+When the user explicitly asks for the Lovart UI `2K` size presets, or when the standing quality-stable batch profile applies, pass `--resolution-profile 2k`:
 
 - `9:16（2K）`: `W 2016 / H 3584`.
 - `16:9（2K）`: `W 2048 / H 1152`.
@@ -74,7 +81,7 @@ When the user explicitly asks for the Lovart UI `2K` size presets, pass `--resol
 
 Use `--female-path` when a previously selected female reference must be excluded and a newly randomized top-level library file has already been chosen. The path must belong directly to `--female-dir`.
 
-After the mandatory Lovart `config --json` and `threads --json` checks, pass related existing aspect threads with `--vertical-thread-id` and `--horizontal-thread-id` so follow-up tests reuse their prior conversations.
+After the mandatory Lovart `config --json` and `threads --json` checks, pass related existing aspect threads with `--vertical-thread-id` and `--horizontal-thread-id` so ordinary follow-up tests reuse their prior conversations. For the standing quality-stable batch profile, deliberately omit both thread-id arguments; this user-approved batch exception makes every requested image a clean independent generation.
 When a reused thread returns historical artifacts together with the new result, the runner keeps only the latest artifacts matching the requested dimensions in the manifest and success count.
 
 ## Coffee Candid Universal Preset

@@ -134,6 +134,8 @@ After EVERY generation, you MUST:
 - Only create a new thread if the topic is **completely unrelated** to the most recent thread.
 - When in doubt, **REUSE** both the existing project and the existing thread.
 
+**User-approved Gary batch exception:** For this user's `bar-couple-photo-gen` requests phrased as `一批`, `批量`, or an equivalent multi-image/multi-preset batch, still run the mandatory `config --json` and `threads --json` checks, but omit `--thread-id` for each image call. Each image must start a clean conversation to avoid accumulated context affecting batch consistency. This exception applies only to Gary/couple batch generation; ordinary single-image follow-ups still reuse relevant threads.
+
 ---
 
 # Lovart Agent OpenAPI Skill
@@ -412,9 +414,11 @@ When `bar-couple-photo-gen` or its Mac runner calls this skill for Gary/couple s
 - `16:9` uses `W 1792 / H 1008`.
 - Do not silently request high quality, auto quality, 2k/4k, 2 images, or 4 images.
 
+For this user's standing Gary batch preference, requests phrased as `一批`, `批量`, or an equivalent multi-image/multi-preset batch use `medium`, exactly `1 img` per independent `chat` call, and the Lovart UI `2K` sizes: `9:16 = 2016x3584`, `16:9 = 2048x1152`. Omit reused thread ids for those batch calls so every image starts from a clean conversation. Ordinary single-image tests keep the non-2K defaults above.
+
 The local runner passes the Medium model through `--prefer-models` and puts the exact count and dimensions in the prompt parameter line. Use its `--dry-run` / `--print-prompt` mode for offline prompt and parameter checks; that mode must not upload files or make a network call.
 
-If the user explicitly selects the Lovart UI 2K presets, the Gary runner may use `--resolution-profile 2k`. This maps `9:16（2K）` to `W 2016 / H 3584` and `16:9（2K）` to `W 2048 / H 1152`, while retaining Medium quality and one image unless separately overridden. Do not enable this profile implicitly.
+If the user explicitly selects the Lovart UI 2K presets, or the standing Gary batch preference applies, the Gary runner must use `--resolution-profile 2k`. This maps `9:16（2K）` to `W 2016 / H 3584` and `16:9（2K）` to `W 2048 / H 1152`, while retaining Medium quality and one image unless separately overridden. Do not enable this profile for ordinary single-image tests unless explicitly requested.
 
 **VIDEO:**
 
