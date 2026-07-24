@@ -35,6 +35,7 @@ Before generating Gary-series couple media, ask the user which approved prompt t
 
 1. `真实抓拍照片提示词` - the existing candid 9:16/16:9 phone-photo prompt used for image generation.
 2. `高级酒店酒廊沙发抓拍照片提示词` - the fixed-Gary, random-female hotel lounge sofa candid photo prompt below.
+3. `暧昧互动` - a stable-random first-person boyfriend POV preset. It randomly changes indoor, semi-outdoor, outdoor shaded scenes, time, light, position, and restrained intimate action while preserving the approved candid phone-shot feeling.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
@@ -137,6 +138,33 @@ Call it with:
 ```text
 --prompt-preset couple_pillow_play_first_frame
 ```
+
+## Ambiguous Interaction Preset
+
+Preset id: `ambiguous_interaction`
+
+Chinese name: `暧昧互动`
+
+Use this preset when the user says `暧昧互动` or asks to preserve the latest stable random feeling. This preset is not tied to one outdoor scene. It randomly varies the scene, time, lighting, background evidence, position relationship, camera phrasing, and a restrained intimate action while preserving the stable candid-phone look approved in the July 25 tests.
+
+Stable core:
+
+- Treat 图1 as the boyfriend identity reference and 图2 as the adult female lead identity reference.
+- The generated image uses a first-person boyfriend POV. The boyfriend must not fully appear. Only one hand or a bit of sleeve may naturally appear at the edge of the frame, just reaching toward the female lead. No boyfriend face, head, body, third person, or extra character.
+- The interaction must not be organized around props or objects. Do not use grabbing a phone, sunglasses, paper bag, remote control, coffee cup, room card, blanket, pillow, clothing, or any item as the random action.
+- Randomize only human behavior and composition: distance, eye line, dodging, turning, restrained laughter, a hand raised to block, leaning away, leaning back, or briefly looking back at the boyfriend.
+- Keep the action unfinished as a first frame for video: the hand has not reached the female lead yet, and her reaction has just started.
+- Keep the tone intimate but restrained, playful, ordinary, non-sexual, non-suggestive, and non-violent.
+- Keep the strongest visual feel: close half-body or three-quarter candid crop, slightly tilted phone composition, subject in the lower two-thirds, uneven light, local phone flash/fill, realistic skin highlights, darker or uneven background exposure, slight highlight spill, phone compression, mild motion blur, local defocus, real skin texture, and ordinary-person realism.
+- The random scene may be indoor, semi-outdoor, or outdoor, but avoid clean travel-photo scenery, big blue sky, empty scenic background, soft portrait lighting, commercial outdoor portrait lighting, and overly polished composition.
+
+Call it with:
+
+```text
+--prompt-preset ambiguous_interaction
+```
+
+The Mac runner implements this preset as `AMBIGUOUS_INTERACTION_CORE` with the `AMBIGUOUS_STABLE_*` random variable pools.
 
 ## Prompt Assembly
 

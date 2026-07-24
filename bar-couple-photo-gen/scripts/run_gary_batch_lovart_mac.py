@@ -142,6 +142,68 @@ COUPLE_PLAY_POSITIONS = [
     "女主靠近镜头坐在沙发内侧，身体与镜头保持自然斜角",
 ]
 
+AMBIGUOUS_STABLE_SCENES = [
+    "高级酒店套房客厅窗边",
+    "高级酒店房间窗边沙发旁",
+    "酒店门廊阴影处",
+    "商场外廊阴影处",
+    "室外咖啡厅门口遮阳棚下",
+    "餐厅外摆区阴影处",
+    "民宿庭院阴影处",
+    "写字楼门口避雨棚下",
+    "街边树荫下",
+    "地下停车场电梯厅门口",
+]
+
+AMBIGUOUS_STABLE_TIMES = [
+    "白天偏下午",
+    "傍晚天色尚亮",
+    "阴天白天",
+    "现场光偏暗",
+    "室内或半室外混合光",
+]
+
+AMBIGUOUS_STABLE_LIGHTING = [
+    "主光被建筑、树影或遮挡物压弱，形成明显阴影，曝光不均，叠加轻微手机直闪或补光",
+    "环境暖光和外部冷光混在一起，人物脸上有手机直闪造成的不均匀亮面",
+    "遮挡物削弱现场主光，人物皮肤有轻微闪光高光，背景稍暗并有局部高光溢出",
+    "门廊、墙边或室内阴影压暗背景，手机补光让脸部局部发亮，暗部保留轻微噪点和压缩感",
+    "半室外或室内低照度里有零散环境光，画面不是柔光写真，边缘有轻微糊感和失焦",
+]
+
+AMBIGUOUS_STABLE_BACKGROUNDS = [
+    "背景有玻璃反光、墙面纹理和模糊通行痕迹",
+    "背景有深色墙面、窗帘边缘、室内灯光和暗部噪点",
+    "背景有门廊立柱、地面反光和远处模糊灯点",
+    "背景有店门、遮阳棚阴影、路面反光和少量生活痕迹",
+    "背景有停车区域边缘、墙面纹理和不干净的真实曝光",
+    "背景有窗外城市光点、玻璃反光和室内暖光阴影",
+]
+
+AMBIGUOUS_STABLE_POSITIONS = [
+    "女主站在画面下三分之二位置，身体略微侧转，和镜头保持近距离",
+    "女主靠在墙边或门边，身体向旁边轻轻躲开，画面保留一点后续动作空间",
+    "女主坐在沙发或窗边位置，身体自然后靠一点，脸清楚可见",
+    "女主站在半室外阴影里，肩膀和手臂可以被自然裁切，不要全身远景",
+    "女主位于画面中央略偏一侧，镜头离她很近，像男友临时举手机拍到",
+]
+
+AMBIGUOUS_STABLE_ACTIONS = [
+    "女主被男友逗笑后向旁边轻轻躲，抬手挡镜头旁边伸来的手，动作尚未完成",
+    "女主侧身避开画面边缘伸来的手，眼睛看向男友，表情像忍不住要笑",
+    "女主往后退半步又停住，抬手轻轻挡一下，像普通情侣玩笑刚开始的一瞬间",
+    "女主转头看向男友，嘴角忍笑，身体轻轻偏开但没有离开原位置",
+    "女主先低头笑一下再抬眼看向男友，一只手自然抬起挡在身前",
+    "女主轻轻靠近后又向旁边躲开，表情放松，有暧昧但克制的生活感",
+]
+
+AMBIGUOUS_STABLE_CAMERA = [
+    "第一人称男友视角近距离手机广角，构图轻微歪斜，近距离半身到四分之三身抓拍",
+    "像男友随手举手机拍下，镜头离人物很近，肩膀和手臂允许自然裁切",
+    "手机前置或近距离后置随手拍质感，画面不端正，人物主要位于画面下三分之二",
+    "近距离生活抓拍，镜头略偏一侧，不要全身远景，不要干净旅拍构图",
+]
+
 INTERACTIONS = [
     "女生从男生身后靠近，一只手自然搭在男生肩膀或手臂上，脸完整清楚露出来，朝镜头自然笑，表情带着暧昧的笑意",
     "女生从背后轻轻靠近男生，脸完整清楚可见，笑着看向镜头，和男生保持自然贴近",
@@ -222,6 +284,36 @@ COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE = (
     "抱枕变形，多余手臂，多余手指，手部畸形，肢体畸形，脸部结构错误，人物重复，CG感，3D感，"
     "动漫感，AI感过强，水印，文字"
 )
+
+AMBIGUOUS_INTERACTION_CORE = (
+    "生成暧昧互动视频的首帧，也可以作为真实朋友圈抓拍照片使用。"
+    "使用图1和图2作为人物参考，严格保持两位人物的身份、真实面貌、五官比例、发型、年龄感、体型、"
+    "自然气质和参考服装一致，不改变角色身份，不美化成模特或网红脸。图2为成年女主；图1为男友身份参考。"
+    "画面采用第一人称男友视角，男主本人不得完整出镜，只允许画面边缘自然出现一只刚伸向女主方向的手或少量衣袖，"
+    "不要出现男主的脸、头部、身体或第三人。\n"
+    "互动必须只来自两个人的距离、眼神、躲闪、忍笑和轻微手部遮挡，不围绕任何道具或物品。"
+    "不要出现抢手机、递墨镜、拿纸袋、抢遥控器、咖啡杯、房卡、薄毯、抱枕等物品互动。"
+    "女主衣着完整得体，自然看向男友或镜头旁边，不是面对摄影师摆拍；表情放松、暧昧但克制、忍不住想笑，"
+    "像普通情侣玩笑刚开始前被临时拍下的一瞬间。互动亲近轻松，不性感、不挑逗、无性暗示。\n"
+    "必须保留动作尚未完成的首帧状态：男友的手只在画面边缘刚伸过来，尚未碰到女主；"
+    "女主的躲闪、抬手、转头或忍笑都只是刚开始。画面保留适量后续动作空间，方便后续衔接女主轻轻躲开、"
+    "回头笑、抬手挡一下或重新靠近的连续动作；不要直接表现追逐、击打或动作完成后的姿势。\n"
+    "场景必须真实生活化，可以是室内、半室外或室外，但要保持这套稳定质感：不要空旷景观照，不要干净旅拍背景，"
+    "不要柔光写真，不要商业户外人像，不要明亮通透的日系阳光。背景允许有墙面、玻璃反光、门廊、窗帘、"
+    "树影、遮阳棚、城市光点、地面反光或日常生活痕迹，但不能抢走女主主体。\n"
+    "业余手机摄影风格，构图轻微歪斜，近距离广角，手机直闪或轻微补光，皮肤有真实高光，"
+    "背景稍暗或曝光不均，局部高光轻微溢出。保留手机压缩感、轻微夜拍颗粒、局部失焦、"
+    "发丝边缘或手部轻微运动模糊，以及真实皮肤纹理、毛孔、轻微瑕疵和自然肤色。高清但不过度锐化，"
+    "强烈生活流纪实感，像男友临时用手机拍下的一张朋友圈原图。\n"
+    "负面提示词：未成年人，男主完整出镜，男主脸部，男主头部，男主身体，第三人，多余人物，"
+    "道具互动，物品互动，抢手机，递墨镜，拿纸袋，抢遥控器，咖啡杯互动，房卡互动，薄毯互动，抱枕互动，"
+    "动作已经完成，击打动作，追逐动作，性感，挑逗，性暗示，暴力感，摆拍，商业摄影，宣传照，影楼布光，"
+    "专业打光，时尚大片，杂志封面，电影感过强，广告质感，明亮日系阳光，空旷景观，干净旅拍背景，"
+    "柔光写真，商业户外人像，鱼眼畸变，过度俯视，全身远景，网红脸，模特脸，明星脸，过度美颜，磨皮，"
+    "塑料皮肤，滤镜感，过度锐化，脸部过于完美，五官改变，身份不一致，夸张表情，不自然姿势，"
+    "多余手臂，多余手指，手部畸形，肢体畸形，脸部结构错误，人物重复，CG感，3D感，动漫感，AI感过强，水印，文字"
+)
+
 
 
 class LovartError(Exception):
@@ -552,7 +644,51 @@ def build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variabl
     )
 
 
+def choose_ambiguous_interaction_variables():
+    return {
+        "scene": random.choice(AMBIGUOUS_STABLE_SCENES),
+        "time": random.choice(AMBIGUOUS_STABLE_TIMES),
+        "lighting": random.choice(AMBIGUOUS_STABLE_LIGHTING),
+        "background": random.choice(AMBIGUOUS_STABLE_BACKGROUNDS),
+        "position": random.choice(AMBIGUOUS_STABLE_POSITIONS),
+        "action": random.choice(AMBIGUOUS_STABLE_ACTIONS),
+        "camera": random.choice(AMBIGUOUS_STABLE_CAMERA),
+        "interaction_rule": "互动不围绕任何道具或物品，只随机人物距离、眼神、躲闪、忍笑和轻微手部遮挡",
+        "male_entry": "只允许画面边缘自然出现一只刚伸向女主方向的手或少量衣袖，不要出现男主的脸、头部、身体或第三人。",
+    }
+
+
+def build_ambiguous_interaction_prompt(aspect, settings, prompt_variables=None):
+    first_line = build_parameter_line(aspect, settings)
+    if aspect == "16x9":
+        first_line = first_line.replace("真实室内环境", "真实生活环境")
+        aspect_instruction = (
+            "横屏保留更多真实生活环境和动作空间，但女主仍是近距离半身到四分之三身抓拍，"
+            "不要缩小人物，不要全身远景。"
+        )
+    else:
+        aspect_instruction = (
+            "竖屏保持近距离半身到四分之三身构图，女主主要位于画面下三分之二，"
+            "保留少量后续躲闪或靠近的动作空间。"
+        )
+    variables = prompt_variables or choose_ambiguous_interaction_variables()
+    random_instruction = (
+        "本次随机变量："
+        f"{variables['time']}，{variables['scene']}，{variables['position']}；"
+        f"{variables['action']}；{variables['camera']}；"
+        f"{variables['lighting']}；{variables['background']}。"
+        "互动不要围绕道具或物品，男主入镜规则固定："
+        f"{variables['male_entry']}"
+    )
+    return (
+        f"{first_line}\n{aspect_instruction}\n{random_instruction}\n"
+        f"{AMBIGUOUS_INTERACTION_CORE}"
+    )
+
+
 def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_variables=None):
+    if prompt_preset == "ambiguous_interaction":
+        return build_ambiguous_interaction_prompt(aspect, settings, prompt_variables)
     if prompt_preset == "coffee_candid_universal":
         return build_coffee_prompt(aspect, settings)
     if prompt_preset == "couple_pillow_play_first_frame":
@@ -606,15 +742,19 @@ def build_tasks(female_files, args):
                 target = len(selected)
             for i in range(target):
                 female_path = selected[i % len(selected)]
-                if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame"}:
+                if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
                     if args.prompt_preset == "coffee_candid_universal":
                         prompt_variables = None
                         scene = "高级餐厅"
                         interaction = "从男主后方拍摄"
-                    else:
+                    elif args.prompt_preset == "couple_pillow_play_first_frame":
                         prompt_variables = choose_couple_play_variables()
                         scene = "高级酒店套房客厅"
                         interaction = prompt_variables["body_interaction"]
+                    else:
+                        prompt_variables = choose_ambiguous_interaction_variables()
+                        scene = prompt_variables["scene"]
+                        interaction = prompt_variables["action"]
                 else:
                     previous = previous_by_female.get(female_path.name)
                     scene, interaction = choose_different_pair(previous, args.prompt_preset)
@@ -631,15 +771,19 @@ def build_tasks(female_files, args):
 
     tasks = []
     for female_path in female_files:
-        if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame"}:
+        if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
             if args.prompt_preset == "coffee_candid_universal":
                 prompt_variables = None
                 scene = "高级餐厅"
                 interaction = "从男主后方拍摄"
-            else:
+            elif args.prompt_preset == "couple_pillow_play_first_frame":
                 prompt_variables = choose_couple_play_variables()
                 scene = "高级酒店套房客厅"
                 interaction = prompt_variables["body_interaction"]
+            else:
+                prompt_variables = choose_ambiguous_interaction_variables()
+                scene = prompt_variables["scene"]
+                interaction = prompt_variables["action"]
         else:
             prompt_variables = None
             scene = random.choice(SOFA_SCENES if args.prompt_preset == "sofa" else SCENES)
@@ -679,7 +823,7 @@ def main():
     parser.add_argument("--run-label", default="_gary_batch")
     parser.add_argument(
         "--prompt-preset",
-        choices=["photo", "sofa", "coffee_candid_universal", "couple_pillow_play_first_frame"],
+        choices=["photo", "sofa", "coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"],
         default="photo",
     )
     parser.add_argument("--quality", choices=["auto", "low", "medium", "high"], default=DEFAULT_QUALITY)
@@ -722,6 +866,9 @@ def main():
             elif args.prompt_preset == "couple_pillow_play_first_frame":
                 variables = choose_couple_play_variables()
                 scene, interaction = "高级酒店套房客厅", variables["body_interaction"]
+            elif args.prompt_preset == "ambiguous_interaction":
+                variables = choose_ambiguous_interaction_variables()
+                scene, interaction = variables["scene"], variables["action"]
             else:
                 scene, interaction = random.choice(SCENES), random.choice(INTERACTIONS)
             previews.append({
