@@ -126,6 +126,22 @@ COFFEE_LIGHTING = [
     "咖啡厅低照度环境加手机夜拍噪点",
 ]
 
+COUPLE_PLAY_BODY_INTERACTIONS = [
+    "两人的距离刚刚拉近，女主自然向后靠一点",
+    "女主轻轻侧身避开男友靠近的方向",
+    "女主抬起一只手，像笑着阻止男友继续靠近",
+    "女主转头忍笑，与男友保持近距离眼神互动",
+    "女主先低头笑一下，再抬眼看向男友",
+    "女主身体微微靠近后又自然停住",
+]
+
+COUPLE_PLAY_POSITIONS = [
+    "女主位于画面中央偏右，画面右侧保留后续动作空间",
+    "女主斜坐在画面下三分之二，身体朝沙发内侧轻轻转动",
+    "女主位于画面中央略偏左，身后保留转身和后靠空间",
+    "女主靠近镜头坐在沙发内侧，身体与镜头保持自然斜角",
+]
+
 INTERACTIONS = [
     "女生从男生身后靠近，一只手自然搭在男生肩膀或手臂上，脸完整清楚露出来，朝镜头自然笑，表情带着暧昧的笑意",
     "女生从背后轻轻靠近男生，脸完整清楚可见，笑着看向镜头，和男生保持自然贴近",
@@ -177,16 +193,16 @@ COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE = (
     "生成情侣打闹视频的首帧。高级酒店套房客厅里的真实情侣手机抓拍。"
     "使用图1和图2作为人物参考，严格保持两位人物的身份、真实面貌、五官比例、发型、年龄感、体型、"
     "自然气质和参考服装一致，不改变角色身份，不美化成模特或网红脸。图2为成年女主；图1为男友。"
-    "画面采用第一人称男友POV，男主本人不得完整出镜，只允许画面边缘自然出现一只刚伸向抱枕的手或少量衣袖，"
+    "画面采用第一人称男友视角，男主本人不得完整出镜，只允许画面边缘自然出现一只刚伸向抱枕的手或少量衣袖，"
     "不要出现男主的脸、头部、身体或第三人。\n"
     "女主衣着完整得体，侧身坐在高级酒店套房客厅的浅色沙发角落，怀里抱着一个柔软抱枕。"
-    "她刚发现男友准备过来抢抱枕，一只手把抱枕抱紧，身体自然向沙发靠背一侧躲闪，"
-    "另一只手抬向男友镜头，像笑着阻止男友靠近。她自然看向男友，不是面对摄影师摆拍；"
+    "她刚察觉男友靠近，身体自然向沙发靠背一侧轻微躲闪，"
+    "一只手可以抬向男友镜头，像笑着阻止男友继续靠近。她自然看向男友，不是面对摄影师摆拍；"
     "表情放松、调皮、忍不住想笑，眼睛微微弯起，嘴角自然上扬，像普通情侣即将开始打闹前被临时拍下的一瞬间。"
     "互动亲近轻松，只有自然情侣感，不性感、不挑逗、无性暗示。\n"
     "必须保留动作尚未完成的首帧状态：女主身体略微侧转，抱枕只遮挡躯干、不能遮挡脸，"
     "男友的手刚伸向抱枕但尚未碰到，双方之间保留自然距离。画面右侧留出适量动作空间，"
-    "便于后续衔接女主侧身躲开、用抱枕反击并跑出画面的连续动作；不要直接表现击打、追逐或动作完成后的姿势。\n"
+    "便于后续衔接女主侧身躲开、转头忍笑、轻微后靠或离开画面的连续动作；不要直接表现击打、追逐或动作完成后的姿势。\n"
     "高级酒店套房客厅背景真实生活化：深色木质墙面、厚重窗帘、暖色落地灯、玻璃茶几和少量酒店陈设自然入镜。"
     "背景整体偏暗，环境灯光不均匀，不要明亮通透的日系阳光，不要白天客厅感。"
     "茶几边缘和玻璃反光可以进入前景，但不能遮挡女主；不要酒瓶堆积，不要杂乱派对场景。\n"
@@ -198,7 +214,7 @@ COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE = (
     "高清但不过度锐化，强烈生活流纪实感，像男友临时用手机拍下的一张朋友圈原图。"
     "非摆拍，非商业摄影，非精修，非宣传照，不要影楼布光，不要时尚大片，不要过强电影感，"
     "不要干净到失真的高级广告质感。\n"
-    "负面提示词：未成年人，男主完整出镜，男主脸部，男主头部，第三人，多余人物，抱枕遮脸，"
+    "负面提示词：未成年人，男主完整出镜，男主脸部，男主头部，男主身体，第三人，多余人物，抱枕遮脸，"
     "动作已经完成，击打动作，追逐动作，性感，挑逗，性暗示，暴力感，摆拍，商业摄影，宣传照，"
     "影楼布光，专业打光，时尚大片，杂志封面，电影感过强，广告质感，明亮日系阳光，白天客厅，"
     "酒瓶堆积，派对杂乱，鱼眼畸变，过度俯视，全身远景，网红脸，模特脸，明星脸，过度美颜，磨皮，"
@@ -512,7 +528,7 @@ def build_coffee_prompt(aspect, settings):
     return f"{first_line}\n{COFFEE_CANDID_CORE}"
 
 
-def build_couple_pillow_play_first_frame_prompt(aspect, settings):
+def build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variables=None):
     first_line = build_parameter_line(aspect, settings)
     if aspect == "16x9":
         aspect_instruction = (
@@ -523,17 +539,39 @@ def build_couple_pillow_play_first_frame_prompt(aspect, settings):
         aspect_instruction = (
             "竖屏保持女主近距离半身至四分之三身构图，并在画面右侧保留足够的后续动作空间。"
         )
-    return f"{first_line}\n{aspect_instruction}\n{COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE}"
+    variables = prompt_variables or choose_couple_play_variables()
+    random_instruction = (
+        "本次随机互动只使用人物动作与位置关系，不围绕任何道具或物品："
+        f"{variables['body_interaction']}；{variables['position']}。"
+        "抱枕只是固定场景锚点，不把互动描述成抢夺物品。"
+        "只允许画面边缘自然出现一只刚伸向抱枕的手或少量衣袖，不要出现男主的脸、头部、身体或第三人。"
+    )
+    return (
+        f"{first_line}\n{aspect_instruction}\n{random_instruction}\n"
+        f"{COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE}"
+    )
 
 
 def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_variables=None):
     if prompt_preset == "coffee_candid_universal":
         return build_coffee_prompt(aspect, settings)
     if prompt_preset == "couple_pillow_play_first_frame":
-        return build_couple_pillow_play_first_frame_prompt(aspect, settings)
+        return build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variables)
     if prompt_preset == "sofa":
         return build_sofa_prompt(scene, aspect, settings)
     return build_photo_prompt(scene, interaction, aspect, settings)
+
+
+def choose_couple_play_variables():
+    return {
+        "body_interaction": random.choice(COUPLE_PLAY_BODY_INTERACTIONS),
+        "position": random.choice(COUPLE_PLAY_POSITIONS),
+        "male_entry": (
+            "只允许画面边缘自然出现一只刚伸向抱枕的手或少量衣袖，"
+            "不要出现男主的脸、头部、身体或第三人。"
+        ),
+        "prop_rule": "抱枕仅作为固定场景锚点，随机互动不围绕任何道具或物品",
+    }
 
 
 def choose_different_pair(previous=None, prompt_preset="photo"):
@@ -569,13 +607,14 @@ def build_tasks(female_files, args):
             for i in range(target):
                 female_path = selected[i % len(selected)]
                 if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame"}:
-                    prompt_variables = None
                     if args.prompt_preset == "coffee_candid_universal":
+                        prompt_variables = None
                         scene = "高级餐厅"
                         interaction = "从男主后方拍摄"
                     else:
+                        prompt_variables = choose_couple_play_variables()
                         scene = "高级酒店套房客厅"
-                        interaction = "第一人称男友POV抢抱枕前的未完成动作"
+                        interaction = prompt_variables["body_interaction"]
                 else:
                     previous = previous_by_female.get(female_path.name)
                     scene, interaction = choose_different_pair(previous, args.prompt_preset)
@@ -593,13 +632,14 @@ def build_tasks(female_files, args):
     tasks = []
     for female_path in female_files:
         if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame"}:
-            prompt_variables = None
             if args.prompt_preset == "coffee_candid_universal":
+                prompt_variables = None
                 scene = "高级餐厅"
                 interaction = "从男主后方拍摄"
             else:
+                prompt_variables = choose_couple_play_variables()
                 scene = "高级酒店套房客厅"
-                interaction = "第一人称男友POV抢抱枕前的未完成动作"
+                interaction = prompt_variables["body_interaction"]
         else:
             prompt_variables = None
             scene = random.choice(SOFA_SCENES if args.prompt_preset == "sofa" else SCENES)
@@ -680,7 +720,8 @@ def main():
             elif args.prompt_preset == "coffee_candid_universal":
                 scene, interaction = "高级餐厅", "从男主后方拍摄"
             elif args.prompt_preset == "couple_pillow_play_first_frame":
-                scene, interaction = "高级酒店套房客厅", "第一人称男友POV抢抱枕前的未完成动作"
+                variables = choose_couple_play_variables()
+                scene, interaction = "高级酒店套房客厅", variables["body_interaction"]
             else:
                 scene, interaction = random.choice(SCENES), random.choice(INTERACTIONS)
             previews.append({

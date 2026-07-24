@@ -102,16 +102,32 @@ Fixed core prompt:
 
 Preset id: `couple_pillow_play_first_frame`
 
-Chinese name: `情侣抢抱枕打闹视频首帧`
+Chinese name: `情侣打闹视频首帧`
 
-Use this fixed preset to generate the opening frame for a later image-to-video sequence. It supports both `9:16` and `16:9`. Treat 图1 as the boyfriend identity and 图2 as the adult female lead. The camera is the boyfriend's first-person phone POV: the boyfriend must not appear completely, and only one reaching hand or a small amount of sleeve may enter naturally from an image edge.
+Use this preset to generate the opening frame for a later image-to-video sequence. It supports both `9:16` and `16:9`. Treat 图1 as the boyfriend identity and 图2 as the adult female lead. All generated prompt text must remain Chinese.
+
+For both the fixed and randomized couple-play first-frame workflows, the boyfriend entry wording is fixed and must be used verbatim:
+
+```text
+只允许画面边缘自然出现一只刚伸向抱枕的手或少量衣袖，不要出现男主的脸、头部、身体或第三人。
+```
+
+Random interaction must never be organized around a prop or object. Do not use interactions such as grabbing a phone, remote control, paper bag, sunglasses, coffee cup, room card, blanket, toy, clothing, or any other item. Randomize only human behavior and composition:
+
+- Body distance: slightly closer, maintaining a natural close distance, or the woman leaning back slightly.
+- Eye line: looking toward the boyfriend, briefly looking down and then back up, or turning her head while suppressing a smile.
+- Expression: relaxed smile, restrained laughter, playful but ordinary expression.
+- Small movement: slight sideways dodge, raising a hand to stop him, leaning closer or back, or turning away gently.
+- Position relationship: woman centered or slightly off-center, seated at a slight angle, with usable continuation space preserved.
+
+The pillow is the only fixed safe scene prop. It may remain in the woman's arms or against her torso, but the randomized interaction must not become a “grab an item” interaction. The boyfriend's hand is only just reaching toward the pillow and the action remains incomplete.
 
 The fixed prompt is implemented in `scripts/run_gary_batch_lovart_mac.py` as `COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE`. Keep these continuity anchors stable:
 
 - The action is not yet complete: the boyfriend's hand has not touched the pillow.
-- The woman is seated sideways in the sofa corner, hugs the pillow with one hand, raises the other toward the boyfriend, and is just beginning to dodge.
+- The woman is seated sideways in the sofa corner with the pillow as a fixed scene anchor; her randomized reaction uses only body distance, eye line, expression, slight dodging, leaning, turning, or a raised hand.
 - The pillow may cover the torso but must not cover her face.
-- Keep usable action space on the right for the later dodge, pillow counterattack, and exit.
+- Keep usable action space for a later turn, lean, or gentle dodge.
 - Preserve a close half-body to three-quarter crop; do not turn it into a full-body wide shot.
 - Keep the interaction playful, non-sexual, non-suggestive, and non-violent.
 - For `16:9`, retain more hotel-suite environment and right-side action space without shrinking the female lead.
