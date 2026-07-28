@@ -52,6 +52,30 @@ If the user chooses the hotel lounge sofa prompt, use the following prompt text 
 
 Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. Prefer GPT Image 2 Medium / image2 high-fidelity portrait consistency. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
 
+## Local Image2 Windows GPU 2K Finishing
+
+This section applies only to locally generated Codex Image2 / `image_gen` results. It does not apply to Lovart, and it must not change any Lovart quality, size, thread, upload, download, or saving behavior.
+
+After a local Image2 result is generated, automatically finish it on the connected Windows host `win-codex` with the installed RTX GPU Real-ESRGAN pipeline:
+
+```text
+scripts/upscale_image2_windows_gpu.py <local-image-path> --batch-dir <dated-batch-folder>
+```
+
+Rules:
+
+- Treat the Image2 file as the source image and preserve it under `<batch-folder>/.records/raw/`.
+- Use Real-ESRGAN on the Windows GPU, then resize the enhanced result to the exact target dimensions.
+- To avoid slow cross-device transfer of a large lossless image, return a temporary JPEG at quality 96 and convert it to the final PNG on the Mac. The temporary transfer file is not kept in the visible batch folder.
+- Vertical `9:16` final: `W 2016 / H 3584`.
+- Horizontal `16:9` final: `W 2048 / H 1152`.
+- Save only the final requested images in the visible dated batch-folder root. Keep raw files and the processing manifest under `.records`.
+- Record every result in `.records/image2_windows_gpu_manifest.jsonl`, including source size, target size, output path, Windows job, elapsed time, and failure reason.
+- Label this provenance as `CodexImage2_WindowsGPU超分2K`. Do not call it native Image2 2K.
+- Verify the returned file's actual pixel dimensions before reporting success.
+- If Windows, SSH, the RTX GPU, or Real-ESRGAN is unavailable, report the local image as generated but the 2K finishing stage as failed. Do not substitute Mac CPU upscaling or ordinary resizing without the user's explicit instruction.
+- Never send a Lovart output through this helper. Lovart continues to use the independent defaults and batch rules below, unchanged.
+
 ## Fixed Lovart Defaults
 
 For Gary/couple image generation through Lovart, use these defaults unless the user explicitly overrides them:
