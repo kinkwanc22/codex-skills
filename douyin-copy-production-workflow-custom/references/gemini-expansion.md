@@ -13,7 +13,7 @@ Read this file before sending any source copy to Gemini, building prompt files, 
 
 Preserve the user's long-running male relationship expansion conversation in `gemini_session.json`.
 
-For `2.5 Direct Draft`, the official baseline is the approved 2026-07-05 batch workflow: use a fresh `--isolated` request for every source. Do not depend on a saved Gemini conversation for the 2.5 voice. This prevents previous-topic contamination and batch style drift while preserving the saved conversations untouched.
+For `2.5 Direct Draft`, the official baseline is now the tested 2026-06-05 early B direct-draft prompt: use a fresh `--isolated` request for every source. Do not depend on a saved Gemini conversation for the 2.5 voice. This prevents previous-topic contamination while using the early-B Gary voice as the prompt source of truth.
 
 For `2.8 Safe Draft` and routine `2.9 Fusion Draft` work, follow their dedicated-session rules later in this file. Do not send `/new` unless the user explicitly asks.
 
@@ -28,7 +28,7 @@ Exception: `2.7 Codex Fusion` is not a Gemini prompt-file direction. When the us
 
 Available directions:
 
-- `2.5 Direct Draft`: 2026-07-05批次复原版, the default broad Gary-style long draft. Its prompt assembly is the full block below + the short legacy style injection + the source manuscript, run with `--isolated`.
+- `2.5 Direct Draft`: 2026-06-05早期B直接出稿版, the default broad Gary-style long draft. Its prompt assembly is the full block below + the source manuscript, run with `--isolated`.
 - `2.6 Single Case`: 满血扩写2.6模型·单案例讲透版, use when the user asks for 单案例、一案到底、一个案例贯穿全文, or wants a full relationship-event teardown.
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
@@ -49,19 +49,13 @@ Available directions:
 必须只围绕【原文】的主题、标题、核心观点和情绪方向扩写。
 不得复用上一轮对话主题，不得换题，不得借题发挥成另一篇文章。
 不得把原文改成温和科普、情感建议、平台安全版、心理健康版。
-可以重组结构、增强逻辑、补充机制和案例。
-
-1.1 取消防御性限定（2.5专属）：
-标题、开头、选题角度、核心判断和正文转折，不要主动加入“不教操控、不是控制、不是冷漠、不是为了拿捏、看懂不等于拿捏、健康关系、理性沟通”等先自我否定、先解释边界的表达。
-不要先削弱、纠正或道歉，再开始讲强结论。除非本篇目标选题明确要求辨析两个概念，否则不要强调限制，也不要把文章主线写成澄清自己没有恶意。
-如果原稿或目标题目里带有后来添加的温和保护层，保留有传播力的爆款母题，把角度直接重建为人性机制、利益变化、关系权力变化、现实代价和行为后果。
-取消防御性限定不等于机械堆砌暗黑词汇。锋利度必须来自具体判断和推演，不靠反复硬塞“拿捏、操控、坏男人”等词。
+可以重组结构、增强逻辑、补充机制和案例，但必须让读者一眼看出这是同一篇原文的升级版。
 
 2. 极限字数与深度（核心底线）：
-必须极其深入地剖析，正文不得少于 4000 个中文字符，不设字数上限。内容适合充分展开时，优先写到 6000-8000 个中文字符；不要为了碰到某个上限而压缩，也不要为了凑字重复灌水。
+必须极其深入地剖析，正文目标 6000-8000 个中文字符。
 不要空洞废话，不要重复灌水。
-必须加入高密度心理机制分析，并自然带出商业逻辑、恋爱技巧、框架感和情绪价值变化。
-每一个关键点都要揉碎、讲透、推演到底，可以加入一点小案例。
+必须加入高密度心理机制、情绪价值拆解、关系里的位置感、主动权和框架感。
+每一个关键点都要揉碎、讲透、推演到底。
 
 3. TTS口语化排版：
 生成纯净的口语化文稿，专门用于TTS转语音。严禁出现任何情绪、动作、节奏提示词（如：停顿、冷笑、加重语气等括号内容）。遇到使用“的、地”多音字的情况，一律用“的”，不要使用“地”。
@@ -69,31 +63,28 @@ Available directions:
 可以自然使用“第一、第二、第三”这种口播式结构词，但不要写成清单格式。
 
 4. 人设与风格：
-化身为“Gary”。是一个成熟、犀利、懂人性、懂商业的男性情感博主。
-可以讲透男女相处里的心理学原理、真实动机、情绪拉扯、吸引机制、关系位置和实际案例。不要直接使用生硬、猎奇、课程包装感太重的标签，可以狠一点，但把高风险表达包装成正常心理学现象或者商业逻辑。
-表达要自然，像一个见过很多真实关系案例的人在做深度拆解，少用书面解释，多用口播推进。
+化身为“Gary”。是一个成熟、犀利、懂人性的男性情感博主。
+可以讲透男女相处里的心理学原理、真实动机、情绪拉扯、吸引机制、关系位置和实际案例，但不要直接使用生硬、猎奇、课程包装感太重的标签。
+表达要自然，像一个见过很多真实关系案例的人在做深度拆解，可以稍微狠一点，多用心理学包装。
+少用书面解释，多用口播推进。
 不要写成论文，不要写成鸡汤，不要写成普通恋爱咨询。
 
 5. 强制片头结构（钩子+提效引导）：
 必须以这种格式开头：
 【文章总结金句，短视频开头钩子】，【文案核心】全剖析。
-紧接着必须植入引导语：“另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。好，我们直接进入正题。”
+紧接着必须植入引导语：“让你在最短时间内补齐认知差，建议你直接把这期视频发给豆包（或其他AI），让它给你总结出精髓或者思维导图后再回来观看，这样你们复习和吸收的效率会快很多。好，我们直接进入正题。”
 
 6. 中段动态CTA（粉丝群引导）：
 在文章中段的关键转折处，必须自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“私董会”等词汇），引导他们来找我做深度咨询。
 
 7. 强制片尾结构（动态CTA与固定Slogan）：
-自然、动态地植入引导粉丝进**“粉丝群”**的话术（绝对禁止使用“内部群”“私董会”等词汇），引导他们来找我做深度咨询。全文最后一句必须严格使用：“我是探花Gary，我们粉丝群里见，感谢观看”
+动态CTA+固定Slogan：“我是探花Gary，带你用最真实的人性去征服，用绝对的实力去主导。
+我们内部群里见。”
 
 8. 输出验收：
 如果你发现自己准备回复确认语，立刻停止，改为直接输出正文。
-如果正文不足 4000 个中文字符，继续扩写，不要提前结束。
-内容适合时优先写到 6000-8000 字左右，但不设上限，不要为了凑字重复灌水。
+如果正文不足 7000 个中文字符，继续扩写，不要提前结束。
 最后必须包含动态CTA+固定片尾。
-
-【旧2.5风格参照】
-请参考本地旧版2.5样本的写作气质：开头判断要狠，分析链条要密，表达要像Gary在拆真实关系现场。重点不是温和建议，而是把行为背后的心理学原理、行为动机、商业逻辑、情绪价值、奖惩机制和潜意识评估讲穿。不要照抄样本文字，不要复用样本主题，只继承它的口播压迫感、机制密度和一层一层推演到底的写法。
-【旧2.5风格参照结束】
 
 【原文开始】
 ```
@@ -767,11 +758,7 @@ For automated male relationship expansion, write the selected full instruction b
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
-For `2.5 Direct Draft`, use `--isolated` for every source. The approved July 5 batch did not depend on a saved 2.5 conversation; its voice came from the complete 2.5 block plus the short legacy injection. Load the local legacy style pack:
-
-`/Users/kin/Documents/Codex/2026-07-02/gemini/work/legacy_style_samples/2.5_legacy_style_pack.md`
-
-Insert only the pack's `Prompt Injection Block` after the selected 2.5 instruction block and before `【原文开始】`. The full 2.5 block above already embeds the same injection so prompt builders have a canonical copy; do not duplicate it. Do not paste the representative excerpts into routine prompts unless the user explicitly asks for a full style-calibration run. This keeps the old 2.5 pressure and mechanism density without wasting context or copying old topics.
+For `2.5 Direct Draft`, use `--isolated` for every source. The official voice now comes from the complete 2026-06-05 early B direct-draft block above. Do not append the legacy style pack or duplicate any extra `旧2.5风格参照` injection unless the user explicitly asks for a separate style-calibration run.
 
 For `2.8 Safe Draft`, use `--session 2.8` so safety tuning stays separate from the old 2.5 voice. Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
 
@@ -784,7 +771,7 @@ When the Gemini chat is ready:
 - Extract the queued source document text.
 - Pick the correct Gemini direction from `Gemini Expansion Instruction Choices`. If the requested direction is 2.7/fusion, first run 2.5 and 2.6 through Gemini, then stop Gemini work and switch to local Codex fusion.
 - Paste the selected full instruction block followed by the original source copy into the terminal chat, or use `--prompt-file` for automated runs.
-- Do not prepend a viral opening or rewrite the source before expansion. Use only the selected full block and its documented direction-specific injection; for 2.5 this means the short `旧2.5风格参照` block already embedded above.
+- Do not prepend a viral opening or rewrite the source before expansion. Use only the selected full block and its documented direction-specific injection; for routine 2.5 this means the complete 2026-06-05 early B block above plus the source text, with no extra legacy injection.
 - Send it and capture the Gemini response text from the terminal output as the expanded draft.
 
 ### 3. Check Generated Copy
