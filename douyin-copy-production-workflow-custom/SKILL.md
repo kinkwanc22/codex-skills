@@ -1,6 +1,6 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 三版开头, 长文稿Word导出, 3.0千川素材, 热门原稿保留植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
@@ -46,6 +46,7 @@ Load only the reference files needed for the current step:
 - `references/source-learning-and-style.md`: read when processing a batch, learning source viral logic, classifying source styles, or preserving source openings.
 - `references/openings-and-titles.md`: read after expansion passes checks and before Word export to generate openings, score them, and build title packages.
 - `references/export-and-hard-rules.md`: read before optional scoring, Word export, final delivery, and post-run workflow updates.
+- `references/3.0-qianchuan-tts.md`: read when the user asks for 3.0千川素材、热门原稿保留植入CTA、1500字内成稿、自然过桥或直接TTS Word交付。
 
 ## Workflow
 
