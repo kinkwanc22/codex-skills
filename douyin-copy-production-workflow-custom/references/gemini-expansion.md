@@ -33,6 +33,7 @@ Available directions:
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
 - `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
+- `3.1 Source Pre-Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: use when the user asks for 3.1、2.5预换芯、原稿预换芯、原稿先换芯再2.5, or wants the source manuscript rebuilt first while keeping the exact public topic/title, then expanded by routine 2.5.
 
 ### 2.5 Direct Draft
 
@@ -251,6 +252,84 @@ Gary指导下的处理方式。
 
 【原文开始】
 ```
+
+### 3.1 Source Pre-Transplant -> 2.5 Direct Draft / 2.5原稿预换芯
+
+Use this mode when the user provides the pre-expansion source manuscript and asks for `3.1`, `2.5预换芯`, `原稿预换芯`, `原稿先换芯再2.5`, or the tested mode where the source is rebuilt first and then expanded through routine 2.5.
+
+This is not `2.5成稿换芯`. Do not use the finished-draft transplant session or old finished 2.5 body as the style parent. The goal is:
+
+`same public topic/title/audience promise -> genuinely new source-level skeleton -> routine 2.5 Direct Draft`
+
+#### 3.1 Workflow
+
+1. Extract the original source text from the provided docx or pasted manuscript.
+2. Identify and preserve the exact public topic, title promise, audience promise, emotional direction, and promised count. The public topic must not be broadened, upgraded, or reframed. For example, `男女关系中的14条危险信号` must remain that topic; do not rename it to `关系结构失衡`, `关系管理`, `择偶战略`, or another meta-topic.
+3. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals.
+4. Record the route before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, pre-source file, final accepted file, character count, and output docx path.
+5. Build the normal routine 2.5 prompt using the complete `2.5 Direct Draft` block above, the short `旧2.5风格参照` injection, and the rebuilt pre-transplanted source as `【原文】`. Use `--isolated`.
+6. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
+
+#### 3.1 Pre-Transplant Source Rules
+
+The pre-transplanted source must look like a natural short source manuscript, not like prompt instructions.
+
+Required:
+
+- Keep the original public topic and promised count unchanged unless the user explicitly changes it.
+- Replace the internal list items or core points with genuinely different points, not synonyms of the original.
+- Keep the same audience and emotional direction.
+- Use concise source-style paragraphs that Gemini can naturally expand.
+- Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
+- If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
+
+Forbidden:
+
+- Do not write backstage wording into the source or final draft, including `选题不变`, `这个选题`, `这一次`, `我们不讲`, `不再讲`, `原稿`, `旧稿`, `提示词`, `换芯`, `版本`, `路线`, `上一版`, `这套`, `后台`, or any wording that exposes the production process.
+- Do not preserve the original points by near-synonym, changed order, or slightly different examples.
+- Do not broaden the topic into a higher-level meta-topic.
+- Do not tell the audience what the draft is not about. Start directly with the new angle as if it were the only intended article.
+
+#### 3.1 Ledger And Reuse Control
+
+Before creating a new pre-transplanted source for the same manuscript, inspect `work/2.5_pretransplant_ledger.json` if it exists. Avoid all prior `avoid_next_time` items for that same source/title.
+
+For every new accepted run, append or update a ledger entry with:
+
+```json
+{
+  "source_path": "<original source path>",
+  "title": "<exact public topic/title>",
+  "mode": "2.5预换芯测试",
+  "date": "<ISO timestamp>",
+  "route": "<same topic plus new skeleton summary>",
+  "avoid_next_time": ["<used point 1>", "<used point 2>"],
+  "pre_source_file": "work/<name>_pretransplant_source.txt",
+  "expanded_raw_file": "work/<name>_25_raw.txt",
+  "accepted_file": "work/<name>_25_accepted.txt",
+  "accepted_cjk": 0,
+  "item_count": 0,
+  "status": "accepted_exported",
+  "docx_path": "<final docx>"
+}
+```
+
+#### 3.1 Validation Gate
+
+Reject and rebuild/retry when any condition fails:
+
+- public topic/title/audience promise changed or broadened;
+- promised count is incomplete;
+- rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
+- final draft reuses a prior 3.1 route for the same source from `work/2.5_pretransplant_ledger.json`;
+- final draft contains prompt/backstage leakage such as `选题不变`, `这一次我们不讲`, `原稿`, `旧稿`, `提示词`, `路线`, `版本`, or `换芯`;
+- final draft sounds like it is comparing itself with another draft instead of speaking naturally to viewers;
+- fewer than 4000 Chinese characters after expansion;
+- required mid-article and ending fan-group CTAs are missing;
+- fixed ending is not exact for the current project when the user expects the fan-group ending;
+- `内部群`, `私董会`, `[[RISKNOTE]]`, yellow-note language, refusal text, or backend traces appear.
+
+For prompt-leak cleanup, rewrite locally if it is an isolated phrase-level defect. If the leak controls the whole opening or argument frame, rebuild the pre-transplanted source and rerun 2.5.
 
 ### 2.8 Safe Draft / 安全版
 
