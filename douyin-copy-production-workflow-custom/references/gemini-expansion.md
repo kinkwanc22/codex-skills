@@ -282,6 +282,9 @@ Required:
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
+- Default 3.1 safety packaging is one level lower than 2.8. Preserve the old-2.5 dark, interest-sensitive, power-sensitive and conclusion-forward feel through self-disclosure, emotional investment, relationship pricing, loss anxiety, reward-and-punishment feedback, frame shifts and concrete consequences. Do not automatically convert a sharp source into boundary education, healthy-communication advice or neutral counseling language.
+- Lower safety packaging does not mean exaggerated danger-word stuffing. Pressure should come from the causal chain and relationship consequences. Avoid repetitive intensifiers and theatrical labels such as `极其`, `王权`, `臣服`, `核武器`, or `情绪掠夺系统` when they replace real analysis.
+- Use a middle expression band by default: terms such as `废物测试`, `心理博弈`, `潜意识评估`, `情绪投资`, `失去焦虑`, `关系定价`, `未完成感` and `特殊位置` may be retained when natural. Explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations remain outside the workflow.
 
 Forbidden:
 
