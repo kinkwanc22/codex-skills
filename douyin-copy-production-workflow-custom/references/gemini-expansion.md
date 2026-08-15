@@ -33,7 +33,7 @@ Available directions:
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
 - `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
-- `3.1 Source Pre-Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: use when the user asks for 3.1、2.5预换芯、原稿预换芯、原稿先换芯再2.5, or wants the source manuscript rebuilt first while keeping the exact public topic/title, then expanded by routine 2.5.
+- `3.1 Source Pre-Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: use when the user asks for 3.1、2.5预换芯、原稿预换芯、原稿先换芯再2.5, or wants the source manuscript rebuilt first while keeping the exact public topic/title. Embed matched psychology/PUA terms into the rebuilt manuscript itself, freeze it, then send it through standard 2.5 without article-specific prompt stacking.
 
 ### 2.5 Direct Draft
 
@@ -259,16 +259,17 @@ Use this mode when the user provides the pre-expansion source manuscript and ask
 
 This is not `2.5成稿换芯`. Do not use the finished-draft transplant session or old finished 2.5 body as the style parent. The goal is:
 
-`same public topic/title/audience promise -> genuinely new source-level skeleton -> routine 2.5 Direct Draft`
+`same public topic/title/audience promise -> genuinely new source-level skeleton with naturally embedded domain terms -> freeze the rebuilt manuscript -> send that manuscript directly through standard 2.5 Direct Draft`
 
 #### 3.1 Workflow
 
 1. Extract the original source text from the provided docx or pasted manuscript.
 2. Identify and preserve the exact public topic, title promise, audience promise, emotional direction, and promised count. The public topic must not be broadened, upgraded, or reframed. For example, `男女关系中的14条危险信号` must remain that topic; do not rename it to `关系结构失衡`, `关系管理`, `择偶战略`, or another meta-topic.
 3. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals.
-4. Record the route before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, pre-source file, final accepted file, character count, and output docx path.
-5. Build the normal routine 2.5 prompt using the complete `2.5 Direct Draft` block above, the short `旧2.5风格参照` injection, and the rebuilt pre-transplanted source as `【原文】`. Use `--isolated`. Apply the approved old-2.5 hard-edged expression band below; do not append 2.8-style safety packaging, proactive disclaimers, or neutral counseling language.
-6. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
+4. Select 2-5 psychology, relationship-game, or PUA-domain terms that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
+5. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record the route and embedded terms before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, `embedded_terms`, pre-source file, final accepted file, character count, and output docx path.
+6. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
+7. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
 
@@ -282,6 +283,9 @@ Required:
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
+- Naturally embed 2-5 topic-matched psychology or PUA-domain terms in the rebuilt source. Prefer terms such as `框架`, `筛选权`, `服从性测试`, `废物测试`, `预选效应`, `间歇性强化`, `损失厌恶`, `沉没成本`, `认知失调`, `自我合理化`, `峰终定律`, `情绪奖惩`, `潜意识评估`, `关系定价`, `情绪投资`, `失去焦虑`, `未完成效应`, `锚定效应`, or `社会认同` only when they accurately fit the new argument.
+- Do not insert a term as a detached label. The sentence before or after it must show what the term looks like in a real chat, date, relationship, social, or business scene and what consequence it produces.
+- The terminology is part of the rebuilt manuscript, not a request for the expansion model. Do not add phrases such as `扩写时加入`, `请使用`, `需要体现`, `专业术语包括`, or a terminology list inside the manuscript.
 - Default 3.1 to the approved old-2.5 hard-edged expression band, clearly lower in safety packaging than 2.8 and the previous middle band. Preserve dark human-nature judgments, interest calculations, power changes, relationship high/low positions, selection rights, emotional reward and punishment, investment, loss anxiety and concrete consequences. Do not convert a sharp source into boundary education, healthy-communication advice, balanced-perspective commentary or neutral counseling language.
 - Allow direct domain terms when they fit the source and sentence, including `废物测试`, `服从性测试`, `情绪惩罚`, `拿捏`, `筛选权`, `心理博弈`, `潜意识评估`, `情绪投资`, `失去焦虑`, `关系定价`, `利益交换`, `框架`, `主动权`, `未完成感` and `特殊位置`. Do not add defensive qualifiers such as `不是操控`, `不是控制`, `不是拿捏`, `看懂不等于拿捏`, or `健康关系才是目的` unless the public topic explicitly requires a distinction.
 - Hard-edged does not mean exaggerated danger-word stuffing. Pressure must come from mechanisms, scenes, interest movement and relationship consequences. Avoid repetitive intensifiers and theatrical labels such as `极其`, `绝对`, `王权`, `臣服`, `核武器`, or `情绪掠夺系统` when they replace real analysis.
@@ -293,6 +297,7 @@ Forbidden:
 - Do not preserve the original points by near-synonym, changed order, or slightly different examples.
 - Do not broaden the topic into a higher-level meta-topic.
 - Do not tell the audience what the draft is not about. Start directly with the new angle as if it were the only intended article.
+- Do not compensate for a weak rebuilt manuscript by attaching an article-specific supplement during expansion. If the new skeleton, terminology, tone, or examples are insufficient, revise the rebuilt manuscript itself and freeze it again before sending it to 2.5.
 
 #### 3.1 Ledger And Reuse Control
 
@@ -308,6 +313,7 @@ For every new accepted run, append or update a ledger entry with:
   "date": "<ISO timestamp>",
   "route": "<same topic plus new skeleton summary>",
   "avoid_next_time": ["<used point 1>", "<used point 2>"],
+  "embedded_terms": ["<naturally used term 1>", "<naturally used term 2>"],
   "pre_source_file": "work/<name>_pretransplant_source.txt",
   "expanded_raw_file": "work/<name>_25_raw.txt",
   "accepted_file": "work/<name>_25_accepted.txt",
@@ -325,11 +331,13 @@ Reject and rebuild/retry when any condition fails:
 - public topic/title/audience promise changed or broadened;
 - promised count is incomplete;
 - rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
+- rebuilt source contains fewer than 2 naturally embedded topic-matched psychology/PUA terms, stacks detached labels, or relies on an expansion supplement to supply its terminology and tone;
 - final draft reuses a prior 3.1 route for the same source from `work/2.5_pretransplant_ledger.json`;
 - final draft contains prompt/backstage leakage such as `选题不变`, `这一次我们不讲`, `原稿`, `旧稿`, `提示词`, `路线`, `版本`, or `换芯`;
 - final draft sounds like it is comparing itself with another draft instead of speaking naturally to viewers;
 - fewer than 4000 Chinese characters after expansion;
 - required mid-article and ending fan-group CTAs are missing;
+- a CTA merely mentions `粉丝群` without an explicit viewer action such as `点开主页`, `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
 - fixed ending is not exact for the current project when the user expects the fan-group ending;
 - `内部群`, `私董会`, `[[RISKNOTE]]`, yellow-note language, refusal text, or backend traces appear.
 
