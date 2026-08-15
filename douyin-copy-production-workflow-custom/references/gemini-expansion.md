@@ -269,7 +269,8 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 4. Select 2-5 psychology, relationship-game, or PUA-domain terms that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
 5. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record the route and embedded terms before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, `embedded_terms`, pre-source file, final accepted file, character count, and output docx path.
 6. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
-7. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
+7. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
+8. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
 
@@ -298,6 +299,7 @@ Forbidden:
 - Do not broaden the topic into a higher-level meta-topic.
 - Do not tell the audience what the draft is not about. Start directly with the new angle as if it were the only intended article.
 - Do not compensate for a weak rebuilt manuscript by attaching an article-specific supplement during expansion. If the new skeleton, terminology, tone, or examples are insufficient, revise the rebuilt manuscript itself and freeze it again before sending it to 2.5.
+- Do not silently cool down the returned long draft after generation. Phrases that are merely harsh, sensational, dark, confrontational, or commercially punchy are part of the intended old-2.5 surface and must stay unless the user requests otherwise.
 
 #### 3.1 Ledger And Reuse Control
 
@@ -340,6 +342,8 @@ Reject and rebuild/retry when any condition fails:
 - a CTA merely mentions `粉丝群` without an explicit viewer action such as `点开主页`, `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
 - fixed ending is not exact for the current project when the user expects the fan-group ending;
 - `内部群`, `私董会`, `[[RISKNOTE]]`, yellow-note language, refusal text, or backend traces appear.
+
+Allowed local cleanup after generation is narrow and mechanical: unmistakable transcription/typing errors, prompt/backstage leakage, exact fixed-ending repair, explicit CTA repair, forbidden group-name replacement, or a minimal edit to remove explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations. Do not use this cleanup gate as permission to rewrite tone, metaphors, intensity, dark conclusions, PUA vocabulary, or sensational phrasing. If a hard operational boundary controls a whole section rather than one phrase, rerun from the rebuilt source instead of converting the article into neutral advice.
 
 For prompt-leak cleanup, rewrite locally if it is an isolated phrase-level defect. If the leak controls the whole opening or argument frame, rebuild the pre-transplanted source and rerun 2.5.
 
