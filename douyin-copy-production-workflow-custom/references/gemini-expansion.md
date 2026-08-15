@@ -267,7 +267,7 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 2. Identify and preserve the exact public topic, title promise, audience promise, emotional direction, and promised count. The public topic must not be broadened, upgraded, or reframed. For example, `男女关系中的14条危险信号` must remain that topic; do not rename it to `关系结构失衡`, `关系管理`, `择偶战略`, or another meta-topic.
 3. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals.
 4. Record the route before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, pre-source file, final accepted file, character count, and output docx path.
-5. Build the normal routine 2.5 prompt using the complete `2.5 Direct Draft` block above, the short `旧2.5风格参照` injection, and the rebuilt pre-transplanted source as `【原文】`. Use `--isolated`.
+5. Build the normal routine 2.5 prompt using the complete `2.5 Direct Draft` block above, the short `旧2.5风格参照` injection, and the rebuilt pre-transplanted source as `【原文】`. Use `--isolated`. Apply the approved old-2.5 hard-edged expression band below; do not append 2.8-style safety packaging, proactive disclaimers, or neutral counseling language.
 6. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
@@ -282,9 +282,10 @@ Required:
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
-- Default 3.1 safety packaging is one level lower than 2.8. Preserve the old-2.5 dark, interest-sensitive, power-sensitive and conclusion-forward feel through self-disclosure, emotional investment, relationship pricing, loss anxiety, reward-and-punishment feedback, frame shifts and concrete consequences. Do not automatically convert a sharp source into boundary education, healthy-communication advice or neutral counseling language.
-- Lower safety packaging does not mean exaggerated danger-word stuffing. Pressure should come from the causal chain and relationship consequences. Avoid repetitive intensifiers and theatrical labels such as `极其`, `王权`, `臣服`, `核武器`, or `情绪掠夺系统` when they replace real analysis.
-- Use a middle expression band by default: terms such as `废物测试`, `心理博弈`, `潜意识评估`, `情绪投资`, `失去焦虑`, `关系定价`, `未完成感` and `特殊位置` may be retained when natural. Explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations remain outside the workflow.
+- Default 3.1 to the approved old-2.5 hard-edged expression band, clearly lower in safety packaging than 2.8 and the previous middle band. Preserve dark human-nature judgments, interest calculations, power changes, relationship high/low positions, selection rights, emotional reward and punishment, investment, loss anxiety and concrete consequences. Do not convert a sharp source into boundary education, healthy-communication advice, balanced-perspective commentary or neutral counseling language.
+- Allow direct domain terms when they fit the source and sentence, including `废物测试`, `服从性测试`, `情绪惩罚`, `拿捏`, `筛选权`, `心理博弈`, `潜意识评估`, `情绪投资`, `失去焦虑`, `关系定价`, `利益交换`, `框架`, `主动权`, `未完成感` and `特殊位置`. Do not add defensive qualifiers such as `不是操控`, `不是控制`, `不是拿捏`, `看懂不等于拿捏`, or `健康关系才是目的` unless the public topic explicitly requires a distinction.
+- Hard-edged does not mean exaggerated danger-word stuffing. Pressure must come from mechanisms, scenes, interest movement and relationship consequences. Avoid repetitive intensifiers and theatrical labels such as `极其`, `绝对`, `王权`, `臣服`, `核武器`, or `情绪掠夺系统` when they replace real analysis.
+- Keep only the final operational boundary: do not provide explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations. This boundary should stay implicit in normal drafts and must not become the article's visible framing.
 
 Forbidden:
 
