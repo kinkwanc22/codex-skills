@@ -1,4 +1,4 @@
 ﻿interface:
-  display_name: "Douyin Women Copy Workflow Custom"
-  short_description: "Process women-facing Douyin copy batches with the female Gemini workflow."
-  default_prompt: "Use $douyin- women-copy-production-workflow-female-custom to process this batch with the full female-facing workflow."
+  display_name: "Douyin Women Copy Workflow - Ryan"
+  short_description: "Process female-facing copy with Ryan versions 2.5 through 3.1."
+  default_prompt: "Use $douyin- women-copy-production-workflow-female-custom to process this batch with the full Ryan female-facing workflow."

@@ -19,7 +19,7 @@ Do not invoke `douyin-emotion-copy-scorer` for upfront screening. Use it only if
 Batch order:
 
 - Preserve the source folder's stable filename order unless the user provides an explicit order.
-- Expand each source from its original text with the full Gemini instruction block.
+- Expand each source from its original text with the Female Edition Prompt Override + full Gemini instruction block.
 - If a source cannot be read or repeatedly fails generation, record it in the batch log and continue to the next source.
 - Do not reject files merely because their topic, opening, likes, or structure seem weaker than others.
 
@@ -75,7 +75,7 @@ Prioritize source scripts that can become a high-density long lesson with these 
 - **Numbered framework expandability**: 三步、六大机制、八大内核、十二个思维、十六个习惯、三十六个问题, or any source that can naturally split into 3-6 mechanisms or 8-18 checklist points.
 - **Technique-course packaging**: note when a source can be turned into practical skills, moves, exercises, operating steps, scripts, response templates, chat tactics, screening methods, field drills, or 几招/几步/技巧/话术/方法/策略/训练/操作系统 because these create stronger save/replay value and easier editing hooks.
 - **Female identity transformation**: 恋爱脑 / 情绪被动 / 低位等待 / 被男人筛选 -> 高位筛选者 / 关系定价者 / 情绪主权者 / 边界清晰的女性.
-- **Male psychology portrait**: 投入意愿、承诺意愿、回避、低质量暧昧、试探、权衡、占有欲、责任感缺失、真实欲望, especially when the script exposes a hidden male motive or unconscious mechanism.
+- **Male psychology portrait**: 试探、慕强、道德伪装、社交认同、不确定性、隐秘欲望, especially when the script exposes a hidden motive or unconscious mechanism.
 - **Business and dating analogy**: scripts that connect relationships with money, resources, hierarchy, competition, networks, screening, and leverage.
 - **Collection value**: source material that can support 思维导图、复盘、清单、系统课、系列课.
 
@@ -83,7 +83,7 @@ Style risks even if likes are high:
 
 - Pure warm relationship advice with no mechanism, conflict, or female pain point.
 - Pure emotional venting that cannot be expanded into a structured lesson.
-- Male-audience-only material that cannot be converted into women-facing screening, emotional sovereignty, boundary, or self-upgrade framing.
+- Male-behavior or relationship material that cannot be converted into female relationship sovereignty, screening, or self-upgrade framing.
 - A provocative title whose body lacks pain point, case, mechanism, and executable structure.
 
 If the user explicitly asks for selection, prefer candidates that fit this expanded-hit-sample style over scripts that only have high like counts. In the default workflow, expand all provided files.
@@ -102,10 +102,10 @@ High-priority source archetypes:
 
 2. **Female identity reversal type**
    - Examples: 八大内核、框架习惯、十六个信号、十个特质.
-   - Source signals: 舔狗、beta、供养者、没框架、被动挨打 -> alpha、高位、规则制定者、关系主权.
+   - Source signals: 恋爱脑、情绪被动、低位等待、被男人筛选 -> 高位筛选者、规则制定者、情绪主权、关系定价.
 
 3. **Technique / practical skill type**
-   - Examples: 7招让女生喜欢你、两点让她从冷淡到粘人、夸人技巧、聊天推进方法、低位逆袭高位操作、情绪价值四层级、见面/断联/抽离/筛选实操.
+   - Examples: 7招看懂男人是否真心、两点让他从冷淡到主动、聊天推进方法、低位逆袭高位操作、情绪价值四层级、见面/断联/抽离/筛选实操.
    - Source signals: 招、技巧、方法、策略、步骤、话术、训练、操作、推进、怎么做、如何让、只需要、学会、掌握、实操、案例复盘.
    - Best expansion structure: 场景 -> 错误动作 -> 底层机制 -> 高位动作 -> 话术/动作示范 -> 复盘练习.
    - Style note: if it can become a teachable technique course with concrete viewer actions, preserve that practical structure during expansion.
@@ -115,8 +115,8 @@ High-priority source archetypes:
    - Source signals: 测试、信号、法则、类型、图鉴、判断、远离、撤离.
    - Best expansion structure: 表现 -> 潜台词 -> 错误反应 -> 高位处理.
 
-4. **Female psychology profile type**
-   - Examples: 隐秘癖好、女性思维、女性行为侧写、利用天性.
+4. **Male psychology profile type**
+   - Examples: 隐秘癖好、男性思维、男性行为侧写、投入与承诺信号.
    - Source signals: specific behavior portrait + hidden motive + interaction consequence.
 
 5. **Relationship attack/defense type**
@@ -131,8 +131,8 @@ High-priority source archetypes:
 A source has strong expansion potential if it meets at least 4 of these 8 checks:
 
 - The first 300 characters contain pain, conflict, or a counterintuitive claim.
-- It clearly explains why the female viewer loses frame, boundaries, or emotional sovereignty.
-- It clearly explains why the man reacts this way, or why the relationship position shifts this way.
+- It clearly explains why the female viewer loses.
+- It clearly explains why the man reacts this way.
 - It has a nameable mechanism.
 - It can split into 3-6 mechanisms or 8-18 signals/laws/habits/traits.
 - It can support concrete scenes or cases.
@@ -174,7 +174,7 @@ High-performing original opening archetypes learned from the user's samples:
 
 5. **Counterintuitive mechanism opening**
    - Signals: `为什么`, `答案只有一个`, `其实很简单`, `底层逻辑`, `本质`, `普通人以为...其实...`.
-   - Best when it overturns common male assumptions and immediately names the deeper mechanism.
+   - Best when it overturns common female assumptions and immediately names the deeper mechanism.
 
 6. **Crisis-defense opening**
    - Signals: 危险信号、废物测试、挖墙脚、被替代、撤离、重新思考相处策略.
@@ -184,7 +184,7 @@ Optional opening style score: 20 points.
 
 - 5 points: first 30 characters have a strong hook, question, taboo word, or result promise.
 - 5 points: first 100 characters include a mechanism name or counterintuitive judgment.
-- 5 points: first 300 characters name a male pain point or low-position identity.
+- 5 points: first 300 characters name a female pain point or low-position identity.
 - 5 points: first 300 characters show structure and collection value: list, stages, formula, field guide, question bank, or full lesson.
 
 Style interpretation:

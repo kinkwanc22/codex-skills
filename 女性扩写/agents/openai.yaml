@@ -1,4 +1,4 @@
 ﻿interface:
-  display_name: "Douyin Workflow Custom"
-  short_description: "Process Douyin copy batches with the custom Gemini workflow."
-  default_prompt: "Use $douyin-workflow-custom to process this batch with the full douyin-copy-production-workflow-custom workflow."
+  display_name: "女性扩写"
+  short_description: "使用 Ryan 女性情感工作流扩写、换芯和导出文案。"
+  default_prompt: "Use $女性扩写 to process this manuscript with the Ryan female-facing workflow and the requested version."

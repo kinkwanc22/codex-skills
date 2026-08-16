@@ -41,7 +41,7 @@ Use this four-step opening spine:
 
 Style constraints:
 
-- First 100 characters must contain at least one: mechanism name, counterintuitive judgment, male low-position identity, or strong result promise.
+- First 100 characters must contain at least one: mechanism name, counterintuitive judgment, female low-position identity, or strong result promise.
 - First 300 characters must imply the later structure and collection value.
 - Prefer rhythm: `问题/反常识 -> 答案/机制 -> 结果 -> 结构`.
 - Preserve sharpness and dark/high-level flavor, but frame the content as 机制识别、关系主权、边界判断、情绪秩序、筛选系统.
@@ -95,12 +95,12 @@ Required final opening output for **each article**:
 
 1. **风格一：高阶认知课式开头**
    - Generate one opening using 风格库中的「高阶认知课式开头」.
-   - Use for broad cognition, two-sex essence, male frame, emotional sovereignty, long-term attraction, psychological mechanism topics.
+   - Use for broad cognition, two-sex essence, female frame, emotional sovereignty, long-term attraction, psychological mechanism topics.
    - Keep it as a standalone candidate, clearly labeled.
 
 2. **风格二：身份点名式硬核学习开头**
    - Generate one opening using 风格库中的「身份点名式硬核学习开头」.
-   - Use for practical training, habits, screening women, chat systems, daily behavior systems, relationship judgment, and tactical long-form lessons.
+   - Use for practical training, habits, screening men, chat systems, daily behavior systems, relationship judgment, and tactical long-form lessons.
    - Keep it as a standalone candidate, clearly labeled.
 
 3. **保留原文开头版**
