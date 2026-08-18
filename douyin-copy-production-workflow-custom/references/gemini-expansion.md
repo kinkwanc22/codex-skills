@@ -265,13 +265,16 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 
 1. Extract the original source text from the provided docx or pasted manuscript.
 2. Identify and preserve the exact public topic, title promise, audience promise, emotional direction, and promised count. The public topic must not be broadened, upgraded, or reframed. For example, `男女关系中的14条危险信号` must remain that topic; do not rename it to `关系结构失衡`, `关系管理`, `择偶战略`, or another meta-topic.
-3. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals.
-4. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
-5. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
-6. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record the route and embedded terms before expansion in `work/2.5_pretransplant_ledger.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, `embedded_terms`, pre-source file, final accepted file, character count, and output docx path.
-7. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
-8. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
-9. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
+3. Create a topic fingerprint before inventing replacement points. Record the exact public topic, audience, relationship stage, promised result, central object, usable real-world scenes, and the source mechanism family that must not be lightly renamed.
+4. Inspect the last 20 accepted 3.1 entries across all manuscripts, not only previous runs of the same title. From the Gemini workspace, run `python3 /Users/kin/.codex/skills/douyin-copy-production-workflow-custom/scripts/inspect_31_recent_routes.py --ledger work/2.5_pretransplant_ledger.json`, then choose a topic-native mechanism family that is not saturated in the recent ledger.
+5. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals. Every point must contain a scene anchor specific to this topic.
+6. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
+7. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
+8. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record its topic fingerprint, mechanism families, route signature, scene anchors, route, and embedded terms before expansion in `work/2.5_pretransplant_ledger.json`.
+9. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
+10. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
+11. Recheck the final 2.5 body against the topic fingerprint and recent cross-article routes. Gemini may expand a distinct source back into a generic Gary chain; reject that result instead of accepting it because the pre-source was diverse.
+12. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
 
@@ -285,6 +288,11 @@ Required:
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
+- Choose the primary mechanism family from the topic itself. Useful families include perception/attention, language/meaning, timing/sequence, environment/context, identity/role, emotion/memory, learning/conditioning, incentives/exchange, social structure, and competence/behavior. These are selection lanes, not labels to print in the manuscript.
+- Match the family to the central object. An `邀约` topic should mainly use reply decisions, time windows, location friction, commitment level, and赴约 behavior; a `冷读` topic should mainly use observation, contrast, attribution, and verification; a `危险信号` topic should mainly use conflict, repair, responsibility, concealment, and recurring patterns. Do not force every topic through relationship pricing or investment logic.
+- Treat `框架`, `关系定价`, `投入`, `损失厌恶`, `沉没成本`, and `预选效应` as optional tools, not default ingredients. Unless the public topic is directly about investment, cost, withdrawal, or status selection, the chain `框架 -> 投入 -> 损失厌恶` may support at most one secondary point and must not control the whole manuscript.
+- Apply the title-transfer test to every key point: if the point could be pasted under another relationship title by changing only `女人`, `男人`, or `关系`, it is too generic and must be rebuilt around a topic-specific object, action, and consequence.
+- Give every key point at least one concrete scene anchor that belongs to this title. Repeated abstractions such as `高位`, `低位`, `主动权`, `价值`, and `内核` do not count as scene anchors by themselves.
 - Naturally embed 2-5 total topic-matched terms across psychology, PUA, sociology, or biology in the rebuilt source. Psychology/PUA options include `框架`, `筛选权`, `服从性测试`, `废物测试`, `预选效应`, `间歇性强化`, `损失厌恶`, `沉没成本`, `认知失调`, `自我合理化`, `峰终定律`, `情绪奖惩`, `潜意识评估`, `关系定价`, `情绪投资`, `失去焦虑`, `未完成效应`, or `锚定效应`. Sociology options include `社会认同`, `参照群体`, `角色期待`, `群体规范`, `身份资本`, `符号资本`, `地位信号`, `社会交换`, or `圈层筛选`. Biology options include `性选择`, `亲代投资`, `同类匹配`, `进化错配`, `应激反应`, or a relevant hormone/neural-reward term. Use only the terms that accurately fit the new argument; a manuscript may use one field, several fields, or none from a particular field.
 - Do not insert a term as a detached label. The sentence before or after it must show what the term looks like in a real chat, date, relationship, social, or business scene and what consequence it produces.
 - The terminology is part of the rebuilt manuscript, not a request for the expansion model. Do not add phrases such as `扩写时加入`, `请使用`, `需要体现`, `专业术语包括`, or a terminology list inside the manuscript.
@@ -307,7 +315,14 @@ Forbidden:
 
 #### 3.1 Ledger And Reuse Control
 
-Before creating a new pre-transplanted source for the same manuscript, inspect `work/2.5_pretransplant_ledger.json` if it exists. Avoid all prior `avoid_next_time` items for that same source/title.
+Before creating a new pre-transplanted source, inspect `work/2.5_pretransplant_ledger.json` if it exists. Avoid all prior `avoid_next_time` items for the same source/title and scan the last 20 accepted entries across all titles for cross-article route reuse. Old ledger entries may lack the newer fields; infer their mechanism families from `route`, `avoid_next_time`, and `embedded_terms` rather than ignoring them.
+
+Cross-article controls:
+
+- The exact `route_signature` must not repeat within the last 20 accepted 3.1 entries.
+- A primary mechanism family should appear no more than twice in the last 10 accepted entries. If the topic inherently requires that family, the new route must use different scene anchors, causal movement, and conclusion, and the exception must be explicit in the ledger.
+- Do not reuse the same three-step causal chain merely by swapping terminology. Compare scenes, who acts first, what information changes, how interests move, and what consequence closes the point.
+- Run the recent-route inspector before drafting. When checking a proposal, use `--proposed-family <family> --route-signature <signature>`; a nonzero exit means choose another route before writing.
 
 For every new accepted run, append or update a ledger entry with:
 
@@ -317,6 +332,17 @@ For every new accepted run, append or update a ledger entry with:
   "title": "<exact public topic/title>",
   "mode": "2.5预换芯测试",
   "date": "<ISO timestamp>",
+  "topic_fingerprint": {
+    "audience": "<audience>",
+    "relationship_stage": "<stage>",
+    "promised_result": "<result>",
+    "central_object": "<topic-specific object>",
+    "usable_scenes": ["<scene 1>", "<scene 2>"],
+    "excluded_source_family": "<old route family>"
+  },
+  "mechanism_families": ["<primary family>", "<optional secondary family>"],
+  "route_signature": "<primary family + causal movement + ending consequence>",
+  "scene_anchors": ["<topic noun/action 1>", "<topic noun/action 2>"],
   "route": "<same topic plus new skeleton summary>",
   "avoid_next_time": ["<used point 1>", "<used point 2>"],
   "embedded_terms": ["<naturally used term 1>", "<naturally used term 2>"],
@@ -340,6 +366,10 @@ Reject and rebuild/retry when any condition fails:
 - rebuilt source or final 2.5 draft restates, summarizes, mocks, downgrades, or criticizes the old source points as a setup for the new points, including comparison patterns such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `太廉价`, `太低级`, or source-derived `不是A而是B`;
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;
 - final draft reuses a prior 3.1 route for the same source from `work/2.5_pretransplant_ledger.json`;
+- proposed or final `route_signature` repeats within the last 20 accepted 3.1 entries, or its primary mechanism family is already saturated in the last 10 without a documented topic-native exception;
+- two or more key points pass the title-transfer test, meaning they can move under an unrelated relationship title with only pronoun or generic-noun changes;
+- the rebuilt source or final draft uses generic position, frame, investment, or loss language without topic-specific scene anchors, or lets `框架 -> 投入 -> 损失厌恶` control more than one key point when the title is not directly about those mechanisms;
+- the frozen pre-source is topic-specific but the expanded 2.5 body replaces it with a recently repeated generic Gary route;
 - final draft contains prompt/backstage leakage such as `选题不变`, `这一次我们不讲`, `原稿`, `旧稿`, `提示词`, `路线`, `版本`, or `换芯`;
 - final draft sounds like it is comparing itself with another draft instead of speaking naturally to viewers;
 - fewer than 4000 Chinese characters after expansion;
