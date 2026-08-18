@@ -372,7 +372,7 @@ Reject and rebuild/retry when any condition fails:
 - the frozen pre-source is topic-specific but the expanded 2.5 body replaces it with a recently repeated generic Gary route;
 - final draft contains prompt/backstage leakage such as `选题不变`, `这一次我们不讲`, `原稿`, `旧稿`, `提示词`, `路线`, `版本`, or `换芯`;
 - final draft sounds like it is comparing itself with another draft instead of speaking naturally to viewers;
-- fewer than 4000 Chinese characters after expansion;
+- fewer than 4500 Chinese characters after expansion. For 3.1, target about 5000 Chinese characters and accept a complete 4500-6000-character body even though the standard 2.5 prompt requests a longer draft; do not retry merely to reach 7000 when the article is already complete;
 - required mid-article and ending fan-group CTAs are missing;
 - a CTA merely mentions `粉丝群` without an explicit viewer action such as `点开主页`, `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
 - fixed ending is not exact for the current project when the user expects the fan-group ending;
