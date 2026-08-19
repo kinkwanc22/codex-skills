@@ -293,6 +293,7 @@ Required:
 - Before the mid-article CTA, naturally show at least two variables that can make the same visible behavior mean different things. The viewer should understand why a generic video cannot honestly determine their exact stage from one isolated signal.
 - The CTA must specify one viewer action, one topic-specific evidence package, and one group-delivered decision. The delivered value should answer a bounded question such as `她把你放在哪一层`, `现在该推进、稳住还是撤回`, `问题出在窗口、节奏还是关系位置`, or another equally topic-native judgment.
 - Keep the conversion language inside the article's causal flow. Do not interrupt a mechanism paragraph with a generic advertisement, and do not turn the full article into a sales page.
+- When the user asks to include a viewer/student question to Gary, write one natural consultation question that is semantically equivalent to the body-derived mother topic, relationship stage, and promised result. The question may make the source concrete, but it must not introduce a second topic such as `朋友区`, `挽回`, `表白失败`, or `长期关系` unless that topic is already central in the body. Apply the deletion test: if removing the question changes what the article is about, the question has hijacked the manuscript and must be rewritten.
 - Use one natural mid-article diagnostic CTA and one concise ending decision CTA. They may share the same handoff but must not repeat the same paragraph verbatim.
 - Rotate the conversion handoff across the recent ledger. Do not make every article request chat records, promise `具体问题具体分析`, or use the same `你现在不是听一条视频能解决的` bridge.
 - Do not use false scarcity, fabricated case-volume claims, guaranteed outcomes, or fear-only pressure as the reason to join. The pressure can remain hard-edged, but the group promise must be a concrete diagnostic or decision service the workflow can actually deliver.
@@ -377,6 +378,7 @@ Reject and rebuild/retry when any condition fails:
 - body-derived mother topic/audience promise changed or broadened;
 - a count explicitly promised by the body is incomplete, or the draft invents a numbered/list structure solely because it appeared in the filename or metadata;
 - the topic fingerprint, route, or final draft relies on filename/folder/Word-title wording that is not independently supported by the source body;
+- an inserted viewer/student question creates a second mother topic, changes the relationship stage or promised result, or could serve as the title of a different article;
 - rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
 - rebuilt source or final 2.5 draft restates, summarizes, mocks, downgrades, or criticizes the old source points as a setup for the new points, including comparison patterns such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `太廉价`, `太低级`, or source-derived `不是A而是B`;
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;

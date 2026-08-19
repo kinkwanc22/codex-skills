@@ -301,6 +301,7 @@ Required:
 - Replace the internal list items or core points with genuinely different points, not synonyms of the original.
 - Keep the same audience and emotional direction.
 - Use concise source-style paragraphs that Gemini can naturally expand.
+- When the user asks to include a viewer/student question to Ryan, write one natural consultation question that is semantically equivalent to the body-derived mother topic, relationship stage, and promised result. The question may make the source concrete, but it must not introduce a second topic such as `朋友区`, `挽回`, `表白失败`, or `长期关系` unless that topic is already central in the body. Apply the deletion test: if removing the question changes what the article is about, the question has hijacked the manuscript and must be rewritten.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
 - Naturally embed 2-5 total topic-matched terms across psychology, PUA, sociology, or biology in the rebuilt source. Psychology/PUA options include `框架`, `筛选权`, `服从性测试`, `废物测试`, `预选效应`, `间歇性强化`, `损失厌恶`, `沉没成本`, `认知失调`, `自我合理化`, `峰终定律`, `情绪奖惩`, `潜意识评估`, `关系定价`, `情绪投资`, `失去焦虑`, `未完成效应`, or `锚定效应`. Sociology options include `社会认同`, `参照群体`, `角色期待`, `群体规范`, `身份资本`, `符号资本`, `地位信号`, `社会交换`, or `圈层筛选`. Biology options include `性选择`, `亲代投资`, `同类匹配`, `进化错配`, `应激反应`, or a relevant hormone/neural-reward term. Use only the terms that accurately fit the new argument; a manuscript may use one field, several fields, or none from a particular field.
@@ -355,6 +356,7 @@ Reject and rebuild/retry when any condition fails:
 - body-derived mother topic/audience promise changed or broadened;
 - a count explicitly promised by the body is incomplete, or the draft invents a numbered/list structure solely because it appeared in the filename or metadata;
 - the route or final draft relies on filename/folder/Word-title wording that is not independently supported by the source body;
+- an inserted viewer/student question creates a second mother topic, changes the relationship stage or promised result, or could serve as the title of a different article;
 - rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
 - rebuilt source or final 2.5 draft restates, summarizes, mocks, downgrades, or criticizes the old source points as a setup for the new points, including comparison patterns such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `太廉价`, `太低级`, or source-derived `不是A而是B`;
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;
