@@ -259,15 +259,15 @@ Use this mode when the user provides the pre-expansion source manuscript and ask
 
 This is not `2.5成稿换芯`. Do not use the finished-draft transplant session or old finished 2.5 body as the style parent. The goal is:
 
-`same public topic/title/audience promise -> genuinely new source-level skeleton with naturally embedded domain terms -> freeze the rebuilt manuscript -> send that manuscript directly through standard 2.5 Direct Draft`
+`same body-derived mother topic/audience promise -> genuinely new source-level skeleton with naturally embedded domain terms -> freeze the rebuilt manuscript -> send that manuscript directly through standard 2.5 Direct Draft`
 
 #### 3.1 Workflow
 
-1. Extract the original source text from the provided docx or pasted manuscript.
-2. Identify and preserve the exact public topic, title promise, audience promise, emotional direction, and promised count. The public topic must not be broadened, upgraded, or reframed. For example, `男女关系中的14条危险信号` must remain that topic; do not rename it to `关系结构失衡`, `关系管理`, `择偶战略`, or another meta-topic.
-3. Create a topic fingerprint before inventing replacement points. Record the exact public topic, audience, relationship stage, promised result, central object, usable real-world scenes, and the source mechanism family that must not be lightly renamed.
+1. Extract the original source body from the provided docx or pasted manuscript. During topic inference, ignore the filename, parent-folder name, Word core title/subject properties, document metadata, stale heading fields, and previous output names. They may be retained later for file traceability, but they must contribute zero evidence to the content route.
+2. Identify and preserve the exact mother topic, audience promise, emotional direction, and promised count from the body alone. If the body itself contains a spoken headline or explicit list promise, it counts as body evidence. If a number, list framing, or topic appears only in the filename or metadata, do not preserve it and do not invent matching sections. When body and title metadata conflict, the body always wins.
+3. Create a topic fingerprint before inventing replacement points. Record the exact body-derived mother topic, audience, relationship stage, promised result, central object, usable real-world scenes, and the source mechanism family that must not be lightly renamed. Do not copy filename language into the fingerprint unless the same idea is independently present in the body.
 4. Inspect the last 20 accepted 3.1 entries across all manuscripts, not only previous runs of the same title. From the Gemini workspace, run `python3 /Users/kin/.codex/skills/douyin-copy-production-workflow-custom/scripts/inspect_31_recent_routes.py --ledger work/2.5_pretransplant_ledger.json`, then choose a topic-native mechanism family that is not saturated in the recent ledger.
-5. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals. Every point must contain a scene anchor specific to this topic.
+5. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same body-derived topic and any count explicitly promised by the body, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals. Every point must contain a scene anchor specific to this topic.
 6. Choose one topic-native fan-group conversion handoff before drafting. Define what individual variable the public explanation cannot determine by itself, what concrete evidence the viewer should bring, and what single stage judgment or next-action decision the fan group will provide. Use one primary handoff per article and rotate it against the recent ledger.
 7. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
 8. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
@@ -284,7 +284,7 @@ The pre-transplanted source must look like a natural short source manuscript, no
 
 Required:
 
-- Keep the original public topic and promised count unchanged unless the user explicitly changes it.
+- Keep the body-derived mother topic and any count explicitly promised inside the body unchanged unless the user explicitly changes them. Never use a count or framing found only in the filename, folder, Word title property, metadata, or an earlier output title.
 - Replace the internal list items or core points with genuinely different points, not synonyms of the original.
 - Keep the same audience and emotional direction.
 - Use concise source-style paragraphs that Gemini can naturally expand.
@@ -339,7 +339,7 @@ For every new accepted run, append or update a ledger entry with:
 ```json
 {
   "source_path": "<original source path>",
-  "title": "<exact public topic/title>",
+  "title": "<concise body-derived mother-topic label; never copy unsupported filename wording>",
   "mode": "2.5预换芯测试",
   "date": "<ISO timestamp>",
   "topic_fingerprint": {
@@ -374,8 +374,9 @@ For every new accepted run, append or update a ledger entry with:
 
 Reject and rebuild/retry when any condition fails:
 
-- public topic/title/audience promise changed or broadened;
-- promised count is incomplete;
+- body-derived mother topic/audience promise changed or broadened;
+- a count explicitly promised by the body is incomplete, or the draft invents a numbered/list structure solely because it appeared in the filename or metadata;
+- the topic fingerprint, route, or final draft relies on filename/folder/Word-title wording that is not independently supported by the source body;
 - rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
 - rebuilt source or final 2.5 draft restates, summarizes, mocks, downgrades, or criticizes the old source points as a setup for the new points, including comparison patterns such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `太廉价`, `太低级`, or source-derived `不是A而是B`;
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;
