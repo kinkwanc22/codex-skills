@@ -268,13 +268,15 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 3. Create a topic fingerprint before inventing replacement points. Record the exact public topic, audience, relationship stage, promised result, central object, usable real-world scenes, and the source mechanism family that must not be lightly renamed.
 4. Inspect the last 20 accepted 3.1 entries across all manuscripts, not only previous runs of the same title. From the Gemini workspace, run `python3 /Users/kin/.codex/skills/douyin-copy-production-workflow-custom/scripts/inspect_31_recent_routes.py --ledger work/2.5_pretransplant_ledger.json`, then choose a topic-native mechanism family that is not saturated in the recent ledger.
 5. Build a short pre-transplanted source manuscript before calling Gemini for the long 2.5 draft. The rebuilt source should keep the same topic and count, but replace the internal points, proof scenes, examples, mechanism order, and concrete signals. Every point must contain a scene anchor specific to this topic.
-6. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
-7. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
-8. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record its topic fingerprint, mechanism families, route signature, scene anchors, route, and embedded terms before expansion in `work/2.5_pretransplant_ledger.json`.
-9. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
-10. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
-11. Recheck the final 2.5 body against the topic fingerprint and recent cross-article routes. Gemini may expand a distinct source back into a generic Gary chain; reject that result instead of accepting it because the pre-source was diverse.
-12. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
+6. Choose one topic-native fan-group conversion handoff before drafting. Define what individual variable the public explanation cannot determine by itself, what concrete evidence the viewer should bring, and what single stage judgment or next-action decision the fan group will provide. Use one primary handoff per article and rotate it against the recent ledger.
+7. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
+8. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
+9. Embed the conversion logic naturally into the rebuilt manuscript itself: finish the useful general mechanism, show at least two topic-specific variables that can change the diagnosis, then lead to one concrete viewer action and one concrete group-delivered decision. Do not write a prompt note or paste a generic CTA template.
+10. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record its topic fingerprint, mechanism families, route signature, scene anchors, route, embedded terms, conversion handoff, requested evidence, delivered decision, and conversion signature before expansion in `work/2.5_pretransplant_ledger.json`.
+11. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, a CTA supplement, or any other second-layer prompt. The professional vocabulary, article-specific direction, and conversion logic must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
+12. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
+13. Recheck the final 2.5 body against the topic fingerprint, recent cross-article routes, and conversion signature. Gemini may expand a distinct source back into a generic Gary chain or generic CTA; reject that result instead of accepting it because the pre-source was diverse.
+14. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
 
@@ -286,6 +288,14 @@ Required:
 - Replace the internal list items or core points with genuinely different points, not synonyms of the original.
 - Keep the same audience and emotional direction.
 - Use concise source-style paragraphs that Gemini can naturally expand.
+- Make the body valuable without joining the group: explain the general mechanism and observable pattern completely. The conversion gap must come from genuine person-specific diagnosis, not from deliberately hiding the article's main answer.
+- Choose exactly one primary conversion handoff that belongs to the public topic. Examples of evidence lanes include recent message sequence and reply timing for chat topics; invitation wording, rescheduling, arrival, distance, and follow-up for date topics; contact frequency, initiative, investment, and withdrawal for attraction topics; conflict trigger, repair behavior, recurring pattern, and responsibility for long-term relationship topics; profile content, social proof, and response pattern for presentation topics. These are lanes, not fixed scripts.
+- Before the mid-article CTA, naturally show at least two variables that can make the same visible behavior mean different things. The viewer should understand why a generic video cannot honestly determine their exact stage from one isolated signal.
+- The CTA must specify one viewer action, one topic-specific evidence package, and one group-delivered decision. The delivered value should answer a bounded question such as `她把你放在哪一层`, `现在该推进、稳住还是撤回`, `问题出在窗口、节奏还是关系位置`, or another equally topic-native judgment.
+- Keep the conversion language inside the article's causal flow. Do not interrupt a mechanism paragraph with a generic advertisement, and do not turn the full article into a sales page.
+- Use one natural mid-article diagnostic CTA and one concise ending decision CTA. They may share the same handoff but must not repeat the same paragraph verbatim.
+- Rotate the conversion handoff across the recent ledger. Do not make every article request chat records, promise `具体问题具体分析`, or use the same `你现在不是听一条视频能解决的` bridge.
+- Do not use false scarcity, fabricated case-volume claims, guaranteed outcomes, or fear-only pressure as the reason to join. The pressure can remain hard-edged, but the group promise must be a concrete diagnostic or decision service the workflow can actually deliver.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
 - If the source is a numbered list, the new source must deliver the same number of items while changing the recognition dimensions, examples, scene order, and proof chain.
 - Choose the primary mechanism family from the topic itself. Useful families include perception/attention, language/meaning, timing/sequence, environment/context, identity/role, emotion/memory, learning/conditioning, incentives/exchange, social structure, and competence/behavior. These are selection lanes, not labels to print in the manuscript.
@@ -346,6 +356,10 @@ For every new accepted run, append or update a ledger entry with:
   "route": "<same topic plus new skeleton summary>",
   "avoid_next_time": ["<used point 1>", "<used point 2>"],
   "embedded_terms": ["<naturally used term 1>", "<naturally used term 2>"],
+  "conversion_handoff": "<topic-native reason this viewer needs an individual diagnosis>",
+  "conversion_evidence": ["<specific evidence 1>", "<specific evidence 2>"],
+  "conversion_decision": "<single stage judgment or next-action decision delivered in the fan group>",
+  "conversion_signature": "<topic object + evidence package + delivered decision>",
   "pre_source_file": "work/<name>_pretransplant_source.txt",
   "expanded_raw_file": "work/<name>_25_raw.txt",
   "accepted_file": "work/<name>_25_accepted.txt",
@@ -367,6 +381,7 @@ Reject and rebuild/retry when any condition fails:
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;
 - final draft reuses a prior 3.1 route for the same source from `work/2.5_pretransplant_ledger.json`;
 - proposed or final `route_signature` repeats within the last 20 accepted 3.1 entries, or its primary mechanism family is already saturated in the last 10 without a documented topic-native exception;
+- the rebuilt source lacks a topic-native conversion handoff, or its `conversion_signature` substantially repeats a recent article without a topic-required reason;
 - two or more key points pass the title-transfer test, meaning they can move under an unrelated relationship title with only pronoun or generic-noun changes;
 - the rebuilt source or final draft uses generic position, frame, investment, or loss language without topic-specific scene anchors, or lets `框架 -> 投入 -> 损失厌恶` control more than one key point when the title is not directly about those mechanisms;
 - the frozen pre-source is topic-specific but the expanded 2.5 body replaces it with a recently repeated generic Gary route;
@@ -375,6 +390,10 @@ Reject and rebuild/retry when any condition fails:
 - fewer than 4500 Chinese characters after expansion. For 3.1, target about 5000 Chinese characters and accept a complete 4500-6000-character body even though the standard 2.5 prompt requests a longer draft; do not retry merely to reach 7000 when the article is already complete;
 - required mid-article and ending fan-group CTAs are missing;
 - a CTA merely mentions `粉丝群` without an explicit viewer action such as `点开主页`, `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
+- the mid-article CTA appears before the manuscript has shown at least two topic-specific variables that change the diagnosis;
+- the CTA requests only generic `情况` or `问题`, does not name the evidence the viewer should bring, or does not state the bounded stage judgment/next-action decision the group will provide;
+- the CTA could be pasted into an unrelated relationship article without changing its evidence package or promised decision;
+- the article withholds its central general answer, uses false scarcity or fear-only pressure, or turns most of the body into a group advertisement;
 - fixed ending is not exact for the current project when the user expects the fan-group ending;
 - `内部群`, `私董会`, `[[RISKNOTE]]`, yellow-note language, refusal text, or backend traces appear.
 
