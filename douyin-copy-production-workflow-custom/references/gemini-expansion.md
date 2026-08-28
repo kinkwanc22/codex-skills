@@ -287,6 +287,10 @@ Required:
 
 - Keep the body-derived mother topic and any count explicitly promised inside the body unchanged unless the user explicitly changes them. Never use a count or framing found only in the filename, folder, Word title property, metadata, or an earlier output title.
 - Replace the internal list items or core points with genuinely different points, not synonyms of the original.
+- Classify the source body before rebuilding. Treat it as `technique` when its public promise is delivered through concrete phrases, scripts, steps, actions, invitation methods, chat replies, timing methods, progression moves, or another executable procedure. Mixed manuscripts use the technique gate for every executable point.
+- For a technique-class manuscript, preserve the body-derived mother topic, target result, relationship stage, and promised item count, but replace every source technique by default. Replace the operational core itself: what the viewer says or does, the order, trigger, timing, scene, example, and proof chain. Do not retain the old operation and merely rename it, attach a new term, reverse the explanation, reorder the list, or swap only the example.
+- Map the old techniques to the new techniques one by one before drafting. Every replacement technique must contain four usable parts: a trigger or applicable condition; a concrete action or natural line; an observable response signal; and a next move or failure/withdrawal condition. The long draft may express these naturally, but none of the four may be missing.
+- Preserve a source technique only when the user explicitly requests that exact technique. Record that exception and its reason in `operation_overlap`; otherwise `operation_overlap` must be empty before freezing.
 - Keep the same audience and emotional direction.
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Make the body valuable without joining the group: explain the general mechanism and observable pattern completely. The conversion gap must come from genuine person-specific diagnosis, not from deliberately hiding the article's main answer.
@@ -358,6 +362,10 @@ For every new accepted run, append or update a ledger entry with:
     "excluded_source_family": "<old route family>"
   },
   "mechanism_families": ["<primary family>", "<optional secondary family>"],
+  "content_class": "technique|judgment|signal|mechanism|mixed",
+  "source_techniques": ["<source operation 1>", "<source operation 2>"],
+  "replacement_techniques": ["<new operation 1>", "<new operation 2>"],
+  "operation_overlap": [],
   "force_band": "old_2.5_hard",
   "memorable_judgments": ["<hard conclusion 1>", "<hard conclusion 2>"],
   "interest_shifts": ["<who gains or loses what and why>"],
@@ -389,6 +397,11 @@ Reject and rebuild/retry when any condition fails:
 - the topic fingerprint, route, or final draft relies on filename/folder/Word-title wording that is not independently supported by the source body;
 - an inserted viewer/student question creates a second mother topic, changes the relationship stage or promised result, or could serve as the title of a different article;
 - rebuilt source or final 2.5 draft merely renames or lightly paraphrases the original points;
+- a technique/how-to manuscript is not classified and mapped at the executable level before rebuilding;
+- any source technique's operational core survives without an explicit user-requested exception, including the same action, wording pattern, step order, timing, trigger, or progression move hidden under a new theory, label, example, or list position;
+- a replacement technique changes only terminology, mechanism explanation, tone, or case decoration while leaving the viewer's actual action unchanged;
+- any replacement technique lacks its applicable trigger, concrete action or natural line, observable feedback, or next move/failure condition;
+- a technique list fails to preserve a count explicitly promised by the body or fails to provide a one-to-one new-technique mapping for that count;
 - rebuilt source or final 2.5 draft restates, summarizes, mocks, downgrades, or criticizes the old source points as a setup for the new points, including comparison patterns such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `太廉价`, `太低级`, or source-derived `不是A而是B`;
 - rebuilt source contains fewer than 2 or more than 5 total naturally embedded topic-matched terms across psychology/PUA/sociology/biology, stacks detached labels, fabricates scientific authority, uses deterministic biology claims, or relies on an expansion supplement to supply its terminology and tone;
 - final draft reuses a prior 3.1 route for the same source from `work/2.5_pretransplant_ledger.json`;
