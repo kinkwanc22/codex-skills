@@ -15,7 +15,7 @@ Preserve the user's long-running male relationship expansion conversation in `ge
 
 For `2.5 Direct Draft`, the official baseline is now the tested 2026-06-05 early B direct-draft prompt: use a fresh `--isolated` request for every source. Do not depend on a saved Gemini conversation for the 2.5 voice. This prevents previous-topic contamination while using the early-B Gary voice as the prompt source of truth.
 
-For `2.8 Safe Draft` and routine `2.9 Fusion Draft` work, follow their dedicated-session rules later in this file. Do not send `/new` unless the user explicitly asks.
+For `2.8 Safe Draft`, routine `2.9 Fusion Draft`, and `3.2 Conversion Transplant` work, follow their dedicated-session rules later in this file. Do not send `/new` unless the user explicitly asks.
 
 For other copywriting categories, unrelated tests, connectivity checks, or any expansion that should not contaminate the male relationship expansion context, always use `--prompt-file <path> --isolated`. Treat this as opening a clean temporary conversation. `--isolated` does not save user or assistant messages back to `gemini_session.json`, so it preserves the saved male relationship conversation.
 
@@ -34,6 +34,7 @@ Available directions:
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
 - `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
 - `3.1 Source Pre-Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: use when the user asks for 3.1、2.5预换芯、原稿预换芯、原稿先换芯再2.5, or wants the source manuscript rebuilt first while keeping the exact public topic/title. Embed a low-density selection of matched psychology, PUA, sociology, or biology terms into the rebuilt manuscript itself, freeze it, then send it through standard 2.5 without article-specific prompt stacking.
+- `3.2 Conversion Transplant` / `3.2换芯扩写`: use when the user asks for 3.2、3.2换芯、3.2换芯扩写、成交结构换芯, or wants an accepted finished Gary draft rebuilt with the old-2.5 pressure, a conversion-oriented outer structure, and several short cases. Read and follow `references/3.2-conversion-transplant.md` in full. It is a complete 2.5 block plus a 3.2 task layer, not a standalone replacement prompt.
 
 ### 2.5 Direct Draft
 
@@ -906,7 +907,7 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated male relationship expansion, write the selected full instruction block + any required direction-specific injection + source copy to a UTF-8 prompt file. For 2.5 use `--isolated` per source. For 2.8 and 2.9 use their dedicated-session rules below. Do not run different directions through the same saved conversation.
+For automated male relationship expansion, write the selected full instruction block + any required direction-specific injection + source copy to a UTF-8 prompt file. For 2.5 use `--isolated` per source. For 2.8, 2.9, and 3.2 use their dedicated-session rules below. Do not run different directions through the same saved conversation.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
@@ -915,6 +916,8 @@ For `2.5 Direct Draft`, use `--isolated` for every source. The official voice no
 For `2.8 Safe Draft`, use `--session 2.8` so safety tuning stays separate from the old 2.5 voice. Use `--isolated` only for unrelated tests, connectivity checks, non-male categories, or any request where the user explicitly asks for a clean temporary context. This does not send `/new` and does not clear the saved interactive chat history; it only makes the current prompt-file request use a clean context.
 
 For `2.9 Fusion Draft`, use `--session 2.9` so the approved fusion style stays separate from both 2.5 and 2.8. During style-calibration tests, `--isolated` is allowed when the user explicitly asks for a clean comparison. Routine 2.9 batches should use the dedicated 2.9 session and the runner's compact-history protection.
+
+For `3.2 Conversion Transplant`, use `--session 3.2-transplant`. Assemble the prompt exactly as specified in `references/3.2-conversion-transplant.md`: complete current 2.5 block, complete 3.2 task layer, article-specific 3.2 card, limited-inheritance card, exclusions, and approved finished-draft body. Never reuse the 2.5-transplant, 2.8, 2.9, or default mixed session for 3.2.
 
 When building the prompt file, append the source text immediately after `【原文开始】`, then close it with `【原文结束】`. This source wrapper is part of the prompt, not an optional note.
 
