@@ -46,7 +46,18 @@ Publication data is a tie-breaker inside topic-compatible retrieval, not permiss
 5. Fewer than three comparable uses means only `positive_record` or `negative_record`, never a stable rule.
 6. A high-performing combination does not prove that one knowledge point or hook caused the result.
 
+## Pre-Knowledge-Base Historical Works
+
+For Gary works published before stable knowledge IDs existed, store them in the separate historical performance evidence ledger before exposing them to retrieval:
+
+- `/Users/kin/Gary 男性情感/Gary 男性情感/05_复盘与自生长/02_发布数据/历史作品效果证据.jsonl`
+
+Each historical record must keep the published title, exact source-body mother-topic anchor, account, publication date, upstream-source evidence grade, raw backend counts, and any title/source count or perspective conflict. Leave `knowledge_ids` empty and use a legacy route-unknown signature; never reverse-assign current B/X knowledge, routes, or opening categories to an old work.
+
+The source opening is not automatically the verified published opening. Unless the actual published body or video has been checked, keep opening attribution disabled. Historical follower rate remains follower rate; leave group joins null unless a work-specific source marker proves them.
+
+`build_knowledge_call_pack.py` may return same-topic historical performance as a separate evidence block. Use it only after topic/account/force compatibility filtering and only as a candidate-ordering signal. Do not merge its score into the textual relevance score of B/X knowledge cards and do not describe it as causal proof.
+
 ## Opening Feedback
 
 Register the opening actually used in the published video, not every Word candidate. Track both broad category and micro-framework. For repeated mother topics, rotate micro-frameworks before recycling surface wording. Keep the opening's promise, count, force, and mechanism aligned with the accepted body.
-
