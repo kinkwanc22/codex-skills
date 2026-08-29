@@ -40,6 +40,7 @@ Do not add risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]
 
 Load only the reference files needed for the current step:
 
+- `references/mother-topic-exact-lock.md`: read for every male Gary rewrite, expansion, 2.5成稿换芯, 3.1, 3.2, fixed-topic cycle, or knowledge-base-assisted rewrite. The source body's public mother topic is an exact lock; only content underneath it may change. Knowledge-pack titles and abstract summaries never rename the public topic.
 - `references/gemini-expansion.md`: read before sending source text to Gemini, creating prompt files, retrying failures, or checking generated drafts.
 - `references/3.1-knowledge-base-transplant.md`: read in full for every `3.1`, `3.1换芯`, `2.5预换芯`, or `原稿预换芯` task. This is the canonical default: Codex selects, excludes, polishes, and transplants only traceable B/X knowledge without inventing content; Gemini then freely expands the frozen source through the complete standard 2.5 prompt with `--isolated` and no knowledge-closure supplement.
 - `references/2.5-finished-draft-transplant.md`: read when the user asks for `2.5成稿换芯`, provides an already-expanded approved 2.5 draft as the style parent, or asks to preserve the mother topic while replacing its internal arguments and examples.
@@ -63,6 +64,8 @@ Read `references/source-learning-and-style.md` and create a concise batch learni
 
 Read `references/gemini-expansion.md`.
 
+Before selecting a route or knowledge, read `references/mother-topic-exact-lock.md`, copy one exact public mother-topic anchor from the source body, and record it. The frozen source, expanded body, Word title, and filename must continue to use that source-derived mother topic. Never replace it with a knowledge-pack title, card summary, course label, safer abstraction, or newly invented umbrella concept. Only the content beneath the locked mother topic may be replaced.
+
 Use the Mac local Gemini runner by default:
 
 ```bash
@@ -85,6 +88,8 @@ If the user asks for `3.2`, `3.2换芯`, `3.2换芯扩写`, or `带小案例的�
 
 For both `3.1` and `3.2`, novelty must stay inside the source's original attack direction. Do not obtain novelty by renaming a direct, provocative promise into neutral abstractions such as `关系权限逐级开放`, `阶段识别`, `边界管理`, `关系治理`, `健康沟通`, or `风险识别`. Preserve the source's force band, target result, conflict object, male desire, and hard-edged framing; replace the internal arguments and operations without converting `推进到暧昧/进入男女框架/让她投入/拿回主动权` into a safer educational meta-topic. If deleting the new abstract label restores the original article's sharper promise, the label is a drift defect and the rebuilt source must be rewritten before Gemini.
 
+This lock also forbids non-neutral renaming. A provocative source topic such as `女人最想要男人的四样东西 / 四个致命需求` may not become `四种心理待遇`, `四种心理营养`, or another newly unified label even when the new wording remains aggressive. Preserve the public mother topic itself; knowledge retrieval may only replace the items, mechanisms, operations, cases, and proof beneath it as allowed by the selected mode.
+
 If the user asks for `3.1`, `3.1换芯`, `2.5预换芯`, `原稿预换芯`, or `原稿先换芯再2.5`, read and follow `references/3.1-knowledge-base-transplant.md` as the canonical default. Infer and preserve the mother topic/count from the body; retrieve same-topic B cards and cross-source modules; exclude accepted same-source and saturated recent routes; then bind every replacement point to exact knowledge IDs. Codex may select, merge compatible knowledge, adapt perspective, polish, order, and write transitions, but it may not invent a substantive point, mechanism, case, operation, or missing list item. Save point-level provenance and freeze the rebuilt source with `codex_content_invention: false`. Send only the complete standard 2.5 block plus that frozen source through `--isolated`; Gemini remains free to add topic-consistent explanations, mechanisms, scenes, examples, and deductions, so record `gemini_closed_set_restriction: false`. Do not send vault paths, knowledge IDs, provenance, exclusions, or a closure supplement to Gemini. Preserve Gemini's aggressive old-2.5 language surface except for narrow mechanical cleanup. If the knowledge base cannot support the promised count, stop and report the missing slot; do not silently invent or switch modes. The former Codex-designed 3.1 route is available only when the user explicitly asks for `旧版3.1` or asks Codex to design new viewpoints.
 
 For 3.1, route diversity must come from selecting different traceable knowledge modules, not from Codex inventing a new thesis, and it must never be purchased by lowering the force band. Every selected replacement point must preserve a memorable Gary judgment and show at least one concrete interest shift, relationship-position change, subconscious revaluation, selection consequence, emotional reward/punishment, or real cost supported by its cited B/X knowledge. Reject a route that is merely accurate, professional, or novel but centers neutral management, risk control, healthy communication, collaboration, psychological nourishment, evidence classification, or counseling language. Record `force_band: old_2.5_hard`, selected knowledge IDs, point provenance, `codex_content_invention: false`, `gemini_closed_set_restriction: false`, `memorable_judgments`, and `interest_shifts` before freezing.
@@ -102,6 +107,8 @@ Do not use the old web expansion channel. Do not send `/new` unless the user exp
 Read `references/gemini-expansion.md` for the exact checks and retry language.
 
 Verify length, topic relevance, refusal/API failure text, stale-topic contamination, and required ending. For the current 2.5 baseline, the hard minimum is 4000 Chinese characters with no upper limit; 6000-8000 is a preferred depth range when the source supports it, not a cap or hard gate. Also reject 2.5 drafts whose title, hook, or central argument is built around proactive defensive qualifiers or self-negation unless the requested topic is explicitly a concept distinction. Other directions follow their own rules or the user's newest threshold.
+
+For every rewrite or transplant, run the mother-topic lock before acceptance. Reject when the exact source-derived anchor is absent from the frozen source or final body, when a derived umbrella label organizes the article, or when a knowledge-pack title overrides the source body. Record `mother_topic_source_quote`, `mother_topic_anchor`, `mother_topic_public_wording`, `mother_topic_exact_lock_pass`, and `knowledge_pack_title_ignored_for_topic` in the run ledger.
 
 For every Gary direction, reject forced identity-prefixed narration such as `作为探花Gary`, `作为Gary`, or `以探花Gary的身份`. Enter first-person judgments directly. `Gary哥` may appear only in natural quoted dialogue, and `探花Gary` otherwise belongs in the exact fixed ending unless the user-supplied opening already contains the name.
 
