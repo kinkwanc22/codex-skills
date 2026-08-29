@@ -30,7 +30,7 @@ Report:
 
 ### 7. Word Export Without Risk Suggestions
 
-The user now wants final documents to contain only:
+The default final document contains:
 
 - Three opening versions:
   - `开头版本一：高阶认知课式开头`
@@ -38,6 +38,8 @@ The user now wants final documents to contain only:
   - `开头版本三：保留原文开头（来自源文档）`
 - `正文`
 - The generated article text exactly as produced.
+
+For 3.1, the four-opening override applies: keep version three verbatim and add `开头版本四：原文开头优化版（贴合正文）` before `正文`.
 
 Important rules:
 
@@ -76,6 +78,7 @@ Latest hard-learned rules from 2026-06-03:
 - Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Do not use `soffice`, LibreOffice, or `render_docx.py` for this Douyin copy workflow. The local `soffice` renderer can trigger a macOS crash/update dialog and interrupt the user's work. For these text-first Word deliverables, verify by checking the `.docx` zip/package structure, required headings, absence of risk markers, file size, and current timestamp instead.
+- For 3.1 specifically, do not produce a PDF or PNG preview and do not retry visual rendering. Run `scripts/validate_31_final_package.py` once after Word export; its passing JSON report replaces separate final mother-topic, forbidden-term, ending, heading, body-equality, ZIP, and yellow-annotation commands.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
 - In the local Gemini terminal, do not send `/new` by default; keep the current session unless the user explicitly asks to clear context.

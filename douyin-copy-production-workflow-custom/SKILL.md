@@ -144,6 +144,8 @@ Export final `.docx` files to the current dual-device synced workflow folder (`/
 
 Before final delivery, verify each `.docx` contains the required headings and has no risk suggestions, yellow highlights, or `[[RISKNOTE:...]]` markers.
 
+For 3.1, do not run LibreOffice, `soffice`, PDF conversion, PNG rendering, or `render_docx.py`. After the Word is saved, run `scripts/validate_31_final_package.py` once to combine the final mother-topic lock, forbidden-term scan, exact-ending check, four-opening/Word-structure check, accepted-body equality check, DOCX package integrity, and yellow-annotation check. Do not repeat those checks as separate commands after the unified report passes.
+
 ### 6. Final Reply
 
 Keep the final answer short. Tell the user the Word file path, character count, and confirm that no risk suggestions, yellow-highlighted annotations, or `[[RISKNOTE:...]]` markers were added.
