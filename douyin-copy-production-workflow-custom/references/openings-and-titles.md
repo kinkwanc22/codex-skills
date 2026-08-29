@@ -1,6 +1,6 @@
 ﻿# Openings And Title Packaging Rules
 
-Read this file after Gemini expansion passes checks and before Word export. Use it for three opening versions, mandatory opening review, and viral psychology title packages.
+Read this file after Gemini expansion passes checks and before Word export. Use it for the default three opening versions, mandatory opening review, and viral psychology title packages. For 3.1, apply the four-opening override in `references/3.1-knowledge-base-transplant.md`.
 
 ## Contents
 
@@ -112,19 +112,21 @@ Required final opening output for **each article**:
 Important rules:
 
 - The final deliverable must list all three opening versions separately before the正文.
+- **3.1 override:** after the unchanged source opening in version three, add `开头版本四：原文开头优化版（贴合正文）`. Keep version three verbatim and keep version four separate; never replace version three or rewrite the accepted body with version four.
 - Do not collapse the three versions into one chosen opening unless the user explicitly asks to choose.
 - Do not remove or rewrite the generated copy's original words, and do not rewrite the original source-document opening used in version 3.
 - If a Word document is exported, place a clear section at the top:
   - `开头版本一：高阶认知课式开头`
   - `开头版本二：身份点名式硬核学习开头`
   - `开头版本三：保留原文开头（来自源文档）`
+  - for 3.1 only: `开头版本四：原文开头优化版（贴合正文）`
   - `正文`
 - Do not add risk annotations, risk suggestions, or yellow-highlighted notes to the opening versions or正文.
 - Preserve the sharp/dark tone, but package risky wording as 机制识别、边界判断、关系主权、情绪秩序、筛选系统.
 
 ### 6.5. Add Viral Psychology Title Package
 
-After the generated copy passes length/topic checks and after the three opening versions pass the mandatory opening review gate, invoke `viral-psych-title-wrapper` / `$爆款心理学标题包装器` before Word export. Use that skill's fingerprint, title generation, and self-check rules as the source of truth.
+After the generated copy passes length/topic checks and after the required opening package passes its review gate, invoke `viral-psych-title-wrapper` / `$爆款心理学标题包装器` before Word export. Use that skill's fingerprint, title generation, and self-check rules as the source of truth.
 
 Use this step for every final article unless the user explicitly says not to add titles.
 
@@ -147,12 +149,13 @@ Title package rules:
 
 Final Word placement:
 
-- Put the title package at the very top of each final Word document, before the three opening versions.
+- Put the title package at the very top of each final Word document, before the opening versions.
 - Use a clear heading: `爆款心理学标题包装`.
 - Then keep the existing sections in this order:
   - `开头版本一：高阶认知课式开头`
   - `开头版本二：身份点名式硬核学习开头`
   - `开头版本三：保留原文开头（来自源文档）`
+  - for 3.1 only: `开头版本四：原文开头优化版（贴合正文）`
   - `正文`
 - The title package is allowed to use sharp dark-title packaging terms, but it must remain title packaging only; do not add operational harm steps or risk annotations.
 
