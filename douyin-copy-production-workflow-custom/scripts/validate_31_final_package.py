@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 from xml.etree import ElementTree
 from zipfile import BadZipFile, ZipFile
@@ -65,6 +66,75 @@ def read_docx_package(path: Path) -> tuple[list[str], str, list[str]]:
     return paragraphs, "\n".join(paragraphs), word_xml
 
 
+def run_is_yellow(run: ElementTree.Element) -> bool:
+    rpr = run.find(W_NS + "rPr")
+    if rpr is None:
+        return False
+    highlight = rpr.find(W_NS + "highlight")
+    if highlight is not None and (highlight.get(W_NS + "val") or "").lower() == "yellow":
+        return True
+    shading = rpr.find(W_NS + "shd")
+    if shading is not None and (shading.get(W_NS + "fill") or "").upper() == "FFFF00":
+        return True
+    return False
+
+
+def collect_yellow_segments(word_xml: list[str]) -> tuple[list[str], int, int]:
+    segments: list[str] = []
+    yellow_run_count = 0
+    yellow_other_count = 0
+    for xml in word_xml:
+        root = ElementTree.fromstring(xml)
+        all_yellow_nodes = [
+            node
+            for node in root.iter()
+            if (
+                node.tag == W_NS + "highlight"
+                and (node.get(W_NS + "val") or "").lower() == "yellow"
+            )
+            or (
+                node.tag == W_NS + "shd"
+                and (node.get(W_NS + "fill") or "").upper() == "FFFF00"
+            )
+        ]
+        run_yellow_nodes = 0
+        for paragraph in root.iter(W_NS + "p"):
+            current = ""
+            for run in paragraph.iter(W_NS + "r"):
+                text = "".join(node.text or "" for node in run.iter(W_NS + "t"))
+                if run_is_yellow(run):
+                    yellow_run_count += 1
+                    run_yellow_nodes += 1
+                    current += text
+                elif current:
+                    segments.append(current)
+                    current = ""
+            if current:
+                segments.append(current)
+        yellow_other_count += max(0, len(all_yellow_nodes) - run_yellow_nodes)
+    return segments, yellow_run_count, yellow_other_count
+
+
+def load_insertion_manifest(path: Path, exact_ending: str) -> tuple[dict[str, object], list[str]]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    soft = data.get("soft_placements")
+    mid_cta = data.get("mid_cta")
+    fixed_ending = data.get("fixed_ending")
+    highlight_texts = data.get("highlight_texts")
+    if not isinstance(soft, list) or not soft or not all(isinstance(item, str) and item for item in soft):
+        raise ValueError("manifest soft_placements must be a nonempty string list")
+    if not isinstance(mid_cta, str) or not mid_cta:
+        raise ValueError("manifest mid_cta must be a nonempty string")
+    if fixed_ending != exact_ending:
+        raise ValueError("manifest fixed_ending does not match --exact-ending")
+    if not isinstance(highlight_texts, list) or not highlight_texts or not all(isinstance(item, str) and item for item in highlight_texts):
+        raise ValueError("manifest highlight_texts must be a nonempty string list")
+    required = soft + [mid_cta, fixed_ending]
+    if Counter(highlight_texts) != Counter(required):
+        raise ValueError("manifest highlight_texts must contain exactly soft_placements + mid_cta + fixed_ending; order must follow the Word body")
+    return data, highlight_texts
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", required=True, type=Path)
@@ -77,6 +147,9 @@ def main() -> int:
     parser.add_argument("--required-heading", action="append", default=[])
     parser.add_argument("--exact-ending", default=DEFAULT_ENDING)
     parser.add_argument("--min-cjk", type=int, default=4000)
+    highlight_group = parser.add_mutually_exclusive_group()
+    highlight_group.add_argument("--insertion-manifest", type=Path)
+    highlight_group.add_argument("--allow-no-yellow", action="store_true")
     parser.add_argument("--report-out", type=Path)
     args = parser.parse_args()
 
@@ -188,14 +261,53 @@ def main() -> int:
     if not body_match:
         errors.append("Word body does not match the accepted final text")
 
-    yellow_patterns = [
-        re.compile(r'<w:highlight[^>]+w:val=["\']yellow["\']', re.IGNORECASE),
-        re.compile(r'<w:shd[^>]+w:fill=["\']FFFF00["\']', re.IGNORECASE),
-    ]
-    yellow_hits = sum(bool(pattern.search(xml)) for xml in word_xml for pattern in yellow_patterns)
-    checks["yellow_annotation_hits"] = yellow_hits
-    if yellow_hits:
-        errors.append("yellow highlight or yellow shading found in Word document")
+    yellow_segments: list[str] = []
+    yellow_run_count = 0
+    yellow_other_count = 0
+    if word_xml:
+        try:
+            yellow_segments, yellow_run_count, yellow_other_count = collect_yellow_segments(word_xml)
+        except Exception as exc:
+            errors.append(f"yellow highlight extraction failed: {exc}")
+
+    highlight_check: dict[str, object] = {
+        "mode": "required_manifest" if args.insertion_manifest else ("explicit_clean_override" if args.allow_no_yellow else "missing_mode"),
+        "yellow_run_count": yellow_run_count,
+        "yellow_other_markup_count": yellow_other_count,
+        "actual_segments": yellow_segments,
+    }
+    if args.insertion_manifest:
+        try:
+            manifest, expected_highlights = load_insertion_manifest(args.insertion_manifest, args.exact_ending)
+            actual_compact = [compact(item) for item in yellow_segments]
+            expected_compact = [compact(item) for item in expected_highlights]
+            final_counts = {item: final_text.count(item) for item in expected_highlights}
+            highlight_check.update({
+                "manifest": str(args.insertion_manifest),
+                "expected_segments": expected_highlights,
+                "expected_count": len(expected_highlights),
+                "actual_count": len(yellow_segments),
+                "exact_ordered_match": actual_compact == expected_compact,
+                "expected_text_final_counts": final_counts,
+            })
+            if actual_compact != expected_compact:
+                errors.append("Word yellow-highlight segments do not exactly match insertion manifest")
+            if any(count != 1 for count in final_counts.values()):
+                errors.append("each insertion manifest text must appear exactly once in final body")
+            if yellow_other_count:
+                errors.append("yellow markup found outside text runs")
+            if not manifest:
+                errors.append("insertion manifest is empty")
+        except Exception as exc:
+            errors.append(f"insertion manifest check failed: {exc}")
+    elif args.allow_no_yellow:
+        highlight_check["exact_ordered_match"] = not yellow_segments and yellow_run_count == 0 and yellow_other_count == 0
+        if yellow_segments or yellow_run_count or yellow_other_count:
+            errors.append("yellow highlight found despite --allow-no-yellow")
+    else:
+        highlight_check["exact_ordered_match"] = False
+        errors.append("3.1 default requires --insertion-manifest; use --allow-no-yellow only for an explicit clean-copy request")
+    checks["yellow_highlight_manifest"] = highlight_check
 
     checks["libreoffice_rendering"] = "disabled_for_3.1"
     report = {

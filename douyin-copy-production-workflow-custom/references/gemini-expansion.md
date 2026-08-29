@@ -33,7 +33,7 @@ Available directions:
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
 - `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
-- `3.1 Knowledge-Base Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: the canonical default for 3.1. Read `references/3.1-knowledge-base-transplant.md` in full. Codex must build the frozen source only from traceable B/X knowledge plus permitted selection, perspective adaptation, polishing, ordering, and transitions; it may not invent substantive content. Gemini remains unrestricted by the knowledge closure and receives only the complete standard 2.5 prompt plus the frozen source through `--isolated`.
+- `3.1 Knowledge-Base Transplant -> CTA-Free 2.5 Content Expansion` / `2.5原稿预换芯`: the canonical default for 3.1. Read `references/3.1-knowledge-base-transplant.md` in full. Codex builds the frozen source only from traceable knowledge. Gemini remains unrestricted by that knowledge closure and receives the complete standard 2.5 prompt, the fixed CTA-free 3.1 override, and the frozen source through `--isolated`. Gemini writes no CTA or ending; Codex adds all soft placements, the mid CTA, and the fixed ending afterward.
 - `3.2 Controlled-Inheritance Theory-First Student-Case Monetization -> 2.5 Direct Draft` / `3.2换芯扩写`: use when the user asks for 3.2、3.2换芯、3.2换芯扩写、带小案例的预换芯, or wants 3.1 with controlled viewpoint inheritance, majority replacement of concrete operations inside those viewpoints, two or three compact Gary student-case proofs after selected theory explanations, and the approved single-CTA monetization sequence. Preserve 60%-80% of viewpoint/mechanism functions, replace normally 60%-100% of concrete actions/scripts/micro-steps/examples with topic-equivalent methods, and overlay conversion on the original answer path; do not write a different article under the same title. Read and follow `references/3.2-conversion-transplant.md` in full. Freeze the rebuilt source first, then send only the complete 2.5 block plus that source through `--isolated`; never append a 3.2 task or conversion layer to Gemini.
 
 ### 2.5 Direct Draft
@@ -258,7 +258,7 @@ Gary指导下的处理方式。
 
 Use this mode when the user provides the pre-expansion source manuscript and asks for `3.1`, `3.1换芯`, `2.5预换芯`, `原稿预换芯`, or `原稿先换芯再2.5`.
 
-The canonical default changed on 2026-08-29. Read and follow `references/3.1-knowledge-base-transplant.md` in full before acting. Codex now uses a closed knowledge set for substantive source design; Gemini still uses the complete standard 2.5 prompt without a knowledge-closure supplement. The workflow and source rules below are retained as the explicit legacy Codex-designed fallback and apply only when the user asks for `旧版3.1` or explicitly asks Codex to design new viewpoints. The canonical knowledge-base mode inherits only the non-conflicting shared rules: body-derived topic/count, history exclusion, hard force band, no backstage leakage, standard 2.5 `--isolated`, narrow mechanical cleanup, CTA/ending requirements, and clean Word export.
+The canonical default changed on 2026-08-29 and its conversion boundary changed again on 2026-08-30. Read and follow `references/3.1-knowledge-base-transplant.md` in full before acting. Codex uses a closed knowledge set for substantive source design; Gemini uses the complete standard 2.5 prompt plus the fixed CTA-free 3.1 override, without a knowledge-closure supplement. The workflow and source rules below are retained as the explicit legacy Codex-designed fallback and apply only when the user asks for `旧版3.1` or explicitly asks Codex to design new viewpoints. The canonical knowledge-base mode inherits only the non-conflicting shared rules: body-derived topic/count, history exclusion, hard force band, no backstage leakage, `--isolated`, narrow mechanical cleanup, and post-expansion Codex conversion.
 
 This is not `2.5成稿换芯`. Do not use the finished-draft transplant session or old finished 2.5 body as the style parent. The goal is:
 
@@ -274,11 +274,11 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 6. Choose one topic-native fan-group conversion handoff before drafting. Define what individual variable the public explanation cannot determine by itself, what concrete evidence the viewer should bring, and what single stage judgment or next-action decision the fan group will provide. Use one primary handoff per article and rotate it against the recent ledger.
 7. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
 8. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
-9. Embed the conversion logic naturally into the rebuilt manuscript itself: finish the useful general mechanism, show at least two topic-specific variables that can change the diagnosis, then lead to one concrete viewer action and one concrete group-delivered decision. Do not write a prompt note or paste a generic CTA template.
+9. Keep conversion logic out of the rebuilt manuscript and Gemini output. Record the topic-specific evidence package and bounded group-delivered decision in the run metadata so Codex can write the mid CTA after expansion; do not place that CTA in the frozen source.
 10. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record its topic fingerprint, mechanism families, route signature, scene anchors, route, embedded terms, conversion handoff, requested evidence, delivered decision, and conversion signature before expansion in `work/2.5_pretransplant_ledger.json`.
-11. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, a CTA supplement, or any other second-layer prompt. The professional vocabulary, article-specific direction, and conversion logic must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
+11. Send the frozen rebuilt manuscript through the standard complete `2.5 Direct Draft` block plus the fixed CTA-free 3.1 override in `3.1-knowledge-base-transplant.md`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, route explanation, variable CTA supplement, or another prompt layer. Professional vocabulary and article-specific direction belong in the rebuilt manuscript; conversion metadata stays outside Gemini and is used by Codex only after expansion.
 12. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
-13. Recheck the final 2.5 body against the topic fingerprint, recent cross-article routes, and conversion signature. Gemini may expand a distinct source back into a generic Gary chain or generic CTA; reject that result instead of accepting it because the pre-source was diverse.
+13. Recheck the CTA-free 2.5 body against the topic fingerprint and recent cross-article routes. Reject any Gemini CTA, fan-group language, account self-introduction, or fixed ending. After body acceptance, Codex uses the recorded conversion signature to write the soft layer and mid CTA.
 14. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/7.1后双端同步文件夹`.
 
 #### 3.1 Pre-Transplant Source Rules
@@ -297,11 +297,11 @@ Required:
 - Use concise source-style paragraphs that Gemini can naturally expand.
 - Make the body valuable without joining the group: explain the general mechanism and observable pattern completely. The conversion gap must come from genuine person-specific diagnosis, not from deliberately hiding the article's main answer.
 - Choose exactly one primary conversion handoff that belongs to the public topic. Examples of evidence lanes include recent message sequence and reply timing for chat topics; invitation wording, rescheduling, arrival, distance, and follow-up for date topics; contact frequency, initiative, investment, and withdrawal for attraction topics; conflict trigger, repair behavior, recurring pattern, and responsibility for long-term relationship topics; profile content, social proof, and response pattern for presentation topics. These are lanes, not fixed scripts.
-- Before the mid-article CTA, naturally show at least two variables that can make the same visible behavior mean different things. The viewer should understand why a generic video cannot honestly determine their exact stage from one isolated signal.
-- The CTA must specify one viewer action, one topic-specific evidence package, and one group-delivered decision. The delivered value should answer a bounded question such as `她把你放在哪一层`, `现在该推进、稳住还是撤回`, `问题出在窗口、节奏还是关系位置`, or another equally topic-native judgment.
+- The frozen source must fully deliver the public answer and contain enough topic-specific variables for Codex to place a diagnostic CTA later, but it must not contain that CTA itself.
+- Record outside the frozen source one viewer action, one topic-specific evidence package, and one group-delivered decision. Codex uses this record after Gemini expansion to write the CTA. The delivered value should answer a bounded question such as `她把你放在哪一层`, `现在该推进、稳住还是撤回`, or `问题出在窗口、节奏还是关系位置`.
 - Keep the conversion language inside the article's causal flow. Do not interrupt a mechanism paragraph with a generic advertisement, and do not turn the full article into a sales page.
 - When the user asks to include a viewer/student question to Gary, write one natural consultation question that is semantically equivalent to the body-derived mother topic, relationship stage, and promised result. The question may make the source concrete, but it must not introduce a second topic such as `朋友区`, `挽回`, `表白失败`, or `长期关系` unless that topic is already central in the body. Apply the deletion test: if removing the question changes what the article is about, the question has hijacked the manuscript and must be rewritten.
-- Use one natural mid-article diagnostic CTA and one concise ending decision CTA. They may share the same handoff but must not repeat the same paragraph verbatim.
+- Gemini and the frozen source use zero CTA. After expansion, Codex writes one natural mid-article diagnostic CTA and appends only the exact fixed ending; do not add a second dynamic ending CTA by default.
 - Rotate the conversion handoff across the recent ledger. Do not make every article request chat records, promise `具体问题具体分析`, or use the same `你现在不是听一条视频能解决的` bridge.
 - Do not use false scarcity, fabricated case-volume claims, guaranteed outcomes, or fear-only pressure as the reason to join. The pressure can remain hard-edged, but the group promise must be a concrete diagnostic or decision service the workflow can actually deliver.
 - Preserve the original hook category when possible, but do not preserve wording that would make the new source feel copied.
@@ -419,16 +419,16 @@ Reject and rebuild/retry when any condition fails:
 - rebuilt source uses `风险管理`, `关系治理`, `协作系统`, `心理营养`, `能力建设`, `阶段识别`, `证据分类`, `健康沟通`, `边界教育`, `情绪托底`, or a similar neutral shell as its central route even though the source's public promise is sharper;
 - final draft is technically accurate and topic-specific but reads like neutral professional instruction, ordinary relationship consultation, or safe educational content because its strongest conclusions were replaced by process explanations and balanced advice;
 - fewer than 4500 Chinese characters after expansion. For 3.1, target about 5000 Chinese characters and accept a complete 4500-6000-character body even though the standard 2.5 prompt requests a longer draft; do not retry merely to reach 7000 when the article is already complete;
-- required mid-article and ending fan-group CTAs are missing;
-- a CTA merely mentions `粉丝群` without an explicit viewer action such as `点开主页`, `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
-- the mid-article CTA appears before the manuscript has shown at least two topic-specific variables that change the diagnosis;
-- the CTA requests only generic `情况` or `问题`, does not name the evidence the viewer should bring, or does not state the bounded stage judgment/next-action decision the group will provide;
-- the CTA could be pasted into an unrelated relationship article without changing its evidence package or promised decision;
+- Gemini raw expansion contains any CTA, `粉丝群` invitation, `进群/关注/主页/私信/咨询` action, account self-introduction, or fixed ending;
+- the Codex post-expansion mid CTA is missing or merely mentions `粉丝群` without an explicit viewer action such as `加入粉丝群`, `进粉丝群找我`, or `来找我做具体分析`;
+- the Codex mid CTA appears before the manuscript has shown at least two topic-specific variables that change the diagnosis;
+- the Codex mid CTA requests only generic `情况` or `问题`, does not name the evidence the viewer should bring, or does not state the bounded stage judgment/next-action decision the group will provide;
+- the Codex mid CTA could be pasted into an unrelated relationship article without changing its evidence package or promised decision;
 - the article withholds its central general answer, uses false scarcity or fear-only pressure, or turns most of the body into a group advertisement;
-- fixed ending is not exact for the current project when the user expects the fan-group ending;
+- Codex does not append the exact fixed ending after the CTA-free body is accepted;
 - `内部群`, `私董会`, `[[RISKNOTE]]`, yellow-note language, refusal text, or backend traces appear.
 
-Allowed local cleanup after generation is narrow and mechanical: unmistakable transcription/typing errors, prompt/backstage leakage, exact fixed-ending repair, explicit CTA repair, forbidden group-name replacement, or a minimal edit to remove explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations. Do not use this cleanup gate as permission to rewrite tone, metaphors, intensity, dark conclusions, PUA vocabulary, or sensational phrasing. If a hard operational boundary controls a whole section rather than one phrase, rerun from the rebuilt source instead of converting the article into neutral advice.
+Allowed local cleanup after 3.1 Gemini generation is narrow and mechanical: unmistakable transcription/typing errors, prompt/backstage leakage, or a minimal edit to remove explicit coercion, unlawful conduct, ignoring refusal, or physical-boundary violations. Do not repair or strip a Gemini CTA or ending; reject and rerun the CTA-free expansion instead. Do not use this cleanup gate as permission to rewrite tone, metaphors, intensity, dark conclusions, PUA vocabulary, or sensational phrasing. If a hard operational boundary controls a whole section rather than one phrase, rerun from the rebuilt source instead of converting the article into neutral advice.
 
 For prompt-leak cleanup, rewrite locally if it is an isolated phrase-level defect. If the leak controls the whole opening or argument frame, rebuild the pre-transplanted source and rerun 2.5.
 
@@ -934,7 +934,7 @@ cd C:\Users\Administrator\Documents\Codex\2026-06-04\gemini3-1pro-api
 
 If the command asks for `Teamorouter API Key`, enter the key provided by the user or use the existing `TEAMO_API_KEY` environment variable if already configured. Do not use the old web expansion channel in this custom skill.
 
-For automated male relationship expansion, write the selected full instruction block + any required direction-specific injection + source copy to a UTF-8 prompt file. For 2.5, 3.1, and the revised 3.2 use `--isolated` per source. For 2.8 and 2.9 use their dedicated-session rules below. Do not run different directions through the same saved conversation.
+For automated male relationship expansion, write the selected full instruction block + any required direction-specific injection + source copy to a UTF-8 prompt file. For 3.1, the required direction-specific injection is the fixed CTA-free override from `3.1-knowledge-base-transplant.md`; it goes after the complete 2.5 block and before the source wrapper. For 2.5, 3.1, and the revised 3.2 use `--isolated` per source. For 2.8 and 2.9 use their dedicated-session rules below. Do not run different directions through the same saved conversation.
 
 Reason: the interactive terminal uses single-line `readline.question()`. Pasting or piping a multi-line prompt can send only the first line as the user message, causing Gemini to merely confirm the instruction instead of expanding the source.
 
@@ -964,12 +964,19 @@ Default qualification line:
 
 - Generic target length: 6000-8000 Chinese characters.
 - For the current `2.5 Direct Draft`, the hard minimum is 4000 Chinese characters with no upper limit; 6000-8000 is a preferred depth range when the source supports it, not a gate.
+- For 3.1, apply its current length threshold but require zero CTA and zero fixed ending in Gemini output. Codex adds conversion and the ending after acceptance.
 - For other directions, use their own stated threshold or the user's newest threshold.
 
 If a current 2.5 output is below 4000 Chinese characters, send:
 
 ```text
 字数不够，重写一遍，必须写到4000字以上，不设上限，并且必须写完整片尾。
+```
+
+For a short or CTA-contaminated 3.1 output, rebuild the complete prompt with the fixed CTA-free override and rerun it through `--isolated`. Use this retry instruction before the source wrapper:
+
+```text
+上一稿未通过3.1扩写验收。请完整重写到当前字数要求，只输出实质正文和结论；不得出现任何CTA、粉丝群、进群、关注、主页、私信、咨询、账号自我介绍或固定片尾。正文完成后直接停止。
 ```
 
 If Gemini returns a refusal, safety block, tool/API failure text, or a non-draft answer instead of an expanded article, treat it as a failed generation and retry directly in the current terminal session. Send the original source copy again with the same selected instruction block. Do not ask the user for confirmation.
@@ -999,4 +1006,4 @@ Obvious hallucinations include:
 - Model outputs only thinking text or system/resource messages.
 - Model invents a different title or unrelated framework.
 - Output is below the selected direction's current threshold; for 2.5 this is 4000 Chinese characters.
-- Output lacks the required fixed ending. For current Gary directions require the exact final sentence `我是探花Gary，我们粉丝群里见，感谢观看` and reject any occurrence of `内部群`.
+- Output ending violates the selected direction. Ordinary Gary directions must contain their required exact fixed ending and reject `内部群`; 3.1 Gemini output must contain no fixed ending or CTA at all, because Codex appends the exact ending after expansion.
