@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject a 3.1 Gemini expansion that contains conversion or ending text."""
+"""Reject a cleaned 3.1 Gemini body that still contains conversion or ending text."""
 
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ from validate_mother_topic_lock import read_text
 
 PATTERNS = {
     "doubao_or_ai_summary_prompt": r"豆包|AI.{0,12}(总结|精髓|思维导图)|思维导图",
-    "engagement_prompt": r"点个赞|点赞|点个收藏|收藏|评论区|评论|转发|艾特|@豆包",
-    "fan_group": r"粉丝群|进群|加入.{0,6}群|群里见",
+    "engagement_prompt": r"点个赞|(?:请|记得|别忘了|顺手|帮我|可以)点赞|点赞(?:收藏|[、/和并与]收藏)|点个收藏|收藏一下|评论区(?:留言|告诉|打出)|转发给|艾特(?:给|一下)?|@豆包",
+    "fan_group": r"粉丝群|内部群|进群|加入.{0,6}群|群里见",
     "profile_action": r"(?:点开|打开|点击|去).{0,8}主页",
     "direct_contact": r"私信(?:我|Gary|探花Gary)|(?:来找我|找我).{0,12}(?:分析|诊断|咨询|解决)",
     "follow_action": r"关注(?:我|Gary|探花Gary)",
@@ -37,7 +37,7 @@ def main() -> int:
     }
     hits = {name: values for name, values in hits.items() if values}
     report = {
-        "mode": "3.1_gemini_cta_free_validation",
+        "mode": "3.1_gemini_clean_cta_free_validation",
         "input": str(args.input),
         "hits": hits,
         "pass": not hits,

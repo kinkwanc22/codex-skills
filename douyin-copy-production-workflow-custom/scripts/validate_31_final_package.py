@@ -147,6 +147,7 @@ def main() -> int:
     parser.add_argument("--required-heading", action="append", default=[])
     parser.add_argument("--exact-ending", default=DEFAULT_ENDING)
     parser.add_argument("--min-cjk", type=int, default=4000)
+    parser.add_argument("--require-anchor-in-closing", action="store_true")
     highlight_group = parser.add_mutually_exclusive_group()
     highlight_group.add_argument("--insertion-manifest", type=Path)
     highlight_group.add_argument("--allow-no-yellow", action="store_true")
@@ -181,14 +182,31 @@ def main() -> int:
         "source_contains_anchor": bool(anchor and anchor in source_norm),
         "frozen_contains_anchor": bool(anchor and anchor in frozen_norm),
         "final_contains_anchor": bool(anchor and anchor in final_norm),
+        "final_opening_contains_anchor": False,
+        "final_closing_contains_anchor": False,
         "forbidden_label_hits": label_hits,
     }
+    final_paragraphs = [item.strip() for item in re.split(r"\n\s*\n", final_text) if item.strip()]
+    if final_paragraphs:
+        checks["mother_topic"]["final_opening_contains_anchor"] = bool(
+            anchor and anchor in normalize(final_paragraphs[0])
+        )
+        conclusion_text = final_text
+        if conclusion_text.endswith(args.exact_ending):
+            conclusion_text = conclusion_text[: -len(args.exact_ending)].rstrip()
+        checks["mother_topic"]["final_closing_contains_anchor"] = bool(
+            anchor and anchor in normalize(conclusion_text[-1200:])
+        )
     if not checks["mother_topic"]["source_contains_anchor"]:
         errors.append("mother-topic anchor missing from source")
     if not checks["mother_topic"]["frozen_contains_anchor"]:
         errors.append("mother-topic anchor missing from frozen source")
     if not checks["mother_topic"]["final_contains_anchor"]:
         errors.append("mother-topic anchor missing from final body")
+    if not checks["mother_topic"]["final_opening_contains_anchor"]:
+        errors.append("mother-topic anchor missing from final opening paragraph")
+    if args.require_anchor_in_closing and not checks["mother_topic"]["final_closing_contains_anchor"]:
+        errors.append("mother-topic anchor missing from final closing section")
     if any(hit["frozen"] or hit["final"] for hit in label_hits.values()):
         errors.append("forbidden mother-topic replacement label found")
 
