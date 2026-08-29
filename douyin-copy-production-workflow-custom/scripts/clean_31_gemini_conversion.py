@@ -32,6 +32,7 @@ DIRECT_ACTION_RE = re.compile(
     r"|(?:关注|私信|咨询).{0,6}(?:我|Gary|探花Gary)"
 )
 ACCOUNT_RE = re.compile(r"我是探花Gary|我是Gary")
+INLINE_ACCOUNT_RE = re.compile(r"(?:我)?作为(?:探花)?Gary[,，]?", re.IGNORECASE)
 ENDING_RE = re.compile(r"我是探花Gary.{0,100}(?:感谢观看|群里见)|我们(?:粉丝群|内部群)里见|感谢观看\s*$", re.DOTALL)
 
 
@@ -108,6 +109,18 @@ def main() -> int:
             continue
         kept: list[str] = []
         for sentence_index, sentence in enumerate(split_sentences(paragraph)):
+            inline_account_matches = list(INLINE_ACCOUNT_RE.finditer(sentence))
+            if inline_account_matches:
+                for match in inline_account_matches:
+                    removals.append(
+                        {
+                            "category": "inline_account_self_introduction",
+                            "text": match.group(0),
+                            "paragraph_index": paragraph_index,
+                            "sentence_index": sentence_index,
+                        }
+                    )
+                sentence = INLINE_ACCOUNT_RE.sub("", sentence)
             category = classify(sentence, paragraph)
             if category:
                 removals.append(
