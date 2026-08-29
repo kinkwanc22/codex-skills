@@ -976,7 +976,7 @@ If a current 2.5 output is below 4000 Chinese characters, send:
 For a short or CTA-contaminated 3.1 output, rebuild the complete prompt with the fixed CTA-free override and rerun it through `--isolated`. Use this retry instruction before the source wrapper:
 
 ```text
-上一稿未通过3.1扩写验收。请完整重写到当前字数要求，只输出实质正文和结论；不得出现任何CTA、粉丝群、进群、关注、主页、私信、咨询、账号自我介绍或固定片尾。正文完成后直接停止。
+上一稿未通过3.1扩写验收。请完整重写到当前字数要求，只输出实质正文和结论；不得出现任何CTA、豆包/AI总结或思维导图引导、点赞、收藏、评论、转发、艾特、粉丝群、进群、关注、主页、私信、咨询、账号自我介绍或固定片尾。正文完成后直接停止。
 ```
 
 If Gemini returns a refusal, safety block, tool/API failure text, or a non-draft answer instead of an expanded article, treat it as a failed generation and retry directly in the current terminal session. Send the original source copy again with the same selected instruction block. Do not ask the user for confirmation.

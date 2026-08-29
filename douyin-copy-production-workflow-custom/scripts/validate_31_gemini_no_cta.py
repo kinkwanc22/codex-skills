@@ -12,6 +12,8 @@ from validate_mother_topic_lock import read_text
 
 
 PATTERNS = {
+    "doubao_or_ai_summary_prompt": r"豆包|AI.{0,12}(总结|精髓|思维导图)|思维导图",
+    "engagement_prompt": r"点个赞|点赞|点个收藏|收藏|评论区|评论|转发|艾特|@豆包",
     "fan_group": r"粉丝群|进群|加入.{0,6}群|群里见",
     "profile_action": r"(?:点开|打开|点击|去).{0,8}主页",
     "direct_contact": r"私信(?:我|Gary|探花Gary)|(?:来找我|找我).{0,12}(?:分析|诊断|咨询|解决)",
