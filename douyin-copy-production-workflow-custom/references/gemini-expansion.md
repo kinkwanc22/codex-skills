@@ -33,7 +33,7 @@ Available directions:
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Gary口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Gary expansion with hidden six-layer structure and fewer template seams.
 - `2.9 Fusion Draft`: tested 2.5×2.8融合版, use when the user asks for 2.9、2.5和2.8融合、融合提示词, or wants the 2.5 Gary pressure combined with 2.8 hidden structure and expression control. Hard minimum 4000 Chinese characters, no upper limit.
-- `3.1 Source Pre-Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: use when the user asks for 3.1、2.5预换芯、原稿预换芯、原稿先换芯再2.5, or wants the source manuscript rebuilt first while keeping the exact public topic/title. Embed a low-density selection of matched psychology, PUA, sociology, or biology terms into the rebuilt manuscript itself, freeze it, then send it through standard 2.5 without article-specific prompt stacking.
+- `3.1 Knowledge-Base Transplant -> 2.5 Direct Draft` / `2.5原稿预换芯`: the canonical default for 3.1. Read `references/3.1-knowledge-base-transplant.md` in full. Codex must build the frozen source only from traceable B/X knowledge plus permitted selection, perspective adaptation, polishing, ordering, and transitions; it may not invent substantive content. Gemini remains unrestricted by the knowledge closure and receives only the complete standard 2.5 prompt plus the frozen source through `--isolated`.
 - `3.2 Controlled-Inheritance Theory-First Student-Case Monetization -> 2.5 Direct Draft` / `3.2换芯扩写`: use when the user asks for 3.2、3.2换芯、3.2换芯扩写、带小案例的预换芯, or wants 3.1 with controlled viewpoint inheritance, majority replacement of concrete operations inside those viewpoints, two or three compact Gary student-case proofs after selected theory explanations, and the approved single-CTA monetization sequence. Preserve 60%-80% of viewpoint/mechanism functions, replace normally 60%-100% of concrete actions/scripts/micro-steps/examples with topic-equivalent methods, and overlay conversion on the original answer path; do not write a different article under the same title. Read and follow `references/3.2-conversion-transplant.md` in full. Freeze the rebuilt source first, then send only the complete 2.5 block plus that source through `--isolated`; never append a 3.2 task or conversion layer to Gemini.
 
 ### 2.5 Direct Draft
@@ -254,15 +254,17 @@ Gary指导下的处理方式。
 【原文开始】
 ```
 
-### 3.1 Source Pre-Transplant -> 2.5 Direct Draft / 2.5原稿预换芯
+### 3.1 Knowledge-Base Transplant -> 2.5 Direct Draft / 2.5原稿预换芯
 
-Use this mode when the user provides the pre-expansion source manuscript and asks for `3.1`, `2.5预换芯`, `原稿预换芯`, `原稿先换芯再2.5`, or the tested mode where the source is rebuilt first and then expanded through routine 2.5.
+Use this mode when the user provides the pre-expansion source manuscript and asks for `3.1`, `3.1换芯`, `2.5预换芯`, `原稿预换芯`, or `原稿先换芯再2.5`.
+
+The canonical default changed on 2026-08-29. Read and follow `references/3.1-knowledge-base-transplant.md` in full before acting. Codex now uses a closed knowledge set for substantive source design; Gemini still uses the complete standard 2.5 prompt without a knowledge-closure supplement. The workflow and source rules below are retained as the explicit legacy Codex-designed fallback and apply only when the user asks for `旧版3.1` or explicitly asks Codex to design new viewpoints. The canonical knowledge-base mode inherits only the non-conflicting shared rules: body-derived topic/count, history exclusion, hard force band, no backstage leakage, standard 2.5 `--isolated`, narrow mechanical cleanup, CTA/ending requirements, and clean Word export.
 
 This is not `2.5成稿换芯`. Do not use the finished-draft transplant session or old finished 2.5 body as the style parent. The goal is:
 
 `same body-derived mother topic/audience promise -> genuinely new source-level skeleton with naturally embedded domain terms -> freeze the rebuilt manuscript -> send that manuscript directly through standard 2.5 Direct Draft`
 
-#### 3.1 Workflow
+#### 3.1 Legacy Codex-Designed Workflow (Explicit Fallback Only)
 
 1. Extract the original source body from the provided docx or pasted manuscript. During topic inference, ignore the filename, parent-folder name, Word core title/subject properties, document metadata, stale heading fields, and previous output names. They may be retained later for file traceability, but they must contribute zero evidence to the content route.
 2. Identify and preserve the exact mother topic, audience promise, emotional direction, and promised count from the body alone. If the body itself contains a spoken headline or explicit list promise, it counts as body evidence. If a number, list framing, or topic appears only in the filename or metadata, do not preserve it and do not invent matching sections. When body and title metadata conflict, the body always wins.
