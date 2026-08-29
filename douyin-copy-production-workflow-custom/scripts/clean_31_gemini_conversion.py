@@ -23,7 +23,11 @@ ENGAGEMENT_RE = re.compile(
 GROUP_RE = re.compile(r"粉丝群|内部群|进群|加入.{0,6}群|群里见")
 GROUP_ACTION_RE = re.compile(r"加我的?粉丝群|进粉丝群|先进粉丝群|加入.{0,6}群|入口就在|发到群里|来找我|深度咨询|策略指导|群里见")
 CONTACT_RE = re.compile(r"(?:私信|咨询|点开|打开|点击|去主页|关注我|来找我).{0,24}(?:分析|诊断|咨询|解决|入口|主页|Gary|探花Gary)?")
-DIRECT_ACTION_RE = re.compile(r"(?:请|记得|欢迎|直接|现在|赶紧|马上|可以|点开|打开|点击|去|来).{0,16}(?:关注|私信|咨询|主页|找我)|(?:关注|私信|咨询).{0,6}(?:我|Gary|探花Gary)")
+DIRECT_ACTION_RE = re.compile(
+    r"(?:请|记得|欢迎|直接|现在|赶紧|马上|可以|点开|打开|点击|去).{0,16}(?:关注|私信|咨询|主页|找我)"
+    r"|来(?:找我|咨询|私信|关注我)"
+    r"|(?:关注|私信|咨询).{0,6}(?:我|Gary|探花Gary)"
+)
 ACCOUNT_RE = re.compile(r"我是探花Gary|我是Gary")
 ENDING_RE = re.compile(r"我是探花Gary.{0,100}(?:感谢观看|群里见)|我们(?:粉丝群|内部群)里见|感谢观看\s*$", re.DOTALL)
 
