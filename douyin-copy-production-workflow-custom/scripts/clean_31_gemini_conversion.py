@@ -87,17 +87,11 @@ def main() -> int:
     removals: list[dict[str, object]] = []
 
     for paragraph_index, paragraph in enumerate(paragraphs):
-        if ENDING_RE.search(paragraph) and (ACCOUNT_RE.search(paragraph) or GROUP_RE.search(paragraph)):
-            removals.append(
-                {
-                    "category": "old_or_fixed_ending",
-                    "text": paragraph,
-                    "paragraph_index": paragraph_index,
-                    "sentence_index": None,
-                }
-            )
-            continue
-        if GROUP_RE.search(paragraph) and GROUP_ACTION_RE.search(paragraph):
+        if (
+            GROUP_RE.search(paragraph)
+            and GROUP_ACTION_RE.search(paragraph)
+            and not (ACCOUNT_RE.search(paragraph) and ENDING_RE.search(paragraph))
+        ):
             removals.append(
                 {
                     "category": "fan_group_or_contact_cta",
