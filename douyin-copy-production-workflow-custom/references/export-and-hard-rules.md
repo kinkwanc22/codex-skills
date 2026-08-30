@@ -45,7 +45,7 @@ Important rules:
 
 - Do **not** add risk suggestions.
 - Do **not** insert `[[RISKNOTE:...]]` markers.
-- For 3.1, yellow-highlight the exact Codex insertion manifest by default: soft placements, one mid CTA, and the fixed ending. Do not highlight any source/Gemini body text or packaging text.
+- For 3.1, yellow-highlight the exact Codex insertion manifest by default: one mid CTA and the fixed ending only. Scattered soft placements are forbidden. Do not highlight any source/Gemini body text or packaging text.
 - For non-3.1 modes, do not add yellow highlighting unless the user explicitly requests it.
 - Do **not** rewrite or sanitize risky words unless the user explicitly asks for rewriting.
 - Export the Word document directly from the final text structure above, with the title package placed before the three opening versions.

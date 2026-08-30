@@ -7,7 +7,6 @@ import argparse
 import json
 import re
 import sys
-from collections import Counter
 from pathlib import Path
 from xml.etree import ElementTree
 from zipfile import BadZipFile, ZipFile
@@ -121,17 +120,19 @@ def load_insertion_manifest(path: Path, exact_ending: str) -> tuple[dict[str, ob
     mid_cta = data.get("mid_cta")
     fixed_ending = data.get("fixed_ending")
     highlight_texts = data.get("highlight_texts")
-    if not isinstance(soft, list) or not soft or not all(isinstance(item, str) and item for item in soft):
-        raise ValueError("manifest soft_placements must be a nonempty string list")
+    if not isinstance(soft, list):
+        raise ValueError("manifest soft_placements must be a list")
+    if soft:
+        raise ValueError("manifest soft_placements must be empty; 3.1 now uses one mid CTA only")
     if not isinstance(mid_cta, str) or not mid_cta:
         raise ValueError("manifest mid_cta must be a nonempty string")
     if fixed_ending != exact_ending:
         raise ValueError("manifest fixed_ending does not match --exact-ending")
     if not isinstance(highlight_texts, list) or not highlight_texts or not all(isinstance(item, str) and item for item in highlight_texts):
         raise ValueError("manifest highlight_texts must be a nonempty string list")
-    required = soft + [mid_cta, fixed_ending]
-    if Counter(highlight_texts) != Counter(required):
-        raise ValueError("manifest highlight_texts must contain exactly soft_placements + mid_cta + fixed_ending; order must follow the Word body")
+    required = [mid_cta, fixed_ending]
+    if highlight_texts != required:
+        raise ValueError("manifest highlight_texts must be exactly [mid_cta, fixed_ending] in Word-body order")
     return data, highlight_texts
 
 
