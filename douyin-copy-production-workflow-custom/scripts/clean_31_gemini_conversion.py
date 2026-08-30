@@ -27,9 +27,9 @@ GROUP_ACTION_RE = re.compile(
 )
 CONTACT_RE = re.compile(r"(?:私信|咨询|点开|打开|点击|去主页|关注我|来找我).{0,24}(?:分析|诊断|咨询|解决|入口|主页|Gary|探花Gary)?")
 DIRECT_ACTION_RE = re.compile(
-    r"(?:请|记得|欢迎|直接|现在|赶紧|马上|可以|点开|打开|点击|去).{0,16}(?:关注|私信|咨询|主页|找我)"
-    r"|来(?:找我|咨询|私信|关注我)"
-    r"|(?:关注|私信|咨询).{0,6}(?:我|Gary|探花Gary)"
+    r"(?:请|记得|欢迎|直接|现在|赶紧|马上|可以|点开|打开|点击|去主页).{0,16}(?:关注我|私信|咨询|主页|找我)"
+    r"|(?:请|记得|欢迎|直接|现在|赶紧|马上|可以).{0,8}来(?:找我|咨询|私信|关注我)"
+    r"|(?:请|记得|欢迎|直接|现在|赶紧|马上|可以).{0,8}(?:关注|私信|咨询).{0,6}(?:我|Gary|探花Gary)"
 )
 ACCOUNT_RE = re.compile(r"我是探花Gary|我是Gary")
 INLINE_ACCOUNT_RE = re.compile(r"(?:我)?作为(?:探花)?Gary[,，]?", re.IGNORECASE)
@@ -57,7 +57,10 @@ def classify(sentence: str, paragraph: str) -> str | None:
         return "account_self_introduction"
     if DIRECT_ACTION_RE.search(sentence):
         return "direct_contact_cta"
-    if CONTACT_RE.search(sentence) and re.search(r"(?:你|兄弟|大家|观众|粉丝).{0,30}(?:私信|咨询|主页|关注|找我)", sentence):
+    if CONTACT_RE.search(sentence) and re.search(
+        r"(?:有问题|需要帮助|需要分析|想要解决|想让我|不知道怎么办).{0,30}(?:私信|咨询|主页|关注我|找我)",
+        sentence,
+    ):
         return "direct_contact_cta"
     return None
 
