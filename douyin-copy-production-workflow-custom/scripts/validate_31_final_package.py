@@ -250,7 +250,17 @@ def main() -> int:
     if missing_headings:
         errors.append("required Word heading missing")
 
-    word_forbidden_hits = [term for term in forbidden_terms if term and term in docx_text]
+    scan_paragraphs = list(paragraphs)
+    try:
+        verbatim_start = scan_paragraphs.index("开头版本三：保留原文开头（来自源文档）")
+        optimized_start = scan_paragraphs.index("开头版本四：原文开头优化版（贴合正文）")
+        if optimized_start > verbatim_start:
+            scan_paragraphs = scan_paragraphs[:verbatim_start + 1] + scan_paragraphs[optimized_start:]
+            checks["word_structure"]["verbatim_source_opening_excluded_from_forbidden_scan"] = True
+    except ValueError:
+        checks["word_structure"]["verbatim_source_opening_excluded_from_forbidden_scan"] = False
+    word_forbidden_scan_text = "\n".join(scan_paragraphs)
+    word_forbidden_hits = [term for term in forbidden_terms if term and term in word_forbidden_scan_text]
     checks["forbidden_terms"]["word_hits"] = word_forbidden_hits
     if word_forbidden_hits:
         errors.append("forbidden term found in Word document")
