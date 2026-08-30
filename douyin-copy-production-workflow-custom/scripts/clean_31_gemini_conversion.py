@@ -49,7 +49,7 @@ def classify(sentence: str, paragraph: str) -> str | None:
         return "doubao_or_ai_summary_prompt"
     if ENDING_RE.search(sentence) or (ACCOUNT_RE.search(sentence) and GROUP_RE.search(paragraph)):
         return "old_or_fixed_ending"
-    if GROUP_RE.search(sentence) and (GROUP_ACTION_RE.search(sentence) or CONTACT_RE.search(sentence)):
+    if GROUP_RE.search(sentence):
         return "fan_group_or_contact_cta"
     if ENGAGEMENT_RE.search(sentence):
         return "engagement_prompt"
