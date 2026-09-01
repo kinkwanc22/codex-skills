@@ -158,4 +158,8 @@ For 3.1, do not run LibreOffice, `soffice`, PDF conversion, PNG rendering, or `r
 
 Keep the final answer short. Tell the user the Word file path, character count, that Codex-added 3.1 insertions were highlighted yellow by default, and that no risk suggestions or `[[RISKNOTE:...]]` markers were added.
 
+Always expose the Word deliverable as a normal clickable Markdown link using the real absolute local path, for example `[打开成稿](</absolute/path/成稿.docx>)`. Do not rely only on a file-citation directive, attachment chip, bare path, or prose such as `文件在这里`, because those surfaces may render as an empty assistant message in the desktop app. If another document workflow requires a file-citation directive, include the normal Markdown link as well.
+
+Interpret `贴出来`, `成稿贴出来`, `直接显示正文`, or `我这里看不到` as a request to place the accepted manuscript text directly in the final response in addition to the clickable Word link. For a long draft, use one `document` writing block containing the正文 only; do not replace the saved Word, silently shorten the body, or paste internal prompts, provenance, ledgers, validation logs, or risk notes. If the user asks only `在哪里` or `文件在哪`, return the clickable Markdown link and path without pasting thousands of characters.
+
 If optional viral potential review was requested, report it. Otherwise do not add a scoring/pass-fail statement.
