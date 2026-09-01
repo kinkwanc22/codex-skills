@@ -16,6 +16,7 @@ from validate_mother_topic_lock import normalize, read_text
 
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 DEFAULT_ENDING = "我是探花Gary，我们粉丝群里见，感谢观看"
+DEFAULT_OPENING_GUIDANCE = "另外说一下，想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，如果现实中有任何推进问题的话，也可以随时进入我的粉丝群提问。"
 DEFAULT_FORBIDDEN_TERMS = [
     "内部群",
     "私董会",
@@ -117,22 +118,25 @@ def collect_yellow_segments(word_xml: list[str]) -> tuple[list[str], int, int]:
 def load_insertion_manifest(path: Path, exact_ending: str) -> tuple[dict[str, object], list[str]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     soft = data.get("soft_placements")
+    opening_guidance = data.get("opening_guidance")
     mid_cta = data.get("mid_cta")
     fixed_ending = data.get("fixed_ending")
     highlight_texts = data.get("highlight_texts")
     if not isinstance(soft, list):
         raise ValueError("manifest soft_placements must be a list")
     if soft:
-        raise ValueError("manifest soft_placements must be empty; 3.1 now uses one mid CTA only")
+        raise ValueError("manifest soft_placements must be empty; 3.1 uses fixed opening guidance plus one mid CTA")
+    if opening_guidance != DEFAULT_OPENING_GUIDANCE:
+        raise ValueError("manifest opening_guidance does not match the fixed 3.1 opening guidance")
     if not isinstance(mid_cta, str) or not mid_cta:
         raise ValueError("manifest mid_cta must be a nonempty string")
     if fixed_ending != exact_ending:
         raise ValueError("manifest fixed_ending does not match --exact-ending")
     if not isinstance(highlight_texts, list) or not highlight_texts or not all(isinstance(item, str) and item for item in highlight_texts):
         raise ValueError("manifest highlight_texts must be a nonempty string list")
-    required = [mid_cta, fixed_ending]
+    required = [opening_guidance, mid_cta, fixed_ending]
     if highlight_texts != required:
-        raise ValueError("manifest highlight_texts must be exactly [mid_cta, fixed_ending] in Word-body order")
+        raise ValueError("manifest highlight_texts must be exactly [opening_guidance, mid_cta, fixed_ending] in Word-body order")
     return data, highlight_texts
 
 
@@ -311,6 +315,10 @@ def main() -> int:
             actual_compact = [compact(item) for item in yellow_segments]
             expected_compact = [compact(item) for item in expected_highlights]
             final_counts = {item: final_text.count(item) for item in expected_highlights}
+            opening_guidance = str(manifest["opening_guidance"])
+            mid_cta = str(manifest["mid_cta"])
+            opening_guidance_index = final_paragraphs.index(opening_guidance) if opening_guidance in final_paragraphs else -1
+            mid_cta_index = final_paragraphs.index(mid_cta) if mid_cta in final_paragraphs else -1
             highlight_check.update({
                 "manifest": str(args.insertion_manifest),
                 "expected_segments": expected_highlights,
@@ -318,11 +326,17 @@ def main() -> int:
                 "actual_count": len(yellow_segments),
                 "exact_ordered_match": actual_compact == expected_compact,
                 "expected_text_final_counts": final_counts,
+                "opening_guidance_paragraph_index": opening_guidance_index,
+                "mid_cta_paragraph_index": mid_cta_index,
             })
             if actual_compact != expected_compact:
                 errors.append("Word yellow-highlight segments do not exactly match insertion manifest")
             if any(count != 1 for count in final_counts.values()):
                 errors.append("each insertion manifest text must appear exactly once in final body")
+            if opening_guidance_index != 1:
+                errors.append("fixed opening guidance must be the paragraph immediately after the first substantive opening paragraph")
+            if mid_cta_index <= opening_guidance_index or mid_cta_index >= len(final_paragraphs) - 1:
+                errors.append("mid CTA must appear after the opening guidance and before the fixed ending")
             if yellow_other_count:
                 errors.append("yellow markup found outside text runs")
             if not manifest:
