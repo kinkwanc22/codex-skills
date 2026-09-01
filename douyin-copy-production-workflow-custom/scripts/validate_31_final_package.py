@@ -17,7 +17,7 @@ from validate_mother_topic_lock import normalize, read_text
 
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 DEFAULT_ENDING = "我是探花Gary，我们粉丝群里见，感谢观看。"
-DEFAULT_OPENING_GUIDANCE = "另外说一下，想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，如果现实中有任何推进问题的话，也可以随时进入我的粉丝群提问。"
+DEFAULT_OPENING_GUIDANCE = "另外说一下，想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，如果现实中有任何推进问题的话，也可以随时进入我的粉丝群提问。好，我们直接进入正题。"
 DEFAULT_FORBIDDEN_TERMS = [
     "内部群",
     "私董会",
@@ -169,6 +169,8 @@ def load_insertion_manifest(
         expected = expected[: -len(terminal_before)] + exact_ending
         if expected != final_text.strip():
             raise ValueError("final body is not the Gemini raw after recorded repairs and ending normalization")
+        if final_text.count(DEFAULT_OPENING_GUIDANCE) != 1:
+            raise ValueError("final body must contain the exact fixed 3.1 opening guidance once, including 好，我们直接进入正题。")
         if highlight_texts != [exact_ending]:
             raise ValueError("retention manifest highlight_texts must be exactly [fixed_ending]")
         return data, highlight_texts
