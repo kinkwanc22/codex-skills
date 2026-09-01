@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove only clearly separable old-2.5 conversion units from 3.1 Gemini raw text."""
+"""Legacy audit only; current 3.1 preserves all Gemini-returned content."""
 
 from __future__ import annotations
 
@@ -82,7 +82,10 @@ def main() -> int:
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--manifest-out", required=True, type=Path)
+    parser.add_argument("--legacy-audit", action="store_true")
     args = parser.parse_args()
+    if not args.legacy_audit:
+        parser.error("legacy-only cleaner: current 3.1 preserves all Gemini content; pass --legacy-audit only for an explicitly requested historical audit")
 
     raw = read_text(args.input)
     paragraphs = re.split(r"\n\s*\n", raw.strip())

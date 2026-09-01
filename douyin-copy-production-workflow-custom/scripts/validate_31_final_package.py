@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -15,7 +16,7 @@ from validate_mother_topic_lock import normalize, read_text
 
 
 W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
-DEFAULT_ENDING = "我是探花Gary，我们粉丝群里见，感谢观看"
+DEFAULT_ENDING = "我是探花Gary，我们粉丝群里见，感谢观看。"
 DEFAULT_OPENING_GUIDANCE = "另外说一下，想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，如果现实中有任何推进问题的话，也可以随时进入我的粉丝群提问。"
 DEFAULT_FORBIDDEN_TERMS = [
     "内部群",
@@ -115,8 +116,63 @@ def collect_yellow_segments(word_xml: list[str]) -> tuple[list[str], int, int]:
     return segments, yellow_run_count, yellow_other_count
 
 
-def load_insertion_manifest(path: Path, exact_ending: str) -> tuple[dict[str, object], list[str]]:
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_insertion_manifest(
+    path: Path,
+    exact_ending: str,
+    final_text: str,
+) -> tuple[dict[str, object], list[str]]:
     data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("mode") == "3.1_gemini_full_retention":
+        raw_path_value = data.get("gemini_raw_path")
+        raw_sha256 = data.get("gemini_raw_sha256")
+        preserved = data.get("gemini_content_preserved")
+        removed = data.get("removed_content")
+        repairs = data.get("mechanical_repairs")
+        terminal_before = data.get("terminal_ending_before")
+        fixed_ending = data.get("fixed_ending")
+        highlight_texts = data.get("highlight_texts")
+        if not isinstance(raw_path_value, str) or not raw_path_value:
+            raise ValueError("retention manifest gemini_raw_path must be a nonempty string")
+        raw_path = Path(raw_path_value)
+        raw = read_text(raw_path).strip()
+        if raw_path.resolve() == path.resolve():
+            raise ValueError("Gemini raw and retention manifest must be separate artifacts")
+        if raw_sha256 != sha256_file(raw_path):
+            raise ValueError("retention manifest Gemini raw SHA256 mismatch")
+        if preserved is not True:
+            raise ValueError("retention manifest gemini_content_preserved must be true")
+        if removed != []:
+            raise ValueError("retention manifest removed_content must be an empty list")
+        if not isinstance(repairs, list):
+            raise ValueError("retention manifest mechanical_repairs must be a list")
+        expected = raw
+        for index, repair in enumerate(repairs):
+            if not isinstance(repair, dict):
+                raise ValueError(f"mechanical repair {index} must be an object")
+            before = repair.get("before")
+            after = repair.get("after")
+            if not isinstance(before, str) or not before or not isinstance(after, str) or not after:
+                raise ValueError(f"mechanical repair {index} must have nonempty before/after strings")
+            if expected.count(before) != 1:
+                raise ValueError(f"mechanical repair {index} before text must occur exactly once")
+            expected = expected.replace(before, after, 1)
+        if not isinstance(terminal_before, str) or not terminal_before:
+            raise ValueError("retention manifest terminal_ending_before must be a nonempty string")
+        if fixed_ending != exact_ending:
+            raise ValueError("retention manifest fixed_ending does not match --exact-ending")
+        if not expected.endswith(terminal_before):
+            raise ValueError("recorded terminal_ending_before is not the processed Gemini terminal ending")
+        expected = expected[: -len(terminal_before)] + exact_ending
+        if expected != final_text.strip():
+            raise ValueError("final body is not the Gemini raw after recorded repairs and ending normalization")
+        if highlight_texts != [exact_ending]:
+            raise ValueError("retention manifest highlight_texts must be exactly [fixed_ending]")
+        return data, highlight_texts
+
     soft = data.get("soft_placements")
     opening_guidance = data.get("opening_guidance")
     mid_cta = data.get("mid_cta")
@@ -158,6 +214,13 @@ def main() -> int:
     highlight_group.add_argument("--allow-no-yellow", action="store_true")
     parser.add_argument("--report-out", type=Path)
     args = parser.parse_args()
+
+    retention_mode = False
+    if args.insertion_manifest:
+        try:
+            retention_mode = json.loads(args.insertion_manifest.read_text(encoding="utf-8")).get("mode") == "3.1_gemini_full_retention"
+        except Exception:
+            retention_mode = False
 
     checks: dict[str, object] = {}
     errors: list[str] = []
@@ -229,7 +292,8 @@ def main() -> int:
     if final_text.count(args.exact_ending) != 1:
         errors.append("final body must contain the exact ending exactly once")
 
-    forbidden_terms = list(dict.fromkeys(DEFAULT_FORBIDDEN_TERMS + args.forbidden_term))
+    built_in_forbidden = ["[[RISKNOTE:"] if retention_mode else DEFAULT_FORBIDDEN_TERMS
+    forbidden_terms = list(dict.fromkeys(built_in_forbidden + args.forbidden_term))
     final_forbidden_hits = [term for term in forbidden_terms if term and term in final_text]
     checks["forbidden_terms"] = {"terms": forbidden_terms, "final_hits": final_forbidden_hits}
     if final_forbidden_hits:
@@ -311,14 +375,15 @@ def main() -> int:
     }
     if args.insertion_manifest:
         try:
-            manifest, expected_highlights = load_insertion_manifest(args.insertion_manifest, args.exact_ending)
+            manifest, expected_highlights = load_insertion_manifest(args.insertion_manifest, args.exact_ending, final_text)
             actual_compact = [compact(item) for item in yellow_segments]
             expected_compact = [compact(item) for item in expected_highlights]
             final_counts = {item: final_text.count(item) for item in expected_highlights}
-            opening_guidance = str(manifest["opening_guidance"])
-            mid_cta = str(manifest["mid_cta"])
-            opening_guidance_index = final_paragraphs.index(opening_guidance) if opening_guidance in final_paragraphs else -1
-            mid_cta_index = final_paragraphs.index(mid_cta) if mid_cta in final_paragraphs else -1
+            manifest_mode = str(manifest.get("mode", ""))
+            opening_guidance = str(manifest.get("opening_guidance", ""))
+            mid_cta = str(manifest.get("mid_cta", ""))
+            opening_guidance_index = final_paragraphs.index(opening_guidance) if opening_guidance and opening_guidance in final_paragraphs else -1
+            mid_cta_index = final_paragraphs.index(mid_cta) if mid_cta and mid_cta in final_paragraphs else -1
             highlight_check.update({
                 "manifest": str(args.insertion_manifest),
                 "expected_segments": expected_highlights,
@@ -328,15 +393,17 @@ def main() -> int:
                 "expected_text_final_counts": final_counts,
                 "opening_guidance_paragraph_index": opening_guidance_index,
                 "mid_cta_paragraph_index": mid_cta_index,
+                "manifest_mode": manifest_mode,
             })
             if actual_compact != expected_compact:
                 errors.append("Word yellow-highlight segments do not exactly match insertion manifest")
             if any(count != 1 for count in final_counts.values()):
                 errors.append("each insertion manifest text must appear exactly once in final body")
-            if opening_guidance_index != 1:
-                errors.append("fixed opening guidance must be the paragraph immediately after the first substantive opening paragraph")
-            if mid_cta_index <= opening_guidance_index or mid_cta_index >= len(final_paragraphs) - 1:
-                errors.append("mid CTA must appear after the opening guidance and before the fixed ending")
+            if manifest_mode != "3.1_gemini_full_retention":
+                if opening_guidance_index != 1:
+                    errors.append("fixed opening guidance must be the paragraph immediately after the first substantive opening paragraph")
+                if mid_cta_index <= opening_guidance_index or mid_cta_index >= len(final_paragraphs) - 1:
+                    errors.append("mid CTA must appear after the opening guidance and before the fixed ending")
             if yellow_other_count:
                 errors.append("yellow markup found outside text runs")
             if not manifest:

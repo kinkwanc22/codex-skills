@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject a cleaned 3.1 Gemini body that still contains conversion or ending text."""
+"""Legacy audit only; current 3.1 does not require a zero-CTA Gemini body."""
 
 from __future__ import annotations
 
@@ -28,7 +28,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--report-out", type=Path)
+    parser.add_argument("--legacy-audit", action="store_true")
     args = parser.parse_args()
+    if not args.legacy_audit:
+        parser.error("legacy-only validator: current 3.1 retains Gemini CTA/account/group content; pass --legacy-audit only for an explicitly requested historical audit")
 
     text = read_text(args.input)
     hits = {

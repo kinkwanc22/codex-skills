@@ -45,7 +45,7 @@ Important rules:
 
 - Do **not** add risk suggestions.
 - Do **not** insert `[[RISKNOTE:...]]` markers.
-- For 3.1, yellow-highlight the exact Codex insertion manifest by default: one mid CTA and the fixed ending only. Scattered soft placements are forbidden. Do not highlight any source/Gemini body text or packaging text.
+- For 3.1, preserve every Gemini-returned content unit and yellow-highlight only the normalized fixed ending by default. Do not highlight any other source/Gemini body text or packaging text.
 - For non-3.1 modes, do not add yellow highlighting unless the user explicitly requests it.
 - Do **not** rewrite or sanitize risky words unless the user explicitly asks for rewriting.
 - Export the Word document directly from the final text structure above, with the title package placed before the three opening versions.
@@ -56,7 +56,7 @@ Tell the user:
 
 - Word file path.
 - Character count.
-- Confirm that no risk suggestions or `[[RISKNOTE:...]]` markers were added. For 3.1, confirm that only Codex-added conversion text is yellow-highlighted.
+- Confirm that no risk suggestions or `[[RISKNOTE:...]]` markers were added. For 3.1, confirm that Gemini content was retained and only the normalized fixed ending is yellow-highlighted.
 - If an optional viral potential review was requested, report the review result; otherwise do not add a scoring/pass-fail statement.
 
 Keep the final answer short.
@@ -79,7 +79,7 @@ Latest hard-learned rules from 2026-06-03:
 - Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Do not use `soffice`, LibreOffice, or `render_docx.py` for this Douyin copy workflow. The local `soffice` renderer can trigger a macOS crash/update dialog and interrupt the user's work. For these text-first Word deliverables, verify by checking the `.docx` zip/package structure, required headings, absence of risk markers, file size, and current timestamp instead.
-- For 3.1 specifically, do not produce a PDF or PNG preview and do not retry visual rendering. Run `scripts/validate_31_final_package.py --insertion-manifest <manifest.json>` once after Word export; its passing JSON report replaces separate final mother-topic, forbidden-term, ending, heading, body-equality, ZIP, and exact-yellow-set commands. Use `--allow-no-yellow` only for an explicitly requested clean copy.
+- For 3.1 specifically, do not produce a PDF or PNG preview and do not retry visual rendering. Run `scripts/validate_31_final_package.py --insertion-manifest <gemini-retention-manifest.json>` once after Word export; its passing JSON report verifies raw-to-final retention, terminal ending, headings, body equality, ZIP integrity, and the fixed-ending-only yellow set. Use `--allow-no-yellow` only for an explicitly requested clean copy.
 - Avoid Chinese text in script glob patterns on old Windows PowerShell. Use ASCII globs such as `*.txt` and then filter by explicit filename list or ASCII substrings related to the generated draft name.
 - When writing PowerShell helper scripts that contain Chinese filenames, prompts, or openings, save the script as UTF-8 with BOM before running it in Windows PowerShell 5.1; otherwise Chinese literals can become mojibake and break parsing or filename matching.
 - In the local Gemini terminal, do not send `/new` by default; keep the current session unless the user explicitly asks to clear context.
@@ -95,7 +95,7 @@ Latest hard-learned rules from 2026-06-03:
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
 
-- `2.5 Direct Draft` officially uses the approved 2026-07-05 batch logic: full restored 2.5 instruction block + the short `旧2.5风格参照` injection + source manuscript, with one `--isolated` request per source. Exception: canonical `3.1 Source Pre-Transplant` embeds its topic-matched terms and hard-edged direction in the rebuilt source, then uses the standard complete 2.5 block + the fixed mother-topic exact-lock block + frozen rebuilt source. Preserve raw old-2.5 conversion output, then create a separate cleaned body and exact deletion manifest. Never append the legacy style injection, free-form article supplement, CTA-free override, or variable CTA prompt in 3.1.
+- `2.5 Direct Draft` officially uses the approved 2026-07-05 batch logic: full restored 2.5 instruction block + the short `旧2.5风格参照` injection + source manuscript, with one `--isolated` request per source. Exception: canonical `3.1 Source Pre-Transplant` embeds its topic-matched terms and hard-edged direction in the rebuilt source, then uses the standard complete 2.5 block + the fixed mother-topic exact-lock block + frozen rebuilt source. Preserve all raw old-2.5 conversion output in the accepted body and normalize only the terminal fixed ending. Never append the legacy style injection, free-form article supplement, CTA-free override, or variable CTA prompt in 3.1.
 - For 3.1 output, preserve Gemini's returned aggressive language by default. Do not run a post-generation calming, de-sensationalizing, professionalizing, or safety-toning rewrite merely because the draft sounds harsh, dark, theatrical, or provocative. Only perform narrow mechanical cleanup and the final operational-boundary checks defined in `gemini-expansion.md`.
 - For 3.1 source rebuilding, begin directly with the new thesis and new points. Never restate or criticize the old source's claims to make the replacement sound stronger. Reject any rebuilt source or final draft that turns old points into a strawman through wording such as `很多男人以为`, `情感博主都在教`, `谁都能复制`, `这些话太廉价`, or a source-derived `不是A而是B` contrast.
 - 2.5 remains dark, realistic, harsh, interest-driven, power-sensitive, and conclusion-forward. Do not automatically soften it into safe psychology education, boundary management, self-management, healthy-relationship advice, or neutral communication guidance.
@@ -112,12 +112,12 @@ These rules come from the user's live workflow corrections and must override the
 - Do not open or operate the old web expansion channel in this custom skill.
 - Before every new queued 2.5 source, paste the selected full Gemini expansion instruction block, the short legacy injection, and then the original source copy ending with `【原文结束】`; run it with `--isolated`. Do not send `/new` unless explicitly requested.
 - When Gemini output is too short, send the retry instruction directly in the current terminal session for that same source.
-- After every expansion, verify length, topic relevance, and refusal/API failure text. For ordinary 2.5 and other modes, verify their required ending. For 3.1, require the opposite at the Gemini stage: no CTA, no fan-group language, no account self-introduction, and no fixed ending; Codex adds all conversion text afterward.
+- After every expansion, verify length, topic relevance, and refusal/API failure text. For ordinary 2.5 and other modes, verify their required ending. For 3.1, retain CTA, fan-group language, account self-introduction, Doubao/engagement guidance, and other Gemini content; Codex adds no conversion text and normalizes only the terminal ending.
 - If the output reuses a previous article's theme, switches topic, or comments on the source instead of expanding it, treat it as hallucination/running off-topic. For 2.5, rebuild the complete prompt and retry with `--isolated`; for other directions, follow their session rules. Do not send `/new` unless the user explicitly requests it.
 - Do not prepend any extra instructions beyond the selected full mandatory Gemini expansion instruction block and its documented direction-specific injection, unless a retry instruction is explicitly needed.
 - When processing a batch, run `viral-psych-title-wrapper` / 「爆款心理学标题包装器」 before Word export and maintain a batch title ledger to avoid repeated mechanism chains, repeated first-line concepts, and generic interchangeable titles.
 - Current title-wrapper rule: each title candidate is three lines only; do not add 完整未删减版 as a fourth title line unless the user explicitly asks to restore that older format.
-- Do not add risk suggestions during Word export. In 3.1, yellow highlight is mandatory and limited to the exact Codex insertion manifest; in other modes, do not add yellow unless explicitly requested.
+- Do not add risk suggestions during Word export. In 3.1, yellow highlight is mandatory and limited to the normalized fixed ending recorded in the retention manifest; in other modes, do not add yellow unless explicitly requested.
 - All exported documents must be renamed by the article content/topic, preferably `编号_内容标题_版本.docx`; never leave `.txt` outputs or generic names like `扩写稿-风险旁注版-时间戳.docx` as final deliverables.
 
 Latest hard-learned rules from 2026-06-03 evening:
