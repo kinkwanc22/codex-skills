@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a 3.1H prompt from the complete old 2.5 block and exact topic lock."""
+"""Build a 3.5 prompt from the complete old 2.5 block and exact topic lock."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def clean_slot(name: str, value: str) -> str:
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
     default_reference = script_dir.parent / "references" / "gemini-expansion.md"
-    default_natural_lock = script_dir.parent / "references" / "3.1H-natural-rhythm-lock.txt"
+    default_natural_lock = script_dir.parent / "references" / "3.5-natural-rhythm-lock.txt"
     parser = argparse.ArgumentParser()
     parser.add_argument("--gemini-reference", type=Path, default=default_reference)
     parser.add_argument("--frozen", required=True, type=Path)
@@ -71,12 +71,12 @@ def main() -> int:
     if not frozen:
         raise ValueError("frozen source is empty")
     if not natural_lock:
-        raise ValueError("3.1H natural rhythm lock is empty")
+        raise ValueError("3.5 natural rhythm lock is empty")
     if anchor not in frozen or public_topic not in frozen:
         raise ValueError("frozen source must contain the exact anchor and public topic")
 
     block_25 = extract_complete_25(args.gemini_reference)
-    lock = f"""【3.1H公开母题逐字锁定｜最高优先级】
+    lock = f"""【3.5公开母题逐字锁定｜最高优先级】
 本篇公开母题来自源文正文，必须逐字使用：
 母题源文句：{source_quote}
 母题锚点：{anchor}
@@ -92,7 +92,7 @@ def main() -> int:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(prompt, encoding="utf-8")
     metadata = {
-        "mode": "3.1H_codex_first_knowledge_supported",
+        "mode": "3.5_codex_first_knowledge_supported",
         "knowledge_base_used": True,
         "codex_content_invention": True,
         "gemini_reference": str(args.gemini_reference),

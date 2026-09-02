@@ -1,6 +1,6 @@
 # Public Mother-Topic Exact Lock
 
-Read this file for every male Gary rewrite, expansion, pre-transplant, finished-draft transplant, 3.1, 3.1H, 3.2, fixed-topic cycle, or knowledge-base-assisted rewrite.
+Read this file for every male Gary rewrite, expansion, pre-transplant, finished-draft transplant, 3.1, 3.5, 3.2, fixed-topic cycle, or knowledge-base-assisted rewrite.
 
 ## Non-Negotiable Rule
 

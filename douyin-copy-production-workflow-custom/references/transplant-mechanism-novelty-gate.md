@@ -1,6 +1,6 @@
 # Transplant Mechanism Novelty Gate / 换芯机制级排重门
 
-Read this file for every Gary transplant mode, including `2.5成稿换芯`, `3.1`, `3.1H`, `3.2`, and `3.3`. Apply it before the rebuilt source is frozen and before any Gemini request. This gate changes selection and route design only; it must never be appended to, summarized inside, or used to replace the complete 2.5 expansion prompt.
+Read this file for every Gary transplant mode, including `2.5成稿换芯`, `3.1`, `3.5`, `3.2`, and `3.3`. Apply it before the rebuilt source is frozen and before any Gemini request. This gate changes selection and route design only; it must never be appended to, summarized inside, or used to replace the complete 2.5 expansion prompt.
 
 ## What Counts As A Collision
 
