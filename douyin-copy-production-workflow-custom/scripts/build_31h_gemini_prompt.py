@@ -44,6 +44,7 @@ def clean_slot(name: str, value: str) -> str:
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
     default_reference = script_dir.parent / "references" / "gemini-expansion.md"
+    default_natural_lock = script_dir.parent / "references" / "3.1H-natural-rhythm-lock.txt"
     parser = argparse.ArgumentParser()
     parser.add_argument("--gemini-reference", type=Path, default=default_reference)
     parser.add_argument("--frozen", required=True, type=Path)
@@ -51,6 +52,7 @@ def main() -> int:
     parser.add_argument("--anchor", required=True)
     parser.add_argument("--public-topic", required=True)
     parser.add_argument("--promised-count", default="无固定数量")
+    parser.add_argument("--natural-lock", type=Path, default=default_natural_lock)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--metadata-out", type=Path)
     args = parser.parse_args()
@@ -65,8 +67,11 @@ def main() -> int:
         raise ValueError("public-topic must equal the anchor or occur verbatim in the source quote")
 
     frozen = args.frozen.read_text(encoding="utf-8").strip()
+    natural_lock = args.natural_lock.read_text(encoding="utf-8").strip()
     if not frozen:
         raise ValueError("frozen source is empty")
+    if not natural_lock:
+        raise ValueError("3.1H natural rhythm lock is empty")
     if anchor not in frozen or public_topic not in frozen:
         raise ValueError("frozen source must contain the exact anchor and public topic")
 
@@ -82,7 +87,7 @@ def main() -> int:
 强制片头结构中的【文案核心】必须直接使用“{public_topic}”，不得用正文内部机制、关系位置、主动权、框架感、知识卡标题、总结标签或新概念替代。
 正文内部机制只能作为该母题下面的解释和内容，不得提升为新的公开总标题，不得出现在母题之前组织全文。
 全文收束时再次逐字使用“{public_topic}”；如有数量承诺，必须完整兑现且不得增减。"""
-    prompt = f"{block_25}\n\n{lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
+    prompt = f"{block_25}\n\n{lock}\n\n{natural_lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(prompt, encoding="utf-8")
@@ -96,6 +101,8 @@ def main() -> int:
         "mother_topic_anchor": anchor,
         "mother_topic_public_wording": public_topic,
         "promised_count": promised_count,
+        "natural_lock": str(args.natural_lock),
+        "natural_lock_sha256": sha256_text(natural_lock),
         "old_2.5_prompt_sha256": sha256_text(block_25),
         "frozen_sha256": sha256_text(frozen),
         "prompt_sha256": sha256_text(prompt),
