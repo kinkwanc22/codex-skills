@@ -36,8 +36,14 @@ def load_entries(path: Path) -> list[dict]:
 
 
 def is_accepted(entry: dict) -> bool:
-    status = str(entry.get("status", ""))
-    return status.startswith("accepted") or status == "generated"
+    status = str(entry.get("status", "")).strip().lower()
+    review = str(entry.get("review_state", "")).strip().lower()
+    return (
+        status.startswith("accepted")
+        or status.startswith("generated")
+        or status.startswith("user_confirmed")
+        or "正文待确认" in review
+    )
 
 
 def entry_text(entry: dict) -> str:

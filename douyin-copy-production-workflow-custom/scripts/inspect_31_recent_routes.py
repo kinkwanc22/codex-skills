@@ -36,7 +36,15 @@ def load_entries(path: Path) -> list[dict]:
 
 
 def is_accepted(entry: dict) -> bool:
-    return str(entry.get("status", "")).startswith("accepted")
+    """Treat live generated drafts as route history for the next batch item."""
+    status = str(entry.get("status", "")).strip().lower()
+    review = str(entry.get("review_state", "")).strip().lower()
+    return (
+        status.startswith("accepted")
+        or status.startswith("generated")
+        or status.startswith("user_confirmed")
+        or "正文待确认" in review
+    )
 
 
 def entry_text(entry: dict) -> str:

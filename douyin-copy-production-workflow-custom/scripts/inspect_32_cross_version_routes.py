@@ -46,7 +46,17 @@ def load_entries(path: Path, version: str) -> list[dict]:
         raise ValueError(f"{path}: ledger must be a JSON list or an object with entries")
     result = []
     for entry in raw:
-        if isinstance(entry, dict) and str(entry.get("status", "")).startswith("accepted"):
+        if not isinstance(entry, dict):
+            continue
+        status = str(entry.get("status", "")).strip().lower()
+        review = str(entry.get("review_state", "")).strip().lower()
+        usable = (
+            status.startswith("accepted")
+            or status.startswith("generated")
+            or status.startswith("user_confirmed")
+            or "正文待确认" in review
+        )
+        if usable:
             item = dict(entry)
             item["_version"] = version
             result.append(item)
