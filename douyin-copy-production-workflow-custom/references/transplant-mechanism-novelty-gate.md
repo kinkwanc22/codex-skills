@@ -33,6 +33,12 @@ Before knowledge selection or independent route design, load:
 
 `usable` includes `generated / 正文待确认`, `accepted*`, and user-confirmed records. Do not wait for publication or final approval before excluding a route already generated in the current batch. Rejected records exclude only their failed route when the rejection reason identifies that route; they do not blacklist an entire knowledge family.
 
+### 3.5 override: complete exclusion, all statuses
+
+For 3.5 only, ignore the ordinary recent/usable window for historical 3.1. Load every discoverable 3.1 route and artifact across all statuses and production stages, including rejected, abandoned, failed, retry, proposed, and unfinished work. Also encode every substantive source-body viewpoint and mechanism as a separate exclusion record. Source and historical 3.1 mechanisms/viewpoints are fully forbidden in 3.5, even as secondary support; the only inherited elements are the public topic and its promise boundary, audience, result, attack direction, and force band.
+
+Use `--recent 0 --all-statuses --strict-zero-overlap` and pass the source record through `--exclusion-record`. The deterministic result is only a lexical/concept-field screen. Codex must separately set `semantic_zero_overlap_pass: true` after comparing each proposed point, bridge, rationale, and conclusion. Any single substantive collision rejects the whole proposal.
+
 For a batch, refresh the comparison window after every accepted/generated draft. A three-article group may share tone, but it may not share one dominant causal chain.
 
 ## Required Pre-Freeze Record
