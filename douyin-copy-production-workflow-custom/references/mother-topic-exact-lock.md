@@ -36,7 +36,7 @@ Before selecting knowledge or designing replacement content, record:
 
 The `mother_topic_anchor` must be copied from the source body, not rewritten by Codex. Keep the source's central nouns, target result, conflict object, and attack direction. Grammatical particles may be removed only when the anchor still appears as the same contiguous public wording.
 
-The source's explicit count is separate from the mother-topic lock. For current 3.1, it is a reference count rather than a fixed requirement: Codex may choose a smaller or larger final count when that produces stronger, more distinct, fully supported points. For example, a source promising twelve items may become ten. Record the source count and the selected final count separately. Once the rebuilt source is frozen, the selected count becomes binding for Gemini, openings, titles, and final validation. A count change must not change the public mother topic, target result, attack direction, or audience promise. Other modes follow their own mode-specific count rule.
+The source's explicit count is separate from the mother-topic lock. For current 3.1 and 3.5, it is a reference count rather than a fixed requirement: Codex may choose a smaller or larger final count when that produces stronger, more distinct, fully supported points. For example, a source promising twelve items may become ten. Record the source count and the selected final count separately. Once the rebuilt source is frozen, the selected count becomes binding for Gemini, openings, titles, and final validation. A count change must not change the public mother topic, target result, attack direction, or audience promise. Other modes follow their own mode-specific count rule.
 
 ## What May Change Under The Locked Topic
 

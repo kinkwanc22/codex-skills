@@ -51,6 +51,7 @@ def main() -> int:
     parser.add_argument("--mother-topic-source-quote", required=True)
     parser.add_argument("--anchor", required=True)
     parser.add_argument("--public-topic", required=True)
+    parser.add_argument("--source-promised-count", default="无固定数量")
     parser.add_argument("--promised-count", default="无固定数量")
     parser.add_argument("--natural-lock", type=Path, default=default_natural_lock)
     parser.add_argument("--output", required=True, type=Path)
@@ -60,6 +61,7 @@ def main() -> int:
     source_quote = clean_slot("mother-topic-source-quote", args.mother_topic_source_quote)
     anchor = clean_slot("anchor", args.anchor)
     public_topic = clean_slot("public-topic", args.public_topic)
+    source_promised_count = clean_slot("source-promised-count", args.source_promised_count)
     promised_count = clean_slot("promised-count", args.promised_count)
     if anchor not in source_quote:
         raise ValueError("anchor must occur verbatim in mother-topic-source-quote")
@@ -81,12 +83,13 @@ def main() -> int:
 母题源文句：{source_quote}
 母题锚点：{anchor}
 公开母题：{public_topic}
-原稿数量承诺：{promised_count}
+原稿数量参考：{source_promised_count}
+本轮成稿数量承诺：{promised_count}
 
 你的第一句必须逐字包含“{public_topic}”。
 强制片头结构中的【文案核心】必须直接使用“{public_topic}”，不得用正文内部机制、关系位置、主动权、框架感、知识卡标题、总结标签或新概念替代。
 正文内部机制只能作为该母题下面的解释和内容，不得提升为新的公开总标题，不得出现在母题之前组织全文。
-全文收束时再次逐字使用“{public_topic}”；如有数量承诺，必须完整兑现且不得增减。"""
+原稿数字不构成本轮硬锁；以“本轮成稿数量承诺”为唯一数量合同。全文收束时再次逐字使用“{public_topic}”；如本轮有数量承诺，必须完整兑现且不得临时增减。"""
     prompt = f"{block_25}\n\n{lock}\n\n{natural_lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -100,7 +103,10 @@ def main() -> int:
         "mother_topic_source_quote": source_quote,
         "mother_topic_anchor": anchor,
         "mother_topic_public_wording": public_topic,
+        "source_promised_count": source_promised_count,
         "promised_count": promised_count,
+        "selected_promised_count": promised_count,
+        "count_changed_from_source": source_promised_count != promised_count,
         "natural_lock": str(args.natural_lock),
         "natural_lock_sha256": sha256_text(natural_lock),
         "old_2.5_prompt_sha256": sha256_text(block_25),
