@@ -63,8 +63,8 @@ def main() -> int:
     promised_count = clean_slot("promised-count", args.promised_count)
     if anchor not in source_quote:
         raise ValueError("anchor must occur verbatim in mother-topic-source-quote")
-    if public_topic != anchor and public_topic not in source_quote:
-        raise ValueError("public-topic must equal the anchor or occur verbatim in the source quote")
+    if anchor not in public_topic and public_topic not in source_quote:
+        raise ValueError("public-topic must contain the exact anchor or occur verbatim in the source quote")
 
     frozen = args.frozen.read_text(encoding="utf-8").strip()
     if not frozen:
