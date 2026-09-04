@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "@org-ztku7s54/yixiaoer-cli": {
+      "name": "自媒体矩阵多平台多账号自动发布管理-蚁小二",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=yixiaoer-cli&namespace=org-ztku7s54",
+      "source": "enterprise",
+      "version": "1.0.3",
+      "namespace": {
+        "canonicalName": "@org-ztku7s54/yixiaoer-cli",
+        "displayName": "org-ztku7s54",
+        "handle": "org-ztku7s54",
+        "publicSlug": "yixiaoer-cli"
+      },
+      "internalSlug": "yixiaoer-cli",
+      "publicSlug": "yixiaoer-cli",
+      "installDir": "/Users/kin/.codex/skills/@org-ztku7s54/yixiaoer-cli"
+    }
+  }
+}
