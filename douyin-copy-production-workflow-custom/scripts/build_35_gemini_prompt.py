@@ -119,7 +119,13 @@ def main() -> int:
 文章应从公开母题“{public_topic}”自然展开男性成长、女性心理、人性规律、框架与主体性、事业或选择力；用心理机制、现实选择、能力变化和具体行为承载，不要反复解释关系类别。
 成长心理线不等于情侣经营。除非公开母题本身明确要求，不得默认把正文写成共同生活、冲突修复、责任分工、未来规划或男朋友女朋友相处守则。
 如果公开母题自然涉及关系，用该母题需要的场景证明心理或人性机制即可，不要把“长期关系”当作反复出现的总标签。"""
-    prompt = f"{block_25}\n\n{lock}\n\n{line_lock}\n\n{natural_lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
+    case_lock = """【3.5案例完整性锁｜仅在原稿包含案例时生效】
+如果原稿没有案例，不得为了套模板强行新增案例。
+如果原稿包含学员或兄弟案例，成稿必须完整保留六项：男性姓名、女性姓名、学员原始问题、Gary的具体指导/陪跑/咨询、学员执行后的行为变化、女生可观察反馈与最终成功结果。
+两个人都必须有自然姓名。虚构、复合或未经核验的案例必须在案例前逐字加入：“下面这个案例根据常见咨询情况重构，人物名称和细节均已处理。”姓名后不必重复标注“化名”。
+成功结果必须具体且与公开母题一致，例如女生主动约下一次、主动延长互动、增加投入或同意计划中的下一步；禁止只写“奇迹发生了”“成功逆袭”“彻底拿下”。
+不得删除Gary的介入，不得把成功改写成学员自己突然醒悟，也不得添加精确日期、金额、截图、咨询数量或保证性结果。Word导出时只将上述案例重构说明整句标黄。"""
+    prompt = f"{block_25}\n\n{lock}\n\n{line_lock}\n\n{case_lock}\n\n{natural_lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(prompt, encoding="utf-8")
@@ -147,6 +153,7 @@ def main() -> int:
         "natural_lock": str(args.natural_lock),
         "natural_lock_sha256": sha256_text(natural_lock),
         "content_line_lock_sha256": sha256_text(line_lock),
+        "named_case_lock_sha256": sha256_text(case_lock),
         "old_2.5_prompt_sha256": sha256_text(block_25),
         "frozen_sha256": sha256_text(frozen),
         "prompt_sha256": sha256_text(prompt),
