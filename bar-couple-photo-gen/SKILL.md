@@ -96,6 +96,8 @@ For this user's standing Gary batch preference, requests phrased as `一批`, `�
 
 The Mac batch runner is `scripts/run_gary_batch_lovart_mac.py`. It owns these technical defaults and supports an offline `--dry-run` / `--print-prompt` mode that must not read credentials, upload references, or call Lovart.
 
+On macOS, the runner resolves Lovart credentials in this order: current process environment, the current `launchctl` login environment, macOS Keychain services `codex-lovart-access-key` and `codex-lovart-secret-key`, then the user-only fallback file `~/.lovart/credentials.json`. Keep the fallback file at permission `0600`, never commit it, and keep credential values out of prompts, logs, manifests, skill files, and shell output.
+
 For local saving, group every same-character, same-request batch into one dated folder under the user's long-video image directory. Name it with a readable date, female source stem, and batch purpose, for example `2026-07-19_IMG_9757_三套横版2K`. Pass that exact folder with `--batch-dir` to every preset invocation in the batch. The visible batch-folder root must contain only the requested final images. Put manifests, current-state files, run summaries, and Lovart historical downloads under the hidden `.records` subdirectory; do not create one visible output folder per preset and do not leave historical thread images beside the current batch outputs.
 
 When the user explicitly asks for the Lovart UI `2K` size presets, or when the standing quality-stable batch profile applies, pass `--resolution-profile 2k`:

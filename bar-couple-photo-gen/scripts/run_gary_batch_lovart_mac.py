@@ -16,6 +16,11 @@ DEFAULT_PROJECT_ID = "70c9b703e8e7481487c4d452d64441dc"
 AGENT = r"/Users/kin/.codex/skills/lovart-skill/agent_skill.py"
 DEFAULT_QUALITY = "medium"
 DEFAULT_NUM_IMAGES = 1
+MAC_KEYCHAIN_SERVICES = {
+    "LOVART_ACCESS_KEY": "codex-lovart-access-key",
+    "LOVART_SECRET_KEY": "codex-lovart-secret-key",
+}
+MAC_CREDENTIAL_FILE = Path.home() / ".lovart" / "credentials.json"
 
 RESOLUTION_PROFILES = {
     "default": {
@@ -349,6 +354,29 @@ def load_lovart_env():
                 value = ""
             if value:
                 os.environ[key] = value
+        for key, service in MAC_KEYCHAIN_SERVICES.items():
+            if os.environ.get(key):
+                continue
+            try:
+                value = subprocess.run(
+                    ["security", "find-generic-password", "-s", service, "-w"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
+                    text=True,
+                    timeout=5,
+                ).stdout.strip()
+            except Exception:
+                value = ""
+            if value:
+                os.environ[key] = value
+        if not all(os.environ.get(key) for key in MAC_KEYCHAIN_SERVICES):
+            try:
+                credentials = json.loads(MAC_CREDENTIAL_FILE.read_text(encoding="utf-8"))
+            except Exception:
+                credentials = {}
+            for key in MAC_KEYCHAIN_SERVICES:
+                if not os.environ.get(key) and credentials.get(key):
+                    os.environ[key] = str(credentials[key])
         return
     try:
         import winreg
