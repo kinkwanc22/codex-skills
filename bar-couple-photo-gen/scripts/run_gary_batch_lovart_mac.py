@@ -251,6 +251,16 @@ COFFEE_CANDID_CORE = (
     "手部畸形，肢体畸形，脸部结构错误"
 )
 
+HOTEL_CORRIDOR_CCTV_CORE = (
+    "使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，"
+    "不要美化成模特或网红脸。一张极其真实的酒店安防监控摄像头截图。固定在天花板墙角的高机位监控视角，"
+    "略微向下俯拍，广角镜头。现代高档酒店的狭长走廊，暖灰色墙面，深色大理石门框，浅灰色光滑反光的大理石地面，"
+    "暖白色顶灯，走廊具有很强的纵深感。 画面下方是男主和女主正在并排走，男主的手搭在女主的肩膀上，"
+    "从后方拍摄，人物没有摆拍，没有看镜头，处于自然走路状态。 强烈的真实CCTV监控录像质感，普通安防摄像头成像，"
+    "而不是电影摄影。轻微鱼眼广角畸变，轻微监控锐化，低码率视频压缩痕迹，细微噪点，轻微运动模糊，普通自动曝光，"
+    "人物皮肤和衣服保留真实监控画面的细节损失，构图略显随意，像真实酒店监控系统随机截取的一帧。"
+)
+
 COUPLE_PILLOW_PLAY_FIRST_FRAME_CORE = (
     "生成情侣打闹视频的首帧。高级酒店套房客厅里的真实情侣手机抓拍。"
     "使用图1和图2作为人物参考，严格保持两位人物的身份、真实面貌、五官比例、发型、年龄感、体型、"
@@ -622,6 +632,18 @@ def build_coffee_prompt(aspect, settings):
     return f"{first_line}\n{COFFEE_CANDID_CORE}"
 
 
+def build_hotel_corridor_cctv_prompt(aspect, settings):
+    ratio = settings["aspect_ratio"]
+    orientation = "横版" if aspect == "16x9" else "竖版"
+    first_line = (
+        f"生成{ratio}{orientation}酒店安防监控截图，W {settings['width']} / H {settings['height']}，"
+        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+    )
+    if settings["resolution_profile"] == "2k":
+        first_line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
+    return f"{first_line}\n{HOTEL_CORRIDOR_CCTV_CORE}"
+
+
 def build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variables=None):
     first_line = build_parameter_line(aspect, settings)
     if aspect == "16x9":
@@ -693,6 +715,8 @@ def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_var
         return build_ambiguous_interaction_prompt(aspect, settings, prompt_variables)
     if prompt_preset == "coffee_candid_universal":
         return build_coffee_prompt(aspect, settings)
+    if prompt_preset == "hotel_corridor_cctv":
+        return build_hotel_corridor_cctv_prompt(aspect, settings)
     if prompt_preset == "couple_pillow_play_first_frame":
         return build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variables)
     if prompt_preset == "sofa":
@@ -744,11 +768,15 @@ def build_tasks(female_files, args):
                 target = len(selected)
             for i in range(target):
                 female_path = selected[i % len(selected)]
-                if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
+                if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
                     if args.prompt_preset == "coffee_candid_universal":
                         prompt_variables = None
                         scene = "高级餐厅"
                         interaction = "从男主后方拍摄"
+                    elif args.prompt_preset == "hotel_corridor_cctv":
+                        prompt_variables = None
+                        scene = "现代高档酒店走廊"
+                        interaction = "两人并排行走，男主的手搭在女主肩膀上"
                     elif args.prompt_preset == "couple_pillow_play_first_frame":
                         prompt_variables = choose_couple_play_variables()
                         scene = "高级酒店套房客厅"
@@ -773,11 +801,15 @@ def build_tasks(female_files, args):
 
     tasks = []
     for female_path in female_files:
-        if args.prompt_preset in {"coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
+        if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
             if args.prompt_preset == "coffee_candid_universal":
                 prompt_variables = None
                 scene = "高级餐厅"
                 interaction = "从男主后方拍摄"
+            elif args.prompt_preset == "hotel_corridor_cctv":
+                prompt_variables = None
+                scene = "现代高档酒店走廊"
+                interaction = "两人并排行走，男主的手搭在女主肩膀上"
             elif args.prompt_preset == "couple_pillow_play_first_frame":
                 prompt_variables = choose_couple_play_variables()
                 scene = "高级酒店套房客厅"
@@ -825,7 +857,7 @@ def main():
     parser.add_argument("--run-label", default="_gary_batch")
     parser.add_argument(
         "--prompt-preset",
-        choices=["photo", "sofa", "coffee_candid_universal", "couple_pillow_play_first_frame", "ambiguous_interaction"],
+        choices=["photo", "sofa", "coffee_candid_universal", "hotel_corridor_cctv", "couple_pillow_play_first_frame", "ambiguous_interaction"],
         default="photo",
     )
     parser.add_argument("--quality", choices=["auto", "low", "medium", "high"], default=DEFAULT_QUALITY)
@@ -865,6 +897,8 @@ def main():
                 scene, interaction = random.choice(SOFA_SCENES), "沙发前景抓拍"
             elif args.prompt_preset == "coffee_candid_universal":
                 scene, interaction = "高级餐厅", "从男主后方拍摄"
+            elif args.prompt_preset == "hotel_corridor_cctv":
+                scene, interaction = "现代高档酒店走廊", "两人并排行走，男主的手搭在女主肩膀上"
             elif args.prompt_preset == "couple_pillow_play_first_frame":
                 variables = choose_couple_play_variables()
                 scene, interaction = "高级酒店套房客厅", variables["body_interaction"]

@@ -36,6 +36,7 @@ Before generating Gary-series couple media, ask the user which approved prompt t
 1. `真实抓拍照片提示词` - the existing candid 9:16/16:9 phone-photo prompt used for image generation.
 2. `高级酒店酒廊沙发抓拍照片提示词` - the fixed-Gary, random-female hotel lounge sofa candid photo prompt below.
 3. `暧昧互动` - a stable-random first-person boyfriend POV preset. It randomly changes indoor, semi-outdoor, outdoor shaded scenes, time, light, position, and restrained intimate action while preserving the approved candid phone-shot feeling.
+4. `酒店走廊CCTV` - the sixth fixed batch prompt: a ceiling-corner security-camera frame of the two leads walking side by side through a high-end hotel corridor.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
@@ -161,6 +162,24 @@ Call it with:
 
 ```text
 --prompt-preset couple_pillow_play_first_frame
+```
+
+## Hotel Corridor CCTV Preset
+
+Preset id: `hotel_corridor_cctv`
+
+Chinese name: `酒店走廊CCTV`
+
+This is the sixth prompt in the user's standing Gary image batch. Use 图1 and 图2 as the two identity references. Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, quality, and image-count parameter line.
+
+```text
+使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，不要美化成模特或网红脸。一张极其真实的酒店安防监控摄像头截图。固定在天花板墙角的高机位监控视角，略微向下俯拍，广角镜头。现代高档酒店的狭长走廊，暖灰色墙面，深色大理石门框，浅灰色光滑反光的大理石地面，暖白色顶灯，走廊具有很强的纵深感。 画面下方是男主和女主正在并排走，男主的手搭在女主的肩膀上，从后方拍摄，人物没有摆拍，没有看镜头，处于自然走路状态。 强烈的真实CCTV监控录像质感，普通安防摄像头成像，而不是电影摄影。轻微鱼眼广角畸变，轻微监控锐化，低码率视频压缩痕迹，细微噪点，轻微运动模糊，普通自动曝光，人物皮肤和衣服保留真实监控画面的细节损失，构图略显随意，像真实酒店监控系统随机截取的一帧。
+```
+
+Call it with:
+
+```text
+--prompt-preset hotel_corridor_cctv
 ```
 
 ## Ambiguous Interaction Preset
