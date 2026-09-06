@@ -90,6 +90,18 @@ def main() -> int:
     if anchor not in frozen or public_topic not in frozen:
         raise ValueError("frozen source must contain the exact anchor and public topic")
 
+    frozen_cjk = len(re.findall(r"[\u4e00-\u9fff]", frozen))
+    promised_count_match = re.fullmatch(r"\d+", promised_count)
+    selected_count_for_limit = int(promised_count) if promised_count_match else 0
+    adaptive_frozen_cjk_limit = max(1800, selected_count_for_limit * 150 + 600)
+    if frozen_cjk > adaptive_frozen_cjk_limit:
+        raise ValueError(
+            "3.5 frozen source is over-developed: "
+            f"{frozen_cjk} CJK exceeds adaptive lean limit "
+            f"{adaptive_frozen_cjk_limit}; compress it to thesis, point boundaries, "
+            "essential scene constraints, and case facts/result before expansion"
+        )
+
     block_25 = extract_complete_25(args.gemini_reference)
     lock = f"""【3.5公开母题逐字锁定｜最高优先级】
 本篇公开母题来自源文正文，必须逐字使用：
@@ -156,6 +168,9 @@ def main() -> int:
         "named_case_lock_sha256": sha256_text(case_lock),
         "old_2.5_prompt_sha256": sha256_text(block_25),
         "frozen_sha256": sha256_text(frozen),
+        "frozen_cjk": frozen_cjk,
+        "adaptive_frozen_cjk_limit": adaptive_frozen_cjk_limit,
+        "lean_frozen_source_pass": frozen_cjk <= adaptive_frozen_cjk_limit,
         "prompt_sha256": sha256_text(prompt),
     }
     if args.metadata_out:
