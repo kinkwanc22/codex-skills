@@ -12,6 +12,7 @@ from pathlib import Path
 
 HEADING = "### 2.5 Direct Draft"
 SOURCE_MARKER = "【原文开始】"
+OLD_25_ENGINE_PROFILE = "old_2.5_structure_engine_v1"
 FROZEN_BACKSTAGE_FRAGMENTS = (
     "案例事实必须保留",
     "结果必须明确来自",
@@ -31,6 +32,13 @@ FROZEN_BACKSTAGE_FRAGMENTS = (
     "写作说明:",
     "段落任务：",
     "段落任务:",
+    "旧2.5结构发动机",
+    "证明载体：",
+    "证明载体:",
+    "身份位移：",
+    "身份位移:",
+    "因果层级：",
+    "因果层级:",
 )
 
 
@@ -72,6 +80,155 @@ def clean_slot(name: str, value: str) -> str:
     return value
 
 
+def load_and_validate_old_25_engine_plan(
+    path: Path,
+    *,
+    public_topic: str,
+    promised_count: str,
+    frozen: str,
+) -> tuple[dict, dict]:
+    try:
+        plan = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise ValueError(f"old-2.5 engine plan not found: {path}") from exc
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"old-2.5 engine plan is not valid JSON: {path}") from exc
+
+    errors: list[str] = []
+
+    def nonempty(value: object) -> bool:
+        return isinstance(value, str) and bool(value.strip())
+
+    if plan.get("profile") != OLD_25_ENGINE_PROFILE:
+        errors.append(f"profile must be {OLD_25_ENGINE_PROFILE}")
+    if plan.get("public_topic") != public_topic:
+        errors.append("public_topic must exactly match --public-topic")
+    if plan.get("surface_template_reuse") is not False:
+        errors.append("surface_template_reuse must be false")
+    if plan.get("rearrangement_test_pass") is not True:
+        errors.append("rearrangement_test_pass must be true")
+
+    spine = plan.get("master_memory_spine")
+    if not isinstance(spine, dict):
+        errors.append("master_memory_spine must be an object")
+        spine = {}
+    if spine.get("mode") not in ("metaphor", "recurring_causal_image"):
+        errors.append("master_memory_spine.mode must be metaphor or recurring_causal_image")
+    if spine.get("topic_native") is not True:
+        errors.append("master_memory_spine.topic_native must be true")
+    spine_anchor = spine.get("anchor")
+    if not nonempty(spine_anchor):
+        errors.append("master_memory_spine.anchor must be non-empty")
+    elif spine_anchor not in frozen:
+        errors.append("master_memory_spine.anchor must occur verbatim in the frozen source")
+
+    points = plan.get("points")
+    if not isinstance(points, list) or not points:
+        errors.append("points must be a non-empty list")
+        points = []
+    expected_count = int(promised_count) if re.fullmatch(r"\d+", promised_count) else None
+    if expected_count is not None and len(points) != expected_count:
+        errors.append(f"points must contain exactly {expected_count} records")
+    point_ids = [point.get("id") for point in points if isinstance(point, dict)]
+    if len(point_ids) != len(points) or point_ids != list(range(1, len(points) + 1)):
+        errors.append("point ids must be consecutive integers starting at 1")
+
+    proof_carriers: list[str] = []
+    for index, point in enumerate(points, start=1):
+        if not isinstance(point, dict):
+            errors.append(f"point {index} must be an object")
+            continue
+        heading = point.get("heading")
+        judgment = point.get("governing_judgment")
+        carrier = point.get("proof_carrier")
+        if not nonempty(heading):
+            errors.append(f"point {index} heading must be non-empty")
+        elif heading not in frozen:
+            errors.append(f"point {index} heading must occur verbatim in the frozen source")
+        if not nonempty(judgment):
+            errors.append(f"point {index} governing_judgment must be non-empty")
+        elif judgment not in frozen:
+            errors.append(f"point {index} governing_judgment must occur verbatim in the frozen source")
+        if not nonempty(carrier):
+            errors.append(f"point {index} proof_carrier must be non-empty")
+        else:
+            proof_carriers.append(carrier.strip())
+        if index < len(points) and not nonempty(point.get("causal_link_to_next")):
+            errors.append(f"point {index} causal_link_to_next must explain why the next point follows")
+
+    if len(proof_carriers) == len(points) and len(points) > 1:
+        repeated_adjacent = [
+            index + 1
+            for index in range(len(proof_carriers) - 1)
+            if proof_carriers[index] == proof_carriers[index + 1]
+        ]
+        if repeated_adjacent:
+            errors.append(
+                "adjacent points repeat the same proof carrier at point ids: "
+                + ", ".join(map(str, repeated_adjacent))
+            )
+        required_distinct = min(3, len(points))
+        if len(set(proof_carriers)) < required_distinct:
+            errors.append(f"proof_carrier plan needs at least {required_distinct} distinct carriers")
+
+    acts = plan.get("causal_acts")
+    if not isinstance(acts, list) or not acts:
+        errors.append("causal_acts must be a non-empty list")
+        acts = []
+    if points:
+        min_acts = 2 if len(points) >= 4 else 1
+        max_acts = min(4, len(points))
+        if not (min_acts <= len(acts) <= max_acts):
+            errors.append(f"causal_acts must contain {min_acts}-{max_acts} acts for {len(points)} points")
+    flattened_ids: list[int] = []
+    for index, act in enumerate(acts, start=1):
+        if not isinstance(act, dict):
+            errors.append(f"causal act {index} must be an object")
+            continue
+        for field in ("name", "old_belief", "escalation_role", "transition_sentence"):
+            if not nonempty(act.get(field)):
+                errors.append(f"causal act {index} {field} must be non-empty")
+        transition = act.get("transition_sentence")
+        if nonempty(transition) and transition not in frozen:
+            errors.append(f"causal act {index} transition_sentence must occur verbatim in the frozen source")
+        ids = act.get("point_ids")
+        if not isinstance(ids, list) or not ids or not all(isinstance(x, int) for x in ids):
+            errors.append(f"causal act {index} point_ids must be a non-empty integer list")
+        else:
+            flattened_ids.extend(ids)
+    if points and flattened_ids != list(range(1, len(points) + 1)):
+        errors.append("causal act point_ids must cover every point exactly once in final order")
+
+    identity = plan.get("identity_shift")
+    if not isinstance(identity, dict):
+        errors.append("identity_shift must be an object")
+        identity = {}
+    for field in ("from", "to", "anchor"):
+        if not nonempty(identity.get(field)):
+            errors.append(f"identity_shift.{field} must be non-empty")
+    identity_anchor = identity.get("anchor")
+    if nonempty(identity_anchor) and identity_anchor not in frozen:
+        errors.append("identity_shift.anchor must occur verbatim in the frozen source")
+
+    if errors:
+        raise ValueError("old-2.5 structure engine plan failed: " + "; ".join(errors))
+
+    summary = {
+        "old_25_engine_profile": plan["profile"],
+        "master_memory_spine": spine_anchor,
+        "master_memory_spine_mode": spine["mode"],
+        "causal_act_count": len(acts),
+        "causal_acts": [act["name"] for act in acts],
+        "point_count": len(points),
+        "proof_carrier_sequence": proof_carriers,
+        "distinct_proof_carrier_count": len(set(proof_carriers)),
+        "identity_shift": {"from": identity["from"], "to": identity["to"]},
+        "old_25_surface_template_reuse": False,
+        "old_25_structure_engine_pass": True,
+    }
+    return plan, summary
+
+
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
     default_reference = script_dir.parent / "references" / "gemini-expansion.md"
@@ -79,6 +236,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--gemini-reference", type=Path, default=default_reference)
     parser.add_argument("--frozen", required=True, type=Path)
+    parser.add_argument(
+        "--engine-plan",
+        required=True,
+        type=Path,
+        help="Backstage old-2.5 structure-engine plan for the selected 3.5 route.",
+    )
     parser.add_argument("--mother-topic-source-quote", required=True)
     parser.add_argument("--anchor", required=True)
     parser.add_argument("--public-topic", required=True)
@@ -139,6 +302,13 @@ def main() -> int:
             "essential scene constraints, and case facts/result before expansion"
         )
 
+    engine_plan, engine_summary = load_and_validate_old_25_engine_plan(
+        args.engine_plan,
+        public_topic=public_topic,
+        promised_count=promised_count,
+        frozen=frozen,
+    )
+
     block_25_original = extract_complete_25(args.gemini_reference)
     block_25 = adapt_25_length_for_35(block_25_original)
     lock = f"""【3.5公开母题逐字锁定｜最高优先级】
@@ -189,6 +359,11 @@ def main() -> int:
         "codex_content_invention": True,
         "gemini_reference": str(args.gemini_reference),
         "frozen": str(args.frozen),
+        "old_25_engine_plan": str(args.engine_plan),
+        "old_25_engine_plan_sha256": sha256_text(
+            json.dumps(engine_plan, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        ),
+        **engine_summary,
         "mother_topic_source_quote": source_quote,
         "mother_topic_anchor": anchor,
         "mother_topic_public_wording": public_topic,
