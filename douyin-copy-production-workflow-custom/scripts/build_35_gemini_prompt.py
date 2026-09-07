@@ -17,6 +17,20 @@ FROZEN_BACKSTAGE_FRAGMENTS = (
     "结果必须明确来自",
     "这就是Gary咨询后调整带来的明确结果",
     "成功结果必须具体",
+    "总判断：",
+    "总判断:",
+    "收束：",
+    "收束:",
+    "开头逻辑：",
+    "开头逻辑:",
+    "核心总结：",
+    "核心总结:",
+    "结尾总结：",
+    "结尾总结:",
+    "写作说明：",
+    "写作说明:",
+    "段落任务：",
+    "段落任务:",
 )
 
 
@@ -109,7 +123,7 @@ def main() -> int:
     frozen_backstage_leaks = [x for x in FROZEN_BACKSTAGE_FRAGMENTS if x in frozen]
     if frozen_backstage_leaks:
         raise ValueError(
-            "3.5 frozen source contains acceptance language that may leak into narration: "
+            "3.5 frozen source contains backstage or editorial language that may leak into narration: "
             + ", ".join(frozen_backstage_leaks)
         )
 
@@ -157,6 +171,7 @@ def main() -> int:
 如果公开母题自然涉及关系，用该母题需要的场景证明心理或人性机制即可，不要把“长期关系”当作反复出现的总标签。"""
     case_lock = """【3.5案例完整性锁｜仅在原稿包含案例时生效】
 如果原稿没有案例，不得为了套模板强行新增案例。
+如果原稿包含“此处植入案例。”，这代表只锁定案例位置，不锁定案例内容。成稿必须删除该占位语，在原位置先加入固定案例重构说明，再完整生成一个与本篇机制贴合的案例。
 如果原稿包含学员或兄弟案例，成稿必须完整保留六项：男性姓名、女性姓名、学员原始问题、Gary的具体指导/陪跑/咨询、学员执行后的行为变化、女生可观察反馈与最终成功结果。
 两个人都必须有自然姓名。虚构、复合或未经核验的案例必须在案例前逐字加入：“下面这个案例根据常见咨询情况重构，人物名称和细节均已处理。”姓名后不必重复标注“化名”。
 案例说明后的第一句必须自然交代人物背景：男主什么时候来找Gary、当时和女方推进到哪一步，并保留原稿提供的职业、城市、年龄段或认识方式中的至少一个细节。不得把它压缩成“有个兄弟来找我咨询”，也不得自行补充精确日期、金额或可核验履历。
