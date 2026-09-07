@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -34,6 +35,16 @@ DEFAULT_REQUIRED_HEADINGS = [
     "开头版本四：原文开头优化版（贴合正文）",
     "正文",
 ]
+REDUNDANT_ADVERB_TERMS = ("极其", "非常", "十分", "相当", "无比", "格外", "极度")
+REDUNDANT_ADVERB_PATTERNS = {
+    "极其": re.compile(r"极其"),
+    "非常": re.compile(r"非常"),
+    "十分": re.compile(r"十分(?!之)"),
+    "相当": re.compile(r"相当(?!于)"),
+    "无比": re.compile(r"无比"),
+    "格外": re.compile(r"格外"),
+    "极度": re.compile(r"极度"),
+}
 
 
 def compact(value: str) -> str:
@@ -42,6 +53,35 @@ def compact(value: str) -> str:
 
 def cjk_count(value: str) -> int:
     return len(re.findall(r"[\u3400-\u4dbf\u4e00-\u9fff]", value))
+
+
+def remove_tracked_adverbs(value: str) -> str:
+    for pattern in REDUNDANT_ADVERB_PATTERNS.values():
+        value = pattern.sub("", value)
+    return value
+
+
+def redundant_adverb_check(value: str, cjk: int) -> dict[str, object]:
+    counts = {
+        term: len(REDUNDANT_ADVERB_PATTERNS[term].findall(value))
+        for term in REDUNDANT_ADVERB_TERMS
+    }
+    per_term_limit = max(2, math.ceil(cjk / 2500))
+    combined_limit = max(5, math.ceil(cjk / 800))
+    over_limit_terms = {
+        term: count for term, count in counts.items() if count > per_term_limit
+    }
+    combined_count = sum(counts.values())
+    return {
+        "tracked_terms": list(REDUNDANT_ADVERB_TERMS),
+        "counts": counts,
+        "per_term_limit": per_term_limit,
+        "combined_count": combined_count,
+        "combined_limit": combined_limit,
+        "over_limit_terms": over_limit_terms,
+        "pass": not over_limit_terms and combined_count <= combined_limit,
+        "note": "Deterministic ceiling only; contextual review must still preserve force-bearing adverbs.",
+    }
 
 
 def read_docx_package(path: Path) -> tuple[list[str], str, list[str]]:
@@ -159,6 +199,33 @@ def load_insertion_manifest(
                 raise ValueError(f"mechanical repair {index} must have nonempty before/after strings")
             if expected.count(before) != 1:
                 raise ValueError(f"mechanical repair {index} before text must occur exactly once")
+            removed_adverbs = {
+                term: len(REDUNDANT_ADVERB_PATTERNS[term].findall(before))
+                - len(REDUNDANT_ADVERB_PATTERNS[term].findall(after))
+                for term in REDUNDANT_ADVERB_TERMS
+                if len(REDUNDANT_ADVERB_PATTERNS[term].findall(before))
+                > len(REDUNDANT_ADVERB_PATTERNS[term].findall(after))
+            }
+            added_adverbs = {
+                term: len(REDUNDANT_ADVERB_PATTERNS[term].findall(after))
+                - len(REDUNDANT_ADVERB_PATTERNS[term].findall(before))
+                for term in REDUNDANT_ADVERB_TERMS
+                if len(REDUNDANT_ADVERB_PATTERNS[term].findall(after))
+                > len(REDUNDANT_ADVERB_PATTERNS[term].findall(before))
+            }
+            if removed_adverbs:
+                if repair.get("repair_type") != "redundant_adverb_removal":
+                    raise ValueError(
+                        f"mechanical repair {index} removes tracked adverbs but lacks repair_type redundant_adverb_removal"
+                    )
+                if remove_tracked_adverbs(before) != remove_tracked_adverbs(after):
+                    raise ValueError(
+                        f"mechanical repair {index} changes text beyond tracked redundant-adverb removal"
+                    )
+                if added_adverbs:
+                    raise ValueError(
+                        f"mechanical repair {index} replaces a tracked adverb instead of only deleting empty occurrences"
+                    )
             expected = expected.replace(before, after, 1)
         if not isinstance(terminal_before, str) or not terminal_before:
             raise ValueError("retention manifest terminal_ending_before must be a nonempty string")
@@ -293,6 +360,13 @@ def main() -> int:
         errors.append("final body does not end with the exact ending")
     if final_text.count(args.exact_ending) != 1:
         errors.append("final body must contain the exact ending exactly once")
+
+    adverb_check = redundant_adverb_check(final_text, final_cjk)
+    checks["redundant_adverb_discipline"] = adverb_check
+    if not adverb_check["pass"]:
+        errors.append(
+            "redundant adverb density exceeds formal 3.1 ceilings; remove only contextually empty repetitions and record exact repairs"
+        )
 
     built_in_forbidden = ["[[RISKNOTE:"] if retention_mode else DEFAULT_FORBIDDEN_TERMS
     forbidden_terms = list(dict.fromkeys(built_in_forbidden + args.forbidden_term))
