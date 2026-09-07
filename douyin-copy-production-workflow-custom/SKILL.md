@@ -17,6 +17,8 @@ Produce final `.docx` files that contain:
 4. `开头版本三：保留原文开头（来自源文档）`
 5. `正文`
 
+This is the general/default package. For 3.5, the user's current rule overrides it: the Word contains only `热门开头匹配` and `正文`. Do not include a title package, visible title page, multiple opening versions, the verbatim source opening, or an optimized-source-opening section in a 3.5 Word.
+
 Do not add risk suggestions or `[[RISKNOTE:...]]` markers. For 3.1, preserve all Gemini-returned content. Do not delete its Doubao/AI-summary guidance, engagement prompts, fan-group conversion, account language, examples, strong wording, or other content. The only mandatory content replacement is the terminal ending, which must be normalized to `我是探花Gary，我们粉丝群里见，感谢观看。` Source/Gemini body text remains unhighlighted; by default highlight only the normalized fixed ending in yellow.
 
 ## Default Paths
@@ -148,14 +150,16 @@ For `2.9 Fusion Draft`, the user's current rule overrides that generic default: 
 
 Read `references/openings-and-titles.md`.
 
-For every accepted article, execute these subskills in order:
+For every accepted article except 3.5, execute these subskills in order:
 
 1. Invoke `baokuan-kaitou-sheding` / `$爆款开头设定` and use its approved learned opening forms as the source of truth for `开头版本一：高阶认知课式开头` and `开头版本二：身份点名式硬核学习开头`. Do not hand-write generic openings from memory.
 2. Extract `开头版本三：保留原文开头（来自源文档）` from the source document without rewriting it.
-   - For 3.1 and 3.5, also add `开头版本四：原文开头优化版（贴合正文）` according to the active mode reference. Keep version three verbatim and keep version four separate from the accepted body.
+   - For 3.1, also add `开头版本四：原文开头优化版（贴合正文）` according to the active mode reference. Keep version three verbatim and keep version four separate from the accepted body.
 3. Score versions one and two with the mandatory 20-point opening gate; rewrite with `baokuan-kaitou-sheding` until both pass.
 4. Invoke `viral-psych-title-wrapper` / `$爆款心理学标题包装器` for the title package. Generate 10 three-line candidates, strongest 3, and recommendation reason.
 5. Maintain a batch title ledger to avoid duplicate mechanism chains or generic interchangeable titles.
+
+For 3.5, skip this title/four-opening package. Match the finished mother topic and body to the user-provided popular-opening library. Use the best direct match; when no direct match exists, adapt the closest opening while preserving its hook mechanism and aligning every claim, number, audience, and result with the current body. Save the chosen source-opening ID, match rationale, and edits in the run record outside the Word. Put only the final matched/adapted opening under `热门开头匹配`, followed by `正文`.
 
 ### 5. Export Clean Word Documents
 
@@ -165,7 +169,7 @@ Export final `.docx` files to the current dual-device synced workflow folder (`/
 
 Before final delivery, verify each `.docx` contains the required headings and has no risk suggestions or `[[RISKNOTE:...]]` markers. For 3.1, also verify the yellow-highlight set contains only the normalized fixed ending and exactly matches the Gemini-retention manifest.
 
-For 3.1 and 3.5, do not run LibreOffice, `soffice`, PDF conversion, PNG rendering, or `render_docx.py`. Formal 3.1 saves the existing Gemini-retention manifest and runs `scripts/validate_31_final_package.py`. For 3.5, save the raw/final hashes, exact `case_fact_repairs`, terminal ending replacement, heading/body checks, final CJK count, truncation check, ZIP integrity, file size, and timestamp in its run package. Never mark a final body under 4000 Chinese characters or missing promised points/the fixed ending as passed. Highlight the normalized fixed ending and, when an unverified/fictional/composite case is used, the exact disclosure sentence `下面这个案例根据常见咨询情况重构，人物名称和细节均已处理。`; keep all other body text unhighlighted unless the user requests a clean copy.
+For 3.1 and 3.5, do not run LibreOffice, `soffice`, PDF conversion, PNG rendering, or `render_docx.py`. Formal 3.1 saves the existing Gemini-retention manifest and runs `scripts/validate_31_final_package.py`. For 3.5, save the raw/final hashes, exact `case_fact_repairs`, terminal ending replacement, opening-library source ID/match/edit record, exact two-heading check, final CJK count, truncation check, ZIP integrity, file size, and timestamp in its run package. Never mark a final body under 4000 Chinese characters or missing promised points/the fixed ending as passed. A 3.5 Word must contain exactly `热门开头匹配` and `正文` as its content sections and must not contain the old title or opening-version package. Highlight the normalized fixed ending and, when an unverified/fictional/composite case is used, the exact disclosure sentence `下面这个案例根据常见咨询情况重构，人物名称和细节均已处理。`; keep all other body text unhighlighted unless the user requests a clean copy.
 
 ### 6. Final Reply
 
