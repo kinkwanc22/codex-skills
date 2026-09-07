@@ -12,6 +12,12 @@ from pathlib import Path
 
 HEADING = "### 2.5 Direct Draft"
 SOURCE_MARKER = "【原文开始】"
+FROZEN_BACKSTAGE_FRAGMENTS = (
+    "案例事实必须保留",
+    "结果必须明确来自",
+    "这就是Gary咨询后调整带来的明确结果",
+    "成功结果必须具体",
+)
 
 
 def sha256_text(text: str) -> str:
@@ -30,6 +36,17 @@ def extract_complete_25(reference: Path) -> str:
     if not block.endswith(SOURCE_MARKER):
         raise ValueError(f"2.5 block must end with {SOURCE_MARKER}")
     return block[: -len(SOURCE_MARKER)].rstrip()
+
+
+def adapt_25_length_for_35(block: str) -> str:
+    """Keep the 2.5 surface while giving lean 3.5 one consistent length contract."""
+    old_target = "必须极其深入地剖析，正文目标 6000-8000 个中文字符。"
+    new_target = "必须深入地剖析，正文目标 4200-5200 个中文字符。"
+    old_floor = "如果正文不足 7000 个中文字符，继续扩写，不要提前结束。"
+    new_floor = "如果正文不足 4000 个中文字符，继续扩写，不要提前结束；超过4200后以完整和自然为先，不要重复灌水。"
+    if block.count(old_target) != 1 or block.count(old_floor) != 1:
+        raise ValueError("unexpected 2.5 length contract; update the 3.5 adapter explicitly")
+    return block.replace(old_target, new_target).replace(old_floor, new_floor)
 
 
 def clean_slot(name: str, value: str) -> str:
@@ -89,6 +106,12 @@ def main() -> int:
         raise ValueError("3.5 natural rhythm lock is empty")
     if anchor not in frozen or public_topic not in frozen:
         raise ValueError("frozen source must contain the exact anchor and public topic")
+    frozen_backstage_leaks = [x for x in FROZEN_BACKSTAGE_FRAGMENTS if x in frozen]
+    if frozen_backstage_leaks:
+        raise ValueError(
+            "3.5 frozen source contains acceptance language that may leak into narration: "
+            + ", ".join(frozen_backstage_leaks)
+        )
 
     frozen_cjk = len(re.findall(r"[\u4e00-\u9fff]", frozen))
     promised_count_match = re.fullmatch(r"\d+", promised_count)
@@ -102,7 +125,8 @@ def main() -> int:
             "essential scene constraints, and case facts/result before expansion"
         )
 
-    block_25 = extract_complete_25(args.gemini_reference)
+    block_25_original = extract_complete_25(args.gemini_reference)
+    block_25 = adapt_25_length_for_35(block_25_original)
     lock = f"""【3.5公开母题逐字锁定｜最高优先级】
 本篇公开母题来自源文正文，必须逐字使用：
 母题源文句：{source_quote}
@@ -136,6 +160,7 @@ def main() -> int:
 如果原稿包含学员或兄弟案例，成稿必须完整保留六项：男性姓名、女性姓名、学员原始问题、Gary的具体指导/陪跑/咨询、学员执行后的行为变化、女生可观察反馈与最终成功结果。
 两个人都必须有自然姓名。虚构、复合或未经核验的案例必须在案例前逐字加入：“下面这个案例根据常见咨询情况重构，人物名称和细节均已处理。”姓名后不必重复标注“化名”。
 成功结果必须直接用与公开母题一致的可观察行为呈现，例如女生主动约下一次、主动延长互动、增加投入或同意计划中的下一步。成稿禁止讨论结果写得是否空洞、禁止引用内部反例、禁止解释案例验收规则或作者为什么这样写。
+案例结果必须通过前文的咨询、执行变化和女人反馈自然呈现。禁止在结果后追加总结咨询归因、强调验收合规或解释案例规则的句子。
 不得删除Gary的介入，不得把成功改写成学员自己突然醒悟，也不得添加精确日期、金额、截图、咨询数量或保证性结果。Word导出时只将上述案例重构说明整句标黄。"""
     prompt = f"{block_25}\n\n{lock}\n\n{line_lock}\n\n{case_lock}\n\n{natural_lock}\n\n{SOURCE_MARKER}\n{frozen}\n【原文结束】\n"
 
@@ -166,11 +191,15 @@ def main() -> int:
         "natural_lock_sha256": sha256_text(natural_lock),
         "content_line_lock_sha256": sha256_text(line_lock),
         "named_case_lock_sha256": sha256_text(case_lock),
-        "old_2.5_prompt_sha256": sha256_text(block_25),
+        "old_2.5_prompt_sha256": sha256_text(block_25_original),
+        "effective_3.5_expansion_prompt_sha256": sha256_text(block_25),
+        "final_cjk_hard_minimum": 4000,
+        "final_cjk_preferred_range": [4200, 5200],
         "frozen_sha256": sha256_text(frozen),
         "frozen_cjk": frozen_cjk,
         "adaptive_frozen_cjk_limit": adaptive_frozen_cjk_limit,
         "lean_frozen_source_pass": frozen_cjk <= adaptive_frozen_cjk_limit,
+        "frozen_backstage_language_pass": not frozen_backstage_leaks,
         "prompt_sha256": sha256_text(prompt),
     }
     if args.metadata_out:
