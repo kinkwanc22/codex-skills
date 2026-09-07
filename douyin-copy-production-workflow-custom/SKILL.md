@@ -21,6 +21,10 @@ This is the general/default package. For 3.5, the user's current rule overrides 
 
 Do not add risk suggestions or `[[RISKNOTE:...]]` markers. For 3.1, preserve all Gemini-returned content. Do not delete its Doubao/AI-summary guidance, engagement prompts, fan-group conversion, account language, examples, strong wording, or other content. The only mandatory content replacement is the terminal ending, which must be normalized to `我是探花Gary，我们粉丝群里见，感谢观看。` Source/Gemini body text remains unhighlighted; by default highlight only the normalized fixed ending in yellow.
 
+## Gary 3.5情感账号归属锁
+
+Gary的成长/心理线仍属于情感账号。隐藏标题后，核心论证必须依赖女人、吸引、男女互动或关系位置；拿掉情感关系仍成立的泛男性成长、事业或自律路线直接判定跑题。事业、金钱、自律只能解释它们如何改变吸引判断或男女关系中的选择与位置，不能成为独立中心。仅插入女人字眼或一个约会案例不能补救。 在三候选路线选择前和扩写后各审一次，记录语义证据，不用关键词数量代替判断。《一个男人真正翻身之前，必须经历的十八次现实改造》的旧测试已被用户否定，不可作为合格语感或路线样本。
+
 ## Default Paths
 
 - Assistant source folders are often under `/Users/kin/工作用（同步）/素材文稿/助理采集文案/` on Mac or `D:\工作用（同步）\素材文稿\助理采集文案\` on Windows; old `E:\工作用\素材文稿\助理采集文案\` is legacy-only.
