@@ -13,11 +13,56 @@ Do not use old generic hook templates. Only use opening forms that the user has 
 
 When writing openings:
 
-1. First identify which learned opening form fits the user's topic.
-2. Fill the variables in that form.
-3. Preserve the original rhythm and sentence order of the learned form.
-4. Do not invent a new structure unless the user asks for a new form.
-5. If no learned form fits, say which part is missing and ask the user for the next form or permission to adapt.
+1. For current Gary/3.5 popular-opening work, use the active W/K/R modular system below. Match the audience desire engine before topic similarity.
+2. For an explicitly requested legacy opening form, use that learned form and preserve its fixed rhythm.
+3. Keep the opening compact and spoken. Do not turn the hook into an explanatory introduction.
+4. Keep the promised count and causal result true to the finished body.
+
+## Active Gary W/K/R Opening System - 2026-09-07
+
+This is the active system when the user asks for a current Gary popular opening or a 3.5 opening match. It overrides the old rule that every opening must preserve one source sentence order.
+
+Build three independent cards before writing:
+
+- **W — weakness/desire entry**: a woman's hidden weakness, desire, instinct, contradiction, selection loophole, or the man's immediate pain. It may be a provocative dark judgment rather than a neutral explanation.
+- **K — low-friction key**: a small, learnable key such as `只要`, `记住`, `掌握`, `看懂`, a limited number of words, steps, switches, rules, or operations.
+- **R — male dark reward**: the concrete payoff that hits male curiosity, lust, conquest, control, laziness, status hunger, revenge, or a lowbrow but platform-usable double meaning.
+
+The cards may appear in any order: `W-K-R`, `W-R-K`, `K-W-R`, `K-R-W`, `R-W-K`, or `R-K-W`. Put the strongest card first:
+
+- Lead with W when the female weakness, taboo, or contrarian judgment is most curious.
+- Lead with K when the small method or limited count makes the result feel unusually easy and collectible.
+- Lead with R when the observable result is the strongest fantasy or pain reversal.
+- The topic declaration such as `今天我们要聊的是` comes after the hook and does not count as one of the three cards.
+
+### Desire-trigger vocabulary
+
+Choose one primary trigger and usually one secondary trigger. Do not force all six into every opening.
+
+- **Curiosity**: 隐秘, 不会承认, 真正秘密, 潜意识, 另一面, 底层开关.
+- **Lust**: 生理欲望, 本能反应, 身体诚实, 无法抵抗, 欲望名单, 上头.
+- **Darkness**: 弱点, 漏洞, 筛选机制, 黑暗规则, 隐形权力, 欲望操盘.
+- **Laziness/shortcut**: 只要, 记住几句, 三个步骤, 一个动作, 最短时间, 直接跳过.
+- **Lowbrow double meaning**: 进入她, 打开开关, 给你留门, 贴上来, 嘴上拒绝身体诚实. Keep it suggestive and instantly understood rather than explicit.
+- **Control/status**: 跟随节奏, 交出推进权, 围绕你运转, 主动补位, 反过来追你, 从被动挨打到掌控.
+
+Prefer observable payoff verbs: `主动靠近`, `主动延长`, `主动回流`, `主动投入`, `主动制造下一次机会`, `从冷淡变主动`, `反过来推进关系`. Do not let weak promises such as `看懂女性心理`, `提升男女认知`, `改善相处模式`, `学会正确表达`, or `理解底层逻辑` carry the hook by themselves.
+
+### Construction and acceptance
+
+1. Extract W, K, and R separately from the finished article. If the article lacks one card, adapt the nearest approved popular-opening engine without inventing a result the body cannot support.
+2. Choose the primary male desire endpoint first, then the female weakness/man's pain and the low-friction key. Topic similarity is a tie-breaker, not the first match criterion.
+3. Use two or three short clauses before the topic declaration. The abstract layer belongs in a few charged nouns such as `欲望名单`, `隐形权力`, or `筛选机制`, not in a long theoretical explanation.
+4. The first 20 Chinese characters should trigger at least one of curiosity, lust, darkness, laziness, lowbrow double meaning, control, status conflict, or risk.
+5. Before the topic declaration, use at least two compatible desire triggers and include either a low-friction key or a concrete result promise.
+6. Keep exact numbers aligned with the正文. The正文 must pay off the promised mechanism and result early enough that the opening does not feel detached.
+7. Across adjacent articles, vary the primary trigger, card order, key noun, and result verbs. Do not repeat one shell merely by changing the topic and count.
+
+Compact approved pattern:
+
+```text
+男人想真正进入一个女人，最先要进入的不是她的生活，而是她的欲望名单。只要掌握这六个欲望开关，你就能跳过漫长的条件考核，让她身体比嘴更诚实，主动向你靠近。
+```
 
 ## Global Variable Style
 

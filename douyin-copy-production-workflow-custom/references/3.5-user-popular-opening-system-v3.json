@@ -1,0 +1,70 @@
+{
+  "library_name": "探花Gary_3.5热门开头系统_v3",
+  "status": "active",
+  "approved_at": "2026-09-07",
+  "modules": {
+    "W": "女人的弱点、欲望、本能、矛盾、选择漏洞，或男人的直接痛点",
+    "K": "只要、记住、掌握、看懂，加有限数量的话术、步骤、开关、规则或操作",
+    "R": "击中男人好奇、色欲、阴暗、懒惰、低俗双关兴趣、征服欲、掌控欲或地位欲的具体结果"
+  },
+  "allowed_permutations": [
+    "W-K-R",
+    "W-R-K",
+    "K-W-R",
+    "K-R-W",
+    "R-W-K",
+    "R-K-W"
+  ],
+  "match_priority": [
+    "male_desire_endpoint",
+    "woman_weakness_or_male_pain",
+    "low_friction_key",
+    "v1_desire_engine_and_reward_shape",
+    "topic_similarity_tiebreaker"
+  ],
+  "score_weights": {
+    "desire_engine_match": 25,
+    "male_dark_reward_strength": 25,
+    "first_line_trigger_strength": 20,
+    "low_friction_key_strength": 15,
+    "body_payoff_support": 10,
+    "topic_surface_similarity": 5
+  },
+  "trigger_groups": [
+    "好奇",
+    "色欲",
+    "阴暗",
+    "懒惰",
+    "低俗双关",
+    "掌控与地位"
+  ],
+  "acceptance": {
+    "first_20_cjk_has_trigger": true,
+    "minimum_compatible_triggers_before_topic": 2,
+    "requires_key_or_reward_before_topic": true,
+    "preferred_pre_topic_clause_count": "2-3",
+    "exact_count_matches_body": true,
+    "result_supported_by_body": true,
+    "topic_declaration_is_separate": true,
+    "adjacent_shell_rotation_required": true
+  },
+  "run_record_fields": [
+    "v1_source_id",
+    "v1_family",
+    "W_card",
+    "K_card",
+    "R_card",
+    "permutation",
+    "primary_trigger",
+    "secondary_trigger",
+    "score",
+    "match_rationale",
+    "final_opening_sha256"
+  ],
+  "word_contract": {
+    "heading": "热门开头匹配",
+    "private_analysis_excluded": true,
+    "replacement_boundary": "第一个精确的另外说一下之前",
+    "preserve_marker_and_following_body": true
+  }
+}
