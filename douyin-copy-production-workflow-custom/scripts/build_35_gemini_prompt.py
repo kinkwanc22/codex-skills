@@ -293,12 +293,15 @@ def main() -> int:
     frozen_cjk = len(re.findall(r"[\u4e00-\u9fff]", frozen))
     promised_count_match = re.fullmatch(r"\d+", promised_count)
     selected_count_for_limit = int(promised_count) if promised_count_match else 0
-    adaptive_frozen_cjk_limit = max(1800, selected_count_for_limit * 150 + 600)
+    adaptive_frozen_cjk_limit = min(
+        1999, max(1800, selected_count_for_limit * 150 + 600)
+    )
     if frozen_cjk > adaptive_frozen_cjk_limit:
         raise ValueError(
             "3.5 frozen source is over-developed: "
             f"{frozen_cjk} CJK exceeds adaptive lean limit "
-            f"{adaptive_frozen_cjk_limit}; compress it to thesis, point boundaries, "
+            f"{adaptive_frozen_cjk_limit}; every frozen source must stay below 2000 CJK. "
+            "Compress it to thesis, point boundaries, "
             "essential scene constraints, and case facts/result before expansion"
         )
 
