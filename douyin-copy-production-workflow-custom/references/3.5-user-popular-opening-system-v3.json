@@ -2,11 +2,18 @@
   "library_name": "探花Gary_3.5热门开头系统_v3",
   "status": "active",
   "approved_at": "2026-09-07",
+  "updated_at": "2026-09-08",
   "modules": {
     "W": "女人的弱点、欲望、本能、矛盾、选择漏洞，或男人的直接痛点",
     "K": "只要、记住、掌握、看懂，加有限数量的话术、步骤、开关、规则或操作",
-    "R": "击中男人好奇、色欲、阴暗、懒惰、低俗双关兴趣、征服欲、掌控欲或地位欲的具体结果"
+    "R": "把正文证据压成自然口语的刺激性结果，击中男人的好奇、色欲、阴暗、懒惰与掌控欲"
   },
+  "evidence_compression_chain": [
+    "正文里的可观察行为",
+    "行为背后的隐秘变化",
+    "男人真正想得到的体验",
+    "自然口语的刺激性结果"
+  ],
   "allowed_permutations": [
     "W-K-R",
     "W-R-K",
@@ -40,12 +47,27 @@
   ],
   "acceptance": {
     "first_20_cjk_has_trigger": true,
-    "minimum_compatible_triggers_before_topic": 2,
-    "requires_key_or_reward_before_topic": true,
-    "preferred_pre_topic_clause_count": "2-3",
+    "maximum_sentences": 2,
+    "preferred_cjk_range": [80, 130],
+    "required_semantic_effects_for_short_term": [
+      "好奇",
+      "色欲",
+      "阴暗",
+      "懒惰",
+      "掌控欲"
+    ],
+    "lowbrow_double_meaning_optional": true,
+    "maximum_packaged_high_stimulation_terms": 1,
+    "concrete_scene_similes_forbidden": true,
+    "body_evidence_lists_forbidden": true,
+    "strongest_reward_at_end": true,
+    "topic_declaration_may_be_in_second_sentence": true,
+    "natural_spoken_language_gate": true,
+    "course_catalog_compounds_rejected": true,
     "exact_count_matches_body": true,
-    "result_supported_by_body": true,
-    "topic_declaration_is_separate": true,
+    "abstract_reward_semantically_supported_by_body": true,
+    "guaranteed_obedience_or_possession_forbidden": true,
+    "same_topic_ab_shared_opening": true,
     "adjacent_shell_rotation_required": true
   },
   "run_record_fields": [
@@ -55,8 +77,9 @@
     "K_card",
     "R_card",
     "permutation",
-    "primary_trigger",
-    "secondary_trigger",
+    "evidence_compression_chain",
+    "five_trigger_coverage",
+    "sole_packaged_term",
     "score",
     "match_rationale",
     "final_opening_sha256"

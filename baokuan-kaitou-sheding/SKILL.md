@@ -26,18 +26,18 @@ Build three independent cards before writing:
 
 - **W — weakness/desire entry**: a woman's hidden weakness, desire, instinct, contradiction, selection loophole, or the man's immediate pain. It may be a provocative dark judgment rather than a neutral explanation.
 - **K — low-friction key**: a small, learnable key such as `只要`, `记住`, `掌握`, `看懂`, a limited number of words, steps, switches, rules, or operations.
-- **R — male dark reward**: the concrete payoff that hits male curiosity, lust, conquest, control, laziness, status hunger, revenge, or a lowbrow but platform-usable double meaning.
+- **R — male dark reward**: compress the body's concrete evidence into one stimulating, natural spoken result such as `让她为你失守` or `拿到她身心的入口`. Do not list the body's replies, disclosures, callbacks, or scheduling actions in the hook.
 
 The cards may appear in any order: `W-K-R`, `W-R-K`, `K-W-R`, `K-R-W`, `R-W-K`, or `R-K-W`. Put the strongest card first:
 
 - Lead with W when the female weakness, taboo, or contrarian judgment is most curious.
 - Lead with K when the small method or limited count makes the result feel unusually easy and collectible.
 - Lead with R when the observable result is the strongest fantasy or pain reversal.
-- The topic declaration such as `今天我们要聊的是` comes after the hook and does not count as one of the three cards.
+- The topic declaration such as `今天我们要聊的是` may be folded into the second sentence. It does not require a separate third sentence.
 
 ### Desire-trigger vocabulary
 
-Choose one primary trigger and usually one secondary trigger. Do not force all six into every opening.
+For current Gary short-term openings, create the semantic effect of curiosity, lust, darkness, laziness, and control together within two sentences. One effect may dominate, and lowbrow double meaning remains optional. Do not satisfy this by stacking the literal vocabulary labels.
 
 - **Curiosity**: 隐秘, 不会承认, 真正秘密, 潜意识, 另一面, 底层开关.
 - **Lust**: 生理欲望, 本能反应, 身体诚实, 无法抵抗, 欲望名单, 上头.
@@ -46,23 +46,34 @@ Choose one primary trigger and usually one secondary trigger. Do not force all s
 - **Lowbrow double meaning**: 进入她, 打开开关, 给你留门, 贴上来, 嘴上拒绝身体诚实. Keep it suggestive and instantly understood rather than explicit.
 - **Control/status**: 跟随节奏, 交出推进权, 围绕你运转, 主动补位, 反过来追你, 从被动挨打到掌控.
 
-Prefer observable payoff verbs: `主动靠近`, `主动延长`, `主动回流`, `主动投入`, `主动制造下一次机会`, `从冷淡变主动`, `反过来推进关系`. Do not let weak promises such as `看懂女性心理`, `提升男女认知`, `改善相处模式`, `学会正确表达`, or `理解底层逻辑` carry the hook by themselves.
+Use observable payoff verbs from the body as private evidence, then compress them upward into one male fantasy that the body can semantically support. For example, `主动纠正 + 暴露细节 + 记住暗号 + 主动改期 -> 对你卸下理性 -> 只在你面前失守 -> 拿到她身心的入口`. Do not let weak promises such as `看懂女性心理`, `提升男女认知`, `改善相处模式`, `学会正确表达`, or `理解底层逻辑` carry the hook by themselves.
 
 ### Construction and acceptance
 
-1. Extract W, K, and R separately from the finished article. If the article lacks one card, adapt the nearest approved popular-opening engine without inventing a result the body cannot support.
-2. Choose the primary male desire endpoint first, then the female weakness/man's pain and the low-friction key. Topic similarity is a tie-breaker, not the first match criterion.
-3. Use two or three short clauses before the topic declaration. The abstract layer belongs in a few charged nouns such as `欲望名单`, `隐形权力`, or `筛选机制`, not in a long theoretical explanation.
-4. The first 20 Chinese characters should trigger at least one of curiosity, lust, darkness, laziness, lowbrow double meaning, control, status conflict, or risk.
-5. Before the topic declaration, use at least two compatible desire triggers and include either a low-friction key or a concrete result promise.
-6. Keep exact numbers aligned with the正文. The正文 must pay off the promised mechanism and result early enough that the opening does not feel detached.
-7. Across adjacent articles, vary the primary trigger, card order, key noun, and result verbs. Do not repeat one shell merely by changing the topic and count.
+1. Extract W, K, and the body's observable payoff evidence separately. Compress that evidence through `behavior -> hidden change -> male fantasy -> natural spoken result` before writing R. If the article lacks one card, adapt the nearest approved popular-opening engine without inventing a result the body cannot support.
+2. Choose the male desire endpoint first, then the female weakness/man's pain and the low-friction key. Topic similarity is a tie-breaker, not the first match criterion.
+3. Use at most two sentences, preferably 80-130 Chinese characters. Sentence one creates the dark judgment or status conflict. Sentence two may combine the topic declaration, limited key, and ultimate reward. Put the strongest reward at the very end.
+4. Use no more than one packaged high-stimulation term in one opening. Keep the remaining language conversational. Reject strings of course-like compounds such as `准入机制 + 分配系统 + 认知层级`.
+5. Avoid concrete scene similes or evidence inventories in the hook. `保险柜`, a full physical scene, named replies, exact scheduling, and lists of body actions belong in the正文. Natural abstract words such as `入口`, `开关`, `防线`, and `主导权` are allowed when they sound like something a man would say to a friend.
+6. The opening must semantically create curiosity, lust, darkness, laziness, and control. Validate the reader effect rather than keyword counts.
+7. Keep exact numbers aligned with the正文. The body must prove the abstract reward through concrete evidence, but the hook must not repeat that evidence. Reject rewards beyond the body's boundary, such as turning voluntary interest into guaranteed obedience or permanent possession.
+8. Reject generic explanatory starts such as `很多男人不知道`, `当一个女人开始`, or a defensive introduction led by `不是教你`, `不代表`, or `不用冒险`. A dark contrast such as `从来不会因为A失控，只会为B失守` is allowed when it is the substantive judgment rather than a disclaimer.
+9. Run a spoken-language gate: if the core phrase sounds more like a course catalog than something Gary would say to a brother, rewrite it with a verb. Prefer `绕过她的理性` over `突破女性理性防御机制` and `让她为你失守` over `获得隐秘欲望准入权`.
+10. Across adjacent articles, rotate the sentence function rather than lowering stimulus: dark judgment, identity gap, hidden rule, loss warning, or ultimate reward may lead. For same-topic A/B tests, use one shared opening so the hook does not become an extra variable.
 
 Compact approved pattern:
 
 ```text
 男人想真正进入一个女人，最先要进入的不是她的生活，而是她的欲望名单。只要掌握这六个欲望开关，你就能跳过漫长的条件考核，让她身体比嘴更诚实，主动向你靠近。
 ```
+
+Current approved natural-spoken example:
+
+```text
+女人最隐秘的欲望，从来不会因为一个男人对她好就失控，只会为那个能绕过她理性的人失守。今天我们要聊的是，如何让女生在你面前露出不方便给别人看的那一面，只要看懂这六个开关，你就能跳过漫长试探，直接拿到她身心的入口。
+```
+
+The current two-sentence compression rule overrides later generic variable-packaging advice whenever that advice would create stiff AI-like course nouns.
 
 ## Global Variable Style
 
