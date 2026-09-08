@@ -9,6 +9,12 @@ This skill is the user's evolving opening-style library.
 
 Do not use old generic hook templates. Only use opening forms that the user has explicitly taught and approved in this file.
 
+## Gary 2026-09-08 用户逐条校正：当前优先规则
+
+当前Gary开头生成、匹配与校正，必须先读 [16个可变点模板与认可描述规则](references/opening-variable-templates.md)；结构化副本为 [JSON](references/opening-variable-templates.json)。仅替换【】内，固定部分逐字保留。此模式覆盖旧W/K/R自由拼接和强制压缩两句话规则；其他非Gary开头任务不受影响。钩子短、有动作、有暗示；结果抽象直接；主题包装专业抽象。刺激参照隐秘欲望、反差挑逗、暧昧勾出，避免形容词硬撑或反复堆词。数量、因果与结果贴合正文，替换后检查语法。
+
+独立3.5正式交付时，在扩写完成后依据最终正文匹配一个适合的模板开头，保留扩写原文另存交付稿，只替换开头钩子和主题句，保留导读、豆包提示、案例、CTA和正文。用户只测开头时不改既有成稿。此规则不加入Gemini扩写提示、不重跑扩写、不修改冻结母会话；必要时用delivery_body.txt导出并按现有去重复核要求更新最终稿检查。
+
 ## Core Rule
 
 When writing openings:
