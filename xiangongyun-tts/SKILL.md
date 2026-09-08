@@ -1,6 +1,5 @@
-﻿---
-
-display_name: 语音生成
+---
+name: xiangongyun-tts
 description: Generate Chinese speech through the user's Xiangongyun Gradio TTS instance. Use when the user asks to generate, regenerate, synthesize, read aloud, TTS, 配音, 语音生成, or make audio using the Xiangongyun instance at wgpy1nwfc8h7xxk6, especially with the default voice 浩威青叔4.0.pt.
 ---
 

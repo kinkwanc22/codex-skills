@@ -1,4 +1,4 @@
-﻿---
+---
 name: douyin-emotion-copy-scorer
 description: Score, rank, and select Douyin/TikTok Chinese male relationship/emotional self-media scripts using a reusable viral-copy gene rubric. Use when the user asks to analyze assistant-collected scripts, score 鐖嗘鏂囨, rank topics, choose which copy to expand, build an 鎵╁啓姹? compare titles/like counts, or evaluate 鐢锋€ф儏鎰熼鍩熸枃妗?for hooks, pain points, mechanism strength, expandability, collectability, controversy, and publishability.
 ---
@@ -96,7 +96,6 @@ For batch scoring, use this structure:
 ```
 
 If the user asks for a saved report, create a Markdown file in the current workspace.
-
 
 
 

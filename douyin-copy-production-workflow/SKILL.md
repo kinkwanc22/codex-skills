@@ -1,4 +1,4 @@
-﻿---
+---
 name: douyin-copy-production-workflow
 description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, AskMany扩写, 爆款文案筛选, 三版开头, 长文稿Word导出, and end-to-end male relationship copy production.
 ---
@@ -529,4 +529,3 @@ Latest hard-learned rules from 2026-06-03 evening:
 - On AskMany, after pasting a long prompt, verify that it actually became a green user message or that the button changed to `停止生成`. Seeing text in the input box is not a successful send.
 - In the Codex in-app browser viewport used by AskMany, the visible send control may require clicking the far-right side of `.chat-input-button-inner`, not the center of the whole input-button area. Read its bounding box and click near `x + width - 13`, `y + height / 2` when normal locator clicks fail.
 - If AskMany returns just under 4000 characters, do not mark it passed. Retry or mark it as not entering the final Word pool if retries trigger refusal.
-
