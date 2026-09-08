@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gary 课程写作"
+  short_description: "独立课程版3.5，按原书与课程骨架整理换芯并校准逐课授课稿"
+  default_prompt: "使用 $gary-course-writing，按已确认课程骨架和原书案例完成本课讲稿。"

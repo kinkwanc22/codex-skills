@@ -1,0 +1,9 @@
+# 复制程序说明
+
+源为 /Users/kin/.codex/skills/gary-35-independent，复制日期2026-09-09。完整快照在../legacy-35/，包括脚本、参考规则和本机只读基准。原文件未改写。
+
+- 可选检索：`python3 <本技能>/legacy-35/scripts/build_knowledge_call_pack.py --source <换芯> --title <课名> --output-dir <任务work目录>`。它使用原3.5本机知识库与历史依赖，路径见复制的references/runtime-history.md。缺依赖时说明并使用用户原书继续，不静默改走Windows路径。
+- 用户明确要求旧2.5对比：先读复制的SKILL.md、references/current-rules.md及dedup-rules.md，再运行prepare/expand。固定旧会话只复制，不改母本，每篇一次新副本，保留失败输出。该路径有短视频提示与共享Gary历史登记副作用，仅用于明确的旧流程测试，不是课程默认生成方式。
+- 原export_docx.py依赖旧排重复核，不能为普通课程伪造pass字段来调用。课程Word使用正常文档工具。
+- `.local/`基准文件及缓存不进入Git。其他机器拉取后可能缺少本机基准和知识库；在运行旧路径前验证依赖，不能声称同步代码就等于运行环境可用。不要复制API密钥到技能中。
+- 新课程稿与课堂排重记录放在各课程任务内，不写入短视频共享账本。将来需要独立课程扩写程序时只改本技能，不改原版3.5。

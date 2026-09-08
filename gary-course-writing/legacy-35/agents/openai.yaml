@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gary 3.5 独立工作流"
+  short_description: "独立换芯与旧2.5副本扩写，在中段CTA前生成贴题案例并交付Word"
+  default_prompt: "使用 $gary-35-independent 按已确认流程完成一篇换芯、扩写和Word交付。"
