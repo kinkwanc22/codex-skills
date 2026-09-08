@@ -7,6 +7,10 @@ description: 探花Gary独立3.5文案流程。用于Gary 3.5独立版、同题�
 
 本技能冻结用户认可的 B 版流程。执行规则以用户当前要求及本技能为准，历史仅用于查证，不读取旧综合技能来覆盖本流程。2.5指写作会话，不是Gemini模型版本；不改其他版本默认设置。
 
+## 跨账号与历史去重
+
+先读 [去重规则](references/dedup-rules.md)。已接入3.1历史与当前3.5稿件。换芯冻结前必须完成六字段和逐点语义复核；prepare必须提供 --proposal 与 --review。扩写后再次核对案例与主体内容，导出须提供final_dedup_review.json。其他执行步骤保持不变。
+
 ## 执行
 
 1. 先读 [当前规则](references/current-rules.md)。续作读任务目录的CURRENT_CONTEXT.md，辨别换芯、扩写、已认可、排期和发布状态。

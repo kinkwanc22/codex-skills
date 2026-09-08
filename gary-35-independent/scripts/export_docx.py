@@ -8,6 +8,9 @@ import argparse
 ap=argparse.ArgumentParser();ap.add_argument('--run-dir',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--body',type=Path);args=ap.parse_args()
 root=args.run_dir.resolve()
 raw=(args.body or root/'expanded_raw.txt').read_text().strip()
+review=json.loads((root/'final_dedup_review.json').read_text())
+assert review.get('pass') is True and review.get('compared_ids') and review.get('findings'),'final semantic dedup review required'
+assert review['body_sha256']==hashlib.sha256(raw.encode()).hexdigest(),'body changed after review'
 (root/'delivery_body.txt').write_text(raw)
 out=args.output.resolve()
 out.parent.mkdir(parents=True,exist_ok=True)
