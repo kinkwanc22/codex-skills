@@ -1,11 +1,15 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
 
 Use this skill for the user's complete production loop from assistant-collected scripts to publishable long-form Word drafts.
+
+## 4.0独立模式（优先路由）
+
+用户指定 `4.0`、`4.0批量换芯扩写` 或 `先批量换芯再用旧2.5` 时，先读 [references/4.0-frozen-legacy-session.md](references/4.0-frozen-legacy-session.md)，按它执行完整流程。4.0采用3.5内容设计与知识支持，再以固定旧2.5提示词扩写；**每篇从同一份固定旧2.5备份复制独立会话，只放入一篇换芯稿，生成后的会话永不传给下一篇。** 用 `scripts/prepare_40_session.py` 校验并准备。4.0专属规则覆盖下文通用包装、强制案例、固定结尾和改写验收；不继承3.5生成/验收锁，不修改其他版本默认值。
 
 ## Core Outcome
 

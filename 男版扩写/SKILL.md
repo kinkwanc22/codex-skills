@@ -1,6 +1,6 @@
 ---
 name: 男版扩写
-description: 男性向长文案扩写工作流。Use for 男版扩写, 男号文案, 男性向情感文案, 男性版2.5/2.6/2.7扩写, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end Gary-style male-audience Douyin copy production.
+description: 男性向长文案扩写工作流。Use for 男版扩写, 男号文案, 男性向情感文案, 男性版2.5/2.6/2.7扩写, 4.0换芯扩写, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end Gary-style male-audience Douyin copy production.
 ---
 
 # 男版扩写
@@ -26,3 +26,5 @@ Important:
 - Do not run a pre-expansion filtering step unless the user explicitly asks.
 - Expand every provided source document by default.
 - Use the original `douyin-copy-production-workflow-custom` skill instructions for all detailed steps, paths, retries, title packaging, openings, scoring, and Word export requirements.
+
+For `4.0`, route first to the full skill’s `references/4.0-frozen-legacy-session.md`. Each article starts from a fresh copy of the same pinned old-2.5 baseline; never chain article sessions.
