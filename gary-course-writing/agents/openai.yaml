@@ -1,4 +1,4 @@
 interface:
   display_name: "Gary 整书转课程"
-  short_description: "完整梳理每次提供的书，保留原书思想，生成全套课程大纲骨架与案例"
-  default_prompt: "使用 $gary-course-writing，完整阅读这本书，按原书思想和节奏生成课程大纲及每课骨架，嵌入精简原书案例并核对覆盖。"
+  short_description: "保留书稿思想与案例，整理课程骨架，扩写后分批验收并整体顺稿交付Word"
+  default_prompt: "使用 $gary-course-writing，把这本书按思想与节奏整理为课程大纲和简短骨架，嵌入案例；获认可并授权扩写后，完成逐课生成、分批验收、整体顺稿和Word交付。"
