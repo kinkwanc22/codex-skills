@@ -63,9 +63,9 @@ def extract_complete_25(reference: Path) -> str:
 def adapt_25_length_for_35(block: str) -> str:
     """Keep the 2.5 surface while giving lean 3.5 one consistent length contract."""
     old_target = "必须极其深入地剖析，正文目标 6000-8000 个中文字符。"
-    new_target = "必须深入地剖析，正文目标 4200-5200 个中文字符。"
+    new_target = "必须深入地剖析，正文目标 3000-3800 个中文字符；结构完整后不要为了接近4000重复灌水。"
     old_floor = "如果正文不足 7000 个中文字符，继续扩写，不要提前结束。"
-    new_floor = "如果正文不足 4000 个中文字符，继续扩写，不要提前结束；超过4200后以完整和自然为先，不要重复灌水。"
+    new_floor = "如果正文不足 3000 个中文字符，继续扩写，不要提前结束；达到3000后以完整和自然为先，不要重复灌水。"
     if block.count(old_target) != 1 or block.count(old_floor) != 1:
         raise ValueError("unexpected 2.5 length contract; update the 3.5 adapter explicitly")
     return block.replace(old_target, new_target).replace(old_floor, new_floor)
@@ -294,15 +294,15 @@ def main() -> int:
     promised_count_match = re.fullmatch(r"\d+", promised_count)
     selected_count_for_limit = int(promised_count) if promised_count_match else 0
     adaptive_frozen_cjk_limit = min(
-        1999, max(1800, selected_count_for_limit * 150 + 600)
+        1599, max(1000, selected_count_for_limit * 60 + 400)
     )
     if frozen_cjk > adaptive_frozen_cjk_limit:
         raise ValueError(
             "3.5 frozen source is over-developed: "
             f"{frozen_cjk} CJK exceeds adaptive lean limit "
-            f"{adaptive_frozen_cjk_limit}; every frozen source must stay below 2000 CJK. "
-            "Compress it to thesis, point boundaries, "
-            "essential scene constraints, and case facts/result before expansion"
+            f"{adaptive_frozen_cjk_limit}; every frozen source must stay below 1600 CJK. "
+            "Compress it to thesis, concise point boundaries, short act anchors, "
+            "two or three emphasis-point proof directions, and case placement before expansion"
         )
 
     engine_plan, engine_summary = load_and_validate_old_25_engine_plan(
@@ -389,8 +389,8 @@ Gary的成长/心理线仍属于情感账号。隐藏标题后，核心论证必
         "named_case_lock_sha256": sha256_text(case_lock),
         "old_2.5_prompt_sha256": sha256_text(block_25_original),
         "effective_3.5_expansion_prompt_sha256": sha256_text(block_25),
-        "final_cjk_hard_minimum": 4000,
-        "final_cjk_preferred_range": [4200, 5200],
+        "final_cjk_hard_minimum": 3000,
+        "final_cjk_preferred_range": [3000, 3800],
         "frozen_sha256": sha256_text(frozen),
         "frozen_cjk": frozen_cjk,
         "adaptive_frozen_cjk_limit": adaptive_frozen_cjk_limit,
