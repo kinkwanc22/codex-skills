@@ -1,0 +1,4 @@
+interface:
+  display_name: "换新 skill"
+  short_description: "生成大小号选题，匹配原稿结构、检索知识并换芯去重，交接不同扩写线路"
+  default_prompt: "使用 $huanxin 生成选题并完成换芯，保留历史去重，最后输出可对接指定扩写线路的输入包。"

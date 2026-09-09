@@ -1,0 +1,29 @@
+{
+  "created": "2026-09-09",
+  "source_skill": "/Users/kin/.codex/skills/gary-35-independent",
+  "scope": "pre-expansion only",
+  "structure_copies": [
+    {
+      "source": "/Users/kin/.codex/skills/gary-35-independent/references/原稿结构库.md",
+      "target": "references/原稿结构库.md",
+      "sha256": "6f9b257a640cbf3c96d0c9fa5ab007fa616a044d8eb21d1a149fe66183df8b42"
+    },
+    {
+      "source": "/Users/kin/.codex/skills/gary-35-independent/references/14篇原稿逐篇结构深拆.md",
+      "target": "references/14篇原稿逐篇结构深拆.md",
+      "sha256": "ad4cdf536bb6ac857ff71c3efe18b17ef2f6811d67668ee0b025b464f74ccab8"
+    },
+    {
+      "source": "/Users/kin/.codex/skills/gary-35-independent/references/新增六篇原稿整体结构深拆.md",
+      "target": "references/新增六篇原稿整体结构深拆.md",
+      "sha256": "eed07049bafeaca77046562c2bace10741ac5c260368e931d86b52b799cd788e"
+    }
+  ],
+  "history": "live shared history; no stale snapshot or API credentials copied",
+  "user_overrides": [
+    "双账号分工",
+    "换芯不写完整案例",
+    "扩写提示由交接选择",
+    "原稿直出与开头属于下游流程"
+  ]
+}
