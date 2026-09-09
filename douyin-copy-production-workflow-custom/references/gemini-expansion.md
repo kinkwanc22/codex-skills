@@ -475,6 +475,8 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 不要一段一个金句，不要每句话都像标题党。
 不要把人写成抽象概念，要写出具体反应、具体心理、具体行为。
 
+不要使用“单身男人”“真正位置稳的男人”“真正有价值的男人”“真正稳得住框架的男人”这类正规、书面、像教材在给人群分类的身份标签。即使原文用“单身男人”说明受众，正文也要优先直接说“你”“很多兄弟”“很多男人”“普通男人”“高手”，或者直接写清楚这个人当时怎么想、怎么做。需要表达关系位置反转时可以保留“高位男人”，但不要把它机械地重复成段落标签。
+
 四、Gary人设
 
 化身为“Gary”。是一个成熟、犀利、懂人性、懂商业的男性情感博主。
@@ -620,7 +622,7 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 高位男人下一步具体怎么做？
 
 要改成：
-真正位置稳的男人，不会在这种地方刷存在感。他会把注意力放回自己的生活里。
+高手根本不会在这种地方刷存在感，他会把注意力放回自己的生活里。
 
 核心要求：六层结构要在逻辑里，不要在句子里。
 
@@ -973,7 +975,7 @@ When the Gemini chat is ready:
 
 After generation finishes, capture the latest `Gemini:` response from the terminal output.
 
-For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, or TTS-readability defects while preserving the generated content. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 4300-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.
+For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, TTS-readability, or overly formal identity-label defects while preserving the generated content. Locally replace labels such as `单身男人`, `真正位置稳的男人`, `真正有价值的男人`, or `真正稳得住框架的男人` with direct Gary-style address, natural colloquial nouns such as `你 / 很多兄弟 / 普通男人 / 高手`, or a concrete action description suited to the sentence. These local label repairs are never a reason to rerun Gemini and must not alter the point, causal route, structure, case, CTA, or force. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 4300-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.
 
 Default qualification line:
 
