@@ -973,6 +973,8 @@ When the Gemini chat is ready:
 
 After generation finishes, capture the latest `Gemini:` response from the terminal output.
 
+For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, or TTS-readability defects while preserving the generated content. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 4300-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.
+
 Default qualification line:
 
 - Generic target length: 6000-8000 Chinese characters.
