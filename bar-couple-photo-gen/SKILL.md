@@ -1,6 +1,6 @@
 ---
 name: bar-couple-photo-gen
-description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary hotel lounge sofa photo prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce GPT Image 2 / image2 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
+description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary hotel lounge sofa photo prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce current ChatGPT Images 2.5 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
 ---
 
 # Bar Couple Photo Generator
@@ -51,13 +51,23 @@ If the user chooses the hotel lounge sofa prompt, use the following prompt text 
 
 ## Default Output
 
-Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. Prefer GPT Image 2 Medium / image2 high-fidelity portrait consistency. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
+Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. For local Codex generation, use the current ChatGPT Images 2.5 built-in image-generation entry and high-fidelity portrait consistency; do not deliberately route new local work to legacy `gpt-image-2` / Images 2.0. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
 
-## Local Image2 Windows GPU 2K Finishing
+## Local Images 2.5 Routing Lock
 
-This section applies only to locally generated Codex Image2 / `image_gen` results. It does not apply to Lovart, and it must not change any Lovart quality, size, thread, upload, download, or saving behavior.
+The user's standing rule is that all future **local** Gary/couple image generation uses ChatGPT Images 2.5. This rule applies to the Codex built-in `image_gen` lane only; it does not change Lovart's separately exposed model list or defaults.
 
-After a local Image2 result is generated, automatically finish it on the connected Windows host `win-codex` with the installed RTX GPU Real-ESRGAN pipeline:
+- Use the current built-in image-generation entry and explicitly request current ChatGPT Images 2.5 capability in the generation prompt.
+- Do not intentionally select, request, or fall back to legacy `gpt-image-2` / Images 2.0 for new local outputs.
+- If the built-in tool does not expose a backend model ID, label provenance as `Codex 当前内置 Images 2.5 入口` and state that the Sunburst/Flare variant was not exposed. Do not invent a specific variant.
+- If the current session cannot access the built-in Images 2.5 entry, stop and report the limitation instead of silently producing with Images 2.0.
+- Historical Images 2.0 files remain valid comparison/archive material; never relabel them as 2.5.
+
+## Local Images 2.5 Windows GPU 2K Finishing
+
+This section applies only to locally generated Codex Images 2.5 / `image_gen` results. It does not apply to Lovart, and it must not change any Lovart quality, size, thread, upload, download, or saving behavior.
+
+After a local Images 2.5 result is generated, automatically finish it on the connected Windows host `win-codex` with the installed RTX GPU Real-ESRGAN pipeline:
 
 ```text
 scripts/upscale_image2_windows_gpu.py <local-image-path> --batch-dir <dated-batch-folder>
@@ -65,14 +75,14 @@ scripts/upscale_image2_windows_gpu.py <local-image-path> --batch-dir <dated-batc
 
 Rules:
 
-- Treat the Image2 file as the source image and preserve it under `<batch-folder>/.records/raw/`.
+- Treat the Images 2.5 file as the source image and preserve it under `<batch-folder>/.records/raw/`.
 - Use Real-ESRGAN on the Windows GPU, then resize the enhanced result to the exact target dimensions.
 - To avoid slow cross-device transfer of a large lossless image, return a temporary JPEG at quality 96 and convert it to the final PNG on the Mac. The temporary transfer file is not kept in the visible batch folder.
 - Vertical `9:16` final: `W 2016 / H 3584`.
 - Horizontal `16:9` final: `W 2048 / H 1152`.
 - Save only the final requested images in the visible dated batch-folder root. Keep raw files and the processing manifest under `.records`.
 - Record every result in `.records/image2_windows_gpu_manifest.jsonl`, including source size, target size, output path, Windows job, elapsed time, and failure reason.
-- Label this provenance as `CodexImage2_WindowsGPU超分2K`. Do not call it native Image2 2K.
+- Label new provenance as `CodexImages2.5_WindowsGPU超分2K`. Do not call it native Images 2.5 2K.
 - Verify the returned file's actual pixel dimensions before reporting success.
 - If Windows, SSH, the RTX GPU, or Real-ESRGAN is unavailable, report the local image as generated but the 2K finishing stage as failed. Do not substitute Mac CPU upscaling or ordinary resizing without the user's explicit instruction.
 - Never send a Lovart output through this helper. Lovart continues to use the independent defaults and batch rules below, unchanged.
@@ -277,13 +287,13 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 3. If the user provides only text, describe the female lead explicitly in the prompt and keep her ordinary, natural, and consistent with the user's description.
 4. Use `assets/fixed-male-lead.png` as the male identity reference.
 5. Use the built-in `image_gen` tool by default. If the user explicitly asks for CLI/API/model control, follow the system imagegen skill fallback rules.
-6. Prompt for GPT Image 2 / image2 high-fidelity portrait consistency. Ask for vertical 9:16 output in the prompt.
+6. For local generation, prompt for current ChatGPT Images 2.5 high-fidelity portrait consistency. Do not request legacy Images 2.0. Ask for vertical 9:16 output in the prompt.
 7. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
 
 ## Prompt Template
 
 ```text
-Use GPT-Image-2 / image2 high-fidelity portrait identity consistency. Use the fixed male lead reference from this skill as the man. Use the user-provided female character as the woman. Generate a new photorealistic candid vertical 9:16 image, not an edit of the source references.
+Use current ChatGPT Images 2.5 high-fidelity portrait identity consistency through the Codex built-in image-generation entry. Do not use legacy Images 2.0. Use the fixed male lead reference from this skill as the man. Use the user-provided female character as the woman. Generate a new photorealistic candid vertical 9:16 image, not an edit of the source references.
 
 For the Gary series, use this Chinese structure when the user wants to vary only scene and flirtatious interaction:
 

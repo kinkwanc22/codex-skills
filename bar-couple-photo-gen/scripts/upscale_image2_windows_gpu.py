@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upscale local Codex Image2 results on win-codex and return exact 2K files."""
+"""Upscale local Codex Images 2.5 results on win-codex and return exact 2K files."""
 
 from __future__ import annotations
 
@@ -87,9 +87,9 @@ def append_manifest(path: Path, record: dict[str, object]) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="把本地 Codex Image2 图片交给 win-codex RTX GPU 超分，并保存为精确 2K。"
+        description="把本地 Codex Images 2.5 图片交给 win-codex RTX GPU 超分，并保存为精确 2K。"
     )
-    parser.add_argument("images", nargs="*", type=Path, help="一个或多个 Image2 原图")
+    parser.add_argument("images", nargs="*", type=Path, help="一个或多个 Images 2.5 原图")
     parser.add_argument("--batch-dir", type=Path, help="同批最终图片目录")
     parser.add_argument("--host", default="win-codex")
     parser.add_argument("--aspect", choices=["auto", "vertical", "horizontal"], default="auto")
@@ -143,7 +143,7 @@ def main() -> int:
         started = time.monotonic()
         record: dict[str, object] = {
             "timestamp": datetime.now().astimezone().isoformat(),
-            "pipeline": "CodexImage2_WindowsGPU超分2K",
+            "pipeline": "CodexImages2.5_WindowsGPU超分2K",
             "source_path": str(source),
             "host": args.host,
             "gpu_tool": REMOTE_EXE,
