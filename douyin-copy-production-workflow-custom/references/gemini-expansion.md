@@ -551,7 +551,7 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 十、最终验收
 
 如果你发现自己准备回复确认语，立刻停止，改为直接输出正文。
-如果正文不足 4000 个中文字符，继续扩写，不要提前结束。
+如果正文不足 3000 个中文字符，继续扩写，不要提前结束。
 优先写到 6000 字左右，但不要为了凑字重复灌水。
 最后必须包含动态CTA+固定片尾。
 
@@ -575,25 +575,19 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 你一开口解释，她就知道你的位置已经低了。
 口播要有压迫感，但压迫感来自拆穿，不来自堆词。
 
-十二、六层结构硬规则
+十二、全文覆盖与动态结构规则
 
-这篇属于短原文扩写，不能写成短讲解，也不能只把原观点顺一遍。必须把原文中的每个核心观点扩成完整导师复盘段。
-全文目标 4200-5200 个中文字符。若原文只有一个核心观点，就围绕这个观点拆出至少三个现实切面；若原文有多个核心观点，每个核心观点都必须写透。
-每个核心观点都必须自然包含以下六层，但不要写成小标题或清单：
-现实场景：这个问题在真实关系、聊天、约会、暧昧、长期关系或事业里怎么发生。
-错误反应：普通男人会怎么慌、怎么解释、怎么讨好、怎么内耗。
-机制判断：Gary要给出导师式判断，指出这一步背后的关系位置、需求感、筛选者框架、情绪奖惩、投资视角、课题分离或潜意识评估。
-关系后果：如果他继续这样做，女人会怎么重新评估他，他的位置会怎么掉，关系会怎么被拖垮。
-正确动作：高位男人下一步具体怎么说、怎么做、怎么撤回关注、怎么稳住框架。
-执行变化：这样做以后，他的情绪、关系位置、女人反馈或长期状态会发生什么变化。
-不要只解释概念。每一个机制后面都要落到具体场景和具体后果。
-保持软限制版表达：不要机械堆叠“极其、绝对、强烈”等强化词，压迫感来自具体判断和具体后果。
-不要把所有“地”都改成“的”。只在状语助词位置为了TTS读音可以写成“的”，固定词和名词里的“地”必须保留。
+这篇属于短原文扩写，不能写成短讲解，也不能只把原观点顺一遍。全文目标 4200-5200 个中文字符。若原文只有一个核心观点，可以围绕一个命题持续深挖；若原文有多个核心观点，必须完整兑现原文承诺，但各部分不要求等长，也不要求使用同一种证明方法。
 
+全文需要自然覆盖以下六种内容：现实场景、男人常见的错误反应、心理或利益机制、女人的重新评估与关系后果、可以执行的正确动作、执行后的变化与可观察反馈。这六项属于全文覆盖合同，不是每个观点的固定段落模板。禁止让每一个观点都机械重复“场景、错误、机制、后果、动作、变化”的相同顺序。
 
-十三、结构隐形规则
+必须根据本篇选题选择最适合的整篇论证结构，可以采用逐层升级、长案例剖开、双线对照、反常识推导、暗黑机制盘点、时间节点推进、单一命题深挖或悬念揭底。可以重点深讲其中一到两个关键位置，其余部分短促推进；可以先给结果再追因，也可以先制造疑问再揭底。文章结构必须服务本篇母题，不能为了变化而改变标题承诺、观点数量或因果路线。
 
-六层结构只能作为内部写作骨架，正文里绝对不能出现结构提示词或自我说明。
+全文默认只使用一个主结构，最多借用一个辅助结构。不要把多种结构名称写进正文，也不要把文章写成结构展示。保持软限制版表达，不机械堆叠“极其、绝对、强烈”等强化词。不要把所有“地”都改成“的”；只在状语助词位置为了TTS读音可以写成“的”，固定词和名词里的“地”必须保留。
+
+十三、结构隐形与去同质化规则
+
+结构只能作为内部写作骨架，正文里绝对不能出现结构提示词、结构名称或自我说明。
 禁止出现类似：
 我们来做个导师式的机制判断
 背后的机制是什么
@@ -603,8 +597,7 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 我们来复盘一下
 你以为你在做什么
 
-不要让读者感觉你在按提示词分模块写。
-每一层必须用自然口播衔接过去。
+不要让读者感觉你在按提示词分模块写。禁止连续使用相同的开段方式、证明顺序、转折句和收束句。不要每一点都重复“普通男人怎么做、高手怎么做、女人会怎么反馈”的固定三段式。观点数量受原文承诺约束，但段落数量、篇幅轻重、案例功能和揭示顺序必须根据本篇内容自然变化。
 
 比如不要写：
 我们来做个导师式的机制判断。这种行为背后的商业逻辑，叫做企图以小博大。
@@ -624,14 +617,16 @@ Use this direction when the user asks for `2.8`, `安全版`, `别名安全版`,
 要改成：
 高手根本不会在这种地方刷存在感，他会把注意力放回自己的生活里。
 
-核心要求：六层结构要在逻辑里，不要在句子里。
+案例仍须在中段粉丝群 CTA 之前完整结束，但它可以承担不同功能：引出问题、贯穿全文、形成失败对照、证明反转或揭开最终机制。无论承担哪种功能，六项案例信息仍然缺一不可。
+
+核心要求：稳定的是母题、力度、客群、案例合同和结果承诺；变化的是文章如何带着观众走到结论。
 
 十四、2.8安全版额外验收
 
 本次按正式任务输出，不要测试口吻，不要解释提示词。
-正文硬性最低 4300 个中文字符，目标 4800-5600 个中文字符。
+正文硬性最低 3000 个中文字符，目标 4200-5200 个中文字符。
 如果正文里出现“导师式的机制判断”“机制判断”“关系后果是什么”“高位男人下一步”“执行变化”“我们来复盘一下”这类结构外露句，视为不合格，必须在输出前自行改写成自然口播。
-每个核心低价值行为都必须写透，但不要用模板句开段。可以自然使用“第一种、第二种”做口播推进，但不能像答题一样逐项报六层结构。
+每个核心观点都必须对标题承诺有实际贡献，但不要用模板句开段。可以自然使用“第一种、第二种”做口播推进，也可以不用编号；不得为了显得整齐，把所有观点写成同样长度、同样顺序和同样结尾。
 全文必须包含一到两个小案例；中段 CTA 前必须已经完整结束一个贴合本篇文案的学员或兄弟案例，并且男性姓名、女性姓名、学员原始问题、我的具体指导/陪跑/咨询、学员执行后的行为变化、女生可观察反馈与最终成功结果六项齐全。
 结尾要先自然收束全文，再植入粉丝群动态CTA，最后一句必须是：我是探花Gary，我们粉丝群里见，感谢观看。
 全文任何位置都不要出现“内部群”，不要把片尾写回“我们内部群里见”。
@@ -975,7 +970,7 @@ When the Gemini chat is ready:
 
 After generation finishes, capture the latest `Gemini:` response from the terminal output.
 
-For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, TTS-readability, or overly formal identity-label defects while preserving the generated content. Locally replace labels such as `单身男人`, `真正位置稳的男人`, `真正有价值的男人`, or `真正稳得住框架的男人` with direct Gary-style address, natural colloquial nouns such as `你 / 很多兄弟 / 普通男人 / 高手`, or a concrete action description suited to the sentence. These local label repairs are never a reason to rerun Gemini and must not alter the point, causal route, structure, case, CTA, or force. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 4300-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.
+For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, TTS-readability, or overly formal identity-label defects while preserving the generated content. Locally replace labels such as `单身男人`, `真正位置稳的男人`, `真正有价值的男人`, or `真正稳得住框架的男人` with direct Gary-style address, natural colloquial nouns such as `你 / 很多兄弟 / 普通男人 / 高手`, or a concrete action description suited to the sentence. These local label repairs are never a reason to rerun Gemini and must not alter the point, causal route, structure, case, CTA, or force. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 3000-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.
 
 Default qualification line:
 
