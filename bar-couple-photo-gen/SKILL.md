@@ -1,6 +1,6 @@
 ---
 name: bar-couple-photo-gen
-description: Generate 9:16 photorealistic candid man-woman interaction images or selected Gary hotel lounge sofa photo prompts with a fixed male lead identity and a user-provided female lead. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, produce current ChatGPT Images 2.5 high-fidelity portrait consistency prompts, or says they only want to input the female role for different man-woman interaction images.
+description: Generate 9:16 photorealistic candid man-woman interaction images, selected Gary hotel lounge prompts, or approved single-female hotel CCTV prompts. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, generate a saved single-female CCTV scene, or produce current ChatGPT Images 2.5 high-fidelity portrait consistency prompts.
 ---
 
 # Bar Couple Photo Generator
@@ -31,12 +31,15 @@ If the user also gives a specific interaction scene, use it. Otherwise choose on
 
 ## Prompt Choice
 
-Before generating Gary-series couple media, ask the user which approved prompt to use unless they already specify it clearly:
+Before generating Gary-series or related single-female media, ask the user which approved prompt to use unless they already specify it clearly:
 
 1. `真实抓拍照片提示词` - the existing candid 9:16/16:9 phone-photo prompt used for image generation.
 2. `高级酒店酒廊沙发抓拍照片提示词` - the fixed-Gary, random-female hotel lounge sofa candid photo prompt below.
-3. `暧昧互动` - a stable-random first-person boyfriend POV preset. It randomly changes indoor, semi-outdoor, outdoor shaded scenes, time, light, position, and restrained intimate action while preserving the approved candid phone-shot feeling.
-4. `酒店走廊CCTV` - the sixth fixed batch prompt: a ceiling-corner security-camera frame of the two leads walking side by side through a high-end hotel corridor.
+3. `高级餐厅后方抓拍` - the fixed two-lead restaurant candid preset.
+4. `情侣打闹视频首帧` - the fixed first-person boyfriend POV pillow-play opening frame.
+5. `暧昧互动` - a stable-random first-person boyfriend POV preset. It randomly changes indoor, semi-outdoor, outdoor shaded scenes, time, light, position, and restrained intimate action while preserving the approved candid phone-shot feeling.
+6. `酒店走廊CCTV` - a ceiling-corner security-camera frame of the two leads walking side by side through a high-end hotel corridor.
+7. `单女主酒店走廊敲门CCTV` - a one-reference security-camera frame of only the female lead approaching the left-side room door. Gary must not be uploaded or appear.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
@@ -192,6 +195,24 @@ Call it with:
 
 ```text
 --prompt-preset hotel_corridor_cctv
+```
+
+## Single-Female Hotel Door CCTV Preset
+
+Preset id: `single_female_hotel_door_cctv`
+
+Chinese name: `单女主酒店走廊敲门CCTV`
+
+This preset uses only the current female reference as 图1. Do not upload, attach, mention, or depict Gary/the male lead. Do not reuse a two-lead Lovart thread for this preset. Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, quality, and image-count parameter line.
+
+```text
+使用图1作为人物参考，保持人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，不要美化成模特或网红脸。一张极其真实的酒店安防监控摄像头截图。固定在天花板墙角的高机位监控视角，略微向下俯拍，广角镜头。五星级酒店的走廊，暖灰色墙面，深色大理石门框，灰色地毯地面，暖黄色顶灯，走廊具有很强的纵深感，人物与场景比例正确。 女主正在走廊准备敲左侧的房间门，从前方拍摄，人物没有摆拍，没有看镜头，处于自然走路状态。在上三分之二向下走。 强烈的真实CCTV监控录像质感，普通安防摄像头成像，而不是电影摄影。轻微鱼眼广角畸变，轻微监控锐化，低码率视频压缩痕迹，细微噪点，轻微运动模糊，普通自动曝光，人物皮肤和衣服保留真实监控画面的细节损失，构图略显随意，像真实酒店监控系统随机截取的一帧。
+```
+
+Call it with:
+
+```text
+--prompt-preset single_female_hotel_door_cctv
 ```
 
 ## Ambiguous Interaction Preset
