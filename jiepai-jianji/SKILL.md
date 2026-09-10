@@ -1,6 +1,6 @@
 ---
 name: jiepai-jianji
-description: Local street-shot auto editing workflow for Chinese narration videos. Use when the user asks for 街拍剪辑, 街拍素材随机剪辑, 口播音频配素材, 按句尾切换素材, 静音点切换素材, 逐字对齐剪视频, or wants to turn a video-material folder plus narration audio plus script/docx into a 16:9 horizontal 30fps MP4.
+description: Local street-shot auto editing workflow for Chinese narration videos and Jianying drafts. Use when the user asks for 街拍剪辑, 街拍素材随机剪辑, 口播音频配素材, 按句尾切换素材, 静音点切换素材, 逐字对齐剪视频, 剪映街拍草稿, or wants to turn a video-material folder plus narration audio plus script/docx into a 16:9 horizontal 30fps video.
 ---
 
 # 街拍剪辑
@@ -13,7 +13,7 @@ Create a 16:9 horizontal MP4 from:
 - one narration audio file
 - one narration script, usually `.docx`, `.txt`, or `.md`
 
-Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/faster-whisper when available, then choose cut points every 5-10 seconds near sentence endings and nearby silence points. Keep 30fps, 1920x1080, H.264, AAC audio, and no crossfade by default.
+Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-whisper when available, then choose cut points every 5-10 seconds near sentence endings and nearby silence points. Keep 30fps, 1920x1080, H.264, and AAC audio for rendered MP4 output. For Jianying drafts, follow the subtitle, mute, transition, and visual-safety rules below.
 
 ## Capabilities
 
@@ -56,6 +56,8 @@ Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/fast
    - If the user provides a directory for audio, choose the most relevant audio file inside it.
    - If the user provides a directory for script, choose the most relevant `.docx`/`.txt`/`.md` inside it.
    - Use `rg --files`, `Get-ChildItem`, `ffprobe`, and short metadata checks before rendering.
+   - Visually screen every candidate street-shot source by sampling at least its opening, middle, and ending frames. Exclude visible cleavage, deep low-cut/exposed-chest shots, lingerie/bikini-style framing, and shots that deliberately emphasize the chest. If uncertain, reject the source.
+   - Apply the same screening to the `可用` opening-material folder. Maintain a rejected-source list so an excluded source cannot be drawn again in later batches.
 
 2. Locate FFmpeg.
    - Prefer an explicit local FFmpeg path if already known in the thread.
@@ -74,14 +76,22 @@ Prefer hard cuts at real sentence endings. Use word timestamps from Whisper/fast
    - Use `--cut-mode sentence-silence` when no timed JSON exists but the script should still influence cut points.
    - Use `--cut-mode silence` when only audio pauses should drive cuts.
    - Use `--min-source-duration 8` and `--min-source-bitrate 5000000` for cleaner material selection.
-   - Keep `--fade-duration 0` unless the user explicitly asks for crossfade.
+   - For direct MP4 renders, keep `--fade-duration 0` unless the user explicitly asks for crossfade. Jianying draft transitions are handled separately under the rules below.
 
 5. Verify before reporting done.
    - `ffprobe` the output video stream: width, height, frame rate, duration.
    - `ffprobe` the audio stream and format duration.
    - Inspect the generated `.manifest.json`.
    - Extract one preview frame and inspect it if visual verification is useful.
+   - For street-shot batches, record the number of screened sources, the number rejected for revealing imagery, and confirm that sampled frames from every final selected source passed.
    - Report the output path, duration, segment count, and whether word-timestamp alignment was used.
+
+## Jianying Draft Rules
+
+- Body and fixed Qianchuan CTA subtitles use Jianying `研宋`, size `6`, with shadow enabled and stroke/outline disabled. If stroke is already on, turn it off. Keep fixed brand-packaging text in its template style.
+- Set every video-type segment volume to `0`, including body footage, CTA footage, CTA emphasis overlays, brand video layers, and video overlays added later. Keep sound only on explicitly designated narration or music tracks.
+- Use Jianying's native `叠化` as the default transition. Use another native transition only when a clear change in action, scene, time, meaning, or the move into CTA materially benefits from it; record the exception and its reason in QA. Do not rotate effects merely for variety.
+- Verify that transitions create no black frames, gaps, abnormal overlap, subtitle obstruction, or offline media.
 
 ## Commands
 
@@ -121,10 +131,11 @@ python ".\scripts\make_street_cut_video.py" `
 - Output: `1920x1080`, `30fps`, `libx264`, `yuv420p`, AAC.
 - Segment cadence: choose cuts roughly every `5-10s`.
 - Preferred cut target: true sentence end from word timestamps; fallback to nearby silence; fallback to regular timing.
-- No transitions by default. The user disliked 0.15-0.25 second crossfade for this workflow.
+- Direct MP4 render: no crossfade by default. Jianying draft: default to native `叠化`, with other transitions only for justified exceptions.
 - Add a small audio-duration cushion on the last segment so FFmpeg does not truncate narration.
 - Use a random seed for reproducibility when iterating.
 - First segment: use the approved `可用` subfolder first; later segments remain randomized from the full material pool.
+- Candidate safety: sampled-frame review is mandatory; file names and folder placement are not sufficient evidence that a clip is acceptable.
 
 ## Troubleshooting
 
