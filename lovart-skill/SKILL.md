@@ -387,10 +387,10 @@ Available models for `--prefer-models`:
 
 | Tool name | Display name |
 |---|---|
-| `generate_image_gpt_image_2` | GPT Image 2 Auto |
-| `generate_image_gpt_image_2_low` | GPT Image 2 Low |
-| `generate_image_gpt_image_2_medium` | GPT Image 2 Medium |
-| `generate_image_gpt_image_2_high` | GPT Image 2 High |
+| `generate_image_gpt_image_2` | GPT Image 2.5 Sunburst Auto |
+| `generate_image_gpt_image_2_low` | GPT Image 2.5 Sunburst Low |
+| `generate_image_gpt_image_2_medium` | GPT Image 2.5 Sunburst Medium |
+| `generate_image_gpt_image_2_high` | GPT Image 2.5 Sunburst High |
 | `generate_image_nano_banana_pro` | Nano Banana Pro |
 | `generate_image_nano_banana_2` | Nano Banana 2 |
 | `generate_image_gpt_image_1_5` | GPT Image 1.5 |
@@ -408,7 +408,8 @@ Available models for `--prefer-models`:
 
 When `bar-couple-photo-gen` or its Mac runner calls this skill for Gary/couple stills, use the following defaults unless the user explicitly overrides them:
 
-- Prefer `generate_image_gpt_image_2_medium`; do not fall back to GPT Image 2 Auto or High merely because the user omitted quality.
+- Treat Lovart's `generate_image_gpt_image_2*` callable tool ids as the GPT Image 2.5 Sunburst family. The tool ids are retained for API compatibility; do not describe these results as Images 2.0.
+- Prefer `generate_image_gpt_image_2_medium`, the GPT Image 2.5 Sunburst Medium route; do not fall back to Auto, Low, High, another model family, or Images 2.0 merely because the user omitted quality.
 - Generate `1 img` per request.
 - `9:16` uses `W 1008 / H 1792`.
 - `16:9` uses `W 1792 / H 1008`.
@@ -416,7 +417,7 @@ When `bar-couple-photo-gen` or its Mac runner calls this skill for Gary/couple s
 
 For this user's standing Gary batch preference, requests phrased as `一批`, `批量`, or an equivalent multi-image/multi-preset batch use `medium`, exactly `1 img` per independent `chat` call, and the Lovart UI `2K` sizes: `9:16 = 2016x3584`, `16:9 = 2048x1152`. Omit reused thread ids for those batch calls so every image starts from a clean conversation. Ordinary single-image tests keep the non-2K defaults above.
 
-The local runner passes the Medium model through `--prefer-models` and puts the exact count and dimensions in the prompt parameter line. Use its `--dry-run` / `--print-prompt` mode for offline prompt and parameter checks; that mode must not upload files or make a network call.
+The local runner passes the GPT Image 2.5 Sunburst Medium tool id through `--prefer-models` and puts the model family, exact count, and dimensions in the prompt parameter line. Use its `--dry-run` / `--print-prompt` mode for offline prompt and parameter checks; that mode must not upload files or make a network call.
 
 If the user explicitly selects the Lovart UI 2K presets, or the standing Gary batch preference applies, the Gary runner must use `--resolution-profile 2k`. This maps `9:16（2K）` to `W 2016 / H 3584` and `16:9（2K）` to `W 2048 / H 1152`, while retaining Medium quality and one image unless separately overridden. Do not enable this profile for ordinary single-image tests unless explicitly requested.
 

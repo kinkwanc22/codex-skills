@@ -47,6 +47,8 @@ QUALITY_LABELS = {
     "high": "高（high）",
 }
 
+MODEL_FAMILY = "GPT Image 2.5 Sunburst"
+
 
 SCENES = [
     "高级酒廊",
@@ -620,6 +622,8 @@ def generation_settings(
         "resolution_profile": resolution_profile,
         "quality": quality,
         "num_images": num_images,
+        "model_family": MODEL_FAMILY,
+        "preferred_model_display_name": f"{MODEL_FAMILY} {quality}",
         "preferred_model": QUALITY_MODELS[quality],
     }
 
@@ -629,7 +633,8 @@ def build_parameter_line(aspect, settings, coffee_environment=False):
     orientation = "横版" if aspect == "16x9" else "竖版"
     line = (
         f"生成{ratio}{orientation}手机照片，W {settings['width']} / H {settings['height']}，"
-        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+        f"模型：{settings['model_family']}，质量：{QUALITY_LABELS[settings['quality']]}，"
+        f"只生成{settings['num_images']}张。"
     )
     if settings["resolution_profile"] == "2k":
         line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
@@ -686,7 +691,8 @@ def build_hotel_corridor_cctv_prompt(aspect, settings):
     orientation = "横版" if aspect == "16x9" else "竖版"
     first_line = (
         f"生成{ratio}{orientation}酒店安防监控截图，W {settings['width']} / H {settings['height']}，"
-        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+        f"模型：{settings['model_family']}，质量：{QUALITY_LABELS[settings['quality']]}，"
+        f"只生成{settings['num_images']}张。"
     )
     if settings["resolution_profile"] == "2k":
         first_line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
@@ -698,7 +704,8 @@ def build_single_female_hotel_door_cctv_prompt(aspect, settings):
     orientation = "横版" if aspect == "16x9" else "竖版"
     first_line = (
         f"生成{ratio}{orientation}酒店安防监控截图，W {settings['width']} / H {settings['height']}，"
-        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+        f"模型：{settings['model_family']}，质量：{QUALITY_LABELS[settings['quality']]}，"
+        f"只生成{settings['num_images']}张。"
     )
     if settings["resolution_profile"] == "2k":
         first_line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
@@ -710,7 +717,8 @@ def build_couple_hotel_door_cctv_prompt(aspect, settings):
     orientation = "横版" if aspect == "16x9" else "竖版"
     first_line = (
         f"生成{ratio}{orientation}酒店安防监控截图，W {settings['width']} / H {settings['height']}，"
-        f"质量：{QUALITY_LABELS[settings['quality']]}，只生成{settings['num_images']}张。"
+        f"模型：{settings['model_family']}，质量：{QUALITY_LABELS[settings['quality']]}，"
+        f"只生成{settings['num_images']}张。"
     )
     if settings["resolution_profile"] == "2k":
         first_line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
