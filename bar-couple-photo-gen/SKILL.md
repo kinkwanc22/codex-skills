@@ -41,6 +41,7 @@ Before generating Gary-series or related single-female media, ask the user which
 6. `酒店走廊CCTV` - a ceiling-corner security-camera frame of the two leads walking side by side through a high-end hotel corridor.
 7. `单女主酒店走廊敲门CCTV` - a one-reference security-camera frame of only the female lead approaching the left-side room door. Gary must not be uploaded or appear.
 8. `双人酒店走廊开门CCTV` - a two-reference security-camera frame with Gary waiting beside the female lead as she prepares to open the left-side room door.
+9. `固定底图走廊换女主` - selects a fixed corridor base by output aspect as 图1, then uses the current random or user-provided female as 图2. Gary is not used.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
@@ -234,6 +235,33 @@ Call it with:
 
 ```text
 --prompt-preset couple_hotel_door_cctv
+```
+
+## Fixed-Base Corridor Female Replacement Preset
+
+Preset id: `fixed_corridor_replace_female`
+
+Chinese name: `固定底图走廊换女主`
+
+This preset always uses two references in one generation call, with no Gary reference:
+
+- For vertical `9:16`, use `assets/fixed-hotel-corridor-vertical.png` as 图1.
+- For horizontal `16:9`, use `assets/fixed-hotel-corridor-horizontal.png` as 图1.
+- Use the female randomly selected from the standing library, or the female image explicitly provided by the user, as 图2.
+- Never attach both fixed corridor bases to one call. Select exactly one by the requested output aspect.
+- Preserve the selected 图1 corridor composition as the base while replacing its woman with 图2. Match the clothing and makeup to 图2, not to the woman originally present in 图1.
+- Do not upload, attach, mention, or depict Gary/the male lead for this preset.
+
+Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, model, quality, and image-count parameter line.
+
+```text
+把图一的女主换成图二的人物，服饰和妆容要和图二人物一致，动作稍微有点变化，女主正在走廊敲门进入房间
+```
+
+Call it with:
+
+```text
+--prompt-preset fixed_corridor_replace_female
 ```
 
 ## Ambiguous Interaction Preset
