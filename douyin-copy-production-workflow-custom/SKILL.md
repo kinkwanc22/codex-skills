@@ -36,10 +36,14 @@ Gary的成长/心理线仍属于情感账号。隐藏标题后，核心论证必
 ## Default Paths
 
 - Assistant source folders are often under `/Users/kin/工作用（同步）/素材文稿/助理采集文案/` on Mac or `D:\工作用（同步）\素材文稿\助理采集文案\` on Windows; old `E:\工作用\素材文稿\助理采集文案\` is legacy-only.
-- Final Word output folder for current Mac workflow: `/Users/kin/工作用（同步）/7.1后双端同步文件夹`
-- Final Word output folder for current Windows workflow: `D:\工作用（同步）\7.1后双端同步文件夹`
+- Male manuscript root for the current Mac workflow: `/Users/kin/工作用（同步）/探花Gary`
+- New production Word drafts pending user confirmation: `/Users/kin/工作用（同步）/探花Gary/01_正文待确认/<版本>/<批次>`
+- New test/comparison Word drafts: `/Users/kin/工作用（同步）/探花Gary/02_测试稿/<版本>/<批次>`
+- User-confirmed final Word drafts: `/Users/kin/工作用（同步）/探花Gary/07_成品/<版本>/<批次>`
+- Intermediate run packages may use `/Users/kin/工作用（同步）/探花Gary/06_以后新输出/<版本>/<批次>`, but user-facing Word drafts must still be filed by status above.
+- Windows uses the synchronized mirror under `D:\工作用（同步）\探花Gary\...`; Mac remains the primary workflow state.
 - Legacy Windows final Word output folder: `E:\工作用\素材文稿\codex工作流长文稿`
-- Expansion tests/comparison runs must also be exported as `.docx` files into the current dual-device synced workflow folder; do not deliver `.txt` unless the user explicitly asks for txt.
+- Expansion tests/comparison runs must be exported as `.docx` files into the corresponding folder under the male manuscript root; do not deliver `.txt` unless the user explicitly asks for txt.
 - Gemini execution choice: default to the Mac local runner unless the user explicitly asks to use Windows or the task depends on Windows-only files, old Windows Codex projects, or Windows-only tooling.
 - Current Mac Gemini expansion command directory: active Codex workspace when it contains `scripts/run_gemini_chat.sh`; current tested workspace is `/Users/kin/Documents/Codex/2026-07-02/gemini`.
 - Current Mac Gemini expansion command: `./scripts/run_gemini_chat.sh --prompt-file <prompt.txt> --output-file <expanded.txt>`. For routine 2.5 and 3.2, use the current 2026-06-05 early B direct-draft block from `references/gemini-expansion.md`; for 3.1, use that complete block plus the fixed mother-topic exact-lock block built by `scripts/build_31_gemini_prompt.py`; for 3.5, use that complete block plus the fixed exact-topic and natural-rhythm locks built automatically by `scripts/build_35_gemini_prompt.py`, and always supply the validated `old_25_engine_plan.json` through `--engine-plan`; for 3.6, use the complete 2.8 Safe Draft block plus the fixed 3.6 mother-topic/content-line/selected-count lock built by `scripts/build_36_gemini_prompt.py`, also supplying the validated `old_25_engine_plan.json`; for 3.3, use the complete 2.5 block plus the separate 3.3 exact-lock block built by `scripts/build_33_gemini_prompt.py`. Add `--isolated` for routine 2.5, 3.1, 3.2, and 3.3. Formal 3.5 uses its staged dedicated Gary voice candidate. Formal 3.6 uses `--session 3.6`, never the 3.5 voice session, the generic 2.8 saved session, or the mixed default session. Use `--session 2.5` only when the user explicitly asks to continue that saved conversation. Keep 2.5-transplant, 2.8, 2.9, and 3.6 in separate dedicated sessions unless their rules call for isolation.

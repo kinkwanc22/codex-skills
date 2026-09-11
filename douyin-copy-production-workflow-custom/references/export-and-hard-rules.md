@@ -72,11 +72,11 @@ After every completed batch, perform a short self-optimization pass before final
 
 Latest hard-learned rules from 2026-06-03:
 
-- The current default final output folder is the dual-device synced workflow folder: `/Users/kin/工作用（同步）/7.1后双端同步文件夹` on Mac, and `D:\工作用（同步）\7.1后双端同步文件夹` on Windows. The old Windows folder `E:\工作用\素材文稿\codex工作流长文稿` is legacy-only unless the user explicitly asks for it.
+- The current male manuscript root is `/Users/kin/工作用（同步）/探花Gary` on Mac and `D:\工作用（同步）\探花Gary` on Windows. Mac is the primary workflow state. The old Windows folder `E:\工作用\素材文稿\codex工作流长文稿` is legacy-only unless the user explicitly asks for it.
 - Final deliverables must be Word `.docx` files by default. Do not deliver `.txt` as the final format unless the user explicitly asks for txt.
 - Expansion tests and prompt-comparison runs also count as deliverables: export accepted 2.5/2.6 test results as `.docx`, not `.txt`.
-- Current synced output folder is `/Users/kin/工作用（同步）/7.1后双端同步文件夹` on Mac and `D:\工作用（同步）\7.1后双端同步文件夹` on Windows; save generated `.docx` results there by default so both devices can pick them up.
-- Temporary `.txt` drafts may be used only as intermediate cache; immediately convert accepted Gemini outputs into `.docx` in the current synced output folder.
+- Save new production drafts to `/Users/kin/工作用（同步）/探花Gary/01_正文待确认/<版本>/<批次>`, tests to `/Users/kin/工作用（同步）/探花Gary/02_测试稿/<版本>/<批次>`, and user-confirmed final drafts to `/Users/kin/工作用（同步）/探花Gary/07_成品/<版本>/<批次>`. Use the equivalent `D:\工作用（同步）\探花Gary\...` mirror on Windows only when Windows execution is explicitly needed.
+- Temporary `.txt` drafts may be used only as intermediate cache; immediately convert user-facing Gemini outputs into `.docx` in the correct status folder under the male manuscript root.
 - After saving, always verify the exact final folder by checking the expected `.docx` filenames, file sizes, and current timestamps. Do not trust a successful copy/conversion command alone.
 - Do not use `soffice`, LibreOffice, or `render_docx.py` for this Douyin copy workflow. The local `soffice` renderer can trigger a macOS crash/update dialog and interrupt the user's work. For these text-first Word deliverables, verify by checking the `.docx` zip/package structure, required headings, absence of risk markers, file size, and current timestamp instead.
 - For 3.1 specifically, do not produce a PDF or PNG preview and do not retry visual rendering. Run `scripts/validate_31_final_package.py --insertion-manifest <gemini-retention-manifest.json>` once after Word export; its passing JSON report verifies raw-to-final retention, recorded redundant-adverb repairs and density ceilings, terminal ending, headings, body equality, ZIP integrity, and the fixed-ending-only yellow set. Use `--allow-no-yellow` only for an explicitly requested clean copy.
