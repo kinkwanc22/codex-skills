@@ -246,10 +246,10 @@ Chinese name: `固定底图走廊换女主`
 This preset always uses two references in one generation call, with no Gary reference:
 
 - Image upload: upload the fixed corridor reference as 图1, then upload the randomly selected or user-provided female as 图2. Do not attach Gary or any other character reference.
-- Fixed prompt: send the user-authored prompt below verbatim. Do not append extra constraints, style descriptions, explanations, or rewritten wording. The technical parameter line for aspect ratio, dimensions, model, quality, and image count may still be prepended.
+- Fixed prompt: send the user-authored prompt below verbatim and by itself. Do not prepend or append aspect ratio, dimensions, model, quality, image count, constraints, style descriptions, explanations, or rewritten wording.
 - Aspect mapping: for vertical `9:16`, use only `assets/fixed-hotel-corridor-vertical.png` as 图1; for horizontal `16:9`, use only `assets/fixed-hotel-corridor-horizontal.png` as 图1.
 
-Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, model, quality, and image-count parameter line.
+Preserve and send the following user-authored prompt verbatim with no additional text:
 
 ```text
 把图一的女主换成图二的人物，服饰和妆容要和图二人物一致，动作稍微有点变化，女主正在走廊敲门进入房间

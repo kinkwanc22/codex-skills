@@ -736,16 +736,7 @@ def build_couple_hotel_door_cctv_prompt(aspect, settings):
 
 
 def build_fixed_corridor_replace_female_prompt(aspect, settings):
-    ratio = settings["aspect_ratio"]
-    orientation = "横版" if aspect == "16x9" else "竖版"
-    first_line = (
-        f"生成{ratio}{orientation}酒店走廊图片，W {settings['width']} / H {settings['height']}，"
-        f"模型：{settings['model_family']}，质量：{QUALITY_LABELS[settings['quality']]}，"
-        f"只生成{settings['num_images']}张。"
-    )
-    if settings["resolution_profile"] == "2k":
-        first_line += f"尺寸预设必须选择 Lovart 面板中的{settings['size_preset']}。"
-    return f"{first_line}\n{FIXED_CORRIDOR_REPLACE_FEMALE_CORE}"
+    return FIXED_CORRIDOR_REPLACE_FEMALE_CORE
 
 
 def build_couple_pillow_play_first_frame_prompt(aspect, settings, prompt_variables=None):
