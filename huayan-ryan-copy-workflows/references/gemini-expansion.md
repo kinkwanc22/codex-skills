@@ -4,7 +4,7 @@ Read this file before sending any source copy to Gemini, building prompt files, 
 
 ## Female Edition Prompt Override
 
-Prepend this complete stable block before every selected 2.5, 2.6, 2.8, or 2.9 instruction block. Apply the same lens when Codex performs 2.7 fusion, when rebuilding a 3.1 source, and when creating 3.0 Qianchuan copy. This is part of the female baseline and does not count as an article-specific supplement.
+Prepend this complete stable block before selected 2.6, 2.8, or 2.9 instruction blocks. Apply the same lens when Codex performs 2.7 fusion and when creating 3.0 Qianchuan copy. Do not prepend it to routine 2.5 or 3.1-to-2.5 requests: those use the exact male-original mirror stored in `2.5-direct-female-mirror-prompt.txt`, with only the user-approved gender, IP, and domain-word replacements.
 
 ```text
 【女性情感扩写固定覆盖层｜Ryan版】
@@ -42,13 +42,13 @@ For other copywriting categories, unrelated tests, connectivity checks, or any e
 Never use interactive `/new` merely to get a clean context for other copy. Use `--isolated` or the direction-specific female session file instead.
 ## Gemini Expansion Instruction Choices
 
-Choose one expansion instruction block before building the prompt file. If the user names a Gemini expansion direction, use that matching block. If the user does not specify a direction, default to `2.5 Direct Draft`. Always paste the complete `Female Edition Prompt Override`, then the selected full instruction block, then the original source copy whenever sending a script to the local Gemini command-line chat for expansion, including first attempts, refusal retries, length retries, and hallucination/stale-topic retries. Do not send `/new` unless the user explicitly asks.
+Choose one expansion instruction block before building the prompt file. If the user names a Gemini expansion direction, use that matching block. If the user does not specify a direction, default to `2.5 Direct Draft`. For routine 2.5 and 3.1-to-2.5, paste `2.5-direct-female-mirror-prompt.txt` followed directly by the frozen source; do not prepend the Female Edition Prompt Override or append any second-layer instruction. For 2.6, 2.8 and 2.9, use the documented female override and selected block. Do not send `/new` unless the user explicitly asks.
 
 Exception: `2.7 Codex Fusion` is not a Gemini prompt-file direction. When the user asks for 2.7/fusion, generate Gemini 2.5 and Gemini 2.6 first, then write the final 2.7 body locally in Codex from those two accepted drafts.
 
 Available directions:
 
-- `2.5 Direct Draft`: 2026-06-05早期B直接出稿版, the default broad Ryan-style long draft. Its prompt assembly is the full block below + the source manuscript, run with `--isolated`.
+- `2.5 Direct Draft`: 2026-06-05早期B直接出稿版, mirrored from the male original with only gender, IP and the user-approved female domain-word replacements. Use `2.5-direct-female-mirror-prompt.txt` + source manuscript with `--isolated` and no female override.
 - `2.6 Single Case`: 满血扩写2.6模型·单案例讲透版, use when the user asks for 单案例、一案到底、一个案例贯穿全文, or wants a full relationship-event teardown.
 - `2.7 Codex Fusion`: Codex本地成稿融合版, use when the user asks for 2.7、融合版、把2.5和2.6融合、机制密度加案例线, or wants the same style as the approved 316 body-signal fusion draft. Do not send this to Gemini as a third source-to-draft expansion; first generate and validate 2.5 and 2.6 with Gemini, then have Codex fuse the two accepted drafts locally.
 - `2.8 Safe Draft` / `安全版`: tested Ryan口播安全版, use when the user asks for 2.8、2.8安全版、安全版、别名安全版, or wants 4000-6000字 Ryan expansion with hidden six-layer structure and fewer template seams.
@@ -287,7 +287,7 @@ This is not `2.5成稿换芯`. Do not use the finished-draft transplant session 
 4. Start the rebuilt manuscript directly from the new thesis and new points. Never quote, summarize, restate, mock, downgrade, or criticize the old source points before presenting the replacement. The old source is an internal route reference, not a rhetorical opponent inside the new manuscript.
 5. Select 2-5 total terms across psychology, relationship-game/PUA, sociology, or biology that genuinely fit the new skeleton, then embed them directly into the rebuilt source manuscript. This is a total density limit, not 2-5 terms per field, and there is no requirement to represent every field. Each term must be explained or demonstrated by a nearby scene, behavior, interest movement, social structure, incentive, or relationship consequence. The rebuilt manuscript itself must carry the intended professional and hard-edged flavor before expansion.
 6. Freeze the rebuilt manuscript as the only source of truth for the expansion stage. Record the route and embedded terms before expansion in `work/huayan_ryan_31_routes.json`, including: source path, title/topic, date, route summary, concrete `avoid_next_time` list, `embedded_terms`, pre-source file, final accepted file, character count, and output docx path.
-7. Send the frozen rebuilt manuscript directly through the standard complete `2.5 Direct Draft` instruction block above as `【原文】`, using `--isolated`. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
+7. Send the frozen rebuilt manuscript through `2.5-direct-female-mirror-prompt.txt` as `【原文】`, using `--isolated`. Do not prepend the Female Edition Prompt Override. Do not append `旧2.5风格参照`, an article-specific execution supplement, a safety supplement, a route explanation, or any other second-layer prompt. The professional vocabulary and article-specific direction must already exist inside the rebuilt manuscript rather than being imposed by stacked prompt instructions.
 8. Treat Gemini's returned body as the default accepted language surface. Do not perform a post-generation `压回冷静`, `降猎奇`, `专业化改写`, safety-toning pass, or replace sharp metaphors merely because they sound aggressive, dark, provocative, theatrical, or like old 2.5. Preserve the original pressure and wording unless the user explicitly asks for a calmer revision.
 9. Export the accepted result as a clean Word document to `/Users/kin/工作用（同步）/花研Ryan/成品`.
 
