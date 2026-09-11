@@ -501,6 +501,15 @@ def png_dimensions(path):
     return int.from_bytes(header[16:20], "big"), int.from_bytes(header[20:24], "big")
 
 
+def matches_requested_aspect(path, settings, tolerance=0.01):
+    dimensions = png_dimensions(path)
+    if not dimensions:
+        return False
+    width, height = dimensions
+    expected_ratio = settings["width"] / settings["height"]
+    return abs((width / height) - expected_ratio) <= tolerance
+
+
 def select_current_downloads(downloaded, settings):
     expected = (settings["width"], settings["height"])
     matching = [
@@ -725,8 +734,11 @@ def build_single_female_hotel_door_cctv_prompt(aspect, settings):
     return f"{first_line}\n{SINGLE_FEMALE_HOTEL_DOOR_CCTV_CORE}"
 
 
-def build_single_female_restaurant_low_angle_prompt():
-    return SINGLE_FEMALE_RESTAURANT_LOW_ANGLE_PROMPT.read_text(encoding="utf-8").strip()
+def build_single_female_restaurant_low_angle_prompt(aspect, settings):
+    orientation = "横屏" if aspect == "16x9" else "竖屏"
+    aspect_line = f"生成{orientation}{settings['aspect_ratio']}图片。"
+    core = SINGLE_FEMALE_RESTAURANT_LOW_ANGLE_PROMPT.read_text(encoding="utf-8").strip()
+    return f"{aspect_line}\n{core}"
 
 
 def build_couple_hotel_door_cctv_prompt(aspect, settings):
@@ -822,7 +834,7 @@ def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_var
     if prompt_preset == "single_female_hotel_door_cctv":
         return build_single_female_hotel_door_cctv_prompt(aspect, settings)
     if prompt_preset == "single_female_restaurant_low_angle":
-        return build_single_female_restaurant_low_angle_prompt()
+        return build_single_female_restaurant_low_angle_prompt(aspect, settings)
     if prompt_preset == "couple_hotel_door_cctv":
         return build_couple_hotel_door_cctv_prompt(aspect, settings)
     if prompt_preset == "fixed_corridor_replace_female":
@@ -1325,6 +1337,19 @@ def main():
                         f"生成完成但无产物：{result.get('warning', '')} {result.get('agent_message', '')}"
                     )
                 downloaded = select_current_downloads(new_downloaded, settings)
+                invalid_aspects = [
+                    item for item in downloaded
+                    if not item.get("local_path")
+                    or not matches_requested_aspect(item["local_path"], settings)
+                ]
+                if invalid_aspects:
+                    actual = [
+                        png_dimensions(item.get("local_path", ""))
+                        for item in invalid_aspects
+                    ]
+                    raise LovartError(
+                        f"成品画幅不合格：要求 {settings['aspect_ratio']}，实际 {actual}"
+                    )
                 if args.batch_dir:
                     protected_paths = recorded_output_paths(batch_summary_path)
                     archive_unselected_downloads(

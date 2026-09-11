@@ -269,8 +269,8 @@ Preset id: `single_female_restaurant_low_angle`
 Chinese name: `单女主西餐厅超低机位聊天抓拍`
 
 - Upload only the randomly selected or user-provided female reference as 图1. Do not upload Gary or any other character reference.
-- Read the full fixed Chinese prompt from [references/single-female-restaurant-low-angle-prompt.txt](references/single-female-restaurant-low-angle-prompt.txt) and send it without rewriting, shortening, or adding prompt text.
-- Use the requested aspect ratio; default to vertical `9:16` when the user does not specify one.
+- Read the full fixed Chinese prompt from [references/single-female-restaurant-low-angle-prompt.txt](references/single-female-restaurant-low-angle-prompt.txt) without rewriting or shortening it. Prepend only `生成竖屏9:16图片。` or `生成横屏16:9图片。` to lock the requested format.
+- Only vertical `9:16` and horizontal `16:9` are allowed. Default to vertical `9:16` when the user does not specify one. Reject and do not report any other aspect ratio as a successful final output.
 
 Call it with:
 
