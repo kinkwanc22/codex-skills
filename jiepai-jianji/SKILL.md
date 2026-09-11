@@ -56,8 +56,15 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
    - If the user provides a directory for audio, choose the most relevant audio file inside it.
    - If the user provides a directory for script, choose the most relevant `.docx`/`.txt`/`.md` inside it.
    - Use `rg --files`, `Get-ChildItem`, `ffprobe`, and short metadata checks before rendering.
-   - Visually screen every candidate street-shot source by sampling at least its opening, middle, and ending frames. Exclude visible cleavage, deep low-cut/exposed-chest shots, lingerie/bikini-style framing, and shots that deliberately emphasize the chest. If uncertain, reject the source.
+   - Apply a strict platform-vulgarity gate to every candidate, not merely a nudity check. Reject visible cleavage, deep low-cut/exposed-chest shots, lingerie/bikini-style framing, and shots that deliberately emphasize the chest. Also reject sexually suggestive framing or behavior even when everyone is fully clothed: beds/bedrooms or reclining intimate poses, shower/bath/towel scenes, clothing-removal implications, massage or body-care intimacy, kissing or pressed-body contact, teasing or seductive gestures, suggestive boyfriend-POV touching, and fetish-like close-ups of feet, legs, waist, buttocks, chest, lips, or neck.
+   - Treat private-room, nightclub/bar, and night-car scenes conservatively when alcohol, touching, camera proximity, gaze, posture, or body emphasis creates sexual tension. Neutral conversation in those locations is acceptable only when the exact selected range is clearly nonsexual.
+   - Prefer public, neutral, everyday alternatives: streets, parks, cafés, restaurants, offices, shopping, travel, ordinary driving, work/life actions, and conversation at a normal interpersonal distance.
+   - Sample at least opening, 25%, middle, 75%, and ending frames for AI or unfamiliar footage, then inspect the exact source range that will appear in the timeline. A safe opening/middle/ending does not clear unsafe action between samples. If uncertain, reject the source.
    - Apply the same screening to the `可用` opening-material folder. Maintain a rejected-source list so an excluded source cannot be drawn again in later batches.
+   - Apply the same gate to CTA footage, CTA emphasis overlays, and every later-added visual layer. A CTA section is not exempt from visual-safety review.
+   - After a platform rejection for `低俗`, mark every source used in the rejected draft as `needs re-review`; do not automatically reuse it merely because it passed an earlier local review.
+   - Build a content profile for every accepted source: scene, people, action, mood, relationship state, and useful semantic tags. For each narration segment, select footage by matching the actual copy meaning to those profiles; do not assign sources by simple filename order, round-robin rotation, or pure random concatenation.
+   - Detect identical or highly similar opening frames across candidate videos. Within one finished draft, each opening-frame group may be used at most once, even when the underlying files or later motion differ. Also avoid placing several clips from the same scene family consecutively when a semantically suitable alternative exists.
 
 2. Locate FFmpeg.
    - Prefer an explicit local FFmpeg path if already known in the thread.
@@ -83,8 +90,10 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
    - `ffprobe` the audio stream and format duration.
    - Inspect the generated `.manifest.json`.
    - Extract one preview frame and inspect it if visual verification is useful.
-   - For street-shot batches, record the number of screened sources, the number rejected for revealing imagery, and confirm that sampled frames from every final selected source passed.
+   - For street-shot batches, record the number of screened sources, the number rejected for revealing or sexually suggestive imagery, and confirm that both sampled frames and every exact selected source range passed.
+   - For semantic B-roll or AI-material drafts, record the narration text covered by every video segment, the chosen source profile, and the matched semantic tags or editorial reason. Verify per draft that source-file duplicates are zero, opening-frame-group duplicates are zero, and consecutive same-scene runs are zero unless a deliberately continuous action requires an exception documented in QA.
    - Report the output path, duration, segment count, and whether word-timestamp alignment was used.
+   - Distinguish `local visual QA passed` from `platform approved`. Never describe a draft as platform-safe, approved, or passed review until the platform has actually accepted it.
 
 ## Jianying Draft Rules
 
@@ -135,7 +144,8 @@ python ".\scripts\make_street_cut_video.py" `
 - Add a small audio-duration cushion on the last segment so FFmpeg does not truncate narration.
 - Use a random seed for reproducibility when iterating.
 - First segment: use the approved `可用` subfolder first; later segments remain randomized from the full material pool.
-- Candidate safety: sampled-frame review is mandatory; file names and folder placement are not sufficient evidence that a clip is acceptable.
+- Candidate safety: strict platform-vulgarity review of sampled frames and exact selected ranges is mandatory; clothing coverage, file names, and folder placement are not sufficient evidence that a clip is acceptable.
+- Material selection: narration-to-picture semantic matching is mandatory. Pure rotation, random stacking, or repeatedly using different videos generated from the same opening image is not acceptable.
 
 ## Troubleshooting
 
