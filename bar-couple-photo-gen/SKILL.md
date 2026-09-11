@@ -42,6 +42,7 @@ Before generating Gary-series or related single-female media, ask the user which
 7. `单女主酒店走廊敲门CCTV` - a one-reference security-camera frame of only the female lead approaching the left-side room door. Gary must not be uploaded or appear.
 8. `双人酒店走廊开门CCTV` - a two-reference security-camera frame with Gary waiting beside the female lead as she prepares to open the left-side room door.
 9. `固定底图走廊换女主` - selects a fixed corridor base by output aspect as 图1, then uses the current random or user-provided female as 图2. Gary is not used.
+10. `单女主西餐厅超低机位聊天抓拍` - uses only the current random or user-provided female as 图1. Gary is not uploaded or shown.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
 
@@ -259,6 +260,22 @@ Call it with:
 
 ```text
 --prompt-preset fixed_corridor_replace_female
+```
+
+## Single-Female Restaurant Low-Angle Candid Preset
+
+Preset id: `single_female_restaurant_low_angle`
+
+Chinese name: `单女主西餐厅超低机位聊天抓拍`
+
+- Upload only the randomly selected or user-provided female reference as 图1. Do not upload Gary or any other character reference.
+- Read the full fixed Chinese prompt from [references/single-female-restaurant-low-angle-prompt.txt](references/single-female-restaurant-low-angle-prompt.txt) and send it without rewriting, shortening, or adding prompt text.
+- Use the requested aspect ratio; default to vertical `9:16` when the user does not specify one.
+
+Call it with:
+
+```text
+--prompt-preset single_female_restaurant_low_angle
 ```
 
 ## Ambiguous Interaction Preset

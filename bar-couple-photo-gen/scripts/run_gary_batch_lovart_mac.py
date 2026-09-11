@@ -17,6 +17,9 @@ AGENT = r"/Users/kin/.codex/skills/lovart-skill/agent_skill.py"
 DEFAULT_QUALITY = "medium"
 DEFAULT_NUM_IMAGES = 1
 SKILL_ROOT = Path(__file__).resolve().parent.parent
+SINGLE_FEMALE_RESTAURANT_LOW_ANGLE_PROMPT = (
+    SKILL_ROOT / "references" / "single-female-restaurant-low-angle-prompt.txt"
+)
 FIXED_HOTEL_CORRIDOR_REFERENCES = {
     "9x16": SKILL_ROOT / "assets" / "fixed-hotel-corridor-vertical.png",
     "16x9": SKILL_ROOT / "assets" / "fixed-hotel-corridor-horizontal.png",
@@ -722,6 +725,10 @@ def build_single_female_hotel_door_cctv_prompt(aspect, settings):
     return f"{first_line}\n{SINGLE_FEMALE_HOTEL_DOOR_CCTV_CORE}"
 
 
+def build_single_female_restaurant_low_angle_prompt():
+    return SINGLE_FEMALE_RESTAURANT_LOW_ANGLE_PROMPT.read_text(encoding="utf-8").strip()
+
+
 def build_couple_hotel_door_cctv_prompt(aspect, settings):
     ratio = settings["aspect_ratio"]
     orientation = "横版" if aspect == "16x9" else "竖版"
@@ -814,6 +821,8 @@ def build_prompt(scene, interaction, aspect, prompt_preset, settings, prompt_var
         return build_hotel_corridor_cctv_prompt(aspect, settings)
     if prompt_preset == "single_female_hotel_door_cctv":
         return build_single_female_hotel_door_cctv_prompt(aspect, settings)
+    if prompt_preset == "single_female_restaurant_low_angle":
+        return build_single_female_restaurant_low_angle_prompt()
     if prompt_preset == "couple_hotel_door_cctv":
         return build_couple_hotel_door_cctv_prompt(aspect, settings)
     if prompt_preset == "fixed_corridor_replace_female":
@@ -869,7 +878,7 @@ def build_tasks(female_files, args):
                 target = len(selected)
             for i in range(target):
                 female_path = selected[i % len(selected)]
-                if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
+                if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
                     if args.prompt_preset == "coffee_candid_universal":
                         prompt_variables = None
                         scene = "高级餐厅"
@@ -882,6 +891,10 @@ def build_tasks(female_files, args):
                         prompt_variables = None
                         scene = "五星级酒店走廊"
                         interaction = "女主准备敲左侧房间门"
+                    elif args.prompt_preset == "single_female_restaurant_low_angle":
+                        prompt_variables = None
+                        scene = "高级西餐厅"
+                        interaction = "超低机位拍摄女主与画外左侧的人开心又害羞地聊天"
                     elif args.prompt_preset == "couple_hotel_door_cctv":
                         prompt_variables = None
                         scene = "现代高档酒店走廊"
@@ -914,7 +927,7 @@ def build_tasks(female_files, args):
 
     tasks = []
     for female_path in female_files:
-        if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
+        if args.prompt_preset in {"coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"}:
             if args.prompt_preset == "coffee_candid_universal":
                 prompt_variables = None
                 scene = "高级餐厅"
@@ -927,6 +940,10 @@ def build_tasks(female_files, args):
                 prompt_variables = None
                 scene = "五星级酒店走廊"
                 interaction = "女主准备敲左侧房间门"
+            elif args.prompt_preset == "single_female_restaurant_low_angle":
+                prompt_variables = None
+                scene = "高级西餐厅"
+                interaction = "超低机位拍摄女主与画外左侧的人开心又害羞地聊天"
             elif args.prompt_preset == "couple_hotel_door_cctv":
                 prompt_variables = None
                 scene = "现代高档酒店走廊"
@@ -982,7 +999,7 @@ def main():
     parser.add_argument("--run-label", default="_gary_batch")
     parser.add_argument(
         "--prompt-preset",
-        choices=["photo", "sofa", "coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"],
+        choices=["photo", "sofa", "coffee_candid_universal", "hotel_corridor_cctv", "single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "couple_hotel_door_cctv", "fixed_corridor_replace_female", "couple_pillow_play_first_frame", "ambiguous_interaction"],
         default="photo",
     )
     parser.add_argument("--quality", choices=["auto", "low", "medium", "high"], default=DEFAULT_QUALITY)
@@ -1026,6 +1043,8 @@ def main():
                 scene, interaction = "现代高档酒店走廊", "两人并排行走，男主的手搭在女主肩膀上"
             elif args.prompt_preset == "single_female_hotel_door_cctv":
                 scene, interaction = "五星级酒店走廊", "女主准备敲左侧房间门"
+            elif args.prompt_preset == "single_female_restaurant_low_angle":
+                scene, interaction = "高级西餐厅", "超低机位拍摄女主与画外左侧的人开心又害羞地聊天"
             elif args.prompt_preset == "couple_hotel_door_cctv":
                 scene, interaction = "现代高档酒店走廊", "女主准备开左侧房间门，Gary 在旁边等待"
             elif args.prompt_preset == "fixed_corridor_replace_female":
@@ -1043,8 +1062,8 @@ def main():
                 "network_called": False,
                 "uploads_performed": False,
                 "prompt_preset": args.prompt_preset,
-                "identity_reference_count": 1 if args.prompt_preset == "single_female_hotel_door_cctv" else 2,
-                "male_reference_used": args.prompt_preset not in {"single_female_hotel_door_cctv", "fixed_corridor_replace_female"},
+                "identity_reference_count": 1 if args.prompt_preset in {"single_female_hotel_door_cctv", "single_female_restaurant_low_angle"} else 2,
+                "male_reference_used": args.prompt_preset not in {"single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "fixed_corridor_replace_female"},
                 "fixed_reference_path": (
                     str(FIXED_HOTEL_CORRIDOR_REFERENCES[aspect])
                     if args.prompt_preset == "fixed_corridor_replace_female" else None
@@ -1124,8 +1143,8 @@ def main():
         "project_id": args.project_id,
         "vertical_thread_id": args.vertical_thread_id,
         "horizontal_thread_id": args.horizontal_thread_id,
-        "male_path": None if args.prompt_preset in {"single_female_hotel_door_cctv", "fixed_corridor_replace_female"} else args.male_path,
-        "identity_reference_count": 1 if args.prompt_preset == "single_female_hotel_door_cctv" else 2,
+        "male_path": None if args.prompt_preset in {"single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "fixed_corridor_replace_female"} else args.male_path,
+        "identity_reference_count": 1 if args.prompt_preset in {"single_female_hotel_door_cctv", "single_female_restaurant_low_angle"} else 2,
         "fixed_reference_paths": (
             {key: str(value) for key, value in FIXED_HOTEL_CORRIDOR_REFERENCES.items()}
             if args.prompt_preset == "fixed_corridor_replace_female" else None
@@ -1155,7 +1174,7 @@ def main():
     log(f"日志目录：{log_dir}")
 
     uses_fixed_corridor_reference = args.prompt_preset == "fixed_corridor_replace_female"
-    uses_male_reference = args.prompt_preset not in {"single_female_hotel_door_cctv", "fixed_corridor_replace_female"}
+    uses_male_reference = args.prompt_preset not in {"single_female_hotel_door_cctv", "single_female_restaurant_low_angle", "fixed_corridor_replace_female"}
     male_url = None
     if uses_male_reference:
         male_url = upload_file(args.python_exe, args.max_network_retries, Path(args.male_path))
