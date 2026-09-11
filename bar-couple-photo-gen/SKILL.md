@@ -245,12 +245,9 @@ Chinese name: `固定底图走廊换女主`
 
 This preset always uses two references in one generation call, with no Gary reference:
 
-- For vertical `9:16`, use `assets/fixed-hotel-corridor-vertical.png` as 图1.
-- For horizontal `16:9`, use `assets/fixed-hotel-corridor-horizontal.png` as 图1.
-- Use the female randomly selected from the standing library, or the female image explicitly provided by the user, as 图2.
-- Never attach both fixed corridor bases to one call. Select exactly one by the requested output aspect.
-- Preserve the selected 图1 corridor composition as the base while replacing its woman with 图2. Match the clothing and makeup to 图2, not to the woman originally present in 图1.
-- Do not upload, attach, mention, or depict Gary/the male lead for this preset.
+- Image upload: upload the fixed corridor reference as 图1, then upload the randomly selected or user-provided female as 图2. Do not attach Gary or any other character reference.
+- Fixed prompt: send the user-authored prompt below verbatim. Do not append extra constraints, style descriptions, explanations, or rewritten wording. The technical parameter line for aspect ratio, dimensions, model, quality, and image count may still be prepended.
+- Aspect mapping: for vertical `9:16`, use only `assets/fixed-hotel-corridor-vertical.png` as 图1; for horizontal `16:9`, use only `assets/fixed-hotel-corridor-horizontal.png` as 图1.
 
 Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, model, quality, and image-count parameter line.
 
