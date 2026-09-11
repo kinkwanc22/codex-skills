@@ -1,0 +1,4 @@
+interface:
+  display_name: "花研Ryan文案工作流"
+  short_description: "女性IP独立扩写、换芯、千川生产与隔离验收专用工作流"
+  default_prompt: "使用 $huayan-ryan-copy-workflows 处理这篇女性向文案，并保持探花Gary男性业务完全不变。"
