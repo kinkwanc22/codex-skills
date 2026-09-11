@@ -52,7 +52,7 @@ QUALITY_LABELS = {
     "high": "高（high）",
 }
 
-MODEL_FAMILY = "GPT Image 2.5 Sunburst"
+MODEL_FAMILY = "GPT Image 2"
 
 
 SCENES = [

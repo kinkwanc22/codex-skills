@@ -1,6 +1,6 @@
 ---
 name: bar-couple-photo-gen
-description: Generate 9:16 photorealistic candid man-woman interaction images, selected Gary hotel lounge prompts, or approved single-female hotel CCTV prompts. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, generate a saved single-female CCTV scene, or produce GPT Image 2.5 Sunburst high-fidelity portrait consistency prompts.
+description: Generate 9:16 photorealistic candid man-woman interaction images, selected Gary hotel lounge prompts, or approved single-female hotel CCTV prompts. Use when the user asks to create images with a fixed male character, replace only the female character, generate dating/couple/bar/social interaction photos, generate a saved single-female CCTV scene, or produce GPT Image 2 high-fidelity portrait consistency prompts.
 ---
 
 # Bar Couple Photo Generator
@@ -56,24 +56,24 @@ If the user chooses the hotel lounge sofa prompt, use the following prompt text 
 
 ## Default Output
 
-Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. For local Codex generation, use GPT Image 2.5 Sunburst with high-fidelity portrait consistency. Images 2.0 is disabled for all new generation and must never be selected as a fallback. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
+Generate one vertical 9:16 photorealistic image unless the user asks for another ratio or multiple variants. For local Codex generation, use GPT Image 2 with high-fidelity portrait consistency. GPT Image 2.5 is disabled for all new generation and must never be selected as a fallback. Treat reference images as identity references, not edit targets. Do not generate full-body compositions unless the user explicitly asks. Prefer waist-up, half-body, close three-quarter, or tight social-photo framing with natural cropping. Slightly cut-off hands, shoulders, drinks, or table edges are acceptable when they make the photo feel like a real phone snapshot.
 
-## Local GPT Image 2.5 Sunburst Routing Lock
+## GPT Image 2 Routing Lock
 
-The user's standing rule is that all future Gary/couple image generation uses GPT Image 2.5 Sunburst in both the local Codex and Lovart lanes. Each lane keeps its own callable tool identifier, quality, size, thread, upload, and download behavior.
+The user's standing rule is that all future Gary/couple image generation uses the legacy GPT Image 2 model in both the local Codex and Lovart lanes. Each lane keeps its own callable tool identifier, quality, size, thread, upload, and download behavior.
 
-- Select or explicitly request GPT Image 2.5 Sunburst in the built-in image-generation entry and in the generation prompt.
-- Never select, request, or fall back to legacy `gpt-image-2` / Images 2.0 for any new local output. Images 2.0 is no longer an allowed generation route.
-- Do not substitute GPT Image 2.5 Flare when Sunburst is required. If Sunburst is unavailable or cannot be selected with confidence, stop and report the limitation instead of silently using another model or variant.
-- Label provenance as `GPT Image 2.5 Sunburst`. If the tool does not return a backend model ID, disclose that separately as `工具未回传后端模型ID`; do not turn that absence into permission to use another route.
-- Historical Images 2.0 files remain valid read-only comparison/archive material; never reuse them as new-generation sources or relabel them as 2.5.
-- For Lovart, use the callable tool id `generate_image_gpt_image_2_medium` as the GPT Image 2.5 Sunburst Medium route. Keep the underlying tool id unchanged for API compatibility, but label its model family and provenance as `GPT Image 2.5 Sunburst`, never Images 2.0.
+- Select or explicitly request GPT Image 2 / `gpt-image-2` in the built-in image-generation entry and in the generation prompt.
+- Never select, request, or fall back to GPT Image 2.5 Sunburst or Flare for new output.
+- If GPT Image 2 is unavailable or cannot be selected with confidence, stop and report the limitation instead of silently using or relabeling another model.
+- Label provenance as `GPT Image 2`. If the tool does not return a backend model ID, disclose that separately as `工具未回传后端模型ID`; do not turn that absence into permission to use another route.
+- Historical GPT Image 2.5 files remain valid read-only comparison/archive material; never reuse them as new-generation sources or relabel them as GPT Image 2.
+- For Lovart, use the callable tool id `generate_image_gpt_image_2_medium` as the GPT Image 2 Medium route.
 
-## Local Images 2.5 Windows GPU 2K Finishing
+## Local GPT Image 2 Windows GPU 2K Finishing
 
-This section applies only to locally generated GPT Image 2.5 Sunburst / `image_gen` results. It does not apply to Lovart, and it must not change any Lovart quality, size, thread, upload, download, or saving behavior.
+This section applies only to locally generated GPT Image 2 / `image_gen` results. It does not apply to Lovart, and it must not change any Lovart quality, size, thread, upload, download, or saving behavior.
 
-After a local GPT Image 2.5 Sunburst result is generated, automatically finish it on the connected Windows host `win-codex` with the installed RTX GPU Real-ESRGAN pipeline:
+After a local GPT Image 2 result is generated, automatically finish it on the connected Windows host `win-codex` with the installed RTX GPU Real-ESRGAN pipeline:
 
 ```text
 scripts/upscale_image2_windows_gpu.py <local-image-path> --batch-dir <dated-batch-folder>
@@ -81,14 +81,14 @@ scripts/upscale_image2_windows_gpu.py <local-image-path> --batch-dir <dated-batc
 
 Rules:
 
-- Treat the GPT Image 2.5 Sunburst file as the source image and preserve it under `<batch-folder>/.records/raw/`.
+- Treat the GPT Image 2 file as the source image and preserve it under `<batch-folder>/.records/raw/`.
 - Use Real-ESRGAN on the Windows GPU, then resize the enhanced result to the exact target dimensions.
 - To avoid slow cross-device transfer of a large lossless image, return a temporary JPEG at quality 96 and convert it to the final PNG on the Mac. The temporary transfer file is not kept in the visible batch folder.
 - Vertical `9:16` final: `W 2016 / H 3584`.
 - Horizontal `16:9` final: `W 2048 / H 1152`.
 - Save only the final requested images in the visible dated batch-folder root. Keep raw files and the processing manifest under `.records`.
 - Record every result in `.records/image2_windows_gpu_manifest.jsonl`, including source size, target size, output path, Windows job, elapsed time, and failure reason.
-- Label new provenance as `GPTImage2.5Sunburst_WindowsGPU超分2K`. Do not call it native Sunburst 2K.
+- Label new provenance as `GPTImage2_WindowsGPU超分2K`. Do not call it native GPT Image 2 2K.
 - Verify the returned file's actual pixel dimensions before reporting success.
 - If Windows, SSH, the RTX GPU, or Real-ESRGAN is unavailable, report the local image as generated but the 2K finishing stage as failed. Do not substitute Mac CPU upscaling or ordinary resizing without the user's explicit instruction.
 - Never send a Lovart output through this helper. Lovart continues to use the independent defaults and batch rules below, unchanged.
@@ -97,8 +97,8 @@ Rules:
 
 For Gary/couple image generation through Lovart, use these defaults unless the user explicitly overrides them:
 
-- Model family: `GPT Image 2.5 Sunburst`; Images 2.0 is disabled and is not an allowed fallback.
-- Quality: `medium`, routed through Lovart's callable Sunburst Medium tool id `generate_image_gpt_image_2_medium`.
+- Model family: `GPT Image 2`; GPT Image 2.5 is disabled and is not an allowed fallback.
+- Quality: `medium`, routed through Lovart's callable GPT Image 2 Medium tool id `generate_image_gpt_image_2_medium`.
 - Number of images per generation: `1`.
 - Vertical `9:16`: `W 1008 / H 1792`.
 - Horizontal `16:9`: `W 1792 / H 1008`.
@@ -354,13 +354,13 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 3. If the user provides only text, describe the female lead explicitly in the prompt and keep her ordinary, natural, and consistent with the user's description.
 4. Use `assets/fixed-male-lead.png` as the male identity reference.
 5. Use the built-in `image_gen` tool by default. If the user explicitly asks for CLI/API/model control, follow the system imagegen skill fallback rules.
-6. For local generation, select and prompt for GPT Image 2.5 Sunburst high-fidelity portrait consistency. Images 2.0 and Flare are not allowed fallbacks. Ask for vertical 9:16 output in the prompt.
+6. For local generation, select and prompt for GPT Image 2 high-fidelity portrait consistency. GPT Image 2.5 Sunburst and Flare are not allowed fallbacks. Ask for vertical 9:16 output in the prompt.
 7. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
 
 ## Prompt Template
 
 ```text
-Use GPT Image 2.5 Sunburst high-fidelity portrait identity consistency through the Codex built-in image-generation entry. Do not use legacy Images 2.0 or the Flare variant. Use the fixed male lead reference from this skill as the man. Use the user-provided female character as the woman. Generate a new photorealistic candid vertical 9:16 image, not an edit of the source references.
+Use GPT Image 2 high-fidelity portrait identity consistency through the Codex built-in image-generation entry. Do not use GPT Image 2.5 Sunburst or Flare. Use the fixed male lead reference from this skill as the man. Use the user-provided female character as the woman. Generate a new photorealistic candid vertical 9:16 image, not an edit of the source references.
 
 For the Gary series, use this Chinese structure when the user wants to vary only scene and flirtatious interaction:
 
