@@ -38,10 +38,8 @@ Before generating Gary-series or related single-female media, ask the user which
 3. `高级餐厅后方抓拍` - the fixed two-lead restaurant candid preset.
 4. `情侣打闹视频首帧` - the fixed first-person boyfriend POV pillow-play opening frame.
 5. `暧昧互动` - a stable-random first-person boyfriend POV preset. It randomly changes indoor, semi-outdoor, outdoor shaded scenes, time, light, position, and restrained intimate action while preserving the approved candid phone-shot feeling.
-6. `酒店走廊CCTV` - a ceiling-corner security-camera frame of the two leads walking side by side through a high-end hotel corridor.
 7. `单女主酒店走廊敲门CCTV` - a one-reference security-camera frame of only the female lead approaching the left-side room door. Gary must not be uploaded or appear.
 8. `双人酒店走廊开门CCTV` - a two-reference security-camera frame with Gary waiting beside the female lead as she prepares to open the left-side room door.
-9. `固定底图走廊换女主` - selects a fixed corridor base by output aspect as 图1, then uses the current random or user-provided female as 图2. Gary is not used.
 10. `单女主西餐厅超低机位聊天抓拍` - uses only the current random or user-provided female as 图1. Gary is not uploaded or shown.
 
 If the user chooses the hotel lounge sofa prompt, use the following prompt text exactly as the core prompt. Keep it in Chinese; do not translate it into English. Use the fixed Gary male reference as 图1 and the current female reference as 图2. The male lead remains fixed; the female lead may change by replacing 图2.
@@ -184,24 +182,6 @@ Call it with:
 --prompt-preset couple_pillow_play_first_frame
 ```
 
-## Hotel Corridor CCTV Preset
-
-Preset id: `hotel_corridor_cctv`
-
-Chinese name: `酒店走廊CCTV`
-
-This is the sixth prompt in the user's standing Gary image batch. Use 图1 and 图2 as the two identity references. Preserve the following user-authored core prompt verbatim; only prepend the requested aspect ratio, dimensions, quality, and image-count parameter line.
-
-```text
-使用图1和图2作为人物参考，保持两位人物的真实面貌、五官比例、发型、年龄感、体型和气质一致，不要美化成模特或网红脸。一张极其真实的酒店安防监控摄像头截图。固定在天花板墙角的高机位监控视角，略微向下俯拍，广角镜头。现代高档酒店的狭长走廊，暖灰色墙面，深色大理石门框，浅灰色光滑反光的大理石地面，暖白色顶灯，走廊具有很强的纵深感。 画面下方是男主和女主正在并排走，男主的手搭在女主的肩膀上，从后方拍摄，人物没有摆拍，没有看镜头，处于自然走路状态。 强烈的真实CCTV监控录像质感，普通安防摄像头成像，而不是电影摄影。轻微鱼眼广角畸变，轻微监控锐化，低码率视频压缩痕迹，细微噪点，轻微运动模糊，普通自动曝光，人物皮肤和衣服保留真实监控画面的细节损失，构图略显随意，像真实酒店监控系统随机截取的一帧。
-```
-
-Call it with:
-
-```text
---prompt-preset hotel_corridor_cctv
-```
-
 ## Single-Female Hotel Door CCTV Preset
 
 Preset id: `single_female_hotel_door_cctv`
@@ -236,30 +216,6 @@ Call it with:
 
 ```text
 --prompt-preset couple_hotel_door_cctv
-```
-
-## Fixed-Base Corridor Female Replacement Preset
-
-Preset id: `fixed_corridor_replace_female`
-
-Chinese name: `固定底图走廊换女主`
-
-This preset always uses two references in one generation call, with no Gary reference:
-
-- Image upload: upload the fixed corridor reference as 图1, then upload the randomly selected or user-provided female as 图2. Do not attach Gary or any other character reference.
-- Fixed prompt: send the user-authored prompt below verbatim and by itself. Do not prepend or append aspect ratio, dimensions, model, quality, image count, constraints, style descriptions, explanations, or rewritten wording.
-- Aspect mapping: for vertical `9:16`, use only `assets/fixed-hotel-corridor-vertical.png` as 图1; for horizontal `16:9`, use only `assets/fixed-hotel-corridor-horizontal.png` as 图1.
-
-Preserve and send the following user-authored prompt verbatim with no additional text:
-
-```text
-把图一的女主换成图二的人物，服饰和妆容要和图二人物一致，动作稍微有点变化，女主正在走廊敲门进入房间
-```
-
-Call it with:
-
-```text
---prompt-preset fixed_corridor_replace_female
 ```
 
 ## Single-Female Restaurant Low-Angle Candid Preset
