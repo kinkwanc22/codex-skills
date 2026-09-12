@@ -65,6 +65,12 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
    - After a platform rejection for `低俗`, mark every source used in the rejected draft as `needs re-review`; do not automatically reuse it merely because it passed an earlier local review.
    - Build a content profile for every accepted source: scene, people, action, mood, relationship state, and useful semantic tags. For each narration segment, select footage by matching the actual copy meaning to those profiles; do not assign sources by simple filename order, round-robin rotation, or pure random concatenation.
    - Detect identical or highly similar opening frames across candidate videos. Within one finished draft, each opening-frame group may be used at most once, even when the underlying files or later motion differ. Also avoid placing several clips from the same scene family consecutively when a semantically suitable alternative exists.
+   - For a multi-draft batch, plan footage globally before writing any draft. Maintain a batch-wide usage ledger for source files, opening-frame groups, scene families, and CTA packs. Do not independently run the same greedy selector for every manuscript and then describe the reordered result as varied or semantically matched.
+   - Prefer one use per source across the whole batch. When the reviewed pool is too small, distribute reuse evenly at the lowest mathematically feasible ceiling; no small group of high-scoring clips may appear in every draft. Expand and review the pool when the resulting overlap would still be visibly repetitive.
+   - Give each draft a distinct visual fingerprint based on its topic, such as observation/analysis, messaging/decision, shared activity, relationship progression, conflict/boundary, business/value, or emotional conversation. Scene quotas and emotional progression should differ between drafts instead of merely changing clip order.
+   - For AI-mixed drafts, choose AI versus real footage from the meaning and emotional need of each segment. Fixed AI/real alternation, fixed ratios applied to every manuscript, and category-first assignment are prohibited. Every mixed draft must still contain both types unless the user requests pure AI.
+   - Treat the CTA as part of batch diversity rather than an exempt fixed tail. Use at least three visually distinct CTA packs for a batch, never repeat the same complete CTA sequence, and do not give neighboring drafts the same pack. CTA footage remains subject to semantic matching, safety review, muting, and the batch-wide reuse ledger.
+   - If a source must be reused in another draft, use a meaningfully different safe source range when duration permits. Reusing the same opening frames with a different order does not count as diversity.
 
 2. Locate FFmpeg.
    - Prefer an explicit local FFmpeg path if already known in the thread.
@@ -92,6 +98,8 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
    - Extract one preview frame and inspect it if visual verification is useful.
    - For street-shot batches, record the number of screened sources, the number rejected for revealing or sexually suggestive imagery, and confirm that both sampled frames and every exact selected source range passed.
    - For semantic B-roll or AI-material drafts, record the narration text covered by every video segment, the chosen source profile, and the matched semantic tags or editorial reason. Verify per draft that source-file duplicates are zero, opening-frame-group duplicates are zero, and consecutive same-scene runs are zero unless a deliberately continuous action requires an exception documented in QA.
+   - For every multi-draft batch, also report total placements, unique source count, reuse-frequency distribution, sources appearing in every draft, average pairwise source-set Jaccard overlap, same-position reuse rate, dominant-scene share, and CTA pack/sequence identity. A reordered sequence of substantially the same source set is a QA failure even when each individual draft has no internal duplicates.
+   - Default batch diversity gates: no source may appear in every draft; average pairwise source-set Jaccard overlap should be at most `0.35`; same-position reuse should be at most `0.10`; and one scene family should not exceed `35%` of placements unless the manuscript clearly requires it and QA records the reason. If the reviewed pool cannot satisfy these gates, expand/review the pool or report the shortfall before delivery instead of silently recycling it.
    - Report the output path, duration, segment count, and whether word-timestamp alignment was used.
    - Distinguish `local visual QA passed` from `platform approved`. Never describe a draft as platform-safe, approved, or passed review until the platform has actually accepted it.
 
@@ -146,6 +154,7 @@ python ".\scripts\make_street_cut_video.py" `
 - First segment: use the approved `可用` subfolder first; later segments remain randomized from the full material pool.
 - Candidate safety: strict platform-vulgarity review of sampled frames and exact selected ranges is mandatory; clothing coverage, file names, and folder placement are not sufficient evidence that a clip is acceptable.
 - Material selection: narration-to-picture semantic matching is mandatory. Pure rotation, random stacking, or repeatedly using different videos generated from the same opening image is not acceptable.
+- Batch diversity: passing single-draft duplicate checks is insufficient. Optimize assignments across the entire batch, enforce the overlap gates above, and preserve distinct visual identities for separate manuscripts.
 
 ## Troubleshooting
 
