@@ -330,6 +330,22 @@ influencer face, model face, celebrity face, excessive beauty retouching, skin s
 6. For local generation, select and prompt for GPT Image 2 high-fidelity portrait consistency. GPT Image 2.5 Sunburst and Flare are not allowed fallbacks. Ask for vertical 9:16 output in the prompt.
 7. Save project-bound final outputs under the current thread's `outputs` directory when possible; for the current user's Gary series, prefer `D:\工作用（同步）\图\长视频用图` when available. Otherwise show the generated image inline and report where it was saved.
 
+## TeamoRouter Single-Female Route
+
+Use `scripts/run_gary_single_teamorouter.py` when the user asks to run the existing heroine-reference workflow through TeamoRouter GPT Image 2.5 Sunburst.
+
+- This route preserves the current Mac heroine library, random selection, fixed single-female prompt presets, dated output folder, manifest, and actual-dimension verification.
+- The documented TeamoRouter edit endpoint accepts one `image` field. Therefore this adapter supports only single-female presets and uploads only the selected heroine reference. Do not claim that it preserves two independent identities.
+- `--prompt-preset random` randomly chooses between `single_female_hotel_door_cctv` and `single_female_restaurant_low_angle`.
+- Run `--dry-run` first. A live request requires the user's authorization and `--confirm-spend`; make one submission and never retry automatically.
+- The TeamoRouter key must already be configured through the `teamorouter-image` skill. Never read or print it.
+
+Example dry run:
+
+```bash
+python3 scripts/run_gary_single_teamorouter.py --female-count 1 --prompt-preset random --dry-run
+```
+
 ## Prompt Template
 
 ```text
