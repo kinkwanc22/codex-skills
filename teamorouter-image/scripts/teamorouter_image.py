@@ -21,7 +21,9 @@ from typing import Any
 
 
 BASE_URL = "https://api.teamorouter.com/v1/images"
-MODEL = "gpt-image-2.5-sunburst"
+MODELS_URL = "https://api.teamorouter.com/v1/models"
+DEFAULT_MODEL = "gpt-image-2.5-sunburst"
+SUPPORTED_MODELS = ("gpt-image-2", "gpt-image-2.5-sunburst")
 KEY_ENV = "TEAMOROUTER_API_KEY"
 
 
@@ -39,8 +41,11 @@ def credential_path() -> Path:
 
 def configure_key() -> int:
     key = getpass.getpass("New TeamoRouter API key (hidden): ").strip()
-    if not key.startswith("sk-teamo-") or len(key) < 20:
-        raise ClientError("The key does not look like a TeamoRouter API key.")
+    if not re.fullmatch(r"sk-teamo-(?:[0-9a-fA-F]{48}|[0-9a-fA-F]{64})", key):
+        raise ClientError(
+            "Invalid TeamoRouter key format. Paste exactly one sk-teamo- key "
+            "with no surrounding or repeated text."
+        )
     path = credential_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temp_name = tempfile.mkstemp(prefix="credentials-", dir=str(path.parent), text=True)
@@ -77,6 +82,27 @@ def load_key() -> str:
     return value
 
 
+def check_auth() -> int:
+    key = load_key()
+    request = urllib.request.Request(
+        MODELS_URL,
+        method="GET",
+        headers={"Authorization": f"Bearer {key}", "Accept": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            response.read(1)
+            status = response.status
+    except urllib.error.HTTPError as exc:
+        if exc.code in (401, 403):
+            raise ClientError(f"Authentication failed with HTTP {exc.code}.") from exc
+        raise ClientError(f"Authentication endpoint returned HTTP {exc.code}.") from exc
+    except urllib.error.URLError as exc:
+        raise ClientError(f"Network request failed: {exc.reason}") from exc
+    print(json.dumps({"authenticated": True, "http_status": status}, ensure_ascii=False))
+    return 0
+
+
 def validate_size(value: str) -> tuple[int, int] | None:
     if value == "auto":
         return None
@@ -101,12 +127,14 @@ def validate_size(value: str) -> tuple[int, int] | None:
 
 def common_payload(args: argparse.Namespace) -> dict[str, Any]:
     validate_size(args.size)
+    if args.model == "gpt-image-2" and args.quality in ("xhigh", "max"):
+        raise ClientError("gpt-image-2 supports low, medium, high, or auto quality.")
     if args.output_compression is not None and args.output_format == "png":
         raise ClientError("output-compression applies to JPEG/WebP, not PNG.")
     if args.background == "transparent" and args.output_format == "jpeg":
         raise ClientError("Transparent background requires PNG or WebP.")
     payload: dict[str, Any] = {
-        "model": MODEL,
+        "model": args.model,
         "prompt": args.prompt,
         "size": args.size,
         "quality": args.quality,
@@ -121,7 +149,7 @@ def common_payload(args: argparse.Namespace) -> dict[str, Any]:
     return payload
 
 
-def encode_multipart(fields: dict[str, Any], files: dict[str, Path]) -> tuple[bytes, str]:
+def encode_multipart(fields: dict[str, Any], files: list[tuple[str, Path]]) -> tuple[bytes, str]:
     boundary = "----teamorouter-" + uuid.uuid4().hex
     body = bytearray()
     for name, value in fields.items():
@@ -129,7 +157,7 @@ def encode_multipart(fields: dict[str, Any], files: dict[str, Path]) -> tuple[by
         body.extend(f'Content-Disposition: form-data; name="{name}"\r\n\r\n'.encode())
         body.extend(str(value).encode("utf-8"))
         body.extend(b"\r\n")
-    for name, path in files.items():
+    for name, path in files:
         mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
         body.extend(f"--{boundary}\r\n".encode())
         body.extend(f'Content-Disposition: form-data; name="{name}"; filename="{path.name}"\r\n'.encode())
@@ -192,7 +220,11 @@ def save_results(response: dict[str, Any], output_dir: Path, extension: str) -> 
     return paths
 
 
-def sanitized_plan(command: str, payload: dict[str, Any], files: dict[str, Path] | None = None) -> dict[str, Any]:
+def sanitized_plan(
+    command: str,
+    payload: dict[str, Any],
+    files: list[tuple[str, Path]] | None = None,
+) -> dict[str, Any]:
     result: dict[str, Any] = {
         "dry_run": True,
         "paid_action": True,
@@ -200,29 +232,34 @@ def sanitized_plan(command: str, payload: dict[str, Any], files: dict[str, Path]
         "payload": payload,
     }
     if files:
-        result["files"] = {name: str(path.resolve()) for name, path in files.items()}
+        result["files"] = [
+            {"field": name, "path": str(path.resolve())}
+            for name, path in files
+        ]
     return result
 
 
 def run_image(args: argparse.Namespace) -> int:
     payload = common_payload(args)
     endpoint = "generations"
-    upload_files: dict[str, Path] | None = None
+    upload_files: list[tuple[str, Path]] | None = None
     if args.command == "generate":
         payload["moderation"] = args.moderation
         body = json.dumps(payload).encode("utf-8")
         content_type = "application/json"
     else:
         endpoint = "edits"
-        image_path = Path(args.image).expanduser()
-        if not image_path.is_file():
-            raise ClientError(f"Source image not found: {image_path}")
-        upload_files = {"image": image_path}
+        image_paths = [Path(value).expanduser() for value in args.image]
+        for image_path in image_paths:
+            if not image_path.is_file():
+                raise ClientError(f"Source image not found: {image_path}")
+        image_field = "image" if len(image_paths) == 1 else "image[]"
+        upload_files = [(image_field, image_path) for image_path in image_paths]
         if args.mask:
             mask_path = Path(args.mask).expanduser()
             if not mask_path.is_file():
                 raise ClientError(f"Mask image not found: {mask_path}")
-            upload_files["mask"] = mask_path
+            upload_files.append(("mask", mask_path))
         payload["input_fidelity"] = args.input_fidelity
         body, content_type = encode_multipart(payload, upload_files)
 
@@ -234,14 +271,19 @@ def run_image(args: argparse.Namespace) -> int:
 
     response = request_json(endpoint, body, content_type, args.timeout)
     files = save_results(response, Path(args.output_dir).expanduser(), args.output_format)
-    print(json.dumps({"ok": True, "model": MODEL, "files": files}, ensure_ascii=False, indent=2))
+    print(json.dumps({"ok": True, "model": args.model, "files": files}, ensure_ascii=False, indent=2))
     return 0
 
 
 def add_common(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--model", choices=SUPPORTED_MODELS, default=DEFAULT_MODEL)
     parser.add_argument("--prompt", required=True)
     parser.add_argument("--size", default="1024x1024")
-    parser.add_argument("--quality", choices=("low", "medium", "high", "auto"), default="auto")
+    parser.add_argument(
+        "--quality",
+        choices=("low", "medium", "high", "xhigh", "max", "auto"),
+        default="auto",
+    )
     parser.add_argument("--n", type=int, default=1)
     parser.add_argument("--output-format", choices=("png", "jpeg", "webp"), default="png")
     parser.add_argument("--output-compression", type=int, choices=range(0, 101), metavar="0..100")
@@ -258,6 +300,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("configure", help="Store an API key using hidden input and private file permissions.")
+    sub.add_parser("check-auth", help="Verify the stored key without generating an image.")
     check = sub.add_parser("validate-size", help="Validate a size without network access.")
     check.add_argument("size")
     generate = sub.add_parser("generate", help="Generate images.")
@@ -265,7 +308,12 @@ def build_parser() -> argparse.ArgumentParser:
     generate.add_argument("--moderation", choices=("low", "auto"), default="auto")
     edit = sub.add_parser("edit", help="Edit an image.")
     add_common(edit)
-    edit.add_argument("--image", required=True)
+    edit.add_argument(
+        "--image",
+        required=True,
+        action="append",
+        help="Input/reference image. Repeat --image to send multiple references.",
+    )
     edit.add_argument("--mask")
     edit.add_argument("--input-fidelity", choices=("high", "low"), default="high")
     return parser
@@ -275,6 +323,8 @@ def main() -> int:
     args = build_parser().parse_args()
     if args.command == "configure":
         return configure_key()
+    if args.command == "check-auth":
+        return check_auth()
     if args.command == "validate-size":
         dimensions = validate_size(args.size)
         print(json.dumps({"valid": True, "size": args.size, "dimensions": dimensions}))

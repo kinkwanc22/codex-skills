@@ -31,6 +31,7 @@ PRESET_FILENAMES = {
     "single_female_restaurant_low_angle": "01_单女主西餐厅低机位抓拍",
 }
 SUPPORTED_IMAGES = {".png", ".jpg", ".jpeg", ".webp"}
+SUPPORTED_MODELS = ("gpt-image-2", "gpt-image-2.5-sunburst")
 
 
 class IntegrationError(RuntimeError):
@@ -113,7 +114,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--prompt-preset", choices=("random", *SINGLE_PRESETS), default="random")
     parser.add_argument("--aspect", choices=("9x16", "16x9"), default="9x16")
-    parser.add_argument("--quality", choices=("low", "medium", "high", "auto"), default="medium")
+    parser.add_argument("--model", choices=SUPPORTED_MODELS, default="gpt-image-2.5-sunburst")
+    parser.add_argument("--quality", choices=("low", "medium", "high", "xhigh", "max", "auto"), default="medium")
     parser.add_argument("--input-fidelity", choices=("high", "low"), default="high")
     parser.add_argument("--seed", type=int)
     mode = parser.add_mutually_exclusive_group(required=True)
@@ -136,9 +138,12 @@ def main() -> int:
     prompt_workflow = load_prompt_module()
     prompt_workflow.random.seed(seed)
     settings = prompt_workflow.generation_settings(args.aspect, args.quality, 1, "default")
-    settings["model_family"] = "GPT Image 2.5 Sunburst"
-    settings["preferred_model_display_name"] = f"GPT Image 2.5 Sunburst {args.quality}"
-    settings["preferred_model"] = "gpt-image-2.5-sunburst"
+    if args.model == "gpt-image-2" and args.quality in {"xhigh", "max"}:
+        raise IntegrationError("gpt-image-2 supports low, medium, high, or auto quality.")
+    model_display = "GPT Image 2" if args.model == "gpt-image-2" else "GPT Image 2.5 Sunburst"
+    settings["model_family"] = model_display
+    settings["preferred_model_display_name"] = f"{model_display} {args.quality}"
+    settings["preferred_model"] = args.model
     scene = "五星级酒店走廊" if preset == SINGLE_PRESETS[0] else "高级西餐厅"
     interaction = "女主准备敲左侧房间门" if preset == SINGLE_PRESETS[0] else "女主与画外左侧的人开心又害羞地聊天"
     prompt = prompt_workflow.build_prompt(scene, interaction, args.aspect, preset, settings)
@@ -148,6 +153,8 @@ def main() -> int:
         sys.executable,
         str(TEAMOROUTER_CLIENT),
         "edit",
+        "--model",
+        args.model,
         "--image",
         str(female),
         "--prompt",
@@ -164,7 +171,7 @@ def main() -> int:
 
     base_record: dict[str, Any] = {
         "provider": "teamorouter",
-        "model": "gpt-image-2.5-sunburst",
+        "model": args.model,
         "seed": seed,
         "female_path": str(female.resolve()),
         "prompt_preset": preset,
