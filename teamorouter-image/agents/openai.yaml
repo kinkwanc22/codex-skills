@@ -1,0 +1,4 @@
+interface:
+  display_name: "TeamoRouter Image"
+  short_description: "Generate and edit images through TeamoRouter safely"
+  default_prompt: "Use $teamorouter-image to prepare or run a TeamoRouter image request."
