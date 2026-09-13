@@ -106,6 +106,7 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 ## Jianying Draft Rules
 
 - Body and fixed Qianchuan CTA subtitles use Jianying `研宋`, size `6`, with shadow enabled and stroke/outline disabled. If stroke is already on, turn it off. Keep fixed brand-packaging text in its template style.
+- For Qianchuan short-version drafts with the fixed conversion CTA, keep the confirmed CTA text, audio, subtitle content, and structure unchanged. The expanded body must not contain another CTA. Measure the merged audio rather than estimating from character count: body narration plus fixed CTA must be at most `298` seconds so the finished video remains safely under five minutes. If it exceeds the gate, compress and regenerate only the body; never speed up, trim, or rewrite the fixed CTA.
 - Set every video-type segment volume to `0`, including body footage, CTA footage, CTA emphasis overlays, brand video layers, and video overlays added later. Keep sound only on explicitly designated narration or music tracks.
 - Use Jianying's native `叠化` as the default transition. Use another native transition only when a clear change in action, scene, time, meaning, or the move into CTA materially benefits from it; record the exception and its reason in QA. Do not rotate effects merely for variety.
 - Verify that transitions create no black frames, gaps, abnormal overlap, subtitle obstruction, or offline media.
@@ -155,6 +156,7 @@ python ".\scripts\make_street_cut_video.py" `
 - Candidate safety: strict platform-vulgarity review of sampled frames and exact selected ranges is mandatory; clothing coverage, file names, and folder placement are not sufficient evidence that a clip is acceptable.
 - Material selection: narration-to-picture semantic matching is mandatory. Pure rotation, random stacking, or repeatedly using different videos generated from the same opening image is not acceptable.
 - Batch diversity: passing single-draft duplicate checks is insufficient. Optimize assignments across the entire batch, enforce the overlap gates above, and preserve distinct visual identities for separate manuscripts.
+- Qianchuan duration gate: when a fixed conversion CTA is used, reject any draft whose actual merged audio or timeline exceeds `298` seconds; character-count compliance alone is not acceptance.
 
 ## Troubleshooting
 

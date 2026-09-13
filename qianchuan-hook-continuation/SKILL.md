@@ -1,6 +1,6 @@
 ---
 name: qianchuan-hook-continuation
-description: Preserve a user-provided, previously validated Douyin opening verbatim, then continue it into a compact Qianchuan-ready Chinese relationship script with the same mother topic, fulfilled count promise, practical mechanisms, and one fan-group CTA. Use when the user says 千川爆款开头续写, 给开头续写千川, 按开头写正文加CTA, or provides only a viral opening and asks for a 千川版. Do not use for compressing a complete source manuscript or for 3.0/3.5 long-form rewrites.
+description: Preserve a user-provided, previously validated Douyin opening verbatim, then continue it into a compact Qianchuan-ready Chinese relationship script with the same mother topic, fulfilled count promise, practical mechanisms, and the selected CTA mode. Use when the user says 千川爆款开头续写, 给开头续写千川, 按开头写正文加CTA, or provides only a viral opening and asks for a 千川版. Do not use for compressing a complete source manuscript or for 3.0/3.5 long-form rewrites.
 ---
 
 # 千川爆款开头续写 1.0
@@ -29,14 +29,22 @@ description: Preserve a user-provided, previously validated Douyin opening verba
 4. 每个项目通常包含：一句清晰判断、背后的心理机制、可直接理解的表达或普遍场景，以及该动作如何改变互动反馈。根据母题自适应，不机械复制同一句式，不写咨询案例或完整人物故事。
 5. 力度来自明确判断、关系反馈和现实后果。不要自动补入“不教操控”“不是控制”“不是冷漠”等防御性声明，也不要把原本锋利的母题改写成温和咨询腔。
 6. 保持TTS口语感：句子长短有变化，少用论文术语和结构标签，避免“首先其次综上所述”的机械串联。
-7. 默认写成约1200至1700个中文字符的紧凑版本；数字盘点较多时，以完整兑现承诺优先，不为卡字数删掉项目。
-8. 结尾只放一个自然的粉丝群CTA。不要同时要求点赞、关注、评论、私信和进群，不重复CTA，不添加3.5固定片尾。
+7. 默认采用无案例短版：锁定开头与扩写正文合计 `600–900` 个中文字符，优先 `650–850`。`900` 是硬上限；数字项目较多时压缩每项表达，但仍须完整兑现开头承诺。
+8. 开始扩写前先确定 CTA 模式。普通短版结尾只放一个自然粉丝群 CTA；固定转化 CTA 交付模式下，扩写正文不得再生成粉丝群 CTA、课程 CTA、CTA 过桥或第二个收束广告段。
 
 ## CTA规则
 
 CTA应当承接正文未解决的现实判断，例如不知道女生处于试探、犹豫、冷淡还是失去兴趣。默认表达方向：邀请用户进入粉丝群，提交具体情况，由Gary帮助判断当前心理状态和下一步推进方向。
 
-CTA必须：
+### 固定转化 CTA 交付模式
+
+- 当用户要求使用固定转化 CTA，固定 CTA 是全片唯一 CTA。其已确认文案、配音、字幕内容和既定结构不得改写、压缩、加速、删句或替换。
+- `600–900` 字只统计锁定开头与扩写正文，不统计后接的固定转化 CTA；扩写正文必须自然结束，但不能另写粉丝群 CTA 或 CTA 过桥。
+- 在送入 TTS 前先读取固定 CTA 的实际音频时长，倒推出正文可用时长预算。最终视频硬上限为 `300` 秒，并至少预留 `2` 秒余量，因此正文音频必须满足：`正文音频时长 + 固定 CTA 音频时长 <= 298 秒`。
+- 字数只是生成阶段的第一道限制，最终必须以合并后的实际音频时长验收。若超过时长，保持锁定开头、数字承诺和固定 CTA 不动，只压缩正文并重新生成正文配音。
+- 固定 CTA 的字幕可以按既定语义行重新计时，但不得改变归一化文字内容；最终字幕、音频和草稿总时长必须一致。
+
+普通短版的自然 CTA 必须：
 
 - 只出现一次，位于全文结尾；
 - 使用“粉丝群”，不得使用“内部群”；
@@ -51,7 +59,9 @@ CTA必须：
 - 中段有机制也有可理解的具体表达，不只有观点口号。
 - 输入中的旧案例已在扩写前清理；成稿没有人物姓名、咨询叙事或完整故事链。
 - 没有擅自加入安全化解释、作者后台话术、提示词痕迹或旧CTA。
-- 全文只有一个粉丝群CTA，且位于最后。
+- 成稿在 `600–900` 个中文字符内，优先 `650–850`。
+- 普通短版只有一个位于结尾的粉丝群 CTA；固定转化 CTA 模式的扩写正文不含任何 CTA。
+- 固定转化 CTA 模式在合并音频后总时长不超过 `298` 秒，并记录正文、固定 CTA 与最终总时长。
 
 ## 验收阶段词汇自然度窄修
 
