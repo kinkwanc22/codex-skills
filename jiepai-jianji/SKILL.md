@@ -1,6 +1,6 @@
 ---
 name: jiepai-jianji
-description: Local street-shot auto editing workflow for Chinese narration videos and Jianying drafts. Use when the user asks for 街拍剪辑, 街拍素材随机剪辑, 口播音频配素材, 按句尾切换素材, 静音点切换素材, 逐字对齐剪视频, 剪映街拍草稿, or wants to turn a video-material folder plus narration audio plus script/docx into a 16:9 horizontal 30fps video.
+description: Local street-shot and 自然流千川 editing workflow for Chinese narration videos and Jianying drafts. Use when the user asks for 街拍剪辑, 自然流千川, 街拍素材随机剪辑, 口播音频配素材, 按句尾切换素材, 静音点切换素材, 逐字对齐剪视频, 剪映街拍草稿, or wants to turn a video-material folder plus narration audio plus script/docx into a 16:9 horizontal 30fps video.
 ---
 
 # 街拍剪辑
@@ -105,6 +105,7 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 
 ## Jianying Draft Rules
 
+- The official name of the calibrated Qianchuan short-form paradigm below is `自然流千川`. Treat that exact phrase as a request to use this full rule set. It is distinct from the ordinary street-shot version, pure-AI version, and the separate `横版自然流` workflow.
 - Body and fixed Qianchuan CTA subtitles in `千川短版` drafts use Jianying `研宋`, size `7`, with shadow enabled and stroke/outline disabled. If stroke is already on, turn it off. Keep fixed brand-packaging text in its template style. This size-7 rule applies to the new Qianchuan-short paradigm and supersedes earlier size-6 Qianchuan-short settings; do not retroactively alter unrelated or already accepted non-short drafts unless requested.
 - For Qianchuan short-version drafts with the fixed conversion CTA, keep the confirmed CTA text, audio, subtitle content, and structure unchanged. The expanded body must not contain another CTA. Measure the merged audio rather than estimating from character count: body narration plus fixed CTA must be at most `298` seconds so the finished video remains safely under five minutes. If it exceeds the gate, compress and regenerate only the body; never speed up, trim, or rewrite the fixed CTA.
 - Set every video-type segment volume to `0`, including body footage, CTA footage, CTA emphasis overlays, brand video layers, and video overlays added later. Keep sound only on explicitly designated narration or music tracks.
