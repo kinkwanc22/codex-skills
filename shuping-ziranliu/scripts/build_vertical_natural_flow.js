@@ -26,8 +26,13 @@ const femaleFolderName = path.basename(femaleFolder);
 if (!targetName.includes(femaleFolderName)) {
   throw new Error(`TARGET_NAME 必须包含实际女主文件夹名：${femaleFolderName}`);
 }
-const large07OpeningPath = path.join(femaleFolder, requireEnv('OPENING_VIDEO_1'));
-const large07OpeningPath2 = path.join(femaleFolder, requireEnv('OPENING_VIDEO_2'));
+const openingPaths = [];
+for (let index = 1; ; index += 1) {
+  const filename = process.env[`OPENING_VIDEO_${index}`];
+  if (!filename || !filename.trim()) break;
+  openingPaths.push(path.join(femaleFolder, filename.trim()));
+}
+if (openingPaths.length < 2) throw new Error('至少需要 OPENING_VIDEO_1 和 OPENING_VIDEO_2');
 const bodyStillPath = path.join(femaleFolder, requireEnv('BODY_STILL'));
 const openingMarkerText = process.env.OPENING_MARKER_TEXT || '今天我们要聊的是';
 const calibratedBodyStart = 8133333;
@@ -45,6 +50,16 @@ const bodyEnglishY = -0.35;
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const newId = () => crypto.randomUUID().replace(/-/g, '');
+
+function mediaDurationUs(filePath) {
+  const probe = spawnSync('/Users/kin/.local/bin/ffprobe', [
+    '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', filePath,
+  ], { encoding: 'utf8' });
+  if (probe.status !== 0) throw new Error(`无法读取视频时长：${filePath}\n${probe.stderr || ''}`);
+  const seconds = Number(probe.stdout.trim());
+  if (!Number.isFinite(seconds) || seconds <= 0) throw new Error(`视频时长无效：${filePath}`);
+  return Math.floor(seconds * 1e6);
+}
 
 function analyzeSubtitleContinuity(segments, trackEnd = null) {
   const sorted = [...segments].sort((a, b) => a.target_timerange.start - b.target_timerange.start);
@@ -184,8 +199,9 @@ if (!fs.existsSync(sourceDir)) throw new Error(`source draft missing: ${sourceDi
 if (!fs.existsSync(metaTemplatePath)) throw new Error(`plain metadata template missing: ${metaTemplatePath}`);
 if (!fs.existsSync(presetWrapperPath)) throw new Error(`large-07 preset snapshot missing: ${presetWrapperPath}`);
 if (!fs.existsSync(bgmPath)) throw new Error(`large-07 background audio missing: ${bgmPath}`);
-if (!fs.existsSync(large07OpeningPath)) throw new Error(`large-07 opening video missing: ${large07OpeningPath}`);
-if (!fs.existsSync(large07OpeningPath2)) throw new Error(`large-07 second opening video missing: ${large07OpeningPath2}`);
+for (const openingPath of openingPaths) {
+  if (!fs.existsSync(openingPath)) throw new Error(`opening video missing: ${openingPath}`);
+}
 if (!fs.existsSync(bodyStillPath)) throw new Error(`body still missing: ${bodyStillPath}`);
 if (!fs.existsSync(bubbleTransitionSource)) throw new Error(`bubble transition source missing: ${bubbleTransitionSource}`);
 if (!fs.existsSync(localYanSong)) throw new Error(`YanSong font missing: ${localYanSong}`);
@@ -462,39 +478,53 @@ const donorMainVideoTrack = (donor.tracks || []).find((track) =>
   track.type === 'video' && (track.segments || []).length === 2,
 );
 if (!donorMainVideoTrack) throw new Error('large-07 two-segment visual track missing');
-const openingSegment = donorMainVideoTrack.segments[0];
-const openingMaterial = (donor.materials.videos || []).find((material) => material.id === openingSegment.material_id);
-if (!openingMaterial) throw new Error('large-07 opening material missing');
-const firstOpeningDuration = Math.floor(openingBoundary / 2);
+const openingSegmentTemplate = donorMainVideoTrack.segments[0];
+const openingMaterialTemplate = (donor.materials.videos || []).find((material) => material.id === openingSegmentTemplate.material_id);
+if (!openingMaterialTemplate) throw new Error('large-07 opening material missing');
 // The gear/clock bridge belongs visually to the opening. Keep the final
-// opening video on screen until body narration actually starts.
-const secondOpeningDuration = bodyStart - firstOpeningDuration;
-const openingLocal = path.join(supportDir, 'opening_01_restaurant.mp4');
-const openingLocal2 = path.join(supportDir, 'opening_02_conversation.mp4');
-fs.copyFileSync(large07OpeningPath, openingLocal);
-fs.copyFileSync(large07OpeningPath2, openingLocal2);
-openingMaterial.path = openingLocal;
-openingMaterial.material_name = path.basename(openingLocal);
-openingMaterial.duration = firstOpeningDuration;
-openingMaterial.width = openingWidth;
-openingMaterial.height = openingHeight;
-openingSegment.target_timerange = { start: 0, duration: firstOpeningDuration };
-openingSegment.source_timerange = { start: 0, duration: firstOpeningDuration };
-openingSegment.volume = 0;
+// opening video on screen until body narration actually starts. Split the
+// available opening time evenly across however many clips this draft needs;
+// this avoids extending a short source clip into a frozen tail.
+const openingSegments = [];
+let openingCursor = 0;
+for (let index = 0; index < openingPaths.length; index += 1) {
+  const remaining = bodyStart - openingCursor;
+  const remainingParts = openingPaths.length - index;
+  const segmentDuration = index === openingPaths.length - 1
+    ? remaining
+    : Math.floor(remaining / remainingParts);
+  const sourcePath = openingPaths[index];
+  const availableDuration = mediaDurationUs(sourcePath);
+  if (segmentDuration > availableDuration) {
+    throw new Error(`开场片段分配 ${(segmentDuration / 1e6).toFixed(3)} 秒，超过源视频 ${(availableDuration / 1e6).toFixed(3)} 秒：${sourcePath}；请增加 OPENING_VIDEO_${openingPaths.length + 1}`);
+  }
+  const openingLocal = path.join(
+    supportDir,
+    `opening_${String(index + 1).padStart(2, '0')}_${path.basename(sourcePath)}`,
+  );
+  fs.copyFileSync(sourcePath, openingLocal);
 
-const secondOpeningMaterial = clone(openingMaterial);
-secondOpeningMaterial.id = newId();
-secondOpeningMaterial.local_material_id = secondOpeningMaterial.id;
-secondOpeningMaterial.path = openingLocal2;
-secondOpeningMaterial.material_name = path.basename(openingLocal2);
-secondOpeningMaterial.duration = secondOpeningDuration;
-const secondOpeningSegment = clone(openingSegment);
-secondOpeningSegment.id = newId();
-secondOpeningSegment.material_id = secondOpeningMaterial.id;
-secondOpeningSegment.target_timerange = { start: firstOpeningDuration, duration: secondOpeningDuration };
-secondOpeningSegment.source_timerange = { start: 0, duration: secondOpeningDuration };
-secondOpeningSegment.volume = 0;
-donor.materials.videos.push(secondOpeningMaterial);
+  const material = index === 0 ? openingMaterialTemplate : clone(openingMaterialTemplate);
+  if (index > 0) {
+    material.id = newId();
+    material.local_material_id = material.id;
+    donor.materials.videos.push(material);
+  }
+  material.path = openingLocal;
+  material.material_name = path.basename(openingLocal);
+  material.duration = segmentDuration;
+  material.width = openingWidth;
+  material.height = openingHeight;
+
+  const segment = index === 0 ? openingSegmentTemplate : clone(openingSegmentTemplate);
+  if (index > 0) segment.id = newId();
+  segment.material_id = material.id;
+  segment.target_timerange = { start: openingCursor, duration: segmentDuration };
+  segment.source_timerange = { start: 0, duration: segmentDuration };
+  segment.volume = 0;
+  openingSegments.push(segment);
+  openingCursor += segmentDuration;
+}
 const bodyStillSegment = donorMainVideoTrack.segments[1];
 bodyStillSegment.target_timerange = { start: bodyStart, duration: finalDuration - bodyStart };
 bodyStillSegment.source_timerange = { start: 0, duration: finalDuration - bodyStart };
@@ -508,7 +538,7 @@ bodyStillMaterial.duration = finalDuration - bodyStart;
 bodyStillMaterial.width = 1080;
 bodyStillMaterial.height = 1920;
 bodyStillSegment.volume = 0;
-donorMainVideoTrack.segments = [openingSegment, secondOpeningSegment, bodyStillSegment];
+donorMainVideoTrack.segments = [...openingSegments, bodyStillSegment];
 
 const bubbleOuter = JSON.parse(fs.readFileSync(bubbleTransitionSource, 'utf8'));
 const bubbleDraft = bubbleOuter.materials.drafts[0].draft;
@@ -518,7 +548,7 @@ if (!Array.isArray(donor.materials.transitions)) donor.materials.transitions = [
 // Give every visual boundary its own transition material. Reusing a single
 // transition id across two cuts can be collapsed by Jianying after native
 // timeline upgrade, leaving only one visibly effective cut.
-for (const segment of [openingSegment, secondOpeningSegment]) {
+for (const segment of openingSegments) {
   const bubble = clone(bubbleTemplate);
   bubble.id = newId();
   bubble.duration = 1000000;
@@ -651,8 +681,8 @@ const qa = {
   female_lead_folder_name: femaleFolderName,
   final_draft_name: targetName,
   draft_name_includes_female: targetName.includes(femaleFolderName),
-  opening_sources: [large07OpeningPath, large07OpeningPath2],
-  opening_video_parts: 2,
+  opening_sources: openingPaths,
+  opening_video_parts: openingPaths.length,
   opening_marker_text: openingMarkerText,
   opening_boundary_seconds: openingBoundary / 1e6,
   gear_bridge_start_seconds: openingBoundary / 1e6,
@@ -707,10 +737,10 @@ qa.structural_pass = qa.canvas.width === 1080 && qa.canvas.height === 1920 &&
   expectedChineseGap && qa.english_subtitle_continuity.gap_count === 0 &&
   qa.chinese_subtitle_continuity.overlap_count === 0 && qa.english_subtitle_continuity.overlap_count === 0 &&
   qa.opening_narration_count === 1 && qa.body_narration_count === 1 &&
-  qa.opening_video_parts === 2 && visualSegments.length === 3 && visualSegments[0].start_seconds === 0 &&
-  visualSegments[1].end_seconds === qa.body_start_seconds &&
-  visualSegments[2].start_seconds === qa.body_start_seconds &&
-  visualSegments[2].end_seconds === qa.duration_seconds && qa.offline_paths.length === 0 &&
+  qa.opening_video_parts >= 2 && visualSegments.length === qa.opening_video_parts + 1 && visualSegments[0].start_seconds === 0 &&
+  visualSegments[qa.opening_video_parts - 1].end_seconds === qa.body_start_seconds &&
+  visualSegments[qa.opening_video_parts].start_seconds === qa.body_start_seconds &&
+  visualSegments[qa.opening_video_parts].end_seconds === qa.duration_seconds && qa.offline_paths.length === 0 &&
   qa.main_video_track_empty && qa.populated_video_tracks_overlay_only;
 fs.writeFileSync(path.join(targetDir, 'vertical_natural_flow_qa.json'), JSON.stringify(qa, null, 2));
 

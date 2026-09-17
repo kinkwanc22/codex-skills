@@ -8,7 +8,7 @@
     "canvas": "9:16",
     "main_video_track": "保持空置",
     "visual_tracks": "所有人物视频与正文图片放在flag:2附加轨",
-    "opening_visuals": "允许多段人物视频，按本篇开场实际长度分配，不固定套用B02或B03的秒数",
+    "opening_visuals": "允许多段人物视频，按本篇开场实际长度等分，不固定套用B02或B03的秒数；两条不足时顺序增加OPENING_VIDEO_3及更多片段，禁止片段超出源视频时长",
     "body_visuals": "正文开始后使用一张正文图片持续到结尾"
   },
   "draft_naming": {
