@@ -22,6 +22,10 @@ const presetWrapperPath = path.join(
 );
 const bgmPath = '/Users/kin/Library/Containers/com.lemon.lvpro/Data/Movies/JianyingPro/User Data/Presets/Combination/Resources/b04d3d9275dfb64c88a7428af777ad7e.m4a';
 const femaleFolder = requireEnv('FEMALE_FOLDER');
+const femaleFolderName = path.basename(femaleFolder);
+if (!targetName.includes(femaleFolderName)) {
+  throw new Error(`TARGET_NAME 必须包含实际女主文件夹名：${femaleFolderName}`);
+}
 const large07OpeningPath = path.join(femaleFolder, requireEnv('OPENING_VIDEO_1'));
 const large07OpeningPath2 = path.join(femaleFolder, requireEnv('OPENING_VIDEO_2'));
 const bodyStillPath = path.join(femaleFolder, requireEnv('BODY_STILL'));
@@ -644,6 +648,9 @@ const qa = {
   source_untouched: sourceDir,
   reference: `用户手动 B01 标准 / B02逐项校准规则 / ${path.basename(femaleFolder)}素材`,
   female_lead_folder: femaleFolder,
+  female_lead_folder_name: femaleFolderName,
+  final_draft_name: targetName,
+  draft_name_includes_female: targetName.includes(femaleFolderName),
   opening_sources: [large07OpeningPath, large07OpeningPath2],
   opening_video_parts: 2,
   opening_marker_text: openingMarkerText,
@@ -695,6 +702,7 @@ const qa = {
 };
 qa.structural_pass = qa.canvas.width === 1080 && qa.canvas.height === 1920 &&
   qa.opening_subtitle_count + qa.body_subtitle_count === subtitleTrack.segments.length &&
+  qa.draft_name_includes_female &&
   qa.body_english_subtitle_count === qa.body_subtitle_count &&
   expectedChineseGap && qa.english_subtitle_continuity.gap_count === 0 &&
   qa.chinese_subtitle_continuity.overlap_count === 0 && qa.english_subtitle_continuity.overlap_count === 0 &&

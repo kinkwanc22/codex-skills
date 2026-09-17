@@ -11,6 +11,17 @@
     "opening_visuals": "允许多段人物视频，按本篇开场实际长度分配，不固定套用B02或B03的秒数",
     "body_visuals": "正文开始后使用一张正文图片持续到结尾"
   },
+  "draft_naming": {
+    "format": "原目标草稿名｜女主：女主文件夹名",
+    "female_name_source": "FEMALE_FOLDER 最后一级文件夹名",
+    "must_match_actual_assets": true,
+    "qa_fields": [
+      "female_lead_folder",
+      "female_lead_folder_name",
+      "final_draft_name",
+      "draft_name_includes_female"
+    ]
+  },
   "opening_chinese": {
     "font_name": "研宋体",
     "ui_font_size": 9,
