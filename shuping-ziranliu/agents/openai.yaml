@@ -1,0 +1,4 @@
+interface:
+  display_name: "竖屏自然流"
+  short_description: "按已验收的B03至B05规则制作并检查竖屏自然流剪映草稿"
+  default_prompt: "使用 $shuping-ziranliu 制作或检查指定的竖屏自然流剪映草稿。"

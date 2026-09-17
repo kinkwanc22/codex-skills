@@ -1,0 +1,128 @@
+{
+  "name": "竖屏自然流字幕与转场规则",
+  "version": "2026-09-18-step-6-explicit-bubble-blur-and-opening-shadow",
+  "status": "user_approved_current_standard",
+  "canonical_draft": "/Users/kin/Movies/JianyingPro/User Data/Projects/com.lveditor.draft/竖屏自然流_B03_第四版规则校正测试",
+  "manual_reference_draft": "/Users/kin/Movies/JianyingPro/User Data/Projects/com.lveditor.draft/竖屏自然流_B02_Mac后台结构测试",
+  "structure": {
+    "canvas": "9:16",
+    "main_video_track": "保持空置",
+    "visual_tracks": "所有人物视频与正文图片放在flag:2附加轨",
+    "opening_visuals": "允许多段人物视频，按本篇开场实际长度分配，不固定套用B02或B03的秒数",
+    "body_visuals": "正文开始后使用一张正文图片持续到结尾"
+  },
+  "opening_chinese": {
+    "font_name": "研宋体",
+    "ui_font_size": 9,
+    "optional_ui_font_size": 10,
+    "alignment": "center",
+    "text_color": "white",
+    "opacity": 1.0,
+    "transform": { "x": 0, "y": 0 },
+    "stroke_enabled": false,
+    "shadow_enabled": true,
+    "english_subtitle": false,
+    "note": "开场只有中文字幕，不生成、不保留英文字幕；文字必须100%不透明，禁止透明或半透明；默认使用9号，只有短单行文字且不拥挤时允许10号；必须关闭描边、打开阴影。后台生成时阴影必须同时写入材料外层参数与富文本styles内的shadows数组，并以前台界面实际出现阴影参数为验收依据。"
+  },
+  "body_chinese": {
+    "font_name": "系统",
+    "ui_font_size": 8,
+    "alignment": "center",
+    "text_color": "white",
+    "stroke_enabled": true,
+    "stroke_color": "black",
+    "transform": { "x": 0, "y": -0.24 },
+    "position_policy": "普通外层字幕轨固定在英文字幕上方；按最终B02画面高度校准，不照搬子草稿内部坐标"
+  },
+  "body_english": {
+    "generation_method": "优先剪映翻译功能；允许外部翻译逐条贴入并严格复用正文中文时间码",
+    "font_name": "系统",
+    "source_scope": "正文中文字幕",
+    "opening_english_subtitle": false,
+    "ui_font_size": 8,
+    "alignment": "center",
+    "text_color": "white",
+    "stroke_enabled": true,
+    "stroke_color": "black",
+    "transform": { "x": 0, "y": -0.35 },
+    "position_policy": "普通外层字幕轨固定在中文字幕下方；按最终B02画面高度校准，以最终渲染画面为准",
+    "note": "后续草稿必须复用当前英文字幕位置，不按画面内容自动移动。"
+  },
+  "narration": {
+    "split_rule": "在‘今天我们要聊的是’或同等语义开场的最后一条字幕结束点切成开场与正文两段",
+    "opening_volume_db": 10,
+    "body_volume_db": 10,
+    "continuity": "源时间码与目标时间码连续，不插入空白，不重叠"
+  },
+  "fixed_sfx": {
+    "gear_clock": "放在开场口播结束后，结束点严格对齐正文开始；齿轮声期间继续播放最后一条开场视频",
+    "heartbeat": "开始点严格对齐正文开始"
+  },
+  "visual_transition": {
+    "name": "泡泡模糊",
+    "scope": "所有画面素材边界，包括第一条开场视频到第二条开场视频、最后一条开场视频到正文图片",
+    "observed_duration_seconds": 1.0,
+    "implementation": "每个切点使用独立的泡泡模糊转场材料ID，禁止两个切点共用同一转场材料ID",
+    "required": true
+  },
+  "opening_to_body_visual_bridge": {
+    "rule": "开场口播结束后进入齿轮声时，不切正文图片；最后一条开场视频继续延续到齿轮声结束。正文口播、心跳声和正文图片在同一时间点开始。",
+    "body_still_start": "gear_clock_end_and_body_narration_start",
+    "forbidden": "齿轮声刚开始就切正文图片"
+  },
+  "semantic_timeline": {
+    "opening_end": "由‘今天我们要聊的是’或同等开场语义的最后一条字幕结束点决定",
+    "gear_bridge_duration_seconds": 1.833333,
+    "body_start": "opening_end + gear_bridge_duration",
+    "synchronized_at_body_start": [
+      "正文口播",
+      "心跳声",
+      "正文中文字幕",
+      "正文英文字幕",
+      "正文大标题和小标题",
+      "正文图片"
+    ],
+    "never_copy_absolute_times_between_drafts": true
+  },
+  "packaging": {
+    "filter": "黑曜",
+    "vignette": "固定暗角",
+    "sticker": "秘字马赛克贴纸",
+    "body_titles": "从正文开始点出现，并按本篇题目替换文字",
+    "component_source": "/Users/kin/Documents/Codex/2026-08-31/wo-k/work/vertical_b02_learning/preset22_components"
+  },
+  "background_music": {
+    "name": "我的预设7",
+    "type": "fixed_bgm",
+    "start_seconds": 0,
+    "volume_db": 0.0,
+    "fade_in_seconds": 0.0,
+    "fade_out_seconds": 0.0,
+    "trim_policy": "裁到本篇口播实际结束点，不保留音乐原始超长尾段",
+    "saved_copy": "/Users/kin/Documents/Codex/2026-08-31/wo-k/work/vertical_b02_learning/fixed_bgm/我的预设7.m4a"
+  },
+  "timeline_end_policy": {
+    "rule": "所有画面、字幕、效果、背景音乐与包装层均不得超过口播实际结束点",
+    "observed_demo_end_timecode": "00:12:08:05",
+    "note": "当前示范稿已从预设造成的约17分36秒裁回口播结束位置。"
+  },
+  "acceptance": {
+    "approved_draft": "竖屏自然流_B03_第四版规则校正测试",
+    "approved_points": [
+      "开场文字100%不透明",
+      "齿轮声期间延续最后一条开场视频",
+      "正文图片只在正文真正开始时切入",
+      "正文中文坐标(0,-0.24)",
+      "正文英文坐标(0,-0.35)",
+      "中文在上英文在下",
+      "所有画面交界明确使用泡泡模糊",
+      "开场字幕关闭描边并打开阴影，默认9号、可选10号"
+    ],
+    "evidence": "用户明确评价‘这次已经很好了’，并要求写入竖版自然流规则"
+  },
+  "supersedes": [
+    "开场吟宋体规则",
+    "所有转场使用叠化的误记",
+    "正文英文字幕使用预设直接生成的误记"
+  ]
+}
