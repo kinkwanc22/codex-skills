@@ -84,6 +84,22 @@
     ],
     "never_copy_absolute_times_between_drafts": true
   },
+  "subtitle_continuity": {
+    "upstream_skill": "srt-aligner continuous mode",
+    "source_rule": "普通口播区间相邻字幕首尾相接，最后一条覆盖到口播结束",
+    "repair_rule": "发现微空档时，在新草稿副本中延长前一条字幕至后一条开始点；不得修改已打开或已加密的剪映时间线",
+    "final_chinese_expected_gap_count": 1,
+    "final_chinese_only_gap": "齿轮过桥无口播区间",
+    "final_chinese_only_gap_duration_seconds": 1.833333,
+    "final_english_expected_gap_count": 0,
+    "overlap_count": 0,
+    "qa_fields": [
+      "source_subtitle_continuity_before",
+      "source_subtitle_continuity_after",
+      "chinese_subtitle_continuity",
+      "english_subtitle_continuity"
+    ]
+  },
   "packaging": {
     "filter": "黑曜",
     "vignette": "固定暗角",

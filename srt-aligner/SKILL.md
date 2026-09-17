@@ -25,8 +25,8 @@ If the user only provides a line-broken subtitle text and asks to process long l
    - Strongly prefer Whisper JSON with word timestamps, such as `segments[].words[]`.
    - If no timed transcript exists yet, use the local ASR/video subtitle workflow and request word timestamps whenever the tool supports it.
    - If only segment timestamps or an existing `.srt` are available, the script can still produce a best-effort result, but it must be treated as review-needed.
-3. If the user needs Jianying-ready no-gap subtitles, run `scripts/align_continuous_srt.mjs`.
-4. Otherwise run `scripts/align_srt.mjs` to align the final script onto the timed transcript.
+3. For every Jianying/CapCut narration draft, default to `scripts/align_continuous_srt.mjs`. Do not wait for the user to repeat “字幕填满” or “无空白”.
+4. Use `scripts/align_srt.mjs` only when the user explicitly wants natural silent gaps or the output is not intended for Jianying/CapCut continuous captions.
 5. Read the generated report before calling the SRT final:
    - `timingMode: "word"` is the preferred mode.
    - `timingMode: "segment-text"` means segment text was used as pseudo word timing.
@@ -119,6 +119,18 @@ For the user's current standard, the QA target is:
 - `lineCountMatches: true`
 - `max_chars_per_cue <= 17`
 - `lineQa.summary.totalIssues: 0` or manually reviewed
+
+## Downstream Video-Skill Handoff
+
+Before an SRT is handed to `shuping-ziranliu`, `hengban-ziranliu`, or `jiepai-jianji`, require all of the following:
+
+- Adjacent subtitle cues touch exactly: previous `end` equals next `start`.
+- The first cue starts at the intended narration start.
+- The final cue ends at the narration end; a sub-frame encoder tail is acceptable only when verified as inaudible.
+- `blank_text = 0`, `overlaps = 0`, and `max_gap_between_cues_sec = 0`.
+- The subtitle text comes from the final manuscript; ASR supplies timing only.
+
+If a downstream draft already exists and its source subtitle track contains micro-gaps, do not patch an opened/encrypted Jianying timeline in place. Rebuild a new draft from a clean source or a copy. Fill ordinary narration gaps by extending the preceding cue to the next cue start. Preserve only deliberate non-narration sections introduced by the editing workflow, such as the 1.833333-second gear bridge in `shuping-ziranliu`.
 
 ## Alignment Script
 

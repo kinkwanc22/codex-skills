@@ -42,6 +42,52 @@ const bodyEnglishY = -0.35;
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const newId = () => crypto.randomUUID().replace(/-/g, '');
 
+function analyzeSubtitleContinuity(segments, trackEnd = null) {
+  const sorted = [...segments].sort((a, b) => a.target_timerange.start - b.target_timerange.start);
+  const gaps = [];
+  const overlaps = [];
+  for (let index = 1; index < sorted.length; index += 1) {
+    const previousEnd = sorted[index - 1].target_timerange.start + sorted[index - 1].target_timerange.duration;
+    const currentStart = sorted[index].target_timerange.start;
+    if (currentStart > previousEnd) gaps.push({ start: previousEnd, end: currentStart, duration: currentStart - previousEnd });
+    if (currentStart < previousEnd) overlaps.push({ start: currentStart, end: previousEnd, duration: previousEnd - currentStart });
+  }
+  if (trackEnd !== null && sorted.length) {
+    const last = sorted[sorted.length - 1];
+    const lastEnd = last.target_timerange.start + last.target_timerange.duration;
+    if (trackEnd > lastEnd) gaps.push({ start: lastEnd, end: trackEnd, duration: trackEnd - lastEnd, tail: true });
+    if (trackEnd < lastEnd) overlaps.push({ start: trackEnd, end: lastEnd, duration: lastEnd - trackEnd, tail: true });
+  }
+  return {
+    gap_count: gaps.length,
+    gap_duration_seconds: gaps.reduce((sum, item) => sum + item.duration, 0) / 1e6,
+    max_gap_seconds: gaps.length ? Math.max(...gaps.map((item) => item.duration)) / 1e6 : 0,
+    overlap_count: overlaps.length,
+    gaps,
+    overlaps,
+  };
+}
+
+function normalizeSubtitleContinuity(segments, trackEnd) {
+  const sorted = [...segments].sort((a, b) => a.target_timerange.start - b.target_timerange.start);
+  const before = analyzeSubtitleContinuity(sorted, trackEnd);
+  if (before.overlap_count) throw new Error(`source subtitles overlap ${before.overlap_count} times; repair alignment before building`);
+  for (let index = 1; index < sorted.length; index += 1) {
+    const previous = sorted[index - 1];
+    const previousEnd = previous.target_timerange.start + previous.target_timerange.duration;
+    const currentStart = sorted[index].target_timerange.start;
+    if (currentStart > previousEnd) previous.target_timerange.duration += currentStart - previousEnd;
+  }
+  if (sorted.length) {
+    const last = sorted[sorted.length - 1];
+    const lastEnd = last.target_timerange.start + last.target_timerange.duration;
+    if (trackEnd > lastEnd) last.target_timerange.duration += trackEnd - lastEnd;
+  }
+  const after = analyzeSubtitleContinuity(sorted, trackEnd);
+  if (after.gap_count || after.overlap_count) throw new Error('subtitle continuity normalization failed');
+  return { before, after };
+}
+
 function collectIds(value, output = new Set()) {
   if (!value || typeof value !== 'object') return output;
   if (Array.isArray(value)) {
@@ -183,6 +229,7 @@ const subtitleTrackIndex = draft.tracks.findIndex((track) => track.name === '字
 const narrationTrackIndex = draft.tracks.findIndex((track) => track.name === '配音');
 if (subtitleTrackIndex < 0 || narrationTrackIndex < 0) throw new Error('source subtitle or narration track missing');
 const subtitleTrack = draft.tracks[subtitleTrackIndex];
+const sourceSubtitleContinuity = normalizeSubtitleContinuity(subtitleTrack.segments, sourceDuration);
 const markerSegment = subtitleTrack.segments.find((segment) => {
   const material = textById.get(segment.material_id);
   if (!material) return false;
@@ -585,6 +632,12 @@ function collectOffline(value) {
   }
 }
 collectOffline(draft);
+const chineseSubtitleContinuity = analyzeSubtitleContinuity(subtitleTrack.segments, finalDuration);
+const englishSubtitleContinuity = analyzeSubtitleContinuity(englishTrack.segments, finalDuration);
+const expectedChineseGap = chineseSubtitleContinuity.gaps.length === 1 &&
+  chineseSubtitleContinuity.gaps[0].start === openingBoundary &&
+  chineseSubtitleContinuity.gaps[0].end === bodyStart &&
+  chineseSubtitleContinuity.gaps[0].duration === gearBridgeDuration;
 
 const qa = {
   target: targetDir,
@@ -604,6 +657,16 @@ const qa = {
   opening_subtitle_count: openingSubtitleSegments.length,
   body_subtitle_count: bodySubtitleSegments.length,
   body_english_subtitle_count: englishTrack.segments.length,
+  source_subtitle_continuity_before: sourceSubtitleContinuity.before,
+  source_subtitle_continuity_after: sourceSubtitleContinuity.after,
+  chinese_subtitle_continuity: chineseSubtitleContinuity,
+  english_subtitle_continuity: englishSubtitleContinuity,
+  intentional_subtitle_gap: {
+    reason: '齿轮过桥无口播',
+    start_seconds: openingBoundary / 1e6,
+    end_seconds: bodyStart / 1e6,
+    duration_seconds: gearBridgeDuration / 1e6,
+  },
   opening_narration_count: narrationTrack.segments.filter((segment) => segment.target_timerange.start === 0 && segment.target_timerange.duration === openingBoundary).length,
   body_narration_count: narrationTrack.segments.filter((segment) => segment.target_timerange.start === bodyStart).length,
   narration_opening_end_seconds: openingBoundary / 1e6,
@@ -633,6 +696,8 @@ const qa = {
 qa.structural_pass = qa.canvas.width === 1080 && qa.canvas.height === 1920 &&
   qa.opening_subtitle_count + qa.body_subtitle_count === subtitleTrack.segments.length &&
   qa.body_english_subtitle_count === qa.body_subtitle_count &&
+  expectedChineseGap && qa.english_subtitle_continuity.gap_count === 0 &&
+  qa.chinese_subtitle_continuity.overlap_count === 0 && qa.english_subtitle_continuity.overlap_count === 0 &&
   qa.opening_narration_count === 1 && qa.body_narration_count === 1 &&
   qa.opening_video_parts === 2 && visualSegments.length === 3 && visualSegments[0].start_seconds === 0 &&
   visualSegments[1].end_seconds === qa.body_start_seconds &&
