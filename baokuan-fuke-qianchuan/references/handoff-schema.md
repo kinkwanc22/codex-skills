@@ -65,6 +65,7 @@ verified
 - `assets_ready`：转场视频已逐段记录源起点和使用时长，累计覆盖转场配音；CTA 使用少量同女主图片，图片时间线累计覆盖固定 CTA。
 - `vertical_cta_overlay_track`：可选但推荐记录竖版 CTA 固定画中画轨；该轨只覆盖 CTA 区间，素材来自固定预设，不计入转场视频或同女主素材清单。
 - `subtitle_position`：固定记录为水平居中 `x=0`、归一化 `y=-0.48`；视觉中心约在画面从上往下 `74%` 处，剧情、转场和 CTA 字幕必须一致。
+- `black_filter_intensity`：全程黑曜/耀黑滤镜固定为 `0.5`（剪映界面显示 `50%`）；暗角保持独立设置，不随本字段改变。
 - `draft_written`：剪映草稿目录、`draft_content.json` 和 `draft_info.json` 存在。
 - `verified`：结构 QA 通过；前台播放或导出状态仍在 `stage_evidence` 中单独记录。
 
