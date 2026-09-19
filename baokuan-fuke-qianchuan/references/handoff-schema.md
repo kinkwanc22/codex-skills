@@ -39,6 +39,52 @@
       "duration": 18.0
     }
   ],
+  "transition_style": {
+    "name": "泡泡模糊",
+    "duration_seconds": 1.0,
+    "apply_to": "all_visual_boundaries"
+  },
+  "audio_levels_db": {
+    "opening_dialogue": 11.6,
+    "transition_tts": 10.0,
+    "fixed_cta": 10.0,
+    "preset7_bgm": 0.0
+  },
+  "subtitle_style": {
+    "font": "研宋体",
+    "ui_font_size": 9,
+    "color": "#FFFFFF",
+    "align": "center",
+    "letter_spacing": 0,
+    "line_spacing": 0,
+    "scale_percent": 100,
+    "stroke_enabled": false,
+    "shadow": {
+      "enabled": true,
+      "color": "#000000",
+      "opacity_percent": 90,
+      "blur_percent": 15,
+      "distance": 5,
+      "angle_degrees": -45
+    }
+  },
+  "subtitle_position": {
+    "jianying_x": 0,
+    "jianying_y": -819,
+    "normalized_x": 0,
+    "normalized_y": -0.48,
+    "applies_to": ["opening_dialogue", "transition", "fixed_cta"]
+  },
+  "effect_settings": {
+    "black_filter_intensity": 0.5,
+    "dark_corner_intensity": 100
+  },
+  "cta_packaging_layout": {
+    "scope": "cta_only",
+    "disclaimer": {"font": "系统", "ui_font_size": 14, "scale_percent": 23, "x": 0, "y": 1891, "rotation_degrees": 0},
+    "brand_three_lines": {"font": "铂金黑", "ui_font_size": 15, "scale_percent": 105, "x": 0, "y": 1206, "rotation_degrees": 0},
+    "course_badge": {"font": "铂金黑", "ui_font_size": 14, "scale_percent": 66, "x": 171, "y": 768, "rotation_degrees": 0, "stroke_opacity_percent": 100, "stroke_width": 40}
+  },
   "jianying_draft": null,
   "stage_evidence": {}
 }
@@ -63,9 +109,13 @@ verified
 - `transition_ready`：`transition_text` 已完成知识机制匹配和时长估算。
 - `tts_ready`：转场 WAV 存在且真实时长不超过 25 秒。
 - `assets_ready`：转场视频已逐段记录源起点和使用时长，累计覆盖转场配音；CTA 使用少量同女主图片，图片时间线累计覆盖固定 CTA。
-- `vertical_cta_overlay_track`：可选但推荐记录竖版 CTA 固定画中画轨；该轨只覆盖 CTA 区间，素材来自固定预设，不计入转场视频或同女主素材清单。
-- `subtitle_position`：固定记录为水平居中 `x=0`、归一化 `y=-0.48`；视觉中心约在画面从上往下 `74%` 处，剧情、转场和 CTA 字幕必须一致。
-- `black_filter_intensity`：全程黑曜/耀黑滤镜固定为 `0.5`（剪映界面显示 `50%`）；暗角保持独立设置，不随本字段改变。
+- `vertical_cta_overlay_track`：从 `draft_written` 起必须记录竖版 CTA 固定画中画轨；只允许 1 段并覆盖 CTA 区间，剪映参数为缩放 43%、X 795、Y 774、旋转 0°，不计入转场视频或同女主素材清单。
+- `transition_style`：全部画面边界固定为 `泡泡模糊 1.0 秒`。
+- `audio_levels_db`：固定记录剧情原声 11.6、转场 10、CTA 10、预设 7 BGM 0。
+- `subtitle_style`：固定记录研宋体、剪映界面 9 号、白色、居中、描边关，以及完整阴影参数。
+- `subtitle_position`：同时记录剪映界面坐标 X 0、Y -819 和后台兼容归一化坐标 X 0、Y -0.48；前台验收以剪映坐标为准。
+- `effect_settings`：黑曜/耀黑为 `0.5`（界面 50%），暗角边缘暗度为 `100`。
+- `cta_packaging_layout`：记录三条 CTA 包装文字的字体、字号、缩放、坐标和旋转；只允许覆盖 CTA 区间。
 - `draft_written`：剪映草稿目录、`draft_content.json` 和 `draft_info.json` 存在。
 - `verified`：结构 QA 通过；前台播放或导出状态仍在 `stage_evidence` 中单独记录。
 

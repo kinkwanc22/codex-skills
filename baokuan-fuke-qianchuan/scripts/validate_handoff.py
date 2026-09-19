@@ -202,6 +202,103 @@ def main():
             if not (draft / name).is_file():
                 errors.append(f"missing Jianying file: {name}")
 
+        transition_style = data.get("transition_style") or {}
+        if transition_style.get("name") != "泡泡模糊" or transition_style.get("apply_to") != "all_visual_boundaries":
+            errors.append("transition_style must apply 泡泡模糊 to all visual boundaries")
+        try:
+            if abs(float(transition_style.get("duration_seconds")) - 1.0) > 1e-6:
+                errors.append("transition_style duration must be 1.0 seconds")
+        except (TypeError, ValueError):
+            errors.append("transition_style duration must be 1.0 seconds")
+
+        expected_audio = {
+            "opening_dialogue": 11.6,
+            "transition_tts": 10.0,
+            "fixed_cta": 10.0,
+            "preset7_bgm": 0.0,
+        }
+        audio_levels = data.get("audio_levels_db") or {}
+        for key, expected in expected_audio.items():
+            try:
+                if abs(float(audio_levels.get(key)) - expected) > 1e-6:
+                    errors.append(f"audio_levels_db.{key} must be {expected}")
+            except (TypeError, ValueError):
+                errors.append(f"audio_levels_db.{key} must be {expected}")
+
+        subtitle = data.get("subtitle_style") or {}
+        expected_subtitle = {
+            "font": "研宋体", "ui_font_size": 9, "color": "#FFFFFF",
+            "align": "center", "letter_spacing": 0, "line_spacing": 0,
+            "scale_percent": 100, "stroke_enabled": False,
+        }
+        for key, expected in expected_subtitle.items():
+            if subtitle.get(key) != expected:
+                errors.append(f"subtitle_style.{key} must be {expected!r}")
+        shadow = subtitle.get("shadow") or {}
+        expected_shadow = {
+            "enabled": True, "color": "#000000", "opacity_percent": 90,
+            "blur_percent": 15, "distance": 5, "angle_degrees": -45,
+        }
+        for key, expected in expected_shadow.items():
+            if shadow.get(key) != expected:
+                errors.append(f"subtitle_style.shadow.{key} must be {expected!r}")
+
+        subtitle_position = data.get("subtitle_position") or {}
+        expected_position = {
+            "jianying_x": 0, "jianying_y": -819,
+            "normalized_x": 0, "normalized_y": -0.48,
+        }
+        for key, expected in expected_position.items():
+            try:
+                if abs(float(subtitle_position.get(key)) - expected) > 1e-6:
+                    errors.append(f"subtitle_position.{key} must be {expected}")
+            except (TypeError, ValueError):
+                errors.append(f"subtitle_position.{key} must be {expected}")
+
+        effects = data.get("effect_settings") or {}
+        try:
+            if abs(float(effects.get("black_filter_intensity")) - 0.5) > 1e-6:
+                errors.append("effect_settings.black_filter_intensity must be 0.5")
+            if abs(float(effects.get("dark_corner_intensity")) - 100.0) > 1e-6:
+                errors.append("effect_settings.dark_corner_intensity must be 100")
+        except (TypeError, ValueError):
+            errors.append("effect_settings must record black_filter_intensity=0.5 and dark_corner_intensity=100")
+
+        overlay = data.get("vertical_cta_overlay_track") or {}
+        expected_overlay = {
+            "present": True, "scope": "cta_only", "segment_count": 1,
+            "muted": True,
+            "scale_percent": 43, "jianying_x": 795, "jianying_y": 774,
+            "rotation_degrees": 0,
+        }
+        for key, expected in expected_overlay.items():
+            if overlay.get(key) != expected:
+                errors.append(f"vertical_cta_overlay_track.{key} must be {expected!r}")
+
+        packaging = data.get("cta_packaging_layout") or {}
+        if packaging.get("scope") != "cta_only":
+            errors.append("cta_packaging_layout.scope must be 'cta_only'")
+        expected_packaging = {
+            "disclaimer": {
+                "font": "系统", "ui_font_size": 14, "scale_percent": 23,
+                "x": 0, "y": 1891, "rotation_degrees": 0,
+            },
+            "brand_three_lines": {
+                "font": "铂金黑", "ui_font_size": 15, "scale_percent": 105,
+                "x": 0, "y": 1206, "rotation_degrees": 0,
+            },
+            "course_badge": {
+                "font": "铂金黑", "ui_font_size": 14, "scale_percent": 66,
+                "x": 171, "y": 768, "rotation_degrees": 0,
+                "stroke_opacity_percent": 100, "stroke_width": 40,
+            },
+        }
+        for layer, expected_values in expected_packaging.items():
+            actual = packaging.get(layer) or {}
+            for key, expected in expected_values.items():
+                if actual.get(key) != expected:
+                    errors.append(f"cta_packaging_layout.{layer}.{key} must be {expected!r}")
+
     if target >= 6 and not (data.get("stage_evidence") or {}).get("structure_qa_passed"):
         errors.append("verified status requires stage_evidence.structure_qa_passed=true")
 
