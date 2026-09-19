@@ -13,7 +13,7 @@ from pathlib import Path
 VAULT = Path("/Users/kin/Gary 男性情感/Gary 男性情感")
 B_LEDGER = VAULT / "02_B高价值知识/08_提炼记录/万赞文案_B层提炼记录.jsonl"
 EXTERNAL_B_LEDGER = VAULT / "02_B高价值知识/08_提炼记录/外部资料_B层提炼记录.jsonl"
-EXTERNAL_CHUNK_LEDGER = VAULT / "02_B高价值知识/08_提炼记录/外部资料_原子知识块.jsonl"
+EXTERNAL_REFINED_LEDGER = VAULT / "02_B高价值知识/08_提炼记录/外部资料_精炼知识卡.jsonl"
 EXTERNAL_CASE_LEDGER = VAULT / "02_B高价值知识/08_提炼记录/外部资料_Gary匿名复合案例.jsonl"
 HISTORICAL_PERFORMANCE_LEDGER = VAULT / "05_复盘与自生长/02_发布数据/历史作品效果证据.jsonl"
 CROSS = Path("/Users/kin/Documents/Codex/2026-07-10/qu/work/obsidian_cross_source/final_modules.json")
@@ -81,8 +81,8 @@ def load_external_b_items() -> list[dict]:
     ]
 
 
-def load_external_chunks() -> list[dict]:
-    return load_jsonl(EXTERNAL_CHUNK_LEDGER) if EXTERNAL_CHUNK_LEDGER.exists() else []
+def load_external_refined_cards() -> list[dict]:
+    return load_jsonl(EXTERNAL_REFINED_LEDGER) if EXTERNAL_REFINED_LEDGER.exists() else []
 
 
 def load_external_composite_cases() -> list[dict]:
@@ -191,19 +191,29 @@ def main() -> None:
     b_items.sort(key=lambda x: (-x["score"], str(x["source_id"])))
     selected_b = b_items[:8]
 
-    external_chunks = []
-    for item in load_external_chunks():
-        score = round(relevance(query, query_concepts, item["title"], item["text"]) + len(query_concepts & concepts(item["text"])) * 15.0 + len(query_focus & focus_terms(item["title"] + "\n" + item["text"])) * 8.0, 3)
-        external_chunks.append({
-            "chunk_id": item["chunk_id"], "source_id": item["source_id"], "title": item["title"],
-            "score": score, "force": item["force"], "knowledge_type": item["knowledge_type"],
-            "stages": item.get("stages", []), "page_start": item.get("page_start"),
+    external_cards = []
+    for item in load_external_refined_cards():
+        retrieval_text = "\n".join([
+            item.get("title", ""), item.get("original_claim", ""), item.get("mechanism", ""),
+            "\n".join(item.get("causal_chain", [])), "\n".join(item.get("trigger_conditions", [])),
+            "\n".join(item.get("actions", [])), "\n".join(item.get("observable_feedback", [])),
+            "\n".join(item.get("failure_conditions", [])), "\n".join(item.get("tags", [])),
+            item.get("source_quote", ""),
+        ])
+        score = round(relevance(query, query_concepts, item["title"], retrieval_text) + len(query_concepts & concepts(retrieval_text)) * 15.0 + len(query_focus & focus_terms(item["title"] + "\n" + retrieval_text)) * 8.0, 3)
+        external_cards.append({
+            "card_id": item["card_id"], "chunk_id": item["card_id"],
+            "source_id": item["source_id"], "title": item["title"], "score": score,
+            "force": item["original_force"], "knowledge_type": item["knowledge_type"],
+            "stages": item.get("relationship_stages", []), "page_start": item.get("page_start"),
             "page_end": item.get("page_end"), "source_path": item["source_path"],
-            "a_markdown": item["a_markdown"], "exact_excerpt": item["text"][:1600],
-            "use_rule": "只润色和嫁接来源知识，不把来源力度自动改温和；采用后记录chunk_id",
+            "a_markdown": item["a_markdown"], "original_claim": item.get("original_claim", ""),
+            "mechanism": item.get("mechanism", ""), "actions": item.get("actions", []),
+            "exact_excerpt": item.get("source_quote", ""),
+            "use_rule": "忠实调用原著知识，不自动温和化、安全化或道德化；采用后记录card_id",
         })
-    external_chunks.sort(key=lambda x: (-x["score"], x["chunk_id"]))
-    selected_chunks = external_chunks[:10]
+    external_cards.sort(key=lambda x: (-x["score"], x["card_id"]))
+    selected_chunks = external_cards[:10]
 
     selected_cases = []  # Complete cases are owned by the downstream expansion route.
 
@@ -265,7 +275,7 @@ def main() -> None:
         "history_collision_pack": history,
         "gary_historical_performance_evidence": selected_historical_performance,
         "recommended_call": {"primary_cross_module": selected_cross[0] if selected_cross else None, "supporting_b_cards": selected_b[:4], "external_atomic_knowledge": selected_chunks[:5],  "historical_performance_evidence": selected_historical_performance[:3], "instruction": "先锁定母题与原文因果主轴；只调用能自然接在该母题后的知识点。知识只辅助新题，允许构造贴题的新因果与动作，不能每次照搬同几组观点。历史接收路线完整排除，历史拒绝记录只排除失败方式。历史发布表现只能用于同账号同母题候选的辅助排序，不能反向证明某个知识点或开头造成结果。换芯稿不写完整案例；候选案例只作稿外参照，扩写线路自行补案例。"},
-        "audit_notes": ["匹配分为本地可审计文本相似度，不代表知识已被人工确认适用", "原子知识块保留来源编号与页码，实际采用后必须回写chunk_id", "匿名复合案例是叙事适配，不等于Gary真实学员证据", "跨来源模块保留证据等级，单一来源不升级为已验证规律", "历史发布证据来自扩写前原稿与后台数据连接；发布正文和实际开头未核验时不得做知识点或开头归因", "本文件不是成稿，也没有调用扩写模型"],
+        "audit_notes": ["匹配分为本地可审计文本相似度，不代表知识已被人工确认适用", "外部精炼知识卡保留来源编号、页码和连续OCR引文，实际采用后必须回写card_id", "匿名复合案例是叙事适配，不等于Gary真实学员证据", "跨来源模块保留证据等级，单一来源不升级为已验证规律", "历史发布证据来自扩写前原稿与后台数据连接；发布正文和实际开头未核验时不得做知识点或开头归因", "本文件不是成稿，也没有调用扩写模型"],
     }
     args.output_dir.mkdir(parents=True, exist_ok=True)
     slug = re.sub(r"[/:*?\"<>|]", "_", title)[:60]
@@ -275,7 +285,7 @@ def main() -> None:
     lines = [f"# {title}｜{args.version}知识调用包", "", f"> 状态：只完成知识匹配，尚未生成换芯稿。原文力度：{force}。", "", "## 母题保护", "", f"- 公开母题：{title}", "- 必须保留原文因果主轴；可换操作、案例、场景和证明路线。", "- 不得为了变化而写成泛化建议，也不得自动安全化。", "", "## 同母题B层知识", ""]
     lines += [f"- {x['score']}分｜[[{x['card'].removesuffix('.md')}|{x['title']}]]｜{x['knowledge_type']}｜{x['force']}" for x in selected_b]
     lines += ["", "## 跨来源模块", ""] + [f"- {x['score']}分｜[[{x['file'].removesuffix('.md')}|{x['module_id']} {x['title']}]]｜{x['evidence_level']}" for x in selected_cross]
-    lines += ["", "## 外部原子知识", ""] + [f"- {x['score']}分｜`{x['chunk_id']}`｜{x['force']}｜页{x['page_start']}-{x['page_end']}｜[[{x['a_markdown'].removesuffix('.md')}|{x['title']}]]" for x in selected_chunks]
+    lines += ["", "## 外部精炼知识卡", ""] + [f"- {x['score']}分｜`{x['card_id']}`｜{x['force']}｜页{x['page_start']}-{x['page_end']}｜[[{x['a_markdown'].removesuffix('.md')}|{x['title']}]]" for x in selected_chunks]
     lines += ["", "## 历史碰撞", "", f"- 同源历史：{history['match_count']}条", f"- 已接收路线：{len(history['same_source_exclusions']['route_signatures'])}条，必须排除", f"- 同源失败方式：{len(history['same_source_rejected_patterns'])}条，只排除失败方式", f"- 近期窗口：3.1共{history['recent_cross_article_window']['3.1_count']}条；3.2共{history['recent_cross_article_window']['3.2_count']}条", ""]
     lines += ["## Gary历史发布证据", ""]
     if selected_historical_performance:
