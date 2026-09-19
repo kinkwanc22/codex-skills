@@ -86,37 +86,115 @@ def main():
     if target >= 5 and not cta_srt.is_file():
         errors.append("fixed_cta_srt does not exist")
 
-    selected = data.get("selected_supplemental_videos") or []
-    if target >= 4 and not selected:
-        errors.append("no selected_supplemental_videos")
-    selected_seconds = 0.0
-    for entry in selected:
-        if not isinstance(entry, dict):
-            errors.append("each supplemental video entry must record path/source_start/duration/section")
-            continue
-        item = Path(entry.get("path") or "/nonexistent")
-        if not item.is_file():
-            errors.append(f"missing supplemental video: {item}")
-        try:
-            item.resolve().relative_to(lead_dir.resolve())
-        except ValueError:
-            errors.append(f"supplemental video is outside female_lead_folder: {item}")
-        if entry.get("section") not in {"transition", "cta"}:
-            errors.append(f"invalid supplemental section: {entry.get('section')!r}")
-        try:
-            source_start = float(entry.get("source_start"))
-            used = float(entry.get("duration"))
-            if source_start < 0 or used <= 0:
-                raise ValueError
-            selected_seconds += used
-        except (TypeError, ValueError):
-            errors.append(f"invalid source_start/duration for supplemental video: {item}")
-    if target >= 4 and transition_audio.is_file() and cta.is_file():
-        required = (duration(probe(transition_audio)) or 0) + (duration(probe(cta)) or 0)
-        if selected_seconds + 0.05 < required:
-            errors.append(
-                f"supplemental coverage is short: {selected_seconds:.3f}s < {required:.3f}s"
-            )
+    new_asset_contract = any(
+        key in data for key in ("selected_transition_videos", "selected_cta_images", "cta_image_timeline")
+    )
+    if new_asset_contract:
+        transition_videos = data.get("selected_transition_videos") or []
+        cta_images = data.get("selected_cta_images") or []
+        cta_timeline = data.get("cta_image_timeline") or []
+        if target >= 4 and not transition_videos:
+            errors.append("no selected_transition_videos")
+        transition_seconds = 0.0
+        for entry in transition_videos:
+            if not isinstance(entry, dict):
+                errors.append("each transition video must record path/source_start/duration")
+                continue
+            item = Path(entry.get("path") or "/nonexistent")
+            if not item.is_file():
+                errors.append(f"missing transition video: {item}")
+            else:
+                info = probe(item)
+                kinds = {x.get("codec_type") for x in (info or {}).get("streams", [])}
+                if "video" not in kinds:
+                    errors.append(f"transition asset is not a video: {item}")
+            try:
+                item.resolve().relative_to(lead_dir.resolve())
+            except ValueError:
+                errors.append(f"transition video is outside female_lead_folder: {item}")
+            try:
+                source_start = float(entry.get("source_start"))
+                used = float(entry.get("duration"))
+                if source_start < 0 or used <= 0:
+                    raise ValueError
+                transition_seconds += used
+            except (TypeError, ValueError):
+                errors.append(f"invalid source_start/duration for transition video: {item}")
+
+        normalized_images = []
+        for value in cta_images:
+            item = Path(value or "/nonexistent")
+            normalized_images.append(str(item.resolve()))
+            if not item.is_file():
+                errors.append(f"missing CTA image: {item}")
+            if item.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
+                errors.append(f"CTA asset is not a supported image: {item}")
+            try:
+                item.resolve().relative_to(lead_dir.resolve())
+            except ValueError:
+                errors.append(f"CTA image is outside female_lead_folder: {item}")
+        unique_images = set(normalized_images)
+        if target >= 4 and not 2 <= len(unique_images) <= 5:
+            errors.append(f"CTA should use 2-5 unique images, found {len(unique_images)}")
+
+        cta_seconds = 0.0
+        for entry in cta_timeline:
+            if not isinstance(entry, dict):
+                errors.append("each CTA image timeline entry must record path/duration")
+                continue
+            item = Path(entry.get("path") or "/nonexistent")
+            if str(item.resolve()) not in unique_images:
+                errors.append(f"CTA timeline references an unselected image: {item}")
+            try:
+                used = float(entry.get("duration"))
+                if used <= 0:
+                    raise ValueError
+                cta_seconds += used
+            except (TypeError, ValueError):
+                errors.append(f"invalid duration for CTA image: {item}")
+
+        if target >= 4 and transition_audio.is_file():
+            required = duration(probe(transition_audio)) or 0
+            if transition_seconds + 0.05 < required:
+                errors.append(
+                    f"transition video coverage is short: {transition_seconds:.3f}s < {required:.3f}s"
+                )
+        if target >= 4 and cta.is_file():
+            required = duration(probe(cta)) or 0
+            if cta_seconds + 0.05 < required:
+                errors.append(f"CTA image coverage is short: {cta_seconds:.3f}s < {required:.3f}s")
+    else:
+        selected = data.get("selected_supplemental_videos") or []
+        if target >= 4 and not selected:
+            errors.append("no selected_supplemental_videos")
+        selected_seconds = 0.0
+        for entry in selected:
+            if not isinstance(entry, dict):
+                errors.append("each supplemental video entry must record path/source_start/duration/section")
+                continue
+            item = Path(entry.get("path") or "/nonexistent")
+            if not item.is_file():
+                errors.append(f"missing supplemental video: {item}")
+            try:
+                item.resolve().relative_to(lead_dir.resolve())
+            except ValueError:
+                errors.append(f"supplemental video is outside female_lead_folder: {item}")
+            if entry.get("section") not in {"transition", "cta"}:
+                errors.append(f"invalid supplemental section: {entry.get('section')!r}")
+            try:
+                source_start = float(entry.get("source_start"))
+                used = float(entry.get("duration"))
+                if source_start < 0 or used <= 0:
+                    raise ValueError
+                selected_seconds += used
+            except (TypeError, ValueError):
+                errors.append(f"invalid source_start/duration for supplemental video: {item}")
+        if target >= 4 and transition_audio.is_file() and cta.is_file():
+            required = (duration(probe(transition_audio)) or 0) + (duration(probe(cta)) or 0)
+            if selected_seconds + 0.05 < required:
+                errors.append(
+                    f"supplemental coverage is short: {selected_seconds:.3f}s < {required:.3f}s"
+                )
 
     draft = Path(data.get("jianying_draft") or "/nonexistent")
     if target >= 5:

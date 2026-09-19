@@ -21,12 +21,22 @@
   "fixed_cta_srt": "/Users/kin/Documents/Codex/2026-09-11/new-chat/work/qianchuan_full_0913/fixed_cta/固定转化CTA_语义优化.srt",
   "transition_text": null,
   "transition_audio": null,
-  "selected_supplemental_videos": [
+  "selected_transition_videos": [
     {
       "path": "/absolute/path/036_女主目录/clip.mp4",
       "source_start": 1.2,
-      "duration": 4.5,
-      "section": "transition"
+      "duration": 4.5
+    }
+  ],
+  "selected_cta_images": [
+    "/absolute/path/036_女主目录/cta-01.png",
+    "/absolute/path/036_女主目录/cta-02.png",
+    "/absolute/path/036_女主目录/cta-03.png"
+  ],
+  "cta_image_timeline": [
+    {
+      "path": "/absolute/path/036_女主目录/cta-01.png",
+      "duration": 18.0
     }
   ],
   "jianying_draft": null,
@@ -52,7 +62,7 @@ verified
 - `video_ready`：生成视频存在并包含可读取的视频流和音轨。
 - `transition_ready`：`transition_text` 已完成知识机制匹配和时长估算。
 - `tts_ready`：转场 WAV 存在且真实时长不超过 25 秒。
-- `assets_ready`：补充视频已逐段记录源起点和使用时长，均来自同一女主目录，累计时长覆盖转场配音与固定 CTA。
+- `assets_ready`：转场视频已逐段记录源起点和使用时长，累计覆盖转场配音；CTA 使用少量同女主图片，图片时间线累计覆盖固定 CTA。
 - `draft_written`：剪映草稿目录、`draft_content.json` 和 `draft_info.json` 存在。
 - `verified`：结构 QA 通过；前台播放或导出状态仍在 `stage_evidence` 中单独记录。
 
