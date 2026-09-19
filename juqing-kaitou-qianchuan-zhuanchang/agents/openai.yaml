@@ -1,4 +1,4 @@
 interface:
   display_name: "剧情开头千川续写转场"
-  short_description: "为短剧情与固定千川 CTA 写 12-15 秒 TTS 转场"
-  default_prompt: "使用 $juqing-kaitou-qianchuan-zhuanchang 为这段剧情和固定 CTA 之间写一段有力度的 TTS 转场。"
+  short_description: "检索知识卡，为短剧情与固定 CTA 写 18-25 秒 TTS 转场"
+  default_prompt: "使用 $juqing-kaitou-qianchuan-zhuanchang 检索贴合的知识卡，为这段剧情和固定 CTA 之间写一段有力度的 TTS 转场。"
