@@ -1,0 +1,4 @@
+interface:
+  display_name: "爆款复刻接千川"
+  short_description: "把剧情复刻视频自动接转场、配音、同女主素材和固定CTA"
+  default_prompt: "Use $baokuan-fuke-qianchuan to turn a generated dialogue-opening video into a complete Qianchuan Jianying draft."
