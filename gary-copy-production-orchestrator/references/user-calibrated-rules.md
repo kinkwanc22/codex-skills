@@ -44,6 +44,8 @@ Ordinary 2.8 is a full Gary spoken draft, not a generic psychology explainer. Mi
 
 The knowledge base supplies mechanisms and evidence. It must not appear as backstage language. Each article's source route must state the primary mechanism, permitted supporting mechanism, promised count, case function, and forbidden neighboring routes before expansion.
 
+External knowledge may only supplement four domains: PUA methodology, psychology, sociology, and biology. Domain labeling alone is not enough: the borrowed content must itself be a relevant interpersonal, attraction, relationship, or human-behavior mechanism. Do not convert survey methodology, marketing research, content strategy, or a generic questioning technique into a dating mechanism merely because its paper appears under psychology or social science.
+
 ## Current forbidden drift patterns
 
 - Generic hook: `你以为……其实……` followed by the same gender grievance in every article.
