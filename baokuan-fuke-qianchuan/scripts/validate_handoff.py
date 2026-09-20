@@ -267,6 +267,7 @@ def main():
         overlay = data.get("vertical_cta_overlay_track") or {}
         expected_overlay = {
             "present": True, "scope": "cta_only", "segment_count": 1,
+            "material_type": "sticker", "resource_id": "6940208530096016671",
             "muted": True,
             "scale_percent": 43, "jianying_x": 795, "jianying_y": 774,
             "rotation_degrees": 0,
@@ -284,11 +285,13 @@ def main():
                 "x": 0, "y": 1891, "rotation_degrees": 0,
             },
             "brand_three_lines": {
-                "font": "铂金黑", "ui_font_size": 15, "scale_percent": 105,
+                "font": "俪金黑", "font_resource_id": "6740499317733200388",
+                "ui_font_size": 15, "scale_percent": 105,
                 "x": 0, "y": 1206, "rotation_degrees": 0,
             },
             "course_badge": {
-                "font": "铂金黑", "ui_font_size": 14, "scale_percent": 66,
+                "font": "俪金黑", "font_resource_id": "6740499317733200388",
+                "ui_font_size": 14, "scale_percent": 66,
                 "x": 171, "y": 768, "rotation_degrees": 0,
                 "stroke_opacity_percent": 100, "stroke_width": 40,
             },

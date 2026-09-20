@@ -82,9 +82,10 @@
   "cta_packaging_layout": {
     "scope": "cta_only",
     "disclaimer": {"font": "系统", "ui_font_size": 14, "scale_percent": 23, "x": 0, "y": 1891, "rotation_degrees": 0},
-    "brand_three_lines": {"font": "铂金黑", "ui_font_size": 15, "scale_percent": 105, "x": 0, "y": 1206, "rotation_degrees": 0},
-    "course_badge": {"font": "铂金黑", "ui_font_size": 14, "scale_percent": 66, "x": 171, "y": 768, "rotation_degrees": 0, "stroke_opacity_percent": 100, "stroke_width": 40}
+    "brand_three_lines": {"font": "俪金黑", "font_resource_id": "6740499317733200388", "ui_font_size": 15, "scale_percent": 105, "x": 0, "y": 1206, "rotation_degrees": 0},
+    "course_badge": {"font": "俪金黑", "font_resource_id": "6740499317733200388", "ui_font_size": 14, "scale_percent": 66, "x": 171, "y": 768, "rotation_degrees": 0, "stroke_opacity_percent": 100, "stroke_width": 40}
   },
+  "vertical_cta_overlay_track": {"present": true, "scope": "cta_only", "material_type": "sticker", "resource_id": "6940208530096016671", "segment_count": 1, "muted": true, "scale_percent": 43, "jianying_x": 795, "jianying_y": 774, "rotation_degrees": 0},
   "jianying_draft": null,
   "stage_evidence": {}
 }
@@ -109,7 +110,7 @@ verified
 - `transition_ready`：`transition_text` 已完成知识机制匹配和时长估算。
 - `tts_ready`：转场 WAV 存在且真实时长不超过 25 秒。
 - `assets_ready`：转场视频已逐段记录源起点和使用时长，累计覆盖转场配音；CTA 使用少量同女主图片，图片时间线累计覆盖固定 CTA。
-- `vertical_cta_overlay_track`：从 `draft_written` 起必须记录竖版 CTA 固定画中画轨；只允许 1 段并覆盖 CTA 区间，剪映参数为缩放 43%、X 795、Y 774、旋转 0°，不计入转场视频或同女主素材清单。
+- `vertical_cta_overlay_track`：从 `draft_written` 起必须记录竖版 CTA 固定贴纸轨；固定资源为 `6940208530096016671`，只允许 1 段并覆盖 CTA 区间，剪映参数为缩放 43%、X 795、Y 774、旋转 0°，不计入转场视频或同女主素材清单。
 - `transition_style`：全部画面边界固定为 `泡泡模糊 1.0 秒`。
 - `audio_levels_db`：固定记录剧情原声 11.6、转场 10、CTA 10、预设 7 BGM 0。
 - `subtitle_style`：固定记录研宋体、剪映界面 9 号、白色、居中、描边关，以及完整阴影参数。
