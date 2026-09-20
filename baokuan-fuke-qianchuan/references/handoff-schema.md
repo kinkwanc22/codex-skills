@@ -17,6 +17,7 @@
   "generated_video": "/absolute/path/opening.mp4",
   "female_lead_id": "036",
   "female_lead_folder": "/absolute/path/036_女主目录",
+  "female_lead_identity_source": "opening_video_parent|user_confirmed_correction",
   "fixed_cta_audio": "/Users/kin/工作用（同步）/千川音频/固定逻辑cta.wav",
   "fixed_cta_srt": "/Users/kin/Documents/Codex/2026-09-11/new-chat/work/qianchuan_full_0913/fixed_cta/固定转化CTA_语义优化.srt",
   "transition_text": null,
