@@ -14,6 +14,15 @@ Every manual user correction is a learning sample, not merely a final replacemen
 
 An overall positive comment without a manual rewrite is a positive candidate signal, not individual-title approval or a new universal template. Before the next batch, use the latest correction pairs as regression examples and check mechanism, result, count, title skeleton, forbidden wording, and internal duplication. Mark unvalidated assistant inferences as such.
 
+### Latest title-calibration signals (2026-09-20, second manual pass)
+
+- For continuous male identity or capability growth, test `迭代` against generic `练出`; use it only when the body supports staged development.
+- Prefer an observable female action or relationship movement over an abstract verdict such as `值得你投入`.
+- When mechanism plus result already carries the title, remove nonessential time, scene, and physiological modifiers. Keep a scene only when it defines the topic.
+- For relationship-path topics, test whether the low state is observable and the endpoint has movement. Do not turn the specific pair `冷淡 -> 主动升级关系` into a universal replacement table.
+- Do not mechanically delete repeated strong verbs: two uses of `主动` may stay when they name two distinct actions such as self-proving and relationship advancement.
+- Unchanged user titles are evidence that the existing skeleton works. Preserve them rather than manufacturing edits.
+
 ## Opening system
 
 The opening is a learned template system, not a free-form Gemini paragraph. Match by body fingerprint, count, action, and result. When a learned H template fits, preserve all fixed text and replace only its bracketed variables. If no template fits, mark a separate new candidate; never silently alter an H template's fixed skeleton.
