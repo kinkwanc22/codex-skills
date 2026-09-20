@@ -29,6 +29,15 @@ The opening is a learned template system, not a free-form Gemini paragraph. Matc
 
 The opening should deliver the man's interest early, keep the action learnable, and place technical packaging after the first strong result. The body must prove the opening's result.
 
+### Latest opening-calibration signals (2026-09-20, seven Word revisions)
+
+- Classify each edit as preserve, narrow repair, or rebuild before writing. The seven samples include all three; manual learning does not mean every opening needs a new skeleton.
+- A named psychology topic should reveal its unique causal engine in the first beat, not merely a nearby pain point that could fit several mechanisms.
+- Treat one-use-only technical naming as a compression default, not an absolute rule. A technical name may lead when it materially improves topic recognition and actionability; full course-style explanation still belongs later.
+- Prefer one named tool plus one strong endpoint over a chain of packaged process nouns or several synonymous results.
+- For cross-domain topics such as dating plus business, add one concise shared-principle bridge before the formal topic. For direct chat/tool topics, an immediate male pain point can lead straight into the numbered method.
+- Preserve an opening that the user only reformats. A line break is rhythm evidence, not permission to redesign the wording.
+
 ## Expansion contracts
 
 Ordinary 2.8 is a full Gary spoken draft, not a generic psychology explainer. Minimum 3000 Chinese characters; 4200-5200 is a depth target, not a reason to pad a complete draft. Use one article-native architecture and vary paragraph weight, case function, and proof order. Cases belong before the mid-body CTA and must be narrated naturally.
