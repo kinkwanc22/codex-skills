@@ -140,6 +140,18 @@ def focus_terms(text: str) -> set[str]:
     return {term for term in FOCUS_TERMS if term in text}
 
 
+def named_mechanism_bonus(query_text: str, title: str) -> float:
+    """Prioritize a named mechanism only when its full term appears in the query."""
+    query_key = normalized_key(query_text)
+    segments = re.split(r"[与和及、，。:：()（）/｜|]", title)
+    for segment in segments:
+        term = segment.strip()
+        if len(term) >= 4 and term.endswith(("效应", "偏差", "理论", "定律")):
+            if normalized_key(term) in query_key:
+                return 120.0
+    return 0.0
+
+
 def normalized_key(text: str) -> str:
     return re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", text).lower()
 
@@ -187,6 +199,7 @@ def main() -> None:
         card = VAULT / meta["card"]
         card_text = card.read_text(encoding="utf-8")
         score = relevance(query, query_concepts, meta["title"], card_text)
+        score = round(score + named_mechanism_bonus(query_text, meta["title"]), 3)
         b_items.append({"source_id": meta["id"], "title": meta["title"], "score": score, "force": meta["force"], "knowledge_type": meta["knowledge_type"], "card": meta["card"], "evidence_level": meta.get("evidence_level", "单一高赞来源"), "content_role": meta.get("content_role", "高赞文案知识"), "gary_student_case": meta.get("gary_student_case"), "preview": re.sub(r"\s+", " ", card_text.split("## 来源",1)[0])[:500]})
     b_items.sort(key=lambda x: (-x["score"], str(x["source_id"])))
     selected_b = b_items[:8]
