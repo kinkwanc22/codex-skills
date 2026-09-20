@@ -56,6 +56,11 @@ def main():
         errors.append("female_lead_folder does not exist")
     elif target >= 0 and not lead_dir.name.startswith(lead + "_"):
         errors.append("female_lead_folder does not match female_lead_id")
+    identity_source = data.get("female_lead_identity_source")
+    if identity_source not in {None, "opening_video_parent", "user_confirmed_correction"}:
+        errors.append("female_lead_identity_source must be opening_video_parent or user_confirmed_correction")
+    if target >= 5 and not identity_source:
+        errors.append("draft_written requires female_lead_identity_source")
 
     video = Path(data.get("generated_video") or "/nonexistent")
     if target >= 1:
@@ -276,6 +281,15 @@ def main():
             if overlay.get(key) != expected:
                 errors.append(f"vertical_cta_overlay_track.{key} must be {expected!r}")
 
+        preset21 = data.get("fixed_cta_preset21_track") or {}
+        expected_preset21 = {
+            "present": True, "scope": "cta_only", "preset": "我的预设21",
+            "segment_count": 7, "muted": True,
+        }
+        for key, expected in expected_preset21.items():
+            if preset21.get(key) != expected:
+                errors.append(f"fixed_cta_preset21_track.{key} must be {expected!r}")
+
         packaging = data.get("cta_packaging_layout") or {}
         if packaging.get("scope") != "cta_only":
             errors.append("cta_packaging_layout.scope must be 'cta_only'")
@@ -286,8 +300,10 @@ def main():
             },
             "brand_three_lines": {
                 "font": "俪金黑", "font_resource_id": "6740499317733200388",
-                "ui_font_size": 15, "scale_percent": 105,
+                "ui_font_size": 15, "color": "#FFFFFF", "scale_percent": 105,
                 "x": 0, "y": 1206, "rotation_degrees": 0,
+                "stroke_color": "#000000", "stroke_opacity_percent": 100,
+                "stroke_width": 0.08,
             },
             "course_badge": {
                 "font": "俪金黑", "font_resource_id": "6740499317733200388",

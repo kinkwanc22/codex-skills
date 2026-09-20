@@ -12,6 +12,10 @@ description: 把“爆款复刻”产出的双人剧情提示词和生成视频�
 -> 同女主转场视频 -> 固定 CTA + 少量同女主图片 -> 字幕/预设包装 -> 剪映草稿
 ```
 
+## 当前正式模式
+
+2026-09-20 起，默认使用本轮逐项验收通过的生产模式。开始制稿或修复旧稿前，读取 [references/accepted-production-mode.md](references/accepted-production-mode.md)；其中的女主身份判定、`我的预设21` CTA 固定轨和三行标题样式属于正式基线，旧模板只能作为结构来源，不能覆盖这些规则。
+
 ## 输入契约
 
 每条任务先建立 `handoff.json`。字段和示例见 [references/handoff-schema.md](references/handoff-schema.md)。制稿前至少要确认：
