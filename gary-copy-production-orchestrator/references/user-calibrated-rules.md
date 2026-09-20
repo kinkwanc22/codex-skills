@@ -1,0 +1,33 @@
+# User-Calibrated Gary Workflow Notes
+
+These notes record the operating pattern learned from the user's corrections. They supplement, but do not replace, the current specialist skills and the user's latest instruction.
+
+## Working order
+
+`选题确认 -> 机制去重 -> 短正文路线 -> 一篇测试 -> 用户校正 -> 规则固化 -> 批量扩写 -> 正文验收 -> 开头匹配 -> Word`
+
+The user often asks to see one article first. "继续" or "下一个" does not by itself mean the test has been approved. Batch expansion requires an explicit approval signal such as "可以" after the calibration direction is visible.
+
+## Opening system
+
+The opening is a learned template system, not a free-form Gemini paragraph. Match by body fingerprint, count, action, and result. When a learned H template fits, preserve all fixed text and replace only its bracketed variables. If no template fits, mark a separate new candidate; never silently alter an H template's fixed skeleton.
+
+The opening should deliver the man's interest early, keep the action learnable, and place technical packaging after the first strong result. The body must prove the opening's result.
+
+## Expansion contracts
+
+Ordinary 2.8 is a full Gary spoken draft, not a generic psychology explainer. Minimum 3000 Chinese characters; 4200-5200 is a depth target, not a reason to pad a complete draft. Use one article-native architecture and vary paragraph weight, case function, and proof order. Cases belong before the mid-body CTA and must be narrated naturally.
+
+The knowledge base supplies mechanisms and evidence. It must not appear as backstage language. Each article's source route must state the primary mechanism, permitted supporting mechanism, promised count, case function, and forbidden neighboring routes before expansion.
+
+## Current forbidden drift patterns
+
+- Generic hook: `你以为……其实……` followed by the same gender grievance in every article.
+- Reused sympathy block: `女人拿走了什么 / 男人留下了什么 / 全砸在你身上`.
+- Mechanism collapse: projection, Barnum, expectation design, and intermittent reinforcement all becoming "make her uncertain and hooked".
+- Topic collapse: a relationship article becoming generic self-improvement, business advice, or a list of slogans.
+- Backstage leakage: `换芯`, `知识库`, `案例位`, `提示词`, `上一版`, or QA field names in public copy.
+
+## Acceptance
+
+Keep `正文待确认` until the user reviews the content. Separate generated output, opening replacement, Word export, playback, and publication evidence. Never claim a batch is complete merely because files exist.
