@@ -7,6 +7,10 @@ description: Learn, store, and use the user's approved Douyin copy opening formu
 
 This skill is the user's evolving opening-style library.
 
+## User-correction learning loop
+
+When the user manually changes an opening, retain the assistant version and the exact user version in a dated comparison record, then record the reusable change rule separately. Do not overwrite the template or treat one corrected sentence as a universal pattern. On later opening matches, consult the latest comparison records before selecting an H template. A general approval without a manual rewrite remains a positive sample, not a new fixed template.
+
 Do not use old generic hook templates. Only use opening forms that the user has explicitly taught and approved in this file.
 
 ## Gary 2026-09-16 第二批大小号校正：新增高优先级

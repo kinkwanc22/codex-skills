@@ -8,6 +8,12 @@ These notes record the operating pattern learned from the user's corrections. Th
 
 The user often asks to see one article first. "继续" or "下一个" does not by itself mean the test has been approved. Batch expansion requires an explicit approval signal such as "可以" after the calibration direction is visible.
 
+## Correction-learning loop
+
+Every manual user correction is a learning sample, not merely a final replacement. Record the assistant's previous wording, the exact user wording, a phrase-level difference, the reason for the change (prefer the user's own explanation), and whether the result affects generation, screening, opening matching, or acceptance. The dated knowledge-base record stores the exact comparison; a general rule page or this reference stores only the transferable judgment. Do not copy every individual title into this skill.
+
+An overall positive comment without a manual rewrite is a positive candidate signal, not individual-title approval or a new universal template. Before the next batch, use the latest correction pairs as regression examples and check mechanism, result, count, title skeleton, forbidden wording, and internal duplication. Mark unvalidated assistant inferences as such.
+
 ## Opening system
 
 The opening is a learned template system, not a free-form Gemini paragraph. Match by body fingerprint, count, action, and result. When a learned H template fits, preserve all fixed text and replace only its bracketed variables. If no template fits, mark a separate new candidate; never silently alter an H template's fixed skeleton.
