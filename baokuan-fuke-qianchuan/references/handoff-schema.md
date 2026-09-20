@@ -87,6 +87,7 @@
     "course_badge": {"font": "俪金黑", "font_resource_id": "6740499317733200388", "ui_font_size": 14, "scale_percent": 66, "x": 171, "y": 768, "rotation_degrees": 0, "stroke_opacity_percent": 100, "stroke_width": 40}
   },
   "vertical_cta_overlay_track": {"present": true, "scope": "cta_only", "material_type": "sticker", "resource_id": "6940208530096016671", "segment_count": 1, "muted": true, "scale_percent": 43, "jianying_x": 795, "jianying_y": 774, "rotation_degrees": 0},
+  "fixed_cta_preset21_track": {"present": true, "scope": "cta_only", "preset": "我的预设21", "segment_count": 7, "muted": true},
   "jianying_draft": null,
   "stage_evidence": {}
 }
@@ -112,6 +113,7 @@ verified
 - `tts_ready`：转场 WAV 存在且真实时长不超过 25 秒。
 - `assets_ready`：转场视频已逐段记录源起点和使用时长，累计覆盖转场配音；CTA 使用少量同女主图片，图片时间线累计覆盖固定 CTA。
 - `vertical_cta_overlay_track`：从 `draft_written` 起必须记录竖版 CTA 固定贴纸轨；固定资源为 `6940208530096016671`，只允许 1 段并覆盖 CTA 区间，剪映参数为缩放 43%、X 795、Y 774、旋转 0°，不计入转场视频或同女主素材清单。
+- `fixed_cta_preset21_track`：从 `draft_written` 起必须记录 `我的预设21` 的另一条 CTA 固定素材轨；固定为 7 段附加视频素材，整体偏移到 CTA 起点并全轨静音，原始相对时间、裁剪、缩放、动画和层级不得改变。
 - `transition_style`：全部画面边界固定为 `泡泡模糊 1.0 秒`。
 - `audio_levels_db`：固定记录剧情原声 11.6、转场 10、CTA 10、预设 7 BGM 0。
 - `subtitle_style`：固定记录研宋体、剪映界面 9 号、白色、居中、描边关，以及完整阴影参数。
