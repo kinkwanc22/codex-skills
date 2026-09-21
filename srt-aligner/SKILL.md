@@ -25,7 +25,7 @@ If the user only provides a line-broken subtitle text and asks to process long l
    - Strongly prefer Whisper JSON with word timestamps, such as `segments[].words[]`.
    - If no timed transcript exists yet, use the local ASR/video subtitle workflow and request word timestamps whenever the tool supports it.
    - If only segment timestamps or an existing `.srt` are available, the script can still produce a best-effort result, but it must be treated as review-needed.
-3. For every Jianying/CapCut narration draft, default to `scripts/align_continuous_srt.mjs`. Do not wait for the user to repeat “字幕填满” or “无空白”.
+3. Before timing alignment, complete the semantic line review below and freeze the reviewed line file. For every Jianying/CapCut narration draft, default to `scripts/align_continuous_srt.mjs`. Do not wait for the user to repeat “字幕填满” or “无空白”.
 4. Use `scripts/align_srt.mjs` only when the user explicitly wants natural silent gaps or the output is not intended for Jianying/CapCut continuous captions.
 5. Read the generated report before calling the SRT final:
    - `timingMode: "word"` is the preferred mode.
@@ -38,6 +38,22 @@ If the user only provides a line-broken subtitle text and asks to process long l
    - Large gaps caused by unmatched text.
    - Garbled ASR words leaking into the final script. The output text should come from the user script, not the raw ASR transcript.
 7. Save the final `.srt` in the requested output location and mention whether the report found weak cues.
+
+## 语义分行先审后锁定（中文口播）
+
+对中文口播，先由执行任务的 Codex 通读全文、逐句确定字幕分行，再对齐音频。自动分词、标点切分与规则脚本只能生成候选，不能称为已经完成语义审核；ASR 只提供时间，不改正文。
+
+- 每行默认最多 17 字，这是上限，不是凑满目标。按完整意思和实际口播停顿分行，保留词语、姓名、固定表达、紧密的修饰与中心词、动宾结构；长句优先在自然分句处切开。
+- 标点是候选边界，不是全部强制切开。避免机械地每逢逗号切一条或按字数硬截。已确定的开场/正文锚点单独保留，不能合并到下一句；锚点以本篇实际文稿为准。
+- 逐条连看前后字幕，检查断词、悬空的“的／把／就”等、残缺搭配和过短碎片。短句如“为什么”有完整表达或口播停顿时可以单独保留，不按字数一律合并。
+- 例如“毫无价值的讨／好者”“反馈最／好”属于断裂；应结合整个句子移动边界，不能只积累本批固定字符串替换。词典与 lineQa 只能提示疑点。
+- 分行只移动边界，不增删或改写文稿。每次修改后核对去标点和空白后的全文逐字一致，并检查每行不超限。
+- 将审完的无标点分行保存为 `reviewed-lines.txt`，在任务记录中保存文件 SHA256、全文及相邻边界审核完成情况、修改示例和仍待处理的问题。没有实际逐条审核，不得写“语义通过”；结构检查全绿也不能替代语义审核。
+- 审核通过后必须用 `--keep-lines` 对齐。逐条比较输出 `.lines.txt` / SRT 文本与锁定分行完全一致。若需要调整分行，返回语义审核、更新锁定文件并重新对齐，不能在后续脚本中悄悄重排。
+- 分别报告语义审核、时间码检查、实际试听状态。异常时间码须结合音频核对，不能为了时间码方便而拆坏句子。
+- 用户手动修正过的草稿保持原样。只有实际读到其修正字幕并完成前后对照，才可称为已从该样本校准；未读取时只记录待校准，不推断具体改法。
+
+本流程的审核由 Codex 执行，常规逐条检查不需要交回用户确认。保留用户明确要求的原有分行或窄范围编辑边界。
 
 ## Line-Only Text Mode
 
@@ -66,9 +82,10 @@ Use this mode for long Chinese narration when the final subtitle must import int
 
 ```powershell
 node scripts/align_continuous_srt.mjs `
-  --script final-copy.txt `
+  --script reviewed-lines.txt `
   --timed rough-asr.srt `
   --out final-continuous.srt `
+  --keep-lines `
   --max-chars 17
 ```
 
@@ -78,7 +95,7 @@ If the script is already correctly line-broken and each line must become exactly
 --keep-lines
 ```
 
-Default behavior is **repair/optimize the user's line-broken copy first, then align timing**. Do not add `--keep-lines` unless the user explicitly asks to preserve their exact line breaks without repairs.
+For reviewed and frozen lines, `--keep-lines` is required; the semantic review above is sufficient and does not require another user confirmation. Without this flag, the script repairs/reflows input using heuristics: use that behavior only to generate a candidate before semantic review, never as the final semantic decision.
 
 Continuous mode does all of these:
 
@@ -87,7 +104,7 @@ Continuous mode does all of these:
 - Uses the user's pasted line breaks as the primary structure when the input already looks like line-broken subtitle copy.
 - Treats manuscript line breaks as soft boundaries, so a word or sentence split across two pasted lines can be repaired locally before timing alignment.
 - Avoids full-script reflow for line-broken subtitle copy; it only repairs suspicious adjacent boundaries unless the input is a long unbroken manuscript.
-- Keeps each subtitle cue at or below `--max-chars`.
+- Candidate generation aims to keep each cue at or below `--max-chars`. With `--keep-lines`, overlong input is preserved and reported; fix it during semantic review before final alignment.
 - Preserves one input line as one subtitle only when `--keep-lines` is provided.
 - Uses Chinese word segmentation plus protected phrases to avoid splitting one word across cue boundaries.
 - When `jieba` is available, continuous mode uses it as the primary Chinese dictionary layer, then derives subtitle-safe phrase blocks from the token stream. This helps keep phrases such as `人与人之间`, `并不友好的女人`, `择偶策略`, `远古时期`, and `情绪状态` from being split awkwardly.
@@ -124,6 +141,7 @@ For the user's current standard, the QA target is:
 
 Before an SRT is handed to `shuping-ziranliu`, `hengban-ziranliu`, or `jiepai-jianji`, require all of the following:
 
+- Semantic review is complete, the reviewed line file is frozen, and final cue text matches it line by line. Unresolved semantic issues prevent final handoff.
 - Adjacent subtitle cues touch exactly: previous `end` equals next `start`.
 - The first cue starts at the intended narration start.
 - The final cue ends at the narration end; a sub-frame encoder tail is acceptable only when verified as inaudible.
