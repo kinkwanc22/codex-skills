@@ -46,6 +46,8 @@ The knowledge base supplies mechanisms and evidence. It must not appear as backs
 
 External knowledge may only supplement four domains: PUA methodology, psychology, sociology, and biology. Domain labeling alone is not enough: the borrowed content must itself be a relevant interpersonal, attraction, relationship, or human-behavior mechanism. Do not convert survey methodology, marketing research, content strategy, or a generic questioning technique into a dating mechanism merely because its paper appears under psychology or social science.
 
+Default transplant and topic-replacement drafts are not safety versions. Do not add unsolicited softening, relationship counseling, boundary reminders, mutual-consent framing, or reconciliation language that weakens the selected mechanism. Preserve the source topic's force, mechanism sharpness, male action, female psychological shift, and promised result. Use a safety/compliance/soft version only when the user explicitly requests that mode.
+
 ## Current forbidden drift patterns
 
 - Generic hook: `你以为……其实……` followed by the same gender grievance in every article.
