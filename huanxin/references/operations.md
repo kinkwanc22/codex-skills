@@ -17,7 +17,29 @@ query.txt可为选定题目和搜索词。检索包包含候选资料，不等�
 
 ## 换芯与冻结
 
-制作source.txt（第一行完整标题，后接短正文）、route.json、notes.json。notes.json示例字段：
+制作source.txt（第一行完整标题，后接短正文）、route.json、notes.json。route.json 除历史六字段外，必须记录 `mechanism_design` 与 `provocation_design`：
+
+```json
+{
+  "mechanism_design": {
+    "primary_domain": "psychology|sociology|biology|PUA",
+    "primary_mechanism": "一个主效应、理论或术语",
+    "supporting_mechanism": "可空；最多一个",
+    "causal_chain": "男人卡点 -> 机制触发 -> 女人心理变化 -> 位置反转 -> 强结果",
+    "why_it_proves_the_title": "该机制如何直接推出题目承诺"
+  },
+  "provocation_design": {
+    "counterintuitive_judgment": "反认知核心判断",
+    "interest_conflict": "男女利益或评价权冲突",
+    "male_action": "男人可执行动作",
+    "female_shift": "女人心理或欲望变化",
+    "position_or_result_reversal": "位置反转或强结果",
+    "advice_like_rejection_pass": true
+  }
+}
+```
+
+任一块缺失、主机制超出四个允许方向、辅助机制超过一个，或 `advice_like_rejection_pass` 不能人工判定为 true，都不得进入 freeze。notes.json示例字段：
 
 ```json
 {
