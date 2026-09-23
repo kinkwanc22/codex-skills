@@ -40,7 +40,9 @@ The opening should deliver the man's interest early, keep the action learnable, 
 
 ## Expansion contracts
 
-Ordinary 2.8 is a full Gary spoken draft, not a generic psychology explainer. Minimum 3000 Chinese characters; 4200-5200 is a depth target, not a reason to pad a complete draft. Use one article-native architecture and vary paragraph weight, case function, and proof order. Cases belong before the mid-body CTA and must be narrated naturally.
+Ordinary 2.8 is a full Gary spoken draft, not a generic psychology explainer. Minimum 3000 Chinese characters; 4200-5200 is a depth target, not a reason to pad a complete draft. Use one article-native architecture and vary paragraph weight, case function, and proof order. Cases belong before the mid-body CTA and must be narrated naturally. By default, do not place the complete named case immediately after the formal opening or `好，我们直接进入正题`; first establish the article's mechanism thesis and at least two substantive judgments or operating distinctions. An early case is allowed only when the route was explicitly approved as a long-case dissection.
+
+Do not treat sympathy or gender-criticism as the default body entrance. Before expansion, choose and record one topic-native entry lane from hard judgment, contrarian conclusion, immediate conflict, mechanism suspense, behavior diagnosis, or result-backtracking; sympathy is a separate optional lane and must not repeat the recent batch. Rotate not only vocabulary but the reasoning operation. Reject rewrites that keep the same `她拿走了什么 / 男人承担了什么 / 进退都错` scaffold with different topic nouns.
 
 The knowledge base supplies mechanisms and evidence. It must not appear as backstage language. Each article's source route must state the primary mechanism, permitted supporting mechanism, promised count, case function, and forbidden neighboring routes before expansion.
 
@@ -52,6 +54,7 @@ Default transplant and topic-replacement drafts are not safety versions. Do not 
 
 - Generic hook: `你以为……其实……` followed by the same gender grievance in every article.
 - Reused sympathy block: `女人拿走了什么 / 男人留下了什么 / 全砸在你身上`.
+- Early-case shortcut: formal opening -> generic grievance -> complete named case, before the mechanism and at least two article-specific judgments are established.
 - Mechanism collapse: projection, Barnum, expectation design, and intermittent reinforcement all becoming "make her uncertain and hooked".
 - Topic collapse: a relationship article becoming generic self-improvement, business advice, or a list of slogans.
 - Backstage leakage: `换芯`, `知识库`, `案例位`, `提示词`, `上一版`, or QA field names in public copy.
