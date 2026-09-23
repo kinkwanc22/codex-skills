@@ -18,6 +18,7 @@ An overall positive comment without a manual rewrite is a positive candidate sig
 
 - For continuous male identity or capability growth, test `迭代` against generic `练出`; use it only when the body supports staged development.
 - Prefer an observable female action or relationship movement over an abstract verdict such as `值得你投入`.
+- Write the title's endpoint as an explicit observable behavior, then verify the body proves that exact relationship result at the promised intensity. `主动进入暧昧` needs her own romantic/sexual framing, flirtatious expression, or voluntary closeness; changing the plan, extending the date, keeping a private joke alive, or proposing another date shows participation or continued interest, but does not by itself prove she entered flirtation. Do not let a nearby weaker signal stand in for the promised endpoint.
 - When mechanism plus result already carries the title, remove nonessential time, scene, and physiological modifiers. Keep a scene only when it defines the topic.
 - For relationship-path topics, test whether the low state is observable and the endpoint has movement. Do not turn the specific pair `冷淡 -> 主动升级关系` into a universal replacement table.
 - Do not mechanically delete repeated strong verbs: two uses of `主动` may stay when they name two distinct actions such as self-proving and relationship advancement.
