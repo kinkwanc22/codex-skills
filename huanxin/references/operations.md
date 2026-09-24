@@ -6,6 +6,14 @@
 
 知识检索默认读取 /Users/kin/Gary 男性情感/Gary 男性情感，跨来源模块与旧历史查询依赖：/Users/kin/Documents/Codex/2026-07-10/qu/work/obsidian_cross_source/final_modules.json 和 qu/scripts/query_31_32_history.py。这些是资料依赖，不导入其旧写作规则。知识脚本的3.1/3.2参数仅是历史检索标签，不选择扩写版本。
 
+Gary 全库知识已经统一进入 `02_B高价值知识/14_全库可调用卡片`，共 17 个调用分类；每条都保留名称、机制、原卡号和原卡路径。换新检索时优先根据题目选择相关分类，再打开命中的原卡，不递归扫描全库。分类只负责缩小检索范围，不能代替主机制判断；知识卡与母题、男人爽点、强结果的拼接仍在本次换新完成。
+
+需要直接限定分类时使用知识库查询脚本的 `--category` 参数，例如：
+
+```bash
+python3 "/Users/kin/Gary 男性情感/Gary 男性情感/03_C_Skill与方法库/知识调用与自生长/scripts/query_knowledge_cards.py" "需求感 主动权" --category "权力博弈与关系位置" --limit 10
+```
+
 ```bash
 python3 scripts/history.py refresh
 python3 scripts/build_knowledge_call_pack.py --source query.txt --version 3.2 --output-dir knowledge
