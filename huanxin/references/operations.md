@@ -44,7 +44,15 @@ query.txt可为选定题目和搜索词。检索包包含候选资料，不等�
 ```json
 {
   "structure": {"name": "节点推进", "original": "关系推进八个关键节点", "argument_flow": "阶段卡点→原因→动作→下一阶段反馈", "weighting": "关键节点详、过渡节点短"},
-  "knowledge_used": [{"id": "实际卡片或chunk_id", "path": "实际已读路径", "use": "采用的机制与为何贴题"}],
+  "knowledge_used": [{
+    "card_id": "B层卡片ID",
+    "card_path": "实际已读卡片路径",
+    "source_id": "A层原始片段ID或标题",
+    "source_path": "实际已读原文路径",
+    "exact_excerpt": "从A层原文摘录的、直接支持该机制的原句",
+    "evidence_limit": "如单一来源、待跨源验证；不可省略卡片已有的限制",
+    "use": "本稿怎样采用该片段、为何贴题；不把原文未经验证的说法升级成科学定论"
+  }],
   "point_count": 5,
   "topic_fidelity_checked": true
 }
@@ -56,7 +64,9 @@ python3 scripts/history.py screen --source source.txt --proposal route.json --ou
 python3 scripts/handoff.py freeze --source source.txt --proposal route.json --review review.json --notes notes.json --output frozen
 ```
 
-冻结包包含manuscript.txt、route.json、notes.json、review.json、screen.json、manifest.json。每个文件记录hash；冻结后不覆盖。需要实质改稿时生成新版本并重新复核。该脚本登记“未扩写”的共享记录，不会调用模型。
+冻结前，`knowledge_used` 至少要有一条完整记录：实际读过的B层卡片、其A层原文路径与精确摘录、证据限制、在本稿中的用途。只填卡片ID、贴检索摘要、只引用二次提炼而没有原文片段，均不合格；校验失败不得冻结。冻结包包含manuscript.txt、route.json、notes.json、review.json、screen.json、manifest.json。每个文件记录hash；冻结后不覆盖。需要实质改稿时生成新版本并重新复核。该脚本登记“未扩写”的共享记录，不会调用模型。
+
+示例：B-067《利用心理学效应驯化女人主动付出》标明“单一高赞来源、待跨源验证”；其链接A层原文067有片段“富兰克林效应：人会在帮助别人时获得满足感，并且会对被帮助者产生好感”。调用时既记录B卡的归纳，也记录A原文这句实际依据，并保留“单一来源”的限制。不能把这句话扩张成“必然让女人爱上你”或已证实的普遍定律。此例只演示卡片与片段如何成对追溯，不表示后续每篇都要用B-067；每篇须匹配自己的题目检索对应卡片与原文片段。
 
 当前Gary完整生产流程在冻结正文后、导出扩写输入前调用 `baokuan-kaitou-sheding`。根据冻结题目、承诺数量、核心机制和结果生成一个正式开头，并在工作目录保存：
 
