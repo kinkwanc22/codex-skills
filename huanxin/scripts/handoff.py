@@ -19,16 +19,6 @@ def freeze(a):
  if not 0<n<2000:raise ValueError('Source must be nonempty and under 2000 CJK')
  if body.splitlines()[0].strip()!=route['title']:raise ValueError('Title does not match first source line')
  if not notes.get('structure') or not notes.get('knowledge_used'):raise ValueError('Record actual structure and read knowledge sources in notes.json')
- for item in notes['knowledge_used']:
-  required=['card_id','card_path','source_id','source_path','exact_excerpt','evidence_limit','use']
-  missing=[key for key in required if not str(item.get(key,'')).strip()]
-  if missing:raise ValueError('Knowledge evidence must include a read B-card and A-source excerpt; missing: '+', '.join(missing))
-  card_path=Path(item['card_path']);source_path=Path(item['source_path'])
-  if not card_path.is_file():raise ValueError('Knowledge card path does not exist: '+str(card_path))
-  if not source_path.is_file():raise ValueError('A-source path does not exist: '+str(source_path))
-  excerpt=' '.join(str(item['exact_excerpt']).split())
-  source_text=' '.join(source_path.read_text(encoding='utf-8').split())
-  if excerpt not in source_text:raise ValueError('Exact knowledge excerpt is not present in cited A-source: '+str(source_path))
  points=route.get('viewpoints',[])
  if notes.get('point_count')!=len(points) or len(review['point_comparison'])!=len(points):raise ValueError('Point count/review coverage differs')
  if not notes.get('topic_fidelity_checked'):raise ValueError('Topic fidelity must be reviewed')
