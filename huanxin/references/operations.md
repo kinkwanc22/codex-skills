@@ -25,6 +25,7 @@ query.txt可为选定题目和搜索词。检索包包含候选资料，不等�
     "primary_domain": "psychology|sociology|biology|PUA",
     "primary_mechanism": "一个主效应、理论或术语",
     "supporting_mechanism": "可空；最多一个",
+    "knowledge_binding": "本次换新如何把知识卡机制与母题、男人爽点和强结果拼接起来",
     "causal_chain": "男人卡点 -> 机制触发 -> 女人心理变化 -> 位置反转 -> 强结果",
     "why_it_proves_the_title": "该机制如何直接推出题目承诺"
   },
