@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-08-user-calibrated",
+  "version": "2026-09-26-user-added-H17-H18",
   "scope": "Gary current project opening templates",
   "rules": [
     "仅替换用户标出的【】；括号外文字、句序、标点保持原样。当前模板模式优先于旧W/K/R自由拼接与强制两句话压缩。",
@@ -245,6 +245,37 @@
       ],
       "status": "user_annotated",
       "example_approval": "separate_from_template_annotation"
+    },
+    {
+      "id": "H17",
+      "calibration_order": 17,
+      "template": "顶美怎么泡？\n能跑到顶美的男人，无论做什么事都能成功，因为泡顶美和赚大钱，它们的底层逻辑是相通的，真正能够跨越阶层去攻略高价值女性的男人，往往也是掌握了【这个社会真正核心规则】的男人，\n今天我们要讲的是，【十条】泡妞与赚钱的【核心规则】完整版解析。\n让你在最短时间，完全理解两性关系与商业回报的运行规则，轻松拿到顶美顶薪双结果。",
+      "variables": [
+        "这个社会真正核心规则",
+        "十条",
+        "核心规则"
+      ],
+      "status": "user_annotated",
+      "example_approval": "user_requested_addition",
+      "added_date": "2026-09-26",
+      "use_when": "正文同时讨论高价值女性吸引与商业回报，并能承接共同底层规则、真实数量和双结果时使用。"
+    },
+    {
+      "id": "H18",
+      "calibration_order": 18,
+      "template": "回报率最高的泡妞方式是什么？\n通过【制造富兰克林效应】，持续获得女主主动付出的【时间和成本】，让女人从被动到主动和你推进，\n今天我们要聊的是，男女关系中的【富兰克林效应】与【关系投入】完整指南，让你最短时间内掌握【制造富兰克林效应】的方法，持续获得女主主动付出的【时间和成本】。",
+      "variables": [
+        "制造富兰克林效应",
+        "时间和成本",
+        "富兰克林效应",
+        "关系投入",
+        "制造富兰克林效应",
+        "时间和成本"
+      ],
+      "status": "user_annotated",
+      "example_approval": "user_requested_addition",
+      "added_date": "2026-09-26",
+      "use_when": "正文围绕具名心理效应、女性主动投入和关系推进时使用；重复变量保持一致，不与H16复利模板合并。"
     }
   ],
   "approved_calibration": {

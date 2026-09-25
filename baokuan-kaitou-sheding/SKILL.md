@@ -7,6 +7,10 @@ description: Learn, store, and use the user's approved Douyin copy opening formu
 
 This skill is the user's evolving opening-style library.
 
+## Gary 2026-09-26 用户新增正式模板
+
+当前正式模板共18个（H01—H18），以references/opening-variable-templates.md及JSON为准。H17为“顶美与赚钱共通规则”，H18为“回报率与主动投入”；用户明确要求添加，独立追加，不覆盖H01—H16。仅替换【】内内容。新增模板原文中的“能跑到顶美”“女主”按用户输入保留，不自动校改；消息中的行尾反斜杠按换行标记处理。原样保存不代表已有发布数据验证。
+
 ## User-correction learning loop
 
 When the user manually changes an opening, retain the assistant version and the exact user version in a dated comparison record, then record the reusable change rule separately. Do not overwrite the template or treat one corrected sentence as a universal pattern. On later opening matches, consult the latest comparison records before selecting an H template. A general approval without a manual rewrite remains a positive sample, not a new fixed template.
@@ -55,8 +59,8 @@ Do not use old generic hook templates. Only use opening forms that the user has 
 12. **钩子与主题分层命名**：不要强求同一组正文内容在钩子和主题句里使用同一个名称。钩子负责操作性和可得感，可写`六个引导`；主题句负责准确专业，可继续写`六个关键转折与背后的心理机制`。优先采用`只要女生开始出现某个可观察动作，你就可以用N个明确动作，直接拿到强结果`，比`你已经完成某动作，就抓住N个抽象结构`更容易让观众感到马上能用。
 13. **技术名一次、结果自然**：场景已经包含的动作直接删除，如`约会`不再重复`出来`；钩子不重复完整技术名，写`六个引导`即可，后半段再写`镜像效应的六种方式与心理机制`。本能类结果优先用`释放本能、藏不住身体反应`，不造`本能跟随`等抽象控制词；`约会技巧`优先于`约会引导力`等课程造词。
 14. **通用逻辑不等于固定句式**：通用的是模板匹配、动作可得、极致结果和专业机制后置。`但凡女生出现信号→你可以用N个引导`只适合有明确女性机会信号的正文；人性规则、暗黑认知、利益冲突等题应在强判断、短问短答、直接指令或结果先行中重新选择，不得把一次成功结构扩成万能模板。
-15. **模板池优先**：通用逻辑用于校正模板变量，不替代16个H模板。每次先按母题形成模板短名单；只有所有模板明显不适配时才写自由候选，并记录排除理由。七条并列人性规则或完整认知盘点优先检查H04；不要因为上一条机会条件式或反常识式有效就连续复用。
-16. **模板名与修改权限一致**：标注为H01至H16时，只能替换原模板【】区域，括号外固定文字、句序和标点不动。用户校正样本可以提供语感，但不自动授权修改另一篇H模板的固定骨架；若需沿用整个新骨架，必须标为独立新候选，不得冒充H模板。
+15. **模板池优先**：通用逻辑用于校正模板变量，不替代18个H模板。每次先按母题形成模板短名单；只有所有模板明显不适配时才写自由候选，并记录排除理由。七条并列人性规则或完整认知盘点优先检查H04；不要因为上一条机会条件式或反常识式有效就连续复用。
+16. **模板名与修改权限一致**：标注为H01至H18时，只能替换原模板【】区域，括号外固定文字、句序和标点不动。用户校正样本可以提供语感，但不自动授权修改另一篇H模板的固定骨架；若需沿用整个新骨架，必须标为独立新候选，不得冒充H模板。
 17. **H03变量用动词并去重**：H03的长固定骨架中，动作变量优先写`制造吸引`等直接动词，不写`建立男女吸引`这类名词串；固定句已表明语境时，删除变量中`原来的`等无效限定。技术名在主题中已出现后，后续变量可用贴合母题操作目标的`破解机制`，但不将该词固定化或跨题滥用。
 18. **题型变体与原模板分开**：用户可明确改写H模板括号外的固定部分，但改后应保存为独立题型变体，不覆盖原H模板。S01里的`见面欲`和`四种方向的完整版剖析`继续作为该题用户版本原样保存；用户已要求这一压缩方向暂时不动，因此不从该样本继续提炼跨题规则，也不自动改写其他模板的主题句。
 19. **暂停“信息增量检查”的通用化**：此前从S01提炼出的`同一信息只完整说一次，后文必须压缩`暂不作为每稿强制程序。生成时先保证模板匹配、变量准确、动作有操作性、结果够强；是否压缩主题句，等待后续样本继续校正。不得再以去重复为理由擅自修改H模板固定部分。
@@ -64,7 +68,7 @@ Do not use old generic hook templates. Only use opening forms that the user has 
 
 ## Gary 2026-09-08 用户逐条校正：当前优先规则
 
-当前Gary开头生成、匹配与校正，必须先读 [16个可变点模板与认可描述规则](references/opening-variable-templates.md)；结构化副本为 [JSON](references/opening-variable-templates.json)。仅替换【】内，固定部分逐字保留。此模式覆盖旧W/K/R自由拼接和强制压缩两句话规则；其他非Gary开头任务不受影响。钩子短、有动作、有暗示；结果抽象直接；主题包装专业抽象。刺激参照隐秘欲望、反差挑逗、暧昧勾出，避免形容词硬撑或反复堆词。数量、因果与结果贴合正文，替换后检查语法。
+当前Gary开头生成、匹配与校正，必须先读 [18个可变点模板与认可描述规则](references/opening-variable-templates.md)；结构化副本为 [JSON](references/opening-variable-templates.json)。仅替换【】内，固定部分逐字保留。此模式覆盖旧W/K/R自由拼接和强制压缩两句话规则；其他非Gary开头任务不受影响。钩子短、有动作、有暗示；结果抽象直接；主题包装专业抽象。刺激参照隐秘欲望、反差挑逗、暧昧勾出，避免形容词硬撑或反复堆词。数量、因果与结果贴合正文，替换后检查语法。
 
 独立3.5正式交付时，在扩写完成后依据最终正文匹配一个适合的模板开头，保留扩写原文另存交付稿，只替换开头钩子和主题句，保留导读、豆包提示、案例、CTA和正文。用户只测开头时不改既有成稿。此规则不加入Gemini扩写提示、不重跑扩写、不修改冻结母会话；必要时用delivery_body.txt导出并按现有去重复核要求更新最终稿检查。
 
