@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gary 选题系统"
+  short_description: "按母题、机制、男人爽点与强结果独立生成Gary选题"
+  default_prompt: "使用 $gary-topic-system 按当前规则生成一批Gary选题。"

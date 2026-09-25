@@ -9,7 +9,8 @@ Use this skill when the user asks to process a Gary male-account topic batch, se
 
 This is an orchestration layer. It does not replace the specialist skills:
 
-- Read `huanxin` for topic/knowledge route design and mechanism deduplication. For Gary topic requests during 2026-09-24 through 2026-10-24, first apply [the monthly topic standard](../huanxin/references/topic-standard-2026-09-24.md): every title has a technique/operation count and concise male benefit plus strong outcome. This supersedes older optional-number title guidance.
+- Read `gary-topic-system` for topic generation, manual-title learning, account routing, mechanism selection, payoff/result calls, and topic deduplication.
+- Read `huanxin` only after the title is locked, for knowledge-supported route design, source-structure migration, and manuscript-level mechanism deduplication.
 - Read `男版扩写` and `douyin-copy-production-workflow-custom` for Gemini expansion and version contracts.
 - Read `baokuan-kaitou-sheding` for learned opening matching. Never hand-write a production opening from memory.
 - Read `humanize-copy` only when the user explicitly asks for AI-tone cleanup after content acceptance.
