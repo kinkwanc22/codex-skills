@@ -291,12 +291,15 @@
   },
   "fusion_policy": {
     "enabled": true,
-    "trigger": "no_matching_template",
+    "trigger": "direct_choice_or_no_matching_template",
     "selection": "random_pair_from_body_compatible_structures",
     "body_grounded": true,
     "preserve_fixed_templates": true,
     "method_authorized_by_user": "2026-09-26",
-    "requires_permission_to_try": false
+    "requires_permission_to_try": false,
+    "fixed_and_fused_are_parallel_options": true,
+    "batch_mix_allowed": true,
+    "fixed_ratio_required": false
   },
   "approved_fusion_samples": [
     {
