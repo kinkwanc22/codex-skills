@@ -1,0 +1,4 @@
+interface:
+  display_name: "竖屏本地素材混剪"
+  short_description: "理解口播语义并匹配本地真人视频，生成全程混剪的竖屏剪映草稿"
+  default_prompt: "使用 $shuping-bendi-hunjian，按文案语义从本地视频池匹配素材，制作竖屏本地素材混剪草稿。"
