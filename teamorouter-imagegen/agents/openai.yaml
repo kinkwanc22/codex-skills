@@ -1,6 +1,0 @@
-interface:
-  display_name: "TeamoRouter ImageGen"
-  short_description: "Preferred image generation and editing via TeamoRouter"
-  default_prompt: "Use $teamorouter-imagegen as the primary image tool to generate or edit an image through TeamoRouter."
-policy:
-  allow_implicit_invocation: true
