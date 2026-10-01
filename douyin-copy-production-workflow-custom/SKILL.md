@@ -155,6 +155,8 @@ Do not use the old web expansion channel. Do not send `/new` unless the user exp
 
 ### 3. Validate Each Expanded Draft
 
+普通2.8的验收统一按[一次通读与局部修复](references/2.8-acceptance.md)：机械检查→一次合并内容复核→开头与Word一致性。该页优先于下面及旧参考里的通用返工描述；不修改完整2.8生成提示词。当前选题/huanxin流水线承接已冻结标题、数量、机制和结果，不用旧逐字母题门槛重做上游，不自动增加多标题/三版开头。其他版本仍按原合同验收。
+
 Read `references/gemini-expansion.md` for the exact checks and retry language.
 
 Verify length, topic relevance, refusal/API failure text, stale-topic contamination, and required ending. For the current 2.5 baseline, the hard minimum is 4000 Chinese characters with no upper limit; 6000-8000 is a preferred depth range when the source supports it, not a cap or hard gate. Also reject 2.5 drafts whose title, hook, or central argument is built around proactive defensive qualifiers or self-negation unless the requested topic is explicitly a concept distinction. Other directions follow their own rules or the user's newest threshold.

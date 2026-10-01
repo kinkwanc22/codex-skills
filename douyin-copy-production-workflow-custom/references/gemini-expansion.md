@@ -982,6 +982,8 @@ When the Gemini chat is ready:
 
 ### 3. Check Generated Copy
 
+普通2.8验收与修复使用[统一验收流程](2.8-acceptance.md)，遇到下面旧的“一处缺项即整篇重跑”或通用6000字重试描述，以该页的局部补齐优先和3000字默认底线为准。只改变验收决策，不替换或缩写上面的生成提示词。
+
 After generation finishes, capture the latest `Gemini:` response from the terminal output.
 
 For ordinary `2.8 Safe Draft`, post-generation acceptance is deliberately narrow. Do not re-grade the manuscript's opinions, redesign its causal route, or reject a complete draft merely because Codex prefers a different mechanism. Acceptance work is limited to invoking `baokuan-kaitou-sheding` to replace the opening and making narrow repairs to definite grammatical, wording, punctuation, TTS-readability, or overly formal identity-label defects while preserving the generated content. Locally replace labels such as `单身男人`, `真正位置稳的男人`, `真正有价值的男人`, or `真正稳得住框架的男人` with direct Gary-style address, natural colloquial nouns such as `你 / 很多兄弟 / 普通男人 / 高手`, or a concrete action description suited to the sentence. These local label repairs are never a reason to rerun Gemini and must not alter the point, causal route, structure, case, CTA, or force. A full rerun is reserved for hard generation-contract failures such as no manuscript/refusal, truncation, falling below the 3000-CJK minimum, missing promised count, missing the required complete pre-mid-CTA case, or missing required CTA/fixed ending. `高位男人` is allowed as an aspirational result or contrast for the single male audience; do not treat that phrase itself as content drift. This narrow acceptance rule does not change the 2.8 prompt's own generation requirements.

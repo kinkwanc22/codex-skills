@@ -91,6 +91,10 @@ Latest hard-learned rules from 2026-06-03:
 - Do not treat raw Gemini expansion documents as final deliverables. Final deliverables must include the three opening sections before正文 unless the user explicitly asks for expansion-only drafts.
 - Before final delivery, inspect each generated `.docx` package or otherwise verify that it contains these headings: `开头版本一：高阶认知课式开头`, `开头版本二：身份点名式硬核学习开头`, `开头版本三：保留原文开头（来自源文档）`, and `正文`.
 - If a post-run self-check finds a missed workflow step, fix the deliverables first, then update this skill with the reusable lesson before final reply.
+## 普通2.8当前流水线例外
+
+普通2.8按[统一验收](2.8-acceptance.md)执行。上游已锁定标题和单个正式开头时沿用该合同，导出不自动重做10个标题、三版开头或全篇内容验收；用户明确要求多版包装时再执行相应包装。机械和内容检查结论与当前稿hash关联，Word只检查交付文本一致性和包/路径。其它版本的既有包装与验收规则保持不变。
+
 ## User Hard Rules
 
 These rules come from the user's live workflow corrections and must override the generic workflow whenever they apply.
