@@ -1,5 +1,6 @@
 from pathlib import Path
 import argparse,json,hashlib,re,subprocess,sys,datetime,os
+import history_cache
 HOME=Path(os.environ.get('HUANXIN_HISTORY_HOME','/Users/kin/Documents/Codex/gary-shared-history'))
 LEGACY=Path('/Users/kin/Documents/Codex/2026-07-02/gemini')
 SOURCES=[LEGACY/'work/2.5_pretransplant_ledger.json',Path('/Users/kin/Gary 男性情感/Gary 男性情感/03_C_Skill与方法库/换芯历史排重/02_标准化记录/3.1_3.2历史换芯标准化记录.json')]
@@ -60,20 +61,26 @@ def refresh():
  dump(HOME/'index.json',out);report={'records':len(out),'unique_archived_artifacts':len(copied),'missing_paths':sorted(missing),'complete_six_field_records':sum(all(x.get('mechanism_novelty',{}).get(k) for k in ['problem_trigger','core_mechanism','action_chain','proof_operation','position_or_interest_shift','desired_result']) for x in out),'sources':[str(s) for s in srcs]};dump(HOME/'import_report.json',report);print(json.dumps({k:v for k,v in report.items() if k not in ('missing_paths','sources')},ensure_ascii=False))
 
 def screen(source,proposal,output):
- rs=json.loads((HOME/'index.json').read_text());rs=[x for x in rs if not (x.get('status')=='generated_or_draft' and x.get('source_path')==str(source.resolve()))];s=source.read_text();q=json.loads(proposal.read_text());wanted=json.dumps(q,ensure_ascii=False);rank=[];exact=[]
+ rs=json.loads((HOME/'index.json').read_text());rs=[x for x in rs if not (x.get('status')=='generated_or_draft' and x.get('source_path')==str(source.resolve()))];s=source.read_text();q=json.loads(proposal.read_text());rank=[];exact=[];compact=[];hits=0
  source_body=body(s,q.get('title',''))
+ wanted=json.dumps([q.get('viewpoints',[]),q.get('mechanism_novelty',{}).get('action_chain',[])],ensure_ascii=False)
  for x in rs:
-  texts=[a.get('text','') for a in x.get('artifacts_copied',[])];score=max([sim(s,t) for t in texts]+[sim(wanted,x.get('search_text',json.dumps(x,ensure_ascii=False)))])
+  cached,hit=history_cache.summary(HOME,x);hits+=hit
+  texts=[a.get('text','') for a in x.get('artifacts_copied',[])]
+  operation_score=sim(wanted,json.dumps([cached['viewpoints'],cached['mechanism_novelty'].get('action_chain',[])],ensure_ascii=False))
+  body_score=max([sim(source_body,body(t,x.get('title',''))) for t in texts]+[0])
+  score=max(operation_score,body_score)
   if any(norm(source_body)==norm(body(t,x.get('title',''))) and norm(source_body) for t in texts):exact.append(x['id'])
-  rank.append({'id':x['id'],'title':x.get('title',''),'score':round(score,4),'record':x})
+  rank.append({'id':x['id'],'title':x.get('title',''),'score':round(score,4),'operation_score':round(operation_score,4),'body_score':round(body_score,4),'summary':cached})
+  compact.append({'id':x['id'],'title':x.get('title',''),'status':x.get('status',''),'source_path':x.get('source_path',''),'mechanism_novelty':cached['mechanism_novelty'],'viewpoints':cached['viewpoints']})
  rank.sort(key=lambda x:x['score'],reverse=True)
- dump(output.parent/'candidates.json',rank[:30]);dump(output.parent/'all_routes.json',rs)
+ dump(output.parent/'candidates.json',rank[:5]);dump(output.parent/'candidate_index.json',[{k:v for k,v in r.items() if k!='summary'} for r in rank]);dump(output.parent/'all_routes.json',compact)
  cmd=[sys.executable,str(Path(__file__).with_name('legacy_novelty.py')),'--proposal',str(proposal),'--ledger',str(output.parent/'all_routes.json'),'--recent','0','--all-statuses','--report-out',str(output.parent/'mechanism_screen.json')]
  result=subprocess.run(cmd,capture_output=True,text=True)
  if result.returncode not in (0,2):raise RuntimeError(result.stderr or 'mechanism screen failed')
  mech=json.loads((output.parent/'mechanism_screen.json').read_text())
  reasons=(['exact_body_duplicate'] if exact else [])+(['incomplete_route'] if not mech['route_complete'] else [])
- dump(output,{'screening_policy':'review_first','source_sha256':digest(source.read_bytes()),'proposal_sha256':digest(proposal.read_bytes()),'history_sha256':digest((HOME/'index.json').read_bytes()),'records':len(rs),'exact_duplicates':exact,'mechanism_screen':mech,'lexical_high_similarity':[{'id':x['id'],'score':x['score']} for x in rank if x['score']>=.65],'candidate_file':str((output.parent/'candidates.json').resolve()),'semantic_review_required':True,'block_reasons':reasons,'automatic_block':bool(reasons)})
+ dump(output,{'screening_policy':'review_first','retrieval_policy':'summary_first_top5','cache_hits':hits,'source_sha256':digest(source.read_bytes()),'proposal_sha256':digest(proposal.read_bytes()),'history_sha256':digest((HOME/'index.json').read_bytes()),'records':len(rs),'exact_duplicates':exact,'mechanism_screen':mech,'lexical_high_similarity':[{'id':x['id'],'score':x['score']} for x in rank if x['score']>=.65],'candidate_file':str((output.parent/'candidates.json').resolve()),'semantic_review_required':True,'block_reasons':reasons,'automatic_block':bool(reasons)})
  print(output)
 
 def verify(source,review):

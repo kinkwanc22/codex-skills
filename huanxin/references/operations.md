@@ -61,11 +61,25 @@ python3 scripts/build_knowledge_call_pack.py --source query.txt --version 3.2 --
 
 ```bash
 python3 scripts/history.py screen --source source.txt --proposal route.json --output screen.json
-# Codex阅读候选旧稿并完成逐点语义比较后写review.json，不能脚本自动判通过。
+# Codex先读5篇候选摘要；存在疑点时补读段落/全文，然后写review.json。
 python3 scripts/handoff.py freeze --source source.txt --proposal route.json --review review.json --notes notes.json --output frozen
 ```
 
 冻结包包含manuscript.txt、route.json、notes.json、review.json、screen.json、manifest.json。每个文件记录hash；冻结后不覆盖。需要实质改稿时生成新版本并重新复核。该脚本登记“未扩写”的共享记录，不会调用模型。
+
+候选摘要由screen自动缓存，无需每篇再运行build或读全历史。需要提前建缓存时运行history_cache.py build，只输出计数报告。补读旧稿可按实际操作关键词提取相邻段落：
+
+```bash
+python3 scripts/history_cache.py excerpt --id 旧记录ID --query "关键词 另一关键词" --output excerpt.json
+```
+
+返回最多2400字符，包含是否命中/截断及来源；无命中不表示没有重复，必要时从共享index.json定向读取该ID的正文。实际读后可保存一次摘要：
+
+```bash
+python3 scripts/history_cache.py save --id 旧记录ID --summary read-summary.json --output saved-summary.json
+```
+
+read-summary.json记录record_sha256（来自候选摘要/段落报告）、operations（实际操作列表）、core_mechanism、desired_result、evidence（实际所读来源及支撑段落）。脚本拒绝过时hash或缺项，但不代替语义验收。新冻结稿下次screen自动建立摘要；旧稿正文没变时复用，不重复拆解。
 
 当前Gary完整生产流程在冻结正文后、导出扩写输入前调用 `baokuan-kaitou-sheding`。根据冻结题目、承诺数量、核心机制和结果生成一个正式开头，并在工作目录保存：
 

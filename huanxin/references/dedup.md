@@ -8,7 +8,11 @@ route.json记录title、account、viewpoints，以及mechanism_novelty：problem
 
 ## 默认：相似提示，正文决定
 
-screen后读candidates.json，再按主题语义变体检索all_routes.json，优先阅读与具体操作最接近的旧稿；旧字段缺失时读正文，不能把空字段当新颖。跨大小号及本批逐点比较，但不要求每个观点和机制都前所未有。
+screen默认只展示candidates.json中最接近的5篇操作摘要，不含旧稿全文。脚本仍在本地检查全历史的字串相似和完全重复，不需要把全部旧稿读进对话。排序优先采用操作/观点及正文线索，不以通用模板字段排名。通常复核其中最相关的3—5篇即可；历史少于3篇就看现有记录，不凑数量，也不要求每次额外搜索全历史。
+
+先按摘要逐点比较。摘要足以说明操作不同且没有遗漏疑点时，记录summary级复核即可，不必读全文。摘要字段不完整、命中核心操作、怀疑换词复用或涉及整篇主链时，才取相关正文段落；段落仍不足才读整篇。遇到明显相关稿排在前5之外时，按candidate_index.json或精简all_routes.json补查；5篇是默认阅读预算，不是忽略疑点的硬上限。旧字段缺失、摘要无命中或低分都不能作为新颖证据。跨大小号及本批仍比较，但不要求每个观点和机制都前所未有。
+
+summary-cache保存在共享历史旁，按记录内容hash复用，正文或元数据变化时自动失效。初始摘要直接取已有操作/观点元数据，标注existing_metadata，不能称已重新读正文或完成语义提炼。需要补读时，执行者将本次实际读到的操作、机制、结果和证据保存为reader_reviewed摘要；后续同版本复用。检索缓存是可重建旁路资料，不修改历史索引、旧稿或冻结包。
 
 - 同一机制、同一强结果或相同结构，具体操作与作用路径不同：允许。
 - 一两处基础动作或例子相同：提示并核对，可保留；不是按重合数量机械判断。如果重合的是整篇唯一核心打法，仍须重写。
@@ -19,7 +23,7 @@ screen后读candidates.json，再按主题语义变体检索all_routes.json，�
 
 正常screen使用review_first策略，automatic_block仅针对完全相同正文或新稿路线字段缺失；后者是资料不完整，不是判重。mechanism_screen的similarity_warnings/collisions均为相似线索，旧mechanism_novelty_pass与deterministic_zero_overlap_pass保留为历史诊断字段，不再作默认门禁。legacy_novelty.py正常遇到相似提示返回0，缺字段返回2；--strict-zero-overlap是明确请求严格实验时的旧模式，日常换新不调用。
 
-review.json必须由执行者实际读稿后写：screen绝对路径、pass、same_topic_review_complete、compared_ids、point_comparison（每个新点对应旧内容与差异）、distinct_action_chain、topic_fidelity。重合点写清是否基础动作、为何不主导全篇，其他点说明操作差异；不要为了通过编造差异或把所有相似提示逐条变成硬门禁。多数实质重复时pass=false。不能仅按分数自动生成“通过”；机器只验证字段、哈希及明确冲突，语义结论由执行者负责。改稿后重新screen，历史变化后重新比新增记录再screen。
+review.json由执行者完成摘要比较及必要正文复核后写：screen绝对路径、pass、same_topic_review_complete、compared_ids、point_comparison（每个新点对应旧内容与差异）、distinct_action_chain、topic_fidelity。每条比较注明summary/excerpt/full及实际依据，不能将摘要阅读写成全文已读。重合点写清是否基础动作、为何不主导全篇，其他点说明操作差异；不要为了通过编造差异或把所有相似提示逐条变成硬门禁。多数实质重复时pass=false。不能仅按分数自动生成“通过”；机器只验证字段、哈希及明确冲突，语义结论由执行者负责。改稿后重新screen，历史变化后重新比新增记录再screen。
 
 冻结时写入shared-history/new，旧3.5刷新也会看见这条稿件。冻结状态不是已扩写或已认可。一个handoff_id就是同一篇文章的身份，多线路导出的同稿不能被当作不同新内容。
 
