@@ -1,4 +1,4 @@
 interface:
   display_name: "Gary 选题系统"
-  short_description: "默认按机制、数量和强结果出题，也支持独立爽点模式"
-  default_prompt: "使用 $gary-topic-system 按当前规则生成一批Gary选题。"
+  short_description: "随机抽选四类机制、匹配强结果，按实际操作数量生成简短选题"
+  default_prompt: "使用 $gary-topic-system 抽选机制、随机匹配强结果，生成一批带操作数量的Gary选题。"
