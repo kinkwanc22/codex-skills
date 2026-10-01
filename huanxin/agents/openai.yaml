@@ -1,4 +1,4 @@
 interface:
   display_name: "换新 skill"
-  short_description: "为已锁定的Gary选题匹配结构、检索知识并完成换芯去重"
-  default_prompt: "使用 $huanxin 对已锁定的Gary选题完成换芯，保留历史去重，最后输出可对接指定扩写线路的输入包。"
+  short_description: "承接Gary选题机制与数量，借原稿结构写短正文并完成历史去重"
+  default_prompt: "使用 $huanxin 承接已锁定Gary选题的机制、数量与结果完成换新，保留结构迁移和历史去重，最后输出可对接指定扩写线路的输入包。"

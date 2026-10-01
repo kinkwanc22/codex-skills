@@ -6,7 +6,7 @@
 
 知识检索默认读取 /Users/kin/Gary 男性情感/Gary 男性情感，跨来源模块与旧历史查询依赖：/Users/kin/Documents/Codex/2026-07-10/qu/work/obsidian_cross_source/final_modules.json 和 qu/scripts/query_31_32_history.py。这些是资料依赖，不导入其旧写作规则。知识脚本的3.1/3.2参数仅是历史检索标签，不选择扩写版本。
 
-Gary 全库知识已经统一进入 `02_B高价值知识/14_全库可调用卡片`，共 17 个调用分类；每条都保留名称、机制、原卡号和原卡路径。换新检索时优先根据题目选择相关分类，再打开命中的原卡，不递归扫描全库。分类只负责缩小检索范围，不能代替主机制判断；知识卡与母题、男人爽点、强结果的拼接仍在本次换新完成。
+Gary全库知识统一进入 `02_B高价值知识/14_全库可调用卡片`，共17个调用分类；每条保留名称、机制、原卡号和原卡路径。有选题绑定时先读对应原卡；需要补充资料时根据题目选择相关分类，再打开命中的原文，不递归扫描全库。分类只负责缩小检索范围，不能代替机制判断。机制与本题操作、强结果的具体应用在换新完成，不重新抽选已锁定机制。
 
 需要直接限定分类时使用知识库查询脚本的 `--category` 参数，例如：
 
@@ -19,13 +19,13 @@ python3 scripts/history.py refresh
 python3 scripts/build_knowledge_call_pack.py --source query.txt --version 3.2 --output-dir knowledge
 ```
 
-query.txt可为选定题目和搜索词。检索包包含候选资料，不等于实际阅读；打开采用的原文。案例候选只是稿外材料，换芯不写完整案例。已剥离开头模板检索。
+已有原卡路径时直接读取，不为流程完整另跑知识检索。需要补充资料时，query.txt可为选定题目和搜索词。检索包包含候选资料，不等于实际阅读；打开采用的原文。案例候选只是稿外材料，换芯不写完整案例。已剥离开头模板检索。
 
 结构原稿默认 /Users/kin/工作用（同步）/自选起号 30，也可使用用户提供的新原稿。找不到来源时说明具体缺口；不能虚称检索完成。安装到另一台机器不等于知识库和历史也已迁移。
 
 ## 换芯与冻结
 
-制作source.txt（第一行完整标题，后接短正文）、route.json、notes.json。route.json 除历史六字段外，必须记录 `mechanism_design` 与 `provocation_design`：
+制作source.txt（第一行完整标题，后接短正文）、route.json、notes.json。notes.json记录topic_lock：title、count、strong_result、primary_mechanism、card_id、source_path；有选题记录时原样承接，并保留result_id。route.json除历史六字段外记录 `mechanism_design` 与 `provocation_design`：
 
 ```json
 {
@@ -33,22 +33,22 @@ query.txt可为选定题目和搜索词。检索包包含候选资料，不等�
     "primary_domain": "psychology|sociology|biology|PUA",
     "primary_mechanism": "一个主效应、理论或术语",
     "supporting_mechanism": "可空；最多一个",
-    "knowledge_binding": "本次换新如何把知识卡机制与母题、男人爽点和强结果拼接起来",
-    "causal_chain": "男人卡点 -> 机制触发 -> 女人心理变化 -> 位置反转 -> 强结果",
-    "why_it_proves_the_title": "该机制如何直接推出题目承诺"
+    "knowledge_binding": "已绑定机制在本题中怎样展开操作并服务强结果",
+    "causal_chain": "具体动作 -> 本题相关变化 -> 标题强结果；按题型写，不强塞女人心理或位置反转",
+    "why_it_proves_the_title": "机制与标题结果的具体联系及成立条件，不等于效果已验证"
   },
   "provocation_design": {
-    "counterintuitive_judgment": "反认知核心判断",
-    "interest_conflict": "男女利益或评价权冲突",
+    "counterintuitive_judgment": "本题有力度的核心判断",
+    "interest_conflict": "本题的真实利益或阻力；不强造冲突",
     "male_action": "男人可执行动作",
-    "female_shift": "女人心理或欲望变化",
-    "position_or_result_reversal": "位置反转或强结果",
+    "female_shift": "本题需要时记录女人心理或行为变化；成长/资源题可写不适用及理由",
+    "position_or_result_reversal": "直接强结果；只有本题需要时才记录位置反转",
     "advice_like_rejection_pass": true
   }
 }
 ```
 
-任一块缺失、主机制超出四个允许方向、辅助机制超过一个，或 `advice_like_rejection_pass` 不能人工判定为 true，都不得进入 freeze。notes.json示例字段：
+这两块保留供人工核对及历史兼容，不强迫所有题具备女人心理和位置反转。主机制须属四域，辅助机制最多一个；`advice_like_rejection_pass` 表示已核对正文确有本题判断和机制操作，不是排斥所有正常互动。这些语义要求需实际阅读核对，handoff.py不会自动判断方向、因果或文风。未通过人工检查不得freeze。notes.json示例字段：
 
 ```json
 {
