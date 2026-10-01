@@ -8,6 +8,13 @@ def dump(p,d):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps
 def norm(s):return re.sub(r'[^a-z0-9\u3400-\u9fff]','',s.lower())
 def grams(s):s=norm(s);return {s[i:i+3] for i in range(max(0,len(s)-2))}
 def sim(a,b):a,b=grams(a),grams(b);return len(a&b)/max(1,len(a|b))
+def body(text,title):
+ # Strip a recognized title only; never drop an arbitrary first paragraph.
+ lines=text.lstrip('\ufeff').strip().splitlines()
+ if lines:
+  heading=re.sub(r'^(?:#+\s*|标题[：:]\s*)','',lines[0].strip())
+  if norm(title) and norm(heading)==norm(title):lines=lines[1:]
+ return '\n'.join(lines).strip()
 def records(d):return d if isinstance(d,list) else d.get('records',d.get('entries',[]))
 def paths(d,key=''):
  if isinstance(d,dict):
@@ -54,16 +61,19 @@ def refresh():
 
 def screen(source,proposal,output):
  rs=json.loads((HOME/'index.json').read_text());rs=[x for x in rs if not (x.get('status')=='generated_or_draft' and x.get('source_path')==str(source.resolve()))];s=source.read_text();q=json.loads(proposal.read_text());wanted=json.dumps(q,ensure_ascii=False);rank=[];exact=[]
+ source_body=body(s,q.get('title',''))
  for x in rs:
   texts=[a.get('text','') for a in x.get('artifacts_copied',[])];score=max([sim(s,t) for t in texts]+[sim(wanted,x.get('search_text',json.dumps(x,ensure_ascii=False)))])
-  if any(norm(s)==norm(t) and norm(s) for t in texts):exact.append(x['id'])
+  if any(norm(source_body)==norm(body(t,x.get('title',''))) and norm(source_body) for t in texts):exact.append(x['id'])
   rank.append({'id':x['id'],'title':x.get('title',''),'score':round(score,4),'record':x})
  rank.sort(key=lambda x:x['score'],reverse=True)
  dump(output.parent/'candidates.json',rank[:30]);dump(output.parent/'all_routes.json',rs)
  cmd=[sys.executable,str(Path(__file__).with_name('legacy_novelty.py')),'--proposal',str(proposal),'--ledger',str(output.parent/'all_routes.json'),'--recent','0','--all-statuses','--report-out',str(output.parent/'mechanism_screen.json')]
- subprocess.run(cmd,capture_output=True,text=True)
+ result=subprocess.run(cmd,capture_output=True,text=True)
+ if result.returncode not in (0,2):raise RuntimeError(result.stderr or 'mechanism screen failed')
  mech=json.loads((output.parent/'mechanism_screen.json').read_text())
- dump(output,{'source_sha256':digest(source.read_bytes()),'proposal_sha256':digest(proposal.read_bytes()),'history_sha256':digest((HOME/'index.json').read_bytes()),'records':len(rs),'exact_duplicates':exact,'mechanism_screen':mech,'lexical_high_similarity':[{'id':x['id'],'score':x['score']} for x in rank if x['score']>=.65],'candidate_file':str((output.parent/'candidates.json').resolve()),'semantic_review_required':True,'automatic_block':bool(exact or not mech['mechanism_novelty_pass'])})
+ reasons=(['exact_body_duplicate'] if exact else [])+(['incomplete_route'] if not mech['route_complete'] else [])
+ dump(output,{'screening_policy':'review_first','source_sha256':digest(source.read_bytes()),'proposal_sha256':digest(proposal.read_bytes()),'history_sha256':digest((HOME/'index.json').read_bytes()),'records':len(rs),'exact_duplicates':exact,'mechanism_screen':mech,'lexical_high_similarity':[{'id':x['id'],'score':x['score']} for x in rank if x['score']>=.65],'candidate_file':str((output.parent/'candidates.json').resolve()),'semantic_review_required':True,'block_reasons':reasons,'automatic_block':bool(reasons)})
  print(output)
 
 def verify(source,review):

@@ -215,21 +215,25 @@ def main() -> int:
         "comparison_records": len(prior),
         "missing_required_fields": missing,
         "collisions": collisions,
+        "similarity_warnings": collisions,
+        "route_complete": not missing,
+        "automatic_block": bool(missing or (args.strict_zero_overlap and collisions)),
+        "screening_policy": "strict_zero_overlap" if args.strict_zero_overlap else "review_first",
         "mechanism_novelty_pass": not missing and not collisions,
         "deterministic_zero_overlap_pass": not missing and not collisions,
         "all_statuses_included": args.all_statuses,
         "recent_limit": args.recent,
         "strict_zero_overlap": args.strict_zero_overlap,
         "strict_threshold": args.strict_threshold,
-        "note": "Deterministic screen only; semantic zero-overlap review remains mandatory.",
+        "note": "Lexical route similarities are review hints, not semantic duplicate verdicts. Legacy novelty-pass keys describe overlap only; use automatic_block for the gate.",
     }
     output = json.dumps(report, ensure_ascii=False, indent=2)
     print(output)
     if args.report_out:
         args.report_out.parent.mkdir(parents=True, exist_ok=True)
         args.report_out.write_text(output + "\n", encoding="utf-8")
-    if missing or collisions:
-        print("REJECT: mechanism-level route is incomplete or collides", file=sys.stderr)
+    if report["automatic_block"]:
+        print("REJECT: route incomplete or explicitly requested strict overlap rule", file=sys.stderr)
         return 2
     return 0
 
