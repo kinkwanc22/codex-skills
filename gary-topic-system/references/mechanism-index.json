@@ -936,5 +936,187 @@
     "name": "临门抵抗",
     "source": "02_B高价值知识/13_泡学方法论/泡学-040_临门抵抗.md",
     "card_name": "临门抵抗"
+  },
+  {
+    "card_id": "PSY-NEW-001",
+    "domain": "心理学",
+    "name": "认知失调",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-001_认知失调.md",
+    "card_name": "认知失调"
+  },
+  {
+    "card_id": "PSY-NEW-002",
+    "domain": "心理学",
+    "name": "自我知觉",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-002_自我知觉.md",
+    "card_name": "自我知觉"
+  },
+  {
+    "card_id": "PSY-NEW-003",
+    "domain": "心理学",
+    "name": "自我验证",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-003_自我验证.md",
+    "card_name": "自我验证"
+  },
+  {
+    "card_id": "PSY-NEW-004",
+    "domain": "心理学",
+    "name": "心理逆反",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-004_心理逆反.md",
+    "card_name": "心理逆反"
+  },
+  {
+    "card_id": "PSY-NEW-005",
+    "domain": "心理学",
+    "name": "自我表露",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-005_自我表露.md",
+    "card_name": "自我表露"
+  },
+  {
+    "card_id": "PSY-NEW-006",
+    "domain": "心理学",
+    "name": "富兰克林效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-006_富兰克林效应.md",
+    "card_name": "富兰克林效应"
+  },
+  {
+    "card_id": "PSY-NEW-007",
+    "domain": "心理学",
+    "name": "峰终定律",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-007_峰终定律.md",
+    "card_name": "峰终定律"
+  },
+  {
+    "card_id": "PSY-NEW-008",
+    "domain": "心理学",
+    "name": "锚定效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-008_锚定效应.md",
+    "card_name": "锚定效应"
+  },
+  {
+    "card_id": "PSY-NEW-009",
+    "domain": "心理学",
+    "name": "框架效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-009_框架效应.md",
+    "card_name": "框架效应"
+  },
+  {
+    "card_id": "PSY-NEW-010",
+    "domain": "心理学",
+    "name": "确认偏误",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-010_确认偏误.md",
+    "card_name": "确认偏误"
+  },
+  {
+    "card_id": "PSY-NEW-011",
+    "domain": "心理学",
+    "name": "可得性启发",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-011_可得性启发.md",
+    "card_name": "可得性启发"
+  },
+  {
+    "card_id": "PSY-NEW-012",
+    "domain": "心理学",
+    "name": "代表性启发",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-012_代表性启发.md",
+    "card_name": "代表性启发"
+  },
+  {
+    "card_id": "PSY-NEW-013",
+    "domain": "心理学",
+    "name": "基本归因错误",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-013_基本归因错误.md",
+    "card_name": "基本归因错误"
+  },
+  {
+    "card_id": "PSY-NEW-014",
+    "domain": "心理学",
+    "name": "自利偏差",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-014_自利偏差.md",
+    "card_name": "自利偏差"
+  },
+  {
+    "card_id": "PSY-NEW-015",
+    "domain": "心理学",
+    "name": "聚光灯效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-015_聚光灯效应.md",
+    "card_name": "聚光灯效应"
+  },
+  {
+    "card_id": "PSY-NEW-016",
+    "domain": "心理学",
+    "name": "透明度错觉",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-016_透明度错觉.md",
+    "card_name": "透明度错觉"
+  },
+  {
+    "card_id": "PSY-NEW-017",
+    "domain": "心理学",
+    "name": "首因效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-017_首因效应.md",
+    "card_name": "首因效应"
+  },
+  {
+    "card_id": "PSY-NEW-018",
+    "domain": "心理学",
+    "name": "近因效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-018_近因效应.md",
+    "card_name": "近因效应"
+  },
+  {
+    "card_id": "PSY-NEW-019",
+    "domain": "心理学",
+    "name": "自我参照效应",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-019_自我参照效应.md",
+    "card_name": "自我参照效应"
+  },
+  {
+    "card_id": "PSY-NEW-020",
+    "domain": "心理学",
+    "name": "精细加工可能性模型",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-020_精细加工可能性模型.md",
+    "card_name": "精细加工可能性模型"
+  },
+  {
+    "card_id": "PSY-NEW-021",
+    "domain": "心理学",
+    "name": "自我效能",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-021_自我效能.md",
+    "card_name": "自我效能"
+  },
+  {
+    "card_id": "PSY-NEW-022",
+    "domain": "心理学",
+    "name": "观察学习",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-022_观察学习.md",
+    "card_name": "观察学习"
+  },
+  {
+    "card_id": "PSY-NEW-023",
+    "domain": "心理学",
+    "name": "实施意图",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-023_实施意图.md",
+    "card_name": "实施意图"
+  },
+  {
+    "card_id": "PSY-NEW-024",
+    "domain": "心理学",
+    "name": "情绪标记",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-024_情绪标记.md",
+    "card_name": "情绪标记"
+  },
+  {
+    "card_id": "PSY-NEW-025",
+    "domain": "心理学",
+    "name": "认知重评",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-025_认知重评.md",
+    "card_name": "认知重评"
+  },
+  {
+    "card_id": "PSY-NEW-026",
+    "domain": "心理学",
+    "name": "心理对比",
+    "source": "02_B高价值知识/02_心理机制/选题补充机制26/PSY-NEW-026_心理对比.md",
+    "card_name": "心理对比"
   }
 ]
