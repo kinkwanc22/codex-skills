@@ -14,7 +14,11 @@ const sourceName = requireEnv('SOURCE_NAME');
 const targetName = requireEnv('TARGET_NAME');
 const sourceDir = path.join(draftRoot, sourceName);
 const targetDir = path.join(draftRoot, targetName);
-const metaTemplatePath = path.join(draftRoot, '千川短版_自然流千川_大号07_聊天四种情绪调动技巧_0917', 'draft_meta_info.json');
+const metaTemplateCandidates = [
+  path.join(draftRoot, '千川短版_自然流千川_大号07_聊天四种情绪调动技巧_0917', 'draft_meta_info.json'),
+  path.join(draftRoot, sourceName, 'draft_meta_info.json'),
+];
+const metaTemplatePath = metaTemplateCandidates.find((candidate) => fs.existsSync(candidate)) || metaTemplateCandidates[0];
 const presetWrapperPath = path.join(
   draftRoot,
   '大号07_聊天四种情绪调动技巧_音频字幕_0913',
