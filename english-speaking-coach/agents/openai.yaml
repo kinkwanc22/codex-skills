@@ -2,3 +2,6 @@ interface:
   display_name: "英语口语教练"
   short_description: "每天30分钟练日常、旅行和亲子英语，持续记录词汇使用及延迟复测证据"
   default_prompt: "使用 $english-speaking-coach，先读取我的学习记录，再继续已知词抽测或今天的30分钟英语口语练习。"
+
+policy:
+  allow_implicit_invocation: true
