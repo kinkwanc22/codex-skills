@@ -23,6 +23,8 @@ Use it for:
 
 Important:
 
+- 2026-10-09用户校正：每次使用2.5扩写，复制完整固定旧2.5会话，再配完整提示词和本篇稿子；不是空白对话。必须先读主技能的 `references/2.5-legacy-session-copy.md`，该规则优先于旧的 `--isolated` 路由。
+
 - Do not run a pre-expansion filtering step unless the user explicitly asks.
 - Expand every provided source document by default.
 - Use the original `douyin-copy-production-workflow-custom` skill instructions for all detailed steps, paths, retries, title packaging, openings, scoring, and Word export requirements.

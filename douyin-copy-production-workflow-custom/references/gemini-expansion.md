@@ -1,5 +1,9 @@
 # Gemini Expansion And Retry Rules
 
+## 2026-10-09会话来源校正（覆盖下文旧的2.5空白请求规定）
+
+凡使用2.5引擎，先读 [2.5-legacy-session-copy.md](2.5-legacy-session-copy.md)。完整固定旧2.5会话→每篇独立副本→本流程完整提示词与稿子→`--session-file`扩写。下文涉及2.5/3.1/3.2/3.3的 `--isolated`、3.5其他语感会话默认值均已被此项取代，不得照旧执行；提示词内容与非2.5引擎不变。
+
 Read this file before sending any source copy to Gemini, building prompt files, retrying failed outputs, or validating expanded drafts.
 
 ## Contents

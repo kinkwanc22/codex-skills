@@ -5,6 +5,10 @@ description: Complete Douyin copy production workflow. Use for 抖音文案工�
 
 # Douyin Copy Production Workflow
 
+## 2.5会话复制锁（2026-10-09用户校正，最高优先级）
+
+每次使用2.5扩写，包括原文直扩、3.1/3.2/3.3及其他以2.5为扩写引擎的流程，必须先读 [references/2.5-legacy-session-copy.md](references/2.5-legacy-session-copy.md)。每篇从同一份完整固定旧2.5会话复制独立工作副本，再配该流程的完整提示词和本篇稿子；不得使用空白 `--isolated` 请求，不得串用上一篇生成后的会话。此项取代下文及旧引用中2.5空白请求和其他2.5语感会话默认值；只改变会话来源，不更换各流程提示词、母题锁、数量锁或验收规则。2.8/2.9/3.6等非2.5引擎不变。
+
 Use this skill for the user's complete production loop from assistant-collected scripts to publishable long-form Word drafts.
 
 ## 4.0独立模式（优先路由）
