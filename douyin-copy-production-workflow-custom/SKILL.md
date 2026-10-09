@@ -19,6 +19,10 @@ Use this skill for the user's complete production loop from assistant-collected 
 
 用户指定 `3.6`、`3.6安全版`、`安全换新扩写` 或 `先按3.5换新再用2.8扩写` 时，读 [references/3.6-safe-transplant.md](references/3.6-safe-transplant.md)。3.6只继承3.5的换新设计与查重隔离机制，不继承3.5的旧2.5强硬扩写提示词、专用Gary声音会话、自然节奏锁或热门开头替换。冻结换新稿后，必须用 `scripts/build_36_gemini_prompt.py` 组装完整2.8安全版提示词与3.6母题/数量锁，并通过专用 `--session 3.6` 扩写。不得把3.6静默替代普通3.5或普通2.8。
 
+## 3.7第一人称生活故事扩写（2026-10-10新增独立选项）
+
+用户指定 `3.7` 或 `3.7扩写` 时，完整读取 [references/3.7-first-person-story-prompt.txt](references/3.7-first-person-story-prompt.txt)，以该用户提交的完整提示词为生成合同。原附件首行的3.0已按用户指定改名3.7，其余文字不变；它不是3.0千川流程。直接在末尾 `【原文开始】` 后接本篇原文，不叠加2.5、2.8、3.1或3.6生成提示词，不自动换芯或用旧版案例位置/强结果门槛覆盖这份合同。保留其第一人称、固定背景、生活故事、咨询案例、中段与结尾CTA及篇幅规则。会话来源和Word包装尚未专项测试或指定，不把它当作已验证的2.5副本路线，也不自动替换用户锁定开头。此次仅保存选项；实际扩写及交付须由用户另行请求。现有版本与默认路由不变。
+
 ## Core Outcome
 
 Produce final `.docx` files that contain:
