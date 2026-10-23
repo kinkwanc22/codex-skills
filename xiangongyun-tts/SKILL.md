@@ -23,6 +23,27 @@ final output directory: /Users/kin/工作用（同步）/GARY素材音频/扩写
 
 ## Xiangongyun Instance Preflight
 
+### Registered instances
+
+The registry is `instances.json` in this skill. Adding an instance does not replace the default or authorize copying voices between instances.
+
+| Role | Instance ID | Gradio WebUI |
+| --- | --- | --- |
+| Existing default | `wgpy1nwfc8h7xxk6` | `https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com` |
+| Additional TTS instance (user added 2026-10-23) | `p0hbiz44tng3k8xt` | `https://p0hbiz44tng3k8xt-80.container.x-gpu.com` |
+
+Both standard and hybrid scripts already accept `--base-url`; pass the registered instance's URL when selecting the additional instance. Locate that exact instance in the console during preflight rather than always selecting the original instance named `语音生成`. Other preflight and spending boundaries remain unchanged.
+
+The additional instance's `/config` was reachable on 2026-10-23; its `infer` queue uses function index `3`, trigger `14`, and the same four inputs. Its advertised saved voice list contained only `珊瑚.pt` plus reference-audio mode, **not** `浩威青叔4.0.pt`. Recheck the selected instance's current voice list before production. Do not silently substitute its voice for the approved production voice, claim voice migration is complete, or treat a configuration check as successful synthesis.
+
+Example selection (only after confirming the intended voice is available):
+
+```bash
+node scripts/generate_xiangongyun_tts.mjs \
+  --base-url "https://p0hbiz44tng3k8xt-80.container.x-gpu.com" \
+  --voice "珊瑚.pt" --text-file "work/source.txt" --out "work/raw.wav"
+```
+
 Before generating TTS, automatically make sure the user's Xiangongyun `语音生成` instance is running through the logged-in Chrome console.
 
 Do not use the Xiangongyun Open API for this workflow. The stable path is the original Chrome console plus the Gradio queue.

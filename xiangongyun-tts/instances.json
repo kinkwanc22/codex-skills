@@ -1,0 +1,27 @@
+{
+  "default_instance_id": "wgpy1nwfc8h7xxk6",
+  "instances": [
+    {
+      "id": "wgpy1nwfc8h7xxk6",
+      "name": "语音生成",
+      "base_url": "https://wgpy1nwfc8h7xxk6-80.container.x-gpu.com",
+      "production_voice": "浩威青叔4.0.pt"
+    },
+    {
+      "id": "p0hbiz44tng3k8xt",
+      "base_url": "https://p0hbiz44tng3k8xt-80.container.x-gpu.com",
+      "added_on": "2026-10-23",
+      "last_config_check": {
+        "date": "2026-10-23",
+        "reachable": true,
+        "gradio_version": "5.38.0",
+        "fn_index": 3,
+        "trigger_id": 14,
+        "saved_voices": ["珊瑚.pt"],
+        "reference_audio_mode": true,
+        "production_voice_available": false,
+        "synthesis_tested": false
+      }
+    }
+  ]
+}
