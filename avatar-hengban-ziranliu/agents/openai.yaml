@@ -1,0 +1,4 @@
+interface:
+  display_name: "数字人横版自然流"
+  short_description: "整篇配音截取开头驱动16:9 Gary，一次出镜后衔接原横版自然流包装"
+  default_prompt: "使用 $avatar-hengban-ziranliu，把这篇文案制作成独立的数字人横版自然流草稿。"
