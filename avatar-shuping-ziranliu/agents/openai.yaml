@@ -1,0 +1,4 @@
+interface:
+  display_name: "数字人竖版自然流"
+  short_description: "整篇配音截取开头驱动 HeyGen 数字人，衔接独立的竖版自然流剪映草稿"
+  default_prompt: "使用 $avatar-shuping-ziranliu 将这篇文案制作成数字人竖版自然流，数字人只在开头出现一次。"
