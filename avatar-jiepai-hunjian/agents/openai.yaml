@@ -1,0 +1,4 @@
+interface:
+  display_name: "数字人街拍混剪"
+  short_description: "配音前检查并补写中段进群CTA，数字人出场两次，其余沿用街拍混剪"
+  default_prompt: "使用 $avatar-jiepai-hunjian，先检查并补齐中段进群CTA，再制作独立的数字人街拍混剪。"
