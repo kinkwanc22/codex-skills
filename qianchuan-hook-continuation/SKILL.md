@@ -1,6 +1,6 @@
 ---
 name: qianchuan-hook-continuation
-description: Preserve a user-provided, previously validated Douyin opening verbatim, then continue it into a compact Qianchuan-ready Chinese relationship script with the same mother topic, fulfilled count promise, practical mechanisms, and the selected CTA mode. Use when the user says 千川爆款开头续写, 给开头续写千川, 按开头写正文加CTA, or provides only a viral opening and asks for a 千川版. Do not use for compressing a complete source manuscript or for 3.0/3.5 long-form rewrites.
+description: Preserve a user-provided Douyin opening and continue it into a compact Qianchuan-ready Chinese relationship script with the same mother topic, practical mechanisms, and selected CTA mode. Supports the normal 600-900-character version and an explicitly requested 300-character ultra-short version that may consolidate an oversized promised count. Use when the user says 千川爆款开头续写, 给开头续写千川, 千川短版, or 300字以内千川版. Do not use for compressing a complete source manuscript or for 3.0/3.5 long-form rewrites.
 ---
 
 # 千川爆款开头续写 1.0
@@ -12,7 +12,7 @@ description: Preserve a user-provided, previously validated Douyin opening verba
 - 后续从其他对话或工作流送来的锁定开头，默认按“千川短剧”路线续写；只有用户明确指定其他版本或路线时才切换。
 - 用户只提供一段开头时，直接从开头提取公开母题、受众、数量承诺、结果承诺和语言力度，不要求补交原稿。
 - 用户同时提供完整原稿时，除非他明确要求“按这个开头续写”，否则不要自动使用本技能；完整原稿压缩应走3.0，长文换芯应走3.5。
-- 用户说“不要改开头”“保留开头”或已将开头标为爆款时，开头逐字保留，包括原有强结论和措辞。只在用户明确授权时修正错字或敏感词。
+- 用户说“不要改开头”“保留开头”或已将开头标为爆款时，开头逐字保留，包括原有强结论和措辞。只在用户明确授权时修正错字或敏感词。用户指定 `300字以内` 时，适用下方“300字超短版”数量自适应例外。
 
 ## 扩写前案例清理
 
@@ -24,13 +24,26 @@ description: Preserve a user-provided, previously validated Douyin opening verba
 ## 固定生产合同
 
 1. 将用户原始开头原样放在成稿第一段，不重新包装，不在前面加解释。
-2. 锁定开头中的母题和数字。开头承诺六句、八个话题或三个机制，正文必须完整兑现对应数量，不得换成相邻母题。
+2. 普通 `600–900` 字版本锁定开头中的母题和数字。开头承诺六句、八个话题或三个机制，正文必须完整兑现对应数量，不得换成相邻母题。`300字超短版` 按专门规则自适应合并数量。
 3. 正文紧接开头展开，不重复解释标题，不改写成课程目录或泛泛观点稿。
 4. 每个项目通常包含：一句清晰判断、背后的心理机制、可直接理解的表达或普遍场景，以及该动作如何改变互动反馈。根据母题自适应，不机械复制同一句式，不写咨询案例或完整人物故事。
 5. 力度来自明确判断、关系反馈和现实后果。不要自动补入“不教操控”“不是控制”“不是冷漠”等防御性声明，也不要把原本锋利的母题改写成温和咨询腔。
 6. 保持TTS口语感：句子长短有变化，少用论文术语和结构标签，避免“首先其次综上所述”的机械串联。
 7. 默认采用无案例短版：锁定开头与扩写正文合计 `600–900` 个中文字符，优先 `650–850`。`900` 是硬上限；数字项目较多时压缩每项表达，但仍须完整兑现开头承诺。
 8. 开始扩写前先确定 CTA 模式。普通短版结尾只放一个自然粉丝群 CTA；固定转化 CTA 交付模式下，扩写正文不得再生成粉丝群 CTA、课程 CTA、CTA 过桥或第二个收束广告段。
+
+## 300字超短版
+
+只有用户明确提出 `300字以内`、`300字超短版` 或同等要求时启用。这里的 `300字` 统计开头与正文合计，不统计后接的固定 CTA；优先控制在 `260–300` 个中文字符，`300` 为硬上限。
+
+- 母题、受众、攻击方向和结果承诺继续锁定；数量不再机械锁定。
+- 生成前先估算：扣除开头后，剩余篇幅能否让每个项目至少包含一个具体动作或判断，以及一个可感知反馈。若只能把每点压成十几二十字的口号，必须先合并同类项。
+- 数量根据真实机制自然决定，通常优先 `3–5` 项，必要时可到 `6` 项；不为追求较小数字删除不可合并的关键阶段。
+- 合并依据是因果或动作同类，例如把“破冰、专属感、男女意味”合并为“建立专属的男女意味”，把多个重复反馈归入一个推进节点。不得随意删点后留下逻辑断层。
+- 数量改变后，必须同步修改开头里的所有数字、单位、主题句和正文编号，使整篇只承诺并兑现一个一致数量。除数量和由此必需的窄幅语法调整外，不重写已成立的开头力度与母题。
+- 正文不写案例，不铺垫背景，不重复解释标题。每项只保留 `动作或判断 -> 关键机制 -> 关系反馈`，但仍要读成自然口播，不能写成标签清单。
+- 如果原题本身只有 `3–5` 个独立机制且可以自然展开，保留原数量，不为变化而变化。
+- 若怎样合并都会损害母题或遗漏关键链路，应保留必要数量并明确该题不适合压进 300 字，而不是交付虚假的“完整解析”。
 
 ## CTA规则
 
@@ -53,13 +66,13 @@ CTA应当承接正文未解决的现实判断，例如不知道女生处于试�
 
 ## 输出前检查
 
-- 第一段与用户提供的开头逐字一致。
+- 普通版本第一段与用户提供的开头逐字一致；300字超短版若触发数量合并，只允许改数字、对应单位和必要语法，其他已成立的开头内容保持不变。
 - 母题、受众、数量和结果承诺没有漂移。
 - 所有数字项目完整兑现、互不重复。
 - 中段有机制也有可理解的具体表达，不只有观点口号。
 - 输入中的旧案例已在扩写前清理；成稿没有人物姓名、咨询叙事或完整故事链。
 - 没有擅自加入安全化解释、作者后台话术、提示词痕迹或旧CTA。
-- 成稿在 `600–900` 个中文字符内，优先 `650–850`。
+- 普通版成稿在 `600–900` 个中文字符内，优先 `650–850`；300字超短版在 `260–300` 个中文字符内且不超过 `300`。
 - 普通短版只有一个位于结尾的粉丝群 CTA；固定转化 CTA 模式的扩写正文不含任何 CTA。
 - 固定转化 CTA 模式在合并音频后总时长不超过 `298` 秒，并记录正文、固定 CTA 与最终总时长。
 
