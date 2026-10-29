@@ -6,7 +6,7 @@ const { spawnSync } = require('child_process');
 const configArg = process.argv.indexOf('--config');
 if(configArg<0 || !process.argv[configArg+1]) throw Error('Usage: node build_avatar_horizontal.cjs --config /absolute/config.json');
 const cfg=JSON.parse(fs.readFileSync(path.resolve(process.argv[configArg+1]),'utf8'));
-for(const k of ['targetDir','heroineDir','avatar','personVideo','still','avatarEndUs','introEndUs','stillStartUs','title','bodyLead','bodyShort'])
+for(const k of ['targetDir','heroineDir','avatar','personVideo','still','avatarEndUs','introEndUs','stillStartUs','title','bodyLead','bodyShort','avatarLook'])
   if(cfg[k]===undefined)throw Error(`Missing config field: ${k}`);
 const SYSTEM8 = false;
 const draftRoot = '/Users/kin/Movies/JianyingPro/User Data/Projects/com.lveditor.draft';
@@ -156,7 +156,7 @@ ranges.forEach(([a,b],i)=>{if(b-a>videoInfo[i].duration+1000)throw Error('source
 const stillSource=cfg.still;
 if(probe(stillSource).width<=probe(stillSource).height)throw Error('Still must be horizontal');
 const plan={code:'AVATAR_H01',targetDir,contentPath,draft,subtitleTrack,narrationTrack,rows,presetStart,presetEnd,stillStart,heroineDir,videoSources,videoInfo,ranges,stillSource,stillInfo:probe(stillSource),title:cfg.title,bodyLead:cfg.bodyLead,bodyShort:cfg.bodyShort};
-const preflight={mode:'applied',source_docx_sha256:cfg.sourceSha256 || '',avatar_look:cfg.avatarLook || '4c028680a6bb4e75a4bdb40ea5087aa5'};
+const preflight={mode:'applied',source_docx_sha256:cfg.sourceSha256 || '',avatar_look:cfg.avatarLook};
 const plans=[plan];
 fs.mkdirSync(backupRoot, { recursive: true });
 const results = [];

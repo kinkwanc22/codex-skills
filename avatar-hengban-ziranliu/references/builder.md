@@ -27,11 +27,12 @@ python3 scripts/prepare_avatar_audio.py --audio /absolute/full.wav --srt /absolu
   "title": "探花社交\n当前主题完整剖析\n完整未删减版",
   "bodyLead": "当前主题的运行规则",
   "bodyShort": "当前主题完整剖析",
-  "sourceSha256": "current-source-docx-sha256"
+  "sourceSha256": "current-source-docx-sha256",
+  "avatarLook": "actual-selected-horizontal-look-id"
 }
 ```
 
-可选字段：`marker`、`introSource`、`donorDir`、`overlaySource`、`avatarLook`、`ffmpeg`、`ffprobe`。片头与女主区间均必须正数并能被源素材覆盖；时间点要与当前已锁字幕边界一致。若语义结构不同，先分析并适配，不能修改字幕去迎合旧时间点。
+`avatarLook` 必须填写本次实际生成所用的横屏 look ID，用于记录；候选按主技能规则从 Gary 的可用横屏造型中选择。可选字段：`marker`、`introSource`、`donorDir`、`overlaySource`、`ffmpeg`、`ffprobe`。片头与女主区间均必须正数并能被源素材覆盖；时间点要与当前已锁字幕边界一致。若语义结构不同，先分析并适配，不能修改字幕去迎合旧时间点。
 
 ```bash
 node scripts/build_avatar_horizontal.cjs --config /absolute/config.json
