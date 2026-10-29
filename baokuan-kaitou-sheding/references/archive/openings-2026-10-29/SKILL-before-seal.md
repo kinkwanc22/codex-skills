@@ -1,0 +1,823 @@
+---
+name: baokuan-kaitou-sheding
+description: Learn, store, and use the user's approved Douyin copy opening formulas. Use when the user asks for 爆款开头设定, 文案开头, 改开头, 学习开头形式, 对齐开头风格, hook, opening, or wants opening formulas with variables for Douyin Chinese relationship/self-media scripts.
+---
+
+# 爆款开头设定
+
+## 2026-10-29 二次纠偏：规则已加载仍写弱
+
+实际Mac工作台已读最新规则，失败不在同步。关键纠正：**克制替换只限制改动范围，不限制变量力度**；21条结构获确认不等于19条未经新强度测试的旧变量可以继续充当力度标准。按正文先确定欲望/利益冲突、可学动作和终点结果；不能把具体变量降成“主体性、欣赏但不讨好、自身价值”等原则，再在结尾贴“主动找你、约你”。欲望代入06号不适配主体性正文时换模板，不将主题概括冒充方法。生成后做一次与适配认可样本的整体强度比较，不能只数“上头、馋、欲望”热词。事实、失败样本及具体执行见[力度规则末节](references/opening-intensity-2026-10-29.md)。不动锁定正文和用户确认模板。
+
+## 2026-10-29：新增21条确认模板，变量力度按最新样本执行
+
+用户已授权系统入库。先读 [最新力度与执行规则](references/opening-intensity-2026-10-29.md)，再查 [新增21条确认模板](references/opening-new-templates-2026-10-29.md)。新增原编号与H编号区分；H01—H18不动，两组共39条可用模板。02、06采用用户最新认可的欲望加强版，53、104弃用。
+
+新变量必须达到旧版的暗黑、人性、情色暗示、强结果与煽动性；保留已确认骨架和【】边界。按正文选隐藏动机、暧昧双关、欲望想象和男性终点利益，不能退化为普通社交收益，也不机械复读“欲望”或“发生点什么”。完整 [逐条对照](references/opening-corrections-2026-10-29.md) 与 [修改学习](references/opening-learning-2026-10-29.md) 分开保存。默认仍沿用完整模板只换变量；新测试逐条认可后保存。本节更新新增模板及力度标准，不重写旧H模板，不解除正文承接、数量与开头锁要求。
+
+
+This skill is the user's evolving opening-style library.
+
+## 2026-10-01：优先共用完整模板，克制调整变化项
+
+用户明确校正：开头库很多骨架可以跨选题共用，不要求模板和选题完全同类。默认选现有完整模板，只克制地替换【】内的方法、数量、机制、结果和主题变量，括号外句式、节奏与顺序原样保留。不因换题就重写骨架，不为每题强行融合或另造第一句。先检查变量填入后语法自然、数量正确、正文实际承接，不能为了贴合题目改动固定词。正文和案例不随匹配开头改写。融合方法仍保留，用户明确要求融合或现有骨架确实无法自然承接时再使用；本节覆盖下文旧的固定模板/融合并列默认选择。
+
+## 2026-09-26：固定模板与融合机制混合使用（用户授权）
+
+1. 先读实际正文，提取母题、真实起点、方法、数量、机制和终点结果。固定模板与融合机制是并列可选路径；即使存在匹配模板，也可以直接融合，按正文适配度、口语自然度和相邻篇目的表达变化选择，不要求先排除全部模板。
+2. 用户已授权直接使用融合机制，无需为“是否允许融合”再次询问。多篇可交替使用固定模板和融合开头，不设机械比例，也不强制每篇都融合。先按正文筛出可用结构，再从中随机抽取两条作为融合来源；组合不适配则换组合。随机的是结构来源，不是正文机制、事实、数量或结果。
+3. 可分别借用目标/机会条件、方法工具、因果机制、结果表达，连成一条自然因果链；不整段拼接、不强行使用两条的全部元素，不固定永远采用H06＋H12。
+4. 融合稿允许重组来源模板的固定句式，但标注“融合开头”及两个来源编号，不冒充某个H模板的严格变量填充；H01—H18原件不动。
+5. 数量与正文一致，机制必须由正文承接，结果不超出正文。保留短钩子、可操作方法、强结果和专业主题包装；不得为了融合另加心理学名词。
+6. 默认只交付一个开头。获授权的是生成方法，不等于未来每条结果已获认可，也不等于有发布数据；正文待确认、文档替换和开头锁沿用原流程。
+7. 本轮认可样本F01为H06“六步推进”＋H12“引导投入”，按实际正文融合。F01是认可融合样本，不自动扩充H固定模板编号。
+
+完整认可原文和依据见 [F01融合样本](references/opening-fusion.md)。本节优先于下文旧的“模板池必须优先”“无匹配才融合”和“无匹配时仅写自由候选”限制。
+
+## Gary 2026-09-26 用户新增正式模板
+
+当前正式模板共18个（H01—H18），以references/opening-variable-templates.md及JSON为准。H17为“顶美与赚钱共通规则”，H18为“回报率与主动投入”；用户明确要求添加，独立追加，不覆盖H01—H16。仅替换【】内内容。新增模板原文中的“能跑到顶美”“女主”按用户输入保留，不自动校改；消息中的行尾反斜杠按换行标记处理。原样保存不代表已有发布数据验证。
+
+## User-correction learning loop
+
+When the user manually changes an opening, retain the assistant version and the exact user version in a dated comparison record, then record the reusable change rule separately. Do not overwrite the template or treat one corrected sentence as a universal pattern. On later opening matches, consult the latest comparison records before selecting an H template. A general approval without a manual rewrite remains a positive sample, not a new fixed template.
+
+Do not use old generic hook templates. Only use opening forms that the user has explicitly taught and approved in this file.
+
+## Gary 2026-09-20 大号七篇人工校正：最新高优先级
+
+完整原版与用户版位于`11_用户改写对照库/2026-09-20_Gary大号7篇2.8开头校正总览.md`及七张逐篇卡。生成前优先吸收以下判断：
+
+1. 先判断保留、窄改或重建。好骨架不动，局部语法或变量问题只窄改；只有第一拍偏离独有机制、双领域缺少逻辑桥、或抽象课程词压住利益时才重建。
+2. 心理机制题的第一拍要体现本机制独有因果，不能只写相关痛点。投射效应要写投射，间歇性强化要写节奏控制，巴纳姆实操要写具名技巧和自我补全/暴露需求。
+3. `技术名只出现一次`降级为默认压缩原则，不是硬限制。技术名若在第一拍承担题目辨识和可得感，可以前置，并在主题句完整包装；禁止无功能复读。
+4. 优先使用`一个具名工具 + 一个终点结果`，删除连续三层课程名词和同义结果。真实机会条件也不要额外加`愿意持续`等正文未要求的门槛。
+5. 双领域题先用一句共同底层证明为什么可以同讲，再报完整主题；实操题则可从男人即时卡点直接进入数字工具。
+6. 用户极端表达原样存档但有限学习。`生理本能`、`这辈子不缺女人`不跨题自动复读，只学习因果、低成本感与结果跨度。
+
+## Gary 2026-09-16 第二批大小号校正：新增高优先级
+
+本批用户修改后的Word实际读取到13篇，S04缺失未学习。完整对照位于`11_用户改写对照库/2026-09-16_Gary大小号2.8开头校正总览.md`。
+
+1. 本能、慕强、基因、潜意识等词可以作为因果前提，但正文必须真实承接；不得批量当万能前缀。
+2. 数字工具优先使用本题专属词根：预期反转、关键选择、曝光玩法等，可优于通用的引导、方式、节点。
+3. 终点结果前可以补一条短过程链来增加可信度，但只留一条，避免把钩子写成说明书。
+4. 用户多次保留或补回`背后的心理机制全剖析、最短时间补齐认知差、快速拿到结果`；专业包装可以存在，但必须后置，第一拍仍先交付男人利益。
+5. B06未改，继续证明“先判骨架、局部修正”：开头已成立时不强行重写。
+6. 用户版明显笔误只做校勘，不学习成术语；本批`冷读`校为`冷淡`、`有意识的完成`校为`有意识地完成`、`自己推进`校为`主动推进`。
+
+## Gary 2026-09-15 第一批大号校正：当前最高优先级
+
+当前完整学习记录位于`/Users/kin/Gary 男性情感/Gary 男性情感/06_开头系统`。写Gary开头前，若该库可访问，先读`00_开头系统索引.md`，再查`11_用户改写对照库`和`12_语感规则与风格指纹/00_当前语感总表.md`。用户亲自修改并要求入库的校正样本，高于旧H模板和历史W/K/R样本。
+
+第一批七篇校正验证了以下决策：
+
+1. **先判骨架**：现有H模板骨架准确、口语顺、数字和结果匹配时，只换弱变量或弱结果；不要为了体现学习而整段重写。
+2. **错误骨架另写候选**：年龄点名、课程解释、抽象认知或固定数字压住本题最强利益时，不硬套模板，也不改写模板原件冒充H模板；另写`新候选开头`并等待用户确认。
+3. **最强排列**：优先使用`强判断/短问短答/直接指令 -> 低成本动作 -> 极致结果 -> 专业主题`。专业机制通常放在`今天我们要聊的是`附近，不占满第一拍。
+4. **低成本入口**：根据正文使用`只要`、`低成本`、`只用一次`、`记住N个`或`只需要N步`，再落到关系升级、倒追、反复上头、主动投入或商业情感双结果。
+5. **终极利益优先**：`看懂、理解、补齐认知、迭代认知、避免尬聊`只能做辅助收益，不能压过男人真正想要的结果。
+6. **只学因果，不复读极端词**：`强行爱上`、`强制触发`、`随叫随到`、`非常脏`完整保留在用户样本中，但不自动跨题使用，也不写成事实保证。`有，但是非常脏`学习的是短问短答的禁忌缺口，不是固定句。
+7. **校勘隔离**：用户版本中的明显笔误原样存档，但不得进入术语库；`自证赋格`仍按`自证预言`理解。
+8. **温和中间态防漏**：`礼貌回应、愿意回复、回复变多、有来有回、愿意了解、产生好感、开始关注`不能承担开头利益，也不能放在极致结果前制造伪反差。允许`普通聊天、刚认识、破冰、无感`等真实起点，然后直接跃迁到暧昧、反复上头、主动投入或关系升级。过程反馈只留在正文作为证据。
+9. **数字单位看操作性与可得感**：`N个步骤`、`N个节点`可以正常使用，它们能让观众感到正文有明确顺序和可执行结构；不能把它们统一判成高成本。S02取消`六个关键转折`，不是因为数量或流程显得贵，而是`关键转折`只描述结构、不告诉观众具体能做什么，操作性和可得感都弱。判断单位时先问：观众能否立刻理解这是可以学习、照做或拿走的东西。
+10. **局部问题只做局部修正**：用户只指出一个短语操作性弱时，保留更好的现有骨架，只删除或替换问题短语。不要新增比喻、解释句或第二套动作来证明它可执行；修正版若明显变长，默认先判为可能退步。S02 V3用`给聊天换挡/顺势往前带`解决一个词组问题，因说得太多被用户否定，V2继续作为更优基线。
+11. **先把结构名换成动作名**：`六个关键转折`可按正文动作属性改成`六个引导`、`六次推进`或`六个转折`，核心是增强操作性与可得感，不是排斥`步骤`、`节点`等单位。同一句已经说明聊天场景时，`把普通聊天直接推入暧昧`可缩为`把聊天直接推入暧昧`。优先做窄改，不新增解释。
+12. **钩子与主题分层命名**：不要强求同一组正文内容在钩子和主题句里使用同一个名称。钩子负责操作性和可得感，可写`六个引导`；主题句负责准确专业，可继续写`六个关键转折与背后的心理机制`。优先采用`只要女生开始出现某个可观察动作，你就可以用N个明确动作，直接拿到强结果`，比`你已经完成某动作，就抓住N个抽象结构`更容易让观众感到马上能用。
+13. **技术名一次、结果自然**：场景已经包含的动作直接删除，如`约会`不再重复`出来`；钩子不重复完整技术名，写`六个引导`即可，后半段再写`镜像效应的六种方式与心理机制`。本能类结果优先用`释放本能、藏不住身体反应`，不造`本能跟随`等抽象控制词；`约会技巧`优先于`约会引导力`等课程造词。
+14. **通用逻辑不等于固定句式**：通用的是模板匹配、动作可得、极致结果和专业机制后置。`但凡女生出现信号→你可以用N个引导`只适合有明确女性机会信号的正文；人性规则、暗黑认知、利益冲突等题应在强判断、短问短答、直接指令或结果先行中重新选择，不得把一次成功结构扩成万能模板。
+15. **模板池优先**：通用逻辑用于校正模板变量，不替代18个H模板。每次先按母题形成模板短名单；只有所有模板明显不适配时才写自由候选，并记录排除理由。七条并列人性规则或完整认知盘点优先检查H04；不要因为上一条机会条件式或反常识式有效就连续复用。
+16. **模板名与修改权限一致**：标注为H01至H18时，只能替换原模板【】区域，括号外固定文字、句序和标点不动。用户校正样本可以提供语感，但不自动授权修改另一篇H模板的固定骨架；若需沿用整个新骨架，必须标为独立新候选，不得冒充H模板。
+17. **H03变量用动词并去重**：H03的长固定骨架中，动作变量优先写`制造吸引`等直接动词，不写`建立男女吸引`这类名词串；固定句已表明语境时，删除变量中`原来的`等无效限定。技术名在主题中已出现后，后续变量可用贴合母题操作目标的`破解机制`，但不将该词固定化或跨题滥用。
+18. **题型变体与原模板分开**：用户可明确改写H模板括号外的固定部分，但改后应保存为独立题型变体，不覆盖原H模板。S01里的`见面欲`和`四种方向的完整版剖析`继续作为该题用户版本原样保存；用户已要求这一压缩方向暂时不动，因此不从该样本继续提炼跨题规则，也不自动改写其他模板的主题句。
+19. **暂停“信息增量检查”的通用化**：此前从S01提炼出的`同一信息只完整说一次，后文必须压缩`暂不作为每稿强制程序。生成时先保证模板匹配、变量准确、动作有操作性、结果够强；是否压缩主题句，等待后续样本继续校正。不得再以去重复为理由擅自修改H模板固定部分。
+20. **H06步骤型正向测试**：顺序型正文确实由五个可执行动作构成时，H06中的`五步`和主题位的`五个操作步骤`能直接提供操作性与可得感，不需要为了降低所谓成本改成模糊总能力。2026-09-15“加微信到主动想见你”测试获用户评价`不错`，属于正向反馈但尚未正式锁定；只验证步骤型单位可用，不把该篇具体变量固定化。
+
+## Gary 2026-09-08 用户逐条校正：当前优先规则
+
+当前Gary开头生成、匹配与校正，必须先读 [18个可变点模板与认可描述规则](references/opening-variable-templates.md)；结构化副本为 [JSON](references/opening-variable-templates.json)。仅替换【】内，固定部分逐字保留。此模式覆盖旧W/K/R自由拼接和强制压缩两句话规则；其他非Gary开头任务不受影响。钩子短、有动作、有暗示；结果抽象直接；主题包装专业抽象。刺激参照隐秘欲望、反差挑逗、暧昧勾出，避免形容词硬撑或反复堆词。数量、因果与结果贴合正文，替换后检查语法。
+
+独立3.5正式交付时，在扩写完成后依据最终正文匹配一个适合的模板开头，保留扩写原文另存交付稿，只替换开头钩子和主题句，保留导读、豆包提示、案例、CTA和正文。用户只测开头时不改既有成稿。此规则不加入Gemini扩写提示、不重跑扩写、不修改冻结母会话；必要时用delivery_body.txt导出并按现有去重复核要求更新最终稿检查。
+
+## Core Rule
+
+When writing openings:
+
+1. For current Gary/3.5 popular-opening work, use the active W/K/R modular system below. Match the audience desire engine before topic similarity.
+2. For an explicitly requested legacy opening form, use that learned form and preserve its fixed rhythm.
+3. Keep the opening compact and spoken. Do not turn the hook into an explanatory introduction.
+4. Keep the promised count and causal result true to the finished body.
+
+## Active Gary W/K/R Opening System - 2026-09-07
+
+This is the active system when the user asks for a current Gary popular opening or a 3.5 opening match. It overrides the old rule that every opening must preserve one source sentence order.
+
+Build three independent cards before writing:
+
+- **W — weakness/desire entry**: a woman's hidden weakness, desire, instinct, contradiction, selection loophole, or the man's immediate pain. It may be a provocative dark judgment rather than a neutral explanation.
+- **K — low-friction key**: a small, learnable key such as `只要`, `记住`, `掌握`, `看懂`, a limited number of words, steps, switches, rules, or operations.
+- **R — male dark reward**: compress the body's concrete evidence into one stimulating, natural spoken result such as `让她为你失守` or `拿到她身心的入口`. Do not list the body's replies, disclosures, callbacks, or scheduling actions in the hook.
+
+The cards may appear in any order: `W-K-R`, `W-R-K`, `K-W-R`, `K-R-W`, `R-W-K`, or `R-K-W`. Put the strongest card first:
+
+- Lead with W when the female weakness, taboo, or contrarian judgment is most curious.
+- Lead with K when the small method or limited count makes the result feel unusually easy and collectible.
+- Lead with R when the observable result is the strongest fantasy or pain reversal.
+- The topic declaration such as `今天我们要聊的是` may be folded into the second sentence. It does not require a separate third sentence.
+
+### Desire-trigger vocabulary
+
+For current Gary short-term openings, create the semantic effect of curiosity, lust, darkness, laziness, and control together within two sentences. One effect may dominate, and lowbrow double meaning remains optional. Do not satisfy this by stacking the literal vocabulary labels.
+
+- **Curiosity**: 隐秘, 不会承认, 真正秘密, 潜意识, 另一面, 底层开关.
+- **Lust**: 生理欲望, 本能反应, 身体诚实, 无法抵抗, 欲望名单, 上头.
+- **Darkness**: 弱点, 漏洞, 筛选机制, 黑暗规则, 隐形权力, 欲望操盘.
+- **Laziness/shortcut**: 只要, 记住几句, 三个步骤, 一个动作, 最短时间, 直接跳过.
+- **Lowbrow double meaning**: 进入她, 打开开关, 给你留门, 贴上来, 嘴上拒绝身体诚实. Keep it suggestive and instantly understood rather than explicit.
+- **Control/status**: 跟随节奏, 交出推进权, 围绕你运转, 主动补位, 反过来追你, 从被动挨打到掌控.
+
+Use observable payoff verbs from the body as private evidence, then compress them upward into one male fantasy that the body can semantically support. For example, `主动纠正 + 暴露细节 + 记住暗号 + 主动改期 -> 对你卸下理性 -> 只在你面前失守 -> 拿到她身心的入口`. Do not let weak promises such as `看懂女性心理`, `提升男女认知`, `改善相处模式`, `学会正确表达`, or `理解底层逻辑` carry the hook by themselves.
+
+### Construction and acceptance
+
+1. Extract W, K, and the body's observable payoff evidence separately. Compress that evidence through `behavior -> hidden change -> male fantasy -> natural spoken result` before writing R. If the article lacks one card, adapt the nearest approved popular-opening engine without inventing a result the body cannot support.
+2. Choose the male desire endpoint first, then the female weakness/man's pain and the low-friction key. Topic similarity is a tie-breaker, not the first match criterion.
+3. Use at most two sentences, preferably 80-130 Chinese characters. Sentence one creates the dark judgment or status conflict. Sentence two may combine the topic declaration, limited key, and ultimate reward. Put the strongest reward at the very end.
+4. Use no more than one packaged high-stimulation term in one opening. Keep the remaining language conversational. Reject strings of course-like compounds such as `准入机制 + 分配系统 + 认知层级`.
+5. Avoid concrete scene similes or evidence inventories in the hook. `保险柜`, a full physical scene, named replies, exact scheduling, and lists of body actions belong in the正文. Natural abstract words such as `入口`, `开关`, `防线`, and `主导权` are allowed when they sound like something a man would say to a friend.
+6. The opening must semantically create curiosity, lust, darkness, laziness, and control. Validate the reader effect rather than keyword counts.
+7. Keep exact numbers aligned with the正文. The body must prove the abstract reward through concrete evidence, but the hook must not repeat that evidence. Reject rewards beyond the body's boundary, such as turning voluntary interest into guaranteed obedience or permanent possession.
+8. Reject generic explanatory starts such as `很多男人不知道`, `当一个女人开始`, or a defensive introduction led by `不是教你`, `不代表`, or `不用冒险`. A dark contrast such as `从来不会因为A失控，只会为B失守` is allowed when it is the substantive judgment rather than a disclaimer.
+9. Run a spoken-language gate: if the core phrase sounds more like a course catalog than something Gary would say to a brother, rewrite it with a verb. Prefer `绕过她的理性` over `突破女性理性防御机制` and `让她为你失守` over `获得隐秘欲望准入权`.
+10. Across adjacent articles, rotate the sentence function rather than lowering stimulus: dark judgment, identity gap, hidden rule, loss warning, or ultimate reward may lead. For same-topic A/B tests, use one shared opening so the hook does not become an extra variable.
+
+Compact approved pattern:
+
+```text
+男人想真正进入一个女人，最先要进入的不是她的生活，而是她的欲望名单。只要掌握这六个欲望开关，你就能跳过漫长的条件考核，让她身体比嘴更诚实，主动向你靠近。
+```
+
+Current approved natural-spoken example:
+
+```text
+女人最隐秘的欲望，从来不会因为一个男人对她好就失控，只会为那个能绕过她理性的人失守。今天我们要聊的是，如何让女生在你面前露出不方便给别人看的那一面，只要看懂这六个开关，你就能跳过漫长试探，直接拿到她身心的入口。
+```
+
+The current two-sentence compression rule overrides later generic variable-packaging advice whenever that advice would create stiff AI-like course nouns.
+
+## Global Variable Style
+
+All variables in all learned opening forms should match the user's adult Douyin relationship-course tone.
+
+Allowed flavor:
+
+- R18 adult emotional-course positioning
+- Dark psychology, human nature, desire, selection, and power dynamics
+- PUA-adjacent packaging when used as a topic style or relationship-battle framing
+- High-pressure wording around frame, value, screening, attraction, emotional leverage, and status reversal
+
+Preferred variable wording:
+
+- 看穿人性暗面
+- 识别潜意识筛选
+- 夺回关系主导权
+- 重塑高位框架
+- 摆脱低位反应
+- 看懂欲望和慕强机制
+- 让对方重新评估你的价值
+- 从供养者变成筛选者
+- 从 beta 习惯跨进 alpha 框架
+
+Variable naming rule:
+
+- 【全文内容总结】 and 【核心知识解决痛点】 must be essential, dark, and high-dimensional.
+- Do not directly copy ordinary topic words from the source. Upgrade them into a mechanism, system, law, chain, model, technology, or hidden rule.
+- Turn plain words into packaged concepts:
+  - 聊天 -> 潜意识引导系统 / 情绪递进话术链 / 亲密感催化机制
+  - 朋友圈 -> 生活样本操盘系统 / 高价值信号投放系统 / 预选信号矩阵
+  - 不要上头 -> 情绪主权回收术 / 低位反应切断系统 / 反上头控制链
+  - 筛选女生 -> 女性底色识别系统 / 关系风险排雷模型 / 高价值伴侣筛选法则
+  - 追女生 -> 情感市场转化系统 / 吸引力成交模型 / 关系推进操盘术
+  - 自信 -> 高位框架重塑 / 男性内核定价权 / 不可撼动的价值秩序
+- 【全文内容总结】 should sound like the title of a hidden advanced course.
+- 【核心知识解决痛点】 should sound like the transformation after mastering that course.
+- Prefer compact transformation shapes such as 从 A 变成 B, 切断 A 拿回 B, 看穿 A 建立 B, 摆脱 A 进入 B.
+- Prefer the newer high-dimensional style confirmed by the user: concise dark mechanism names plus sharp status reversal. The variable should feel like a premium internal lesson, not a plain summary.
+- Strong examples from the confirmed style:
+  - 无所谓但不抗拒 -> 反需求感框架与高位筛选系统
+  - 展现高位状态 -> 反需求感框架植入术
+  - 不被女人情绪影响 -> 情绪主权回收术
+  - 情绪稳定和筛选 -> 高位吸引反转链
+  - 低位追求者 -> 情绪追逐者
+  - 高位筛选者 -> 关系定价者
+  - 女人测试你 -> 女人情绪测试对你的低位控制
+  - 被她牵着走 -> 被女人一句话带崩的低位反应
+- When choosing between a plain accurate variable and a high-dimensional packaged variable, prefer the packaged one if it remains smooth in spoken Chinese.
+
+## 文案指纹与包装标题规则
+
+Before writing any opening variables, especially in batch work, first build a specific fingerprint for the source script. The fingerprint is more important than the broad category. Do not package the title until the fingerprint is clear.
+
+### Fingerprint Analysis Order
+
+Analyze the source in this order:
+
+1. **Title fingerprint**: Extract the strongest concrete noun, action, conflict, or promise from the filename/title. Ignore account names, dates, tags, and scaffolding words.
+2. **Opening-body fingerprint**: Read the first one to three正文 paragraphs and identify the real question, pain, reversal, or scenario. Use this to correct vague or misleading filenames.
+3. **Mechanism fingerprint**: Name the hidden mechanism behind the script, not the surface topic. Ask: what invisible rule is the script teaching?
+4. **Audience state**: Identify the viewer's starting low-position state, such as 低位讨好、上头追逐、不会筛选、社交防御打不开、被测试带崩、资源误判、窗口期错失.
+5. **Transformation result**: Identify the final status upgrade, such as 高位筛选、关系定价、情绪主权、窗口期推进、预选吸引、能量排雷、内核定价.
+6. **Contrarian hook angle**: Extract one dark reversal that is unique to this script. The hook should not be reusable for ten unrelated documents.
+
+### Fingerprint Dimensions
+
+Use at least three of these dimensions before creating 【全文内容总结】:
+
+- **Scenario**: 聊天、约会、朋友圈、冷淡期、废测、表白前、第一次见面、分手/筛选、资源展示、形象建设、欲望升级、社交圈.
+- **Main conflict**: 追逐 vs 筛选, 付出 vs 让她投入, 真诚 vs 定价, 热情 vs 冷淡, 皮囊 vs 能量损耗, 慕强 vs 供养, 安全感 vs 失去感, 低位解释 vs 高位接招.
+- **Hidden mechanism**: 预选信号、沉没成本、损失厌恶、社交防御、情绪奖赏、关系窗口期、慕强扫描、低位反应、资源权重、认知同频.
+- **Tactical verb**: 识别、切断、植入、校准、重塑、引导、筛选、推进、投放、回收、反转、绑定.
+- **Result identity**: 关系定价者、高位筛选者、节奏带领者、窗口期推进者、情绪主权者、价值样本、风险排雷者、内核定价者.
+
+### Packaging Title Formula
+
+For batch generation, 【全文内容总结】 should usually follow this shape:
+
+```text
+【专属主题指纹】 + 【隐藏机制】 + 【系统/模型/法则/链/操盘术】
+```
+
+Good examples:
+
+- `冷淡窗口期的需求感切断与情绪主权回收系统`
+- `第一次约会的窗口期推进与强吸引校准模型`
+- `朋友圈预选信号投放与生活样本定价系统`
+- `表白前关系升级窗口与低位暴露切断法则`
+- `资源展示权重与女性慕强扫描识别模型`
+- `废物测试里的低位反应切断与高位接招系统`
+- `聊天社交防御拆解与情绪暴露引导链`
+
+Avoid these because they are too broad and repeat easily:
+
+- `两性博弈底层规则与高位框架重塑系统`
+- `男性攻击性释放与高位框架重塑系统`
+- `冷淡窗口期里的情绪主权回收系统`
+- `深度话题引导与情绪暴露话术链`
+- `高价值伴侣筛选与关系风险排雷模型`
+
+These broad packs can be used only as suffix logic, never as the whole title across many unrelated documents.
+
+### Duplicate Prevention Rules
+
+- If two documents produce the same 【全文内容总结】, treat it as a failed fingerprint unless the two documents are true duplicates.
+- If two documents produce the same Opening 4 hook, rewrite at least one hook with a more specific scenario, conflict, or mechanism.
+- If the title is vague, the first正文 paragraph must provide the fingerprint. Do not fall back to a generic pack merely because the title contains `聊天`, `女人`, `关系`, `吸引`, `高位`, `框架`, `渣男`, or `心理`.
+- The packaging title must include a differentiator from the source, such as `第一次约会`, `朋友圈`, `表白前`, `冷淡后`, `脏问题`, `30岁前`, `05后`, `创一代`, `X张力`, `钱是给女人看的`, `回避型`, `四大分类`.
+- The result variable must also be document-specific. Do not reuse only `从低位迎合者变成高位筛选者` across many files. Pair the result with the actual pain, e.g. `从约会束手束脚变成窗口期推进者`, `从朋友圈透明人变成预选价值样本`, `从一句话带崩变成高位接招者`.
+
+Boundary:
+
+- Keep this as adult relationship-course framing.
+- Do not turn variables into explicit coercion, threats, stalking, blackmail, guaranteed obedience, or non-consensual tactics.
+- If a user-provided phrase is too coercive, preserve the dark tone but repackage it as 机制识别、关系筛选、边界建立、框架重塑、情绪主权、吸引力建设.
+
+## Learned Opening Forms
+
+### Opening 1: 最终完整版提效式
+
+Use this form when the script should feel like the final, most complete, uncut version of a high-density topic. It is suitable for long-form scripts, complete lessons, mechanism collections, checklist lessons, and topics that can be packaged as a complete system.
+
+Core effect:
+
+- "最后一期" creates final-version scarcity.
+- "最完整未删减" creates completeness and authority.
+- "顶级黑暗思维完整版解析" creates high-value positioning.
+- "艾特豆包总结精髓/思维导图" creates collection, comment, and review behavior.
+- "好，我们直接进入正题" transitions cleanly into the body.
+
+Template:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+【全文内容总结】的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解【文案核心知识】，轻松拿【核心知识解决痛点】结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Variables:
+
+- 【全文内容总结】: Summarize the whole script as a compact, high-value system. It should sound complete and worth saving.
+- 【文案核心知识】: Name the core knowledge, rules, mechanisms, or operating logic the viewer will understand.
+- 【核心知识解决痛点】: Name the concrete result, status upgrade, or pain resolution the viewer wants.
+
+Variable compression rule:
+
+- The third sentence must be short, sharp, and smooth for spoken delivery.
+- Do not stuff every mechanism, pain point, and result into one sentence.
+- Compress 【文案核心知识】 into one clean phrase such as 底层规则, 运行规则, 核心机制, 转化规则, or 判断规则.
+- Compress 【核心知识解决痛点】 into a "from A to B" result whenever possible.
+- Good result shape: 从【低位状态】变成【高位状态】的结果.
+
+Approved example:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+十二个泡妞与赚钱的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解两性关系、商业、人脉的运行规则，轻松拿到顶美和顶薪双重结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Approved optimized examples:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+女性本能择偶与慕强机制的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解女人判断男人强弱的底层规则，轻松拿到从低位供养者变成高位筛选者的结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+十个海王预选信号与生活样本建设的顶级黑暗思维完整版解析。
+让你在最短时间，完全理解情感市场里的高价值信号和吸引力转化规则，轻松拿到从低效讨好者变成高位收割者的结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Do not change the fixed sentences unless the user explicitly asks to create a variant. Only change the three variables.
+
+### Opening 2: 年龄点名技巧课式
+
+Use this form when the script should directly target men in their late 20s or early 30s and promise that this episode will teach one complete technique, method, or operating system. It is suitable for skill-based lessons, relationship progression methods, psychological mechanism lessons, and practical scripts where the viewer wants a clear efficiency upgrade.
+
+Core effect:
+
+- "二十多三十岁出头" names the audience immediately.
+- "想学会..." turns the topic into a direct skill promise.
+- "你看我这一期就够了" creates enoughness and urgency.
+- Repeating 【全文内容总结】 in the second sentence reinforces what this episode will teach.
+- "完整技巧，指数级提升推进效率和结果" creates a practical outcome promise.
+- The Doubao/AI summary and mind-map line keeps the collection/comment/review behavior from Opening 1.
+
+Template:
+
+```text
+如果你现在二十多三十岁出头啊，想学会【全文内容总结】，【核心知识解决痛点】，你看我这一期就够了，
+这一期我会讲透【全文内容总结】。
+让你在最短时间内补齐认知差，掌握【文案核心知识】的完整技巧，指数级提升推进效率和结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Variables:
+
+- 【全文内容总结】: Name the main technique or method the viewer wants to learn. It should be action-oriented, not just a topic label.
+- 【核心知识解决痛点】: Name the attractive result, emotional outcome, or relationship upgrade the viewer wants.
+- 【文案核心知识】: Name the deeper mechanism, technique, or internal system that supports the method.
+
+Variable compression rule:
+
+- The first sentence can be intense, but it must remain smooth when read aloud.
+- 【全文内容总结】 should sound like a learnable ability.
+- 【核心知识解决痛点】 should sound like the reason the viewer cares.
+- 【文案核心知识】 should be more precise than the first variable; it is the "how it works" layer.
+- If the wording becomes too forceful or coercive, repackage it as 吸引机制、心理机制、关系推进、情绪连接、边界和筛选.
+
+Approved example:
+
+```text
+如果你现在二十多三十岁出头啊，想学会彻底击碎女人的精神防线，让她像上瘾一样对你死心塌地，你看我这一期就够了，
+这一期我会讲透怎么样通过隐秘价值补偿技巧攻破女人的心理防线。
+让你在最短时间内补齐认知差，掌握成为女人心里无法替代的精神锚点的完整技巧，指数级提升推进效率和结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Do not mix this form with Opening 1. Opening 1 is for final complete system packaging. Opening 2 is for age-targeted skill lessons and practical technique promises.
+
+### Opening 3: 最终版身份点名硬核课式
+
+Use this form when the script should combine final-version authority with age-targeted positioning and a hard-core practical lesson promise. It is suitable for especially important long-form videos, high-value lessons, and scripts that should feel like one of the strongest episodes in the account.
+
+Core effect:
+
+- "最后一期，也是最完整未删减" creates final-version authority.
+- "二十多三十出头" names the target audience.
+- "还没有系统性的学习过..." creates a knowledge-gap pressure.
+- "你看我这条视频就可以了" makes this episode feel sufficient.
+- "含金量最高 / 非常硬核 / 极其落地" raises perceived value.
+- The Doubao assistant line is shorter and more direct than Opening 1 and Opening 2.
+
+Template:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+如果你现在二十多三十出头，还没有系统性的学习过两性关系中的高阶心理博弈，想要【全文内容总结】，【核心知识解决痛点】，你看我这条视频就可以了。
+我出一期迄今为止我个人觉得含金量最高的一期，这期内容非常硬核，会有非常多、极其落地的实操方法论。
+另外说一下，如果你们想拿到这期视频的思维导图，或者想提高学习效率的，可以在评论区艾特豆包助手。
+我已经开放好权限了，这样子你们复习和吸收的效率会快很多。
+```
+
+Variables:
+
+- 【全文内容总结】: Name what the viewer wants to understand, learn, break through, or master. It should sound like a high-level relationship psychology capability.
+- 【核心知识解决痛点】: Name the specific outcome, pain relief, or status upgrade the viewer wants.
+
+Variable compression rule:
+
+- This form has only two variables, so each one must be concise and powerful.
+- 【全文内容总结】 should be an action-oriented learning promise.
+- 【核心知识解决痛点】 should be a concrete relationship result or transformation.
+- Apply the Global Variable Style, but keep the wording compact because this form has a long fixed sentence.
+- Do not add extra mechanisms into the fixed sentences.
+- Keep the "含金量最高 / 硬核 / 落地实操" sentence unchanged unless the user teaches a variant.
+
+User-provided base form:
+
+```text
+这是最后一期，也是最完整未删减的一期啊。
+如果你现在二十多三十出头，还没有系统性的学习过两性关系中的高阶心理博弈，想要【可变量（全文内容总结）】，【可变量（核心知识解决痛点）】，你看我这条视频就可以了。
+我出一期迄今为止我个人觉得含金量最高的一期，这期内容非常硬核，会有非常多、极其落地的实操方法论。
+另外说一下，如果你们想拿到这期视频的思维导图，或者想提高学习效率的，可以在评论区艾特豆包助手。
+我已经开放好权限了，这样子你们复习和吸收的效率会快很多。
+```
+
+Do not mix this form with Opening 1 or Opening 2. Opening 3 is for the strongest hard-core practical lesson framing, especially when the video needs to feel like a high-value flagship episode.
+
+### Opening 4: 反常识暗黑金句完整剖析式
+
+Use this form when the opening needs to stop the viewer immediately with a contrarian dark sentence, then package the script as a complete analysis. It is suitable for strong mechanism topics, human-nature topics, relationship-management lessons, and scripts whose original first 30 Chinese characters already contain a sharp hook.
+
+Core effect:
+
+- The first line is the hook. It must feel like a dark, counterintuitive, shareable sentence.
+- The second line turns the topic into a complete analysis.
+- The third line promises cognition repair, control of the core mechanism, and a concrete adult relationship result.
+- The Doubao line keeps the collection/comment/review behavior.
+
+Template:
+
+```text
+【反常识型暗黑金句/原文案开头30字】
+【全文内容总结】完整剖析。
+让你在最短时间补齐认知差，掌控【全文内容总结】，【核心知识解决痛点】。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Variables:
+
+- 【反常识型暗黑金句/原文案开头30字】: Use the original first 30 Chinese characters if they are strong. If they are weak, rewrite them into one dark contrarian hook.
+- 【全文内容总结】: Name the complete mechanism, technology, rule, or relationship-management system.
+- 【核心知识解决痛点】: Name the adult relationship result created by mastering the mechanism.
+
+Variable compression rule:
+
+- The first line must be short and punchy. Do not explain.
+- 【全文内容总结】 should sound like a complete technical topic, e.g. 顶级的关系管理技术, 情绪锚定机制, 高价值筛选系统.
+- The third sentence may be darker and more R18, but keep it as relationship-course framing rather than explicit coercion.
+- If the original first 30 characters are vivid, preserve them. If they are ordinary, generate a sharper contrarian dark sentence.
+
+Approved example:
+
+```text
+只要你会训狗，你就能在两性博弈中立于不败之地。
+两性关系中顶级的关系管理技术完整剖析。
+让你在最短时间补齐认知差，掌控三个最核心的心理技巧，让对方潜意识与你绑定，每一段关系都围绕你进行。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Do not mix this form with Opening 1, 2, or 3. Opening 4 is the best choice when the script needs a sharp first-line hook before the complete-analysis packaging.
+
+### Opening 5: 没思路痛点点名强刺激技术剖析式
+
+Use this form when the script should directly target men who feel they lack technique, direction, or a clear path to脱单, then promise a high-intensity psychological mechanism lesson. It is suitable for skill-based relationship lessons, cold-reading lessons, attraction mechanism lessons, and scripts that need to feel practical, direct, and immediately useful for viewers who are stuck.
+
+Core effect:
+
+- "如果你今天..." names the viewer's current stuck state without age restrictions.
+- "没技巧没思路 / 遇到喜欢的人没办法脱单" creates immediate pain recognition.
+- "想要做到..." gives a high-stimulus result promise.
+- The third line turns the topic into a named complete mechanism and lists the internal steps.
+- The Doubao line keeps the collection/comment/review behavior.
+- "好，我们直接进入正题" transitions cleanly into the body.
+
+Template:
+
+```text
+如果你今天【低位卡点/缺技巧缺思路状态】啊，或者【具体关系场景里无法推进的痛点】。
+想要做到【强刺激关系结果承诺】，你看我这一期就可以了。
+【全文内容总结】完整剖析，让你掌握从【外在切入口】切入到【内在隐秘需求】的【核心机制】，瞬间完成【关键步骤1】、【关键步骤2】和【关键步骤3】，快速提升推进结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Variables:
+
+- 【低位卡点/缺技巧缺思路状态】: Name the viewer's current stuck state. Keep it colloquial and direct, such as 把妹没技巧没思路, 聊天没节奏没框架, 见到喜欢的人就不会推进.
+- 【具体关系场景里无法推进的痛点】: Name the real scene where the viewer fails, such as 遇到喜欢的人没办法脱单, 女生一冷淡就不会接招, 关系到暧昧期就停住.
+- 【强刺激关系结果承诺】: Name the desired relationship result in a dark adult-course tone. Keep the intensity, but when generating new openings, repackage overly coercive wording toward 吸引机制、心理防御瓦解、潜意识共鸣、情绪连接、依赖感建立, not threats, blackmail, stalking, or non-consensual control.
+- 【全文内容总结】: Name the technique, framework, or mechanism being taught. It should sound like a complete advanced lesson, e.g. 冷读框架植入术, 情绪防御瓦解系统, 潜意识标签切入模型.
+- 【外在切入口】: Name the visible entry point used to start the mechanism, such as 外在标签, 聊天反应, 社交信号, 行为细节, 情绪漏洞.
+- 【内在隐秘需求】: Name the deeper psychological need being identified, such as 内在隐秘需求, 潜在情绪缺口, 慕强需求, 安全感需求, 被理解需求.
+- 【核心机制】: Name the deeper mechanism that connects the surface signal to the inner need.
+- 【关键步骤1/2/3】: Name the three-step technical chain. Keep each step compact and high-dimensional.
+
+Variable compression rule:
+
+- The first two lines must sound conversational and easy to read aloud.
+- The third line can carry more technical density, but the three steps must be short enough to speak smoothly.
+- This form should feel more tactical than Opening 1, less age-targeted than Opening 2, less flagship than Opening 3, and less one-line-hook-driven than Opening 4.
+- Prefer a clear technique chain: `外在信号 -> 内在需求 -> 机制植入/框架反转 -> 推进结果`.
+- Keep the fixed Doubao and transition lines unchanged unless the user teaches a variant.
+
+Approved example:
+
+```text
+如果你今天把妹没技巧没思路啊，或者遇到喜欢的人没办法脱单的。
+想要做到瞬间撕碎一个女人的心理防御，让她在潜意识里强行爱上你，甚至对你产生一种宿命般的依赖感，你看我这一期就可以了。
+冷读框架植入术完整剖析，让你掌握从女人的外在标签切入到内在隐秘需求的冷读机制，瞬间完成冷读侧写、巴纳姆共鸣和框架反转，快速提升推进结果。
+另外说一下，如果想节省时间的话，可以点个收藏，在评论区艾特豆包，让豆包给你总结出精髓或者思维导图后再回来观看，这样子你们复习和吸收的效率会快很多。
+好，我们直接进入正题。
+```
+
+Do not mix this form with Opening 1, 2, 3, or 4. Opening 5 is best when the viewer's immediate pain is "I have no technique/no direction and cannot推进", and the topic can be packaged as a named tactical mechanism with a three-step technical chain.
+
+### Opening 6: 社会阻力反转式
+
+Use this form when the topic exposes a socially discouraged trait, desire, or behavior, then reverses it into a relationship advantage. The opening must move through `社会禁止 -> 外部阻拦 -> 泡妞场景里的反向动作 -> 三段结果 -> 主题落点`.
+
+Template:
+
+```text
+这个社会是不允许【被压制的特质/行为】，
+甚至【外部力量】会阻止你【关键动作】，
+但只要你能在泡妞时【反向关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Keep `这个社会是不允许` as the fixed opening move. Do not weaken it into `很多人不建议` or turn the paragraph into a summary.
+
+### Opening 7: 能力跨域成功式
+
+Use this form when one relationship capability can be elevated into a broader rule for business, social status, execution, or success. The opening must move through `稀缺男性能力 -> 跨域成功判断 -> 两个领域同构 -> 主题落点`.
+
+Template:
+
+```text
+能让女人【核心反应】的男人，
+无论做什么事都能成功，
+因为【领域A】和【领域B】，他们的底层逻辑是相通的，
+今天我们要聊的是，【主题】。
+```
+
+The first variable must be a concrete female reaction, not a vague phrase such as `喜欢你`. The cross-domain claim should feel bold but logically connected to the script.
+
+### Opening 8: 年龄点名一期足够式
+
+Use this shorter form when the video promises one clear relationship capability to men in their twenties or early thirties. It is more direct and compact than Opening 2.
+
+Template:
+
+```text
+如果你现在二十多三十岁出头，
+想学会【核心动作】，让女人【目标反应】，
+你看我这一期就够了，今天我们要讲的是，【主题】。
+```
+
+Keep the first line and `你看我这一期就够了` fixed. The middle line must contain both a learnable action and a visible result.
+
+### Opening 9: 女性潜意识阻力反转式
+
+Use this form when the conflict comes from a woman's subconscious screening, fear, defense, or instinct rather than from society. It is a distinct form from Opening 6 and must move through `潜意识不允许 -> 女性防御阻拦 -> 男方反向动作 -> 三段关系结果 -> 主题落点`.
+
+Template:
+
+```text
+女人的潜意识是不允许你【被排斥的行为/身份】，
+甚至【女性防御/本能】会阻止你【关键推进】，
+但只要你能在泡妞时【反向关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Do not replace `女人的潜意识` with generic psychology language. The second line must name the actual internal resistance taught by the source.
+
+### Opening 10: 突发行为考验式
+
+Use this form when the article begins from a sudden female behavior such as becoming cold, replying slowly, provoking, withdrawing, testing, or becoming unusually proactive.
+
+Template:
+
+```text
+当一个女生突然【异常行为】，其实才是最考验你【被考验的能力/框架】的时候。
+```
+
+This is a short trigger line, not a complete article summary. Continue directly into the source mechanism or body. Prefer a visible behavior over abstract words.
+
+### Opening 11: 独家禁教完整剖析式
+
+Use this form for high-value, controversial, or uncommon lessons that need authority, scarcity, and a complete-analysis promise. It may be followed by the age-targeted enoughness block.
+
+Template:
+
+```text
+这是一期别的情感博主根本不敢教的，也可能只有我能给你讲清楚的，怎么样通过【核心机制】，达成【核心结果】的完整未删减版剖析。
+如果你现在二十多三十岁出头，
+想学会【核心动作】，让女人【目标反应】，
+你看我这一期就够了。
+```
+
+The first sentence must promise a specific mechanism and outcome. Do not use `干货`, `技巧`, or `方法` as empty variables.
+
+### Opening 12: 兄弟质疑翻案式
+
+Use this form when the source can overturn a common male interpretation of a woman's reaction. It should sound conversational and grounded in real cases.
+
+Template:
+
+```text
+我和兄弟们说啊，女人对你【表面反应】/女人【表面行为】，真的是因为【常见解释】吗？
+不一定，大部分实战情况告诉我们，【反转真相】。
+```
+
+Keep `我和兄弟们说啊` and `不一定，大部分实战情况告诉我们` as the voice anchors. The second sentence must overturn the exact explanation raised in the first.
+
+### Opening 13: 男女版本规则反转式
+
+Use this form when the script describes a current dating-market rule, asymmetry, or changed relationship environment. It must move through `当前版本规则 -> 女性不会主动做什么 -> 男方关键动作 -> 三段结果 -> 主题落点`.
+
+Template:
+
+```text
+在现在这个男女版本里，女人是不会【默认不会发生的行为/结果】的，
+但只要你能在【关键场景】时【关键动作】，
+你就能让女人【结果1】、【结果2】、【结果3】，
+今天我们要聊的是，【主题】。
+```
+
+Do not generalize the first line into timeless human nature. Its power comes from naming the current dating-market version.
+
+## New Form Selection Rule - 2026-07-16
+
+Before filling variables, classify the source by its strongest opening engine:
+
+- `社会规范压制` -> Opening 6
+- `关系能力可迁移到事业/人脉` -> Opening 7
+- `年龄人群 + 单项技能承诺` -> Opening 8
+- `女性潜意识防御或筛选` -> Opening 9
+- `突然出现的具体行为信号` -> Opening 10
+- `稀缺争议知识 + 完整剖析` -> Opening 11
+- `男性常见误判 + 实战翻案` -> Opening 12
+- `当前男女市场规则` -> Opening 13
+
+Openings 6, 9, and 13 share a reversal rhythm but are not synonyms. Preserve their different source of pressure: society, female subconscious, or the current dating-market version. In a multi-opening batch, rotate these engines only when each one genuinely fits the source fingerprint.
+
+## Output Rules
+
+Default output:
+
+```markdown
+**使用开头形式**：Opening X - 名称
+
+**变量填充**
+- 全文内容总结：
+- 文案核心知识：
+- 核心知识解决痛点：
+
+**成稿开头**
+...
+```
+
+If the user asks for multiple versions, write each version using the same learned form unless they ask to compare forms.
+
+If the user says "只要成稿", output only the finished opening.
+
+## Relearning Rules
+
+When the user provides a new opening form:
+
+1. Add it as the next numbered opening form.
+2. Preserve the exact fixed sentences.
+3. Extract only the true variables.
+4. Add the user's example as the approved example.
+5. Add a short "Use this form when..." note.
+6. Do not bring back old templates or vocabulary from previous versions.
+
+## Self-Evolution Rule
+
+After every real generation task, do a brief internal review before finishing:
+
+1. Identify which variable names, hook lines, and result transformations sounded strongest.
+2. Identify any wording that felt too plain, too long, too explanatory, or not dark/high-dimensional enough.
+3. Compress the best lesson into this skill when it improves future generations.
+4. Prefer adding small reusable rules or examples, not long transcripts.
+5. Do not rewrite approved opening forms unless the user explicitly wants to change the form.
+
+What to learn from each generation:
+
+- Better high-dimensional names for ordinary topics.
+- Better "from A to B" transformations.
+- Better dark contrarian first lines.
+- Better ways to keep the fixed template while making variables sharper.
+- Better judgment about which Opening form fits which source script.
+
+When updating this skill after a generation, add the lesson to the smallest relevant section:
+
+- Global Variable Style for general variable taste.
+- A specific Opening form section for form-specific lessons.
+- Relearning Rules only when the learning process itself changes.
+
+Keep the skill clean. Every update should make the next output more accurate, darker, sharper, and easier to speak aloud.
+
+### Batch Generation Lessons - 2026-06-06
+
+- When rewriting documents that already contain old openings, treat `正文` / `【正文】` as the main boundary. If no marker exists, use the first `好，我们直接进入正题。` as the old-opening boundary and keep the paragraph after it as正文.
+- If the first one to three paragraphs after `正文` still contain old guide wording such as `全剖析`, `补齐认知差`, `豆包`, `AI`, or `好，我们直接进入正题`, remove those guide paragraphs before adding the new four openings.
+- For batch variables, never use only a small stable category name across many documents. Each document must carry its own topic fingerprint from the title or first body paragraph, then add a high-dimensional mechanism suffix. Good shape: `【专属主题指纹】的【机制/系统/模型】`, e.g. `攻击性释放的男性高位框架重塑系统`, `朋友圈识别女人的女性底色识别模型`, `冷淡翻盘的情绪主权回收系统`.
+- In batch rewrites, check duplicate openings after generation. Opening 1's topic line and Opening 4's first hook line should not repeat across unrelated documents. If duplicates appear, add a sharper topic fingerprint or split same-title documents by body-specific angle.
+- When a topic includes coercive or overly extreme wording, repackage it toward `机制识别`, `关系筛选`, `边界建立`, `框架重塑`, `情绪主权`, or `吸引力建设` while keeping the dark adult-course tone.
+- Opening 4 hooks work best when they express a hidden reversal in one line, e.g. `女人嘴上说看感觉，身体却一直在扫描男人的强弱。`, `越急着证明爱的人，越容易被关系重新定价。`, `关系不是等出来的，而是在窗口期里被精准推进出来的。`
+- For batch classification, never let generic words such as `话题`, `内容`, `今天聊`, or `现象` decide the opening pack. They are scaffolding words, not topic signals.
+- Relationship-upgrade and sexual-tension topics should outrank chat topics when the title or strong topic phrase contains `好色`, `矜持`, `拒绝`, `升级机会`, `性张力`, `X张力`, `欲望`, or `荷尔蒙`. Good pack shape: `女性欲望信号与关系升级窗口识别系统`; good hook shape: `女人不是没有欲望，她只是在等一个敢带节奏的男人。`
+- Body-based fallback rules must be conservative. Do not use broad body words such as `欲望`, `拒绝`, `牵手`, or `亲嘴` alone to classify the whole document, because they can overmatch unrelated scripts. Prefer high-specificity title/topic rules first, then verify mismatched samples with the first three body paragraphs before full batch apply.
+- When several different documents fall into the same broad pack, split them with a short title fingerprint instead of leaving the same opening. Good examples: `心甘情愿付出背后的女性主动投入绑定机制`, `三十岁前两性顶级思维与高位认知系统`, `冷读潜意识识别与情绪入口操盘术`, `弱者气息清除与男性高位框架重塑系统`, `代价感植入与关系投入绑定机制`.
+- If a filename contains a strong self-contained lesson name such as `冷读`, `弱者气息`, `付出代价`, `30岁之前`, or `心甘情愿为你付出`, create a high-priority title/topic rule for that lesson before broad body fallback rules. Do not let those files collapse into generic `聊天`, `付出`, or `两性博弈` openings.
+
+### Batch Generation Lessons - 2026-06-07
+
+- The previous batch still had too much overlap because many files collapsed into broad packs such as `男性攻击性释放与高位框架重塑系统`, `冷淡窗口期里的情绪主权回收系统`, `深度话题引导与情绪暴露话术链`, and `高价值伴侣筛选与关系风险排雷模型`. These are useful mechanism families, but they are not specific enough to be final packaging titles.
+- For every source document, create a two-layer label: `专属文案指纹 + 机制家族`. Example: instead of `深度话题引导与情绪暴露话术链`, write `刚加女生破冰的社交防御拆解与情绪暴露话术链`; instead of `冷淡窗口期里的情绪主权回收系统`, write `女人回复变慢后的需求感切断与情绪主权回收系统`.
+- The fingerprint should come from the most concrete source signal: title phrase, first-body scenario, numbered lesson promise, named theory, target woman type, relationship stage, or viewer failure pattern. If no concrete signal exists, use the first正文 paragraph's conflict as the fingerprint.
+- Classify first, but package second. Classification can use broad families; final variables cannot. Final variables must include one document-specific detail plus one high-dimensional mechanism.
+- Build a `fingerprint profile` before writing variables:
+  - source signal: the exact phrase or scenario from title/body
+  - viewer pain: what low-position mistake the viewer is making
+  - hidden mechanism: the invisible rule being taught
+  - transformation: from what identity to what identity
+  - hook reversal: the one-line dark contradiction
+- Opening 1's second line should not be just a family name. Use this shape: `【文案指纹】背后的【机制家族】的顶级黑暗思维完整版解析。`
+- Opening 2's `想学会...` should be an action promise, not a noun title. Convert `朋友圈识别女人` into `通过朋友圈细节识别女人底色和关系策略`; convert `冷淡窗口期` into `在女人冷淡时切断需求感并重新拿回节奏`.
+- Opening 3 should be more result-oriented than Opening 1. If Opening 1 says `朋友圈预选信号投放与生活样本定价系统`, Opening 3 should say `用朋友圈生活样本建立预选感` plus `从透明人变成高价值样本`.
+- Opening 4 hook must contain a unique reversal. If a hook can fit more than five files unchanged, it is too generic. Add the source scenario: `女人冷淡的时候...`, `第一次约会里...`, `朋友圈里...`, `表白之前...`, `钱砸出去之前...`, `女生问脏问题时...`.
+- During batch QA, count duplicate `Summary` and duplicate `Hook`. Any duplicate count above 1 must be reviewed. True duplicates are allowed only when the source files are the same lesson under different filenames.
+
+### Batch Generation Lessons - 2026-06-07 Fingerprint Redo
+
+Self-review from the 227-document redo:
+
+- The most effective workflow was a three-layer guardrail:
+  1. **Detailed fingerprint pack**: match concrete title/body signals before broad mechanism families.
+  2. **Compact label**: when a broad pack repeats, extract a short spoken label from the title, such as `大学追女生`, `断联女生重启`, `约会束手束脚`, `黄毛属性`, `三十六问`.
+  3. **Global uniqueness QA**: after generation, count duplicate `Summary` and `Hook`; if any repeat, rewrite them before apply.
+- Classification families may repeat internally, but final packaging must not repeat. `男性攻击性释放`, `两性博弈`, `冷淡窗口期`, `深度话题`, `高价值筛选`, `主动付出`, and `损失厌恶` are families, not final titles.
+- Final title formula for repeated families:
+
+```text
+【短标签/具体场景】 + 场景里的/背后的 + 【机制家族】
+```
+
+Examples:
+
+- `大学追女生场景里的大学女生社交舆论场与校园吸引降维模型`
+- `约会主场价值优势与框架话语权重塑系统`
+- `断联女生重启互动与技术性崩盘修复系统`
+- `供养者逆袭路径与攻击性重建系统`
+- `选择权逆转与关系评估重塑模型`
+- `三十六问情绪暴露与亲密感加速建立链`
+
+- Use `场景里的` when the short label is a situation, stage, or audience context. Use `背后的` when the short label is a concept, named theory, behavior, or psychological mechanism. Avoid awkward phrases such as `在大学里追背后的...`; compress it to `大学追女生场景里的...`.
+- Good compact labels are short, concrete, and speakable. Remove filler words such as `为什么`, `如何`, `怎么样`, `今天`, `内容`, `真正`, `其实`, `一个`, `一种`, `这个`, `那个`. Keep words that identify the document: `大学追女生`, `朋友圈识别`, `表白前`, `断联重启`, `低颜值吸引`, `不匹配关系`, `05后`, `创一代`, `X张力`.
+- When a hook repeats, do not merely add numbers or synonyms. Rebuild it from the compact label and one unique contradiction:
+  - `约会里真正让你失控的，不是不会聊天，而是你一开始就站在了客场。`
+  - `断联后最蠢的操作，是连死因都没复盘，就急着重新抢救。`
+  - `女人嘴上讨厌黄毛，潜意识却一直在扫描谁更像强者。`
+  - `大学追女生真正拉开差距的，不是表面技巧，而是谁先拿回关系定价权。`
+- Strong detailed fingerprints discovered in this redo:
+  - `约会束手束脚` -> `约会主场价值优势与框架话语权重塑系统`
+  - `甩掉不匹配关系` -> `不匹配关系切割与内疚感解绑框架`
+  - `黄毛属性` -> `黄毛属性背后的女性慕强扫描与强者归属机制`
+  - `大学追女生` -> `大学女生社交舆论场与校园吸引降维模型`
+  - `断联女生重启` -> `断联女生重启互动与技术性崩盘修复系统`
+  - `三十六问` -> `三十六问情绪暴露与亲密感加速建立链`
+  - `表白前` -> `表白前关系升级窗口与低位暴露切断法则`
+  - `钱是给女人看的` -> `资源展示权重与女性慕强扫描识别模型`
+  - `朋友圈识别` -> `朋友圈细节识别与女性底色策略判断模型`
+  - `X张力/调情` -> `X张力释放与调情窗口推进系统`
+- Rules that were too broad and caused false overlap:
+  - Do not classify a whole document by body words like `形象`, `测试`, `强者`, `欲望`, `框架`, or `聊天` unless the title or first-body conflict clearly centers on that exact subject.
+  - Title-level strong signals should outrank body-level broad words.
+  - Body-level matching should use multi-word scenario signals, not single generic nouns.
+- Before any full apply, perform a batch QA gate:
+  - target count matches expected file count
+  - `Unique Summary == target count`
+  - `Unique Hook == target count`
+  - duplicate summary groups = 0
+  - duplicate hook groups = 0
+  - spot-check at least five former repeat offenders for spoken smoothness
+- If uniqueness is achieved only by awkward mechanical labels, revise compact labels before apply. Smoothness matters as much as uniqueness.
