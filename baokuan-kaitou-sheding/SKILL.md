@@ -5,6 +5,13 @@ description: Learn, store, and use the user's approved Douyin copy opening formu
 
 # 爆款开头设定
 
+## 2026-10-29：新增21条确认模板，变量力度按最新样本执行
+
+用户已授权系统入库。先读 [最新力度与执行规则](references/opening-intensity-2026-10-29.md)，再查 [新增21条确认模板](references/opening-new-templates-2026-10-29.md)。新增原编号与H编号区分；H01—H18不动，两组共39条可用模板。02、06采用用户最新认可的欲望加强版，53、104弃用。
+
+新变量必须达到旧版的暗黑、人性、情色暗示、强结果与煽动性；保留已确认骨架和【】边界。按正文选隐藏动机、暧昧双关、欲望想象和男性终点利益，不能退化为普通社交收益，也不机械复读“欲望”或“发生点什么”。完整 [逐条对照](references/opening-corrections-2026-10-29.md) 与 [修改学习](references/opening-learning-2026-10-29.md) 分开保存。默认仍沿用完整模板只换变量；新测试逐条认可后保存。本节更新新增模板及力度标准，不重写旧H模板，不解除正文承接、数量与开头锁要求。
+
+
 This skill is the user's evolving opening-style library.
 
 ## 2026-10-01：优先共用完整模板，克制调整变化项
