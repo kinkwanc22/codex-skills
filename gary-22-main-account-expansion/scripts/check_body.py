@@ -10,7 +10,7 @@ ENDING='我是探花Gary，带你用最真实的人性去征服，用绝对的�
 
 def inspect(body):
     count=len(re.findall(r'[\u4e00-\u9fff]',body))
-    markers=[x for x in ['爆款心理学标题包装','开头版本一：','开头版本二：','开头版本三：'] if x in body]
+    markers=[x for x in ['爆款心理学标题包装','开头版本一：','开头版本二：','开头版本三：','开头一 固定模板匹配版','开头二 扩写前原文开头','开头一：固定模板匹配版','开头二：扩写前原文开头'] if x in body]
     ending_pass=re.sub(r'\s+','',body).endswith(ENDING)
     length_pass=count>=8000
     return {'mode':'2.2','cjk_characters':count,'target_range':[8000,12000],'acceptance_minimum':8000,'hard_upper_limit':None,'length_pass':length_pass,'within_target_range':8000<=count<=12000,'fixed_ending_pass':ending_pass,'packaging_markers_found':markers,'mechanical_pass':length_pass and ending_pass and not markers,'semantic_review_required':True,'user_approved':False}

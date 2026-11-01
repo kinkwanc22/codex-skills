@@ -1,4 +1,4 @@
 interface:
   display_name: "Gary 2.2｜大号原稿直扩"
-  short_description: "完整旧2.5会话复制，目标8000—12000字，正文验收最低8000中文字"
-  default_prompt: "使用 $gary-22-main-account-expansion，将这篇原稿按2.2大号流程扩写，目标8000—12000字。"
+  short_description: "完整旧会话与同篇分段扩写，轻改保留术语，双开头二选一，正文最低8000字"
+  default_prompt: "使用 $gary-22-main-account-expansion，将这篇原稿按2.2大号固定流程扩写，目标8000—12000字，轻改后交付固定模板与原文开头二选一的Word。"

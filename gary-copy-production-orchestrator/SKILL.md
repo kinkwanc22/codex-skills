@@ -18,6 +18,7 @@ This is an orchestration layer. It does not replace the specialist skills:
 ## 2.2大号原稿直扩
 
 用户指定2.2、大号原稿直扩或未另指定版本的大号扩写时，执行 `../gary-22-main-account-expansion/SKILL.md`。它是原稿直扩，不强制先经过选题生成或换芯；目标8000—12000中文字，正文验收最低8000。每篇复制同一完整固定旧2.5会话。此项仅覆盖2.2分支，其他流水线和用户明确版本保持不变。
+2.2分支统一服从该独立技能的完整历史发送、同篇短稿分段回退、第二版尺度轻改和固定模板/原文双开头合同；不继承本页普通版本的压缩会话、旧字数或三版开头要求。
 
 ## Mandatory sequence
 

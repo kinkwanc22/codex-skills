@@ -30,5 +30,6 @@ Important:
 - Use the original `douyin-copy-production-workflow-custom` skill instructions for all detailed steps, paths, retries, title packaging, openings, scoring, and Word export requirements.
 
 用户指定2.2或未另指定版本的大号扩写，优先读取 `../gary-22-main-account-expansion/SKILL.md`。2.2目标8000—12000中文字、验收最低8000，每篇复制完整固定旧2.5会话；普通2.5不改。
+2.2分支统一服从该独立技能的完整历史发送、同篇短稿分段回退、第二版尺度轻改和固定模板/原文双开头合同；不继承本页普通版本的压缩会话、旧字数或三版开头要求。
 
 For `4.0`, route first to the full skill’s `references/4.0-frozen-legacy-session.md`. Each article starts from a fresh copy of the same pinned old-2.5 baseline; never chain article sessions.
