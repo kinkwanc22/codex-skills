@@ -2,6 +2,8 @@
 
 以下保存2.5通用导出与交付规则。2.2的生成提示词、8000字底线及完整旧会话复制，以本技能SKILL.md和workflow.md优先；下文历史 --isolated、旧风格注入及其他版本专属说明不适用于2.2，不因此改动2.2完整提示词。2.2输出目录版本写2.2。
 
+2026-11-02用户确认：2.2正文默认经过 [humanize-copy轻改验收](humanize-acceptance.md) 后再导出，Word正文与最终通过复核的轻改文本一致。下文“The generated article text exactly as produced”等原始返回保留要求，在2.2指原始返回另存留档，不要求用raw覆盖已验收的轻改稿。用户指定只交原始扩写时除外；术语、抽象词适当保留，不一刀切。
+
 # Export, Delivery, And Hard Rules
 
 Read this file before exporting Word documents, reporting final delivery, or updating the workflow after a completed batch.
