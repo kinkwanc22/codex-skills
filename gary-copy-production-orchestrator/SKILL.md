@@ -15,6 +15,10 @@ This is an orchestration layer. It does not replace the specialist skills:
 - Read `baokuan-kaitou-sheding` for learned opening matching. Never hand-write a production opening from memory.
 - Read `humanize-copy` only when the user explicitly asks for AI-tone cleanup after content acceptance.
 
+## 2.2大号原稿直扩
+
+用户指定2.2、大号原稿直扩或未另指定版本的大号扩写时，执行 `../gary-22-main-account-expansion/SKILL.md`。它是原稿直扩，不强制先经过选题生成或换芯；目标8000—12000中文字，正文验收最低8000。每篇复制同一完整固定旧2.5会话。此项仅覆盖2.2分支，其他流水线和用户明确版本保持不变。
+
 ## Mandatory sequence
 
 1. **Freeze the current request.** Identify account, batch, titles, version, and whether the user wants topic work, source-route work, expansion, opening matching, or acceptance. Treat `2.8` as ordinary 2.8 Safe Draft unless the user explicitly names another route.

@@ -1,9 +1,13 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow. Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow, including Gary大号2.2原稿直扩.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
+
+## 2.2大号原稿直扩（2026-11-02新增独立选项）
+
+用户指定 `2.2`、`2.2大号扩写`、`大号原稿直扩`，或只要求大号扩写且未另指定版本时，读取并执行 [gary-22-main-account-expansion](../gary-22-main-account-expansion/SKILL.md)。这是完整2.5流程的独立副本：目标8000—12000中文字，实际正文验收最低8000；每篇复制同一完整固定旧2.5会话，配完整2.2提示词和原稿。不得用本页普通2.5的4000验收线或旧7000生成要求验收2.2，不自动换芯；普通2.5及其他版本保持不变。用户明确指定其他版本时服从指定。本次创建规则不授权自动跑稿。
 
 ## 2.5会话复制锁（2026-10-09用户校正，最高优先级）
 
