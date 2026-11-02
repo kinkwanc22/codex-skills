@@ -43,6 +43,10 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 - For every audio/video render, the first B-roll segment must come from the first-segment material directory. The remaining segments continue to use the full street-shot/B-roll material directory.
 - Keep outputs in the current thread's `outputs/` folder unless the user asks for another destination.
 
+## 街拍开头跨批轮回（用户确认）
+
+街拍开头必须轮回使用：**按画面组用完一轮，再进入下一轮**，不得每批重建一份七条小池，也不能只换文件名、裁切或同场景动作就声称换新。执行普通街拍开头选材前，读取 [references/opening-rotation.md](references/opening-rotation.md)，使用其中的持久台账及计划/提交流程。它只管理街拍开头，不改变正文、CTA、自然流女主台账或已交付草稿。
+
 ## Requirements
 
 - Use Python 3.
