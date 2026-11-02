@@ -9,6 +9,12 @@ description: Rewrite and polish Chinese copy to reduce obvious AI-generated styl
 
 Transform stiff, generic, over-polished Chinese drafts into writing that sounds intentional, lived-in, and context-aware. Preserve the original facts, claims, names, numbers, structure constraints, and user intent unless the user asks for deeper rewriting.
 
+## Gary 用户表达参考
+
+处理Gary男性情感口播，或用户明确要求按其2026-11-02提供的十篇表达样本优化时，先读 [Gary表达参考](references/gary-voice.md)。这些样本呈现的是有术语、有强判断、直接拆因果与操作的讲解口吻；不要把“自然”默认解释成闲聊、降力度或删尽抽象词。此分支默认从light局部优化开始，用户要求整篇重写时服从当次要求；锁定的故事、案例、开头与CTA边界仍优先。
+
+这是特定用户/账号的参考，不改变其他文体的balanced默认值，不把样本中的知识结论、错字或旧CTA自动推广到新稿。
+
 ## Workflow
 
 1. Identify the text type: social post, article, short-video script, newsletter, product copy, academic-adjacent prose, speech, or other.
