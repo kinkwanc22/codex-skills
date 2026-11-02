@@ -1,0 +1,4 @@
+interface:
+  display_name: "爆款融合迭代"
+  short_description: "匹配已验证千川爆款与自然流原文，围绕欲望和核心冲突深度融合迭代"
+  default_prompt: "使用 $baokuan-ronghe-diedai 为我提供的爆款文案与自然流原文匹配，先做一版紧凑的深度融合稿。"
