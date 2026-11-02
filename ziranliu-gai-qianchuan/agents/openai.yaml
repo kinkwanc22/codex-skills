@@ -1,0 +1,4 @@
+interface:
+  display_name: "自然流改千川稿"
+  short_description: "原稿轻修转千川：修错字、去脏话、统一Gary人设、清旧CTA并匹配固定CTA"
+  default_prompt: "用 $ziranliu-gai-qianchuan 将这批自然流文案轻修为千川稿，保留原观点结构，清理旧引流并匹配一套固定CTA。"
