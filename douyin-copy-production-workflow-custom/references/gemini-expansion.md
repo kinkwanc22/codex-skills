@@ -986,6 +986,8 @@ When the Gemini chat is ready:
 
 ### 3. Check Generated Copy
 
+普通2.5优先按[用户认可版验收规则](2.5-acceptance.md)处理。2026-11-04用户明确认可人间清醒君120第一次返回；风格偏好或少量用词问题不触发整篇判废重跑，局部修复优先。本规则覆盖下面普通2.5旧的一处不符即重试描述，但不更改完整生成提示、会话来源、字数底线或其他版本合同。
+
 普通2.8验收与修复使用[统一验收流程](2.8-acceptance.md)，遇到下面旧的“一处缺项即整篇重跑”或通用6000字重试描述，以该页的局部补齐优先和3000字默认底线为准。只改变验收决策，不替换或缩写上面的生成提示词。
 
 After generation finishes, capture the latest `Gemini:` response from the terminal output.
