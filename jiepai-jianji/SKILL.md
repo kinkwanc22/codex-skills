@@ -5,6 +5,10 @@ description: Local street-shot and 自然流千川 editing workflow for Chinese 
 
 # 街拍剪辑
 
+## 千川用途统一尺度（2026-11-05）
+
+用于千川广告或接千川CTA时，先完整读取[千川文案统一尺度](../qianchuan-copy-standard/SKILL.md)。热门原开头能留就留，必要时只改有问题的词组，不更换钩子；正文、CTA、音频、字幕、品牌包装与画面整体复核，不承诺课程效果，不以旧固定版本为豁免。正常街拍可继续用，但开头库、CTA和所有附加层同样保守筛选；历史“开头无限制”不再作为默认。单次获准跳过开头库不成为全批永久授权。普通非千川任务不自动套用广告改稿；旧文件和已交付稿不追溯覆盖。
+
 ## Goal
 
 Create a 16:9 horizontal MP4 from:
