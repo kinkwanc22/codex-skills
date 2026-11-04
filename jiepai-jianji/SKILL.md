@@ -44,9 +44,9 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 ## Default Paths
 
 - Default Windows street-shot/B-roll material directory: `E:\工作用\视频素材\街拍片段`.
-- Default first-segment material directory: `E:\工作用\视频素材\街拍片段\可用`.
+- Preferred first-segment material directory (用户2026-11-05更新): `/Users/kin/男性素材库/00_待分类/可用开头库`。今后街拍混剪优先从此本机开头库选材；旧 Windows 开头库 `E:\工作用\视频素材\街拍片段\可用` 保留作备用，不再默认为首选。
 - When the user provides only narration audio and script, use this directory as `--videos` unless they name another material folder.
-- For every audio/video render, the first B-roll segment must come from the first-segment material directory. The remaining segments continue to use the full street-shot/B-roll material directory.
+- 每次制作显式传入本批实际开头库；首选本机库，若不可访问、轮回组数或合适区间不足，先记录具体原因再考虑旧库备用，不静默回退。此更新仅改变街拍开头素材源优先级，不更换正文/CTA库、包装、画幅或审核版本；目录名“可用”不等于使用区间免检。
 - Keep outputs in the current thread's `outputs/` folder unless the user asks for another destination.
 
 ## 街拍开头跨批轮回（用户确认）
@@ -99,7 +99,7 @@ AI混剪沿用当前街拍混剪的剪辑、字幕、声音、特效和转场，
    - Use `medium` or `large-v3` for a more accurate final pass if the user accepts the slower runtime.
 
 4. Render with `scripts/make_street_cut_video.py`.
-   - On this Windows setup, pass `--opening-videos "E:\工作用\视频素材\街拍片段\可用"` so the first segment is selected only from the approved opening-material folder.
+   - 本机执行显式传入 `--opening-videos "/Users/kin/男性素材库/00_待分类/可用开头库"`。Windows 执行先将所选本机开头安全暂存到可访问路径并记录原路径/哈希，不把 Mac 路径直接传给 Windows，也不因执行端不同恢复旧库优先级；旧 Windows 库仅作已记录原因的备用。
    - If `--opening-videos` is omitted, the renderer automatically uses a `可用` subfolder under `--videos` when it exists.
    - Use `--cut-mode timed-sentence-silence` when a timed JSON exists.
    - Use `--cut-mode sentence-silence` when no timed JSON exists but the script should still influence cut points.
@@ -183,7 +183,7 @@ python ".\scripts\make_street_cut_video.py" `
 - Direct MP4 render: no crossfade by default. Jianying draft: default to native `叠化`, with other transitions only for justified exceptions.
 - Add a small audio-duration cushion on the last segment so FFmpeg does not truncate narration.
 - Use a random seed for reproducibility when iterating.
-- First segment: use the approved `可用` subfolder first; later segments remain randomized from the full material pool.
+- First segment: 优先本机 `可用开头库`，按画面组轮回选材；旧 Windows `可用` 仅备用。后续按原正文/CTA素材库和语义匹配规则执行。
 - Candidate safety: strict platform-vulgarity review of sampled frames and exact selected ranges is mandatory; clothing coverage, file names, and folder placement are not sufficient evidence that a clip is acceptable.
 - Material selection: narration-to-picture semantic matching is mandatory. Pure rotation, random stacking, or repeatedly using different videos generated from the same opening image is not acceptable.
 - Batch diversity: passing single-draft duplicate checks is insufficient. Optimize assignments across the entire batch, enforce the overlap gates above, and preserve distinct visual identities for separate manuscripts.
