@@ -44,6 +44,8 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 ## Default Paths
 
 - Default Windows street-shot/B-roll material directory: `E:\工作用\视频素材\街拍片段`.
+- 新增并用街拍库（用户2026-11-05更新）：`/Users/kin/男性素材库/00_待分类/太古里_可用片段`。与旧街拍库共同参与正文和CTA的语义/情绪选材，不替换旧库、不设机械配比；不因同名就与 `/Users/kin/Downloads/太古里_可用片段` 视为相同内容或全部已审，按实际路径及源文件哈希核对审查记录与同源去重。
+- 新增库必须注意审核：优先已筛选且记录可核验的文件，仍复查实际剪入区间和文案组合；普通短裙、露肩、正常贴身及少量自然露腰不单独淘汰，仍排除浴袍、明显露胸、深露背至腰、刻意胸臀腹局部构图、挑逗/性暗示动作。检查黑帧、跳切和停顿，不能因目录叫“可用”直接放行；水印/原字幕不作为本次衣着筛选淘汰依据，成片中的去除/遮挡处理另行检查。记录本地视觉检查与平台审核为不同状态，不保证通过。
 - Preferred first-segment material directory (用户2026-11-05更新): `/Users/kin/男性素材库/00_待分类/可用开头库`。今后街拍混剪优先从此本机开头库选材；旧 Windows 开头库 `E:\工作用\视频素材\街拍片段\可用` 保留作备用，不再默认为首选。
 - When the user provides only narration audio and script, use this directory as `--videos` unless they name another material folder.
 - 每次制作显式传入本批实际开头库；首选本机库，若不可访问、轮回组数或合适区间不足，先记录具体原因再考虑旧库备用，不静默回退。此更新仅改变街拍开头素材源优先级，不更换正文/CTA库、包装、画幅或审核版本；目录名“可用”不等于使用区间免检。
