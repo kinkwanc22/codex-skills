@@ -1,4 +1,4 @@
 interface:
-  display_name: "图片竖屏自然流"
-  short_description: "全程单图和正文中英字幕，保留音频标题滤镜，不分开场、不加齿轮包装"
-  default_prompt: "使用 $tupian-shuping-ziranliu，按图片竖屏自然流模式制作剪映草稿，全程只用一张单图。"
+  display_name: "竖屏图片自然流"
+  short_description: "按用户手改母版复制全程单图、双语字幕、港风标题和动态警告包装"
+  default_prompt: "使用 $tupian-shuping-ziranliu，按用户确认的竖屏图片自然流母版制作剪映草稿。"

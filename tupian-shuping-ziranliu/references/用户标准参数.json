@@ -1,0 +1,243 @@
+{
+  "name": "竖屏图片自然流",
+  "aliases": [
+    "图片竖屏自然流"
+  ],
+  "snapshot": "/Users/kin/Documents/Codex/2026-09-26/shuping-ziranliu/outputs/竖屏图片自然流_用户标准_20261104/母版快照",
+  "live_timeline_snapshot": "/Users/kin/Documents/Codex/2026-09-26/shuping-ziranliu/outputs/竖屏图片自然流_用户标准_20261104/当前时间线标准.json",
+  "canvas": {
+    "height": 1920,
+    "ratio": "original",
+    "width": 1080
+  },
+  "fps": 30,
+  "reference_duration": 825900000,
+  "tracks": [
+    {
+      "type": "text",
+      "name": "全篇中文字幕｜正文样式",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": -0.24,
+          "x": 0
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 1,
+          "x": 1
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "font_size": 15,
+        "line_spacing": 0.02,
+        "border_width": 0.06,
+        "font_path": "/Applications/VideoFusion-macOS.app/Contents/Resources/Font/SystemFont/zh-hans.ttf",
+        "content": "{\"styles\": [{\"fill\": {\"alpha\": 1, \"content\": {\"render_type\": \"solid\", \"solid\": {\"alpha\": 1, \"color\": [1, 1, 1]}}}, \"range\": [0, 15], \"size\": 8, \"bold\": false, \"italic\": false, \"underline\": false, \"strokes\": [{\"content\": {\"render_type\": \"solid\", \"solid\": {\"alpha\": 1, \"color\": [0, 0, 0]}}, \"width\": 0.08, \"mode\": 0}], \"font\": {\"path\": \"/Applications/VideoFusion-macOS.app/Contents/Resources/Font/SystemFont/zh-hans.ttf\", \"id\": \"\"}}], \"text\": \"这是一期你在外面根本就学不到的\"}",
+        "border_color": "",
+        "shadow_alpha": 0.9,
+        "shadow_angle": -45,
+        "global_alpha": 1,
+        "name": "",
+        "shadow_smoothing": 0.45,
+        "alignment": 1,
+        "shadow_distance": 5
+      }
+    },
+    {
+      "type": "text",
+      "name": "全篇英文字幕｜正文样式",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": -0.35,
+          "x": 0
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 1,
+          "x": 1
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "font_size": 15,
+        "line_spacing": 0.02,
+        "border_width": 0.06,
+        "font_path": "/Applications/VideoFusion-macOS.app/Contents/Resources/Font/SystemFont/zh-hans.ttf",
+        "content": "{\"styles\": [{\"fill\": {\"alpha\": 1, \"content\": {\"render_type\": \"solid\", \"solid\": {\"alpha\": 1, \"color\": [1, 1, 1]}}}, \"range\": [0, 51], \"size\": 8, \"bold\": false, \"italic\": false, \"underline\": false, \"strokes\": [{\"content\": {\"render_type\": \"solid\", \"solid\": {\"alpha\": 1, \"color\": [0, 0, 0]}}, \"width\": 0.08, \"mode\": 0}], \"font\": {\"path\": \"/Applications/VideoFusion-macOS.app/Contents/Resources/Font/SystemFont/zh-hans.ttf\", \"id\": \"\"}}], \"text\": \"This episode covers what you rarely learn elsewhere\"}",
+        "border_color": "",
+        "shadow_alpha": 0.9,
+        "shadow_angle": -45,
+        "global_alpha": 1,
+        "name": "",
+        "shadow_smoothing": 0.45,
+        "alignment": 1,
+        "shadow_distance": 5
+      }
+    },
+    {
+      "type": "video",
+      "name": "图片竖屏自然流｜全程单图",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": -0.130573248407643,
+          "x": 0
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 1.127388535031847,
+          "x": 1.127388535031847
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "path": "materials/video/748671448_71df341e66984a8591b717885dedc665.png"
+      }
+    },
+    {
+      "type": "text",
+      "name": "全程标题",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": 0.596388184720543,
+          "x": -0.003205833672871
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 1.047577330008761,
+          "x": 1.047577330008761
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "font_size": 18,
+        "line_spacing": 0.02,
+        "border_width": 0.08,
+        "font_path": "/Users/kin/Movies/JianyingPro/User Data/Cache/effect/6740438140432945675/9bfde9a789862114b6055ed475688908/港风繁体-方正粗宋繁体.TTF",
+        "content": "{\"styles\":[{\"fill\":{\"content\":{\"solid\":{\"color\":[1,1,1]},\"render_type\":\"solid\"}},\"range\":[0,17],\"shadows\":[{\"thickness_projection_distance\":0,\"diffuse\":0.02500000037252903,\"angle\":-45,\"thickness_projection_enable\":false,\"content\":{\"solid\":{\"color\":[0,0,0]},\"render_type\":\"solid\"},\"distance\":4.9999995231628418,\"thickness_projection_angle\":-45,\"alpha\":0.899999976158142}],\"useLetterColor\":true,\"size\":18,\"font\":{\"path\":\"/Users/kin/Movies/JianyingPro/User Data/Cache/effect/6740438140432945675/9bfde9a789862114b6055ed475688908/港风繁体-方正粗宋繁体.TTF\",\"id\":\"6740438140432945675\"}}],\"text\":\"男人雄性魅力\\n三个维度提升实战指南\"}",
+        "border_color": "#000000",
+        "shadow_alpha": 0.899999976158142,
+        "shadow_angle": -45,
+        "global_alpha": 0.862257281553398,
+        "name": "",
+        "shadow_smoothing": 0.450000017881393,
+        "alignment": 0,
+        "shadow_distance": 5
+      }
+    },
+    {
+      "type": "text",
+      "name": "",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": 0.417197452229299,
+          "x": 0.35272636971696
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 1,
+          "x": 1
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "font_size": 11,
+        "line_spacing": 0.02,
+        "border_width": 0.08,
+        "font_path": "/Users/kin/Movies/JianyingPro/User Data/Cache/effect/6740438140432945675/9bfde9a789862114b6055ed475688908/港风繁体-方正粗宋繁体.TTF",
+        "content": "{\"styles\":[{\"fill\":{\"content\":{\"solid\":{\"color\":[1,1,1]},\"render_type\":\"solid\"}},\"range\":[0,6],\"shadows\":[{\"thickness_projection_distance\":0,\"diffuse\":0.02500000037252903,\"angle\":-45,\"thickness_projection_enable\":false,\"content\":{\"solid\":{\"color\":[0,0,0]},\"render_type\":\"solid\"},\"distance\":4.9999995231628418,\"thickness_projection_angle\":-45,\"alpha\":0.899999976158142}],\"size\":11,\"font\":{\"path\":\"/Users/kin/Movies/JianyingPro/User Data/Cache/effect/6740438140432945675/9bfde9a789862114b6055ed475688908/港风繁体-方正粗宋繁体.TTF\",\"id\":\"6740438140432945675\"}}],\"text\":\"完整未删减版\"}",
+        "border_color": "",
+        "shadow_alpha": 0.899999976158142,
+        "shadow_angle": -45,
+        "global_alpha": 0.865051577669903,
+        "name": "",
+        "shadow_smoothing": 0.450000017881393,
+        "alignment": 1,
+        "shadow_distance": 5
+      }
+    },
+    {
+      "type": "sticker",
+      "name": "",
+      "clip": {
+        "rotation": 0,
+        "transform": {
+          "y": 0.417428215371862,
+          "x": 0.747983364104618
+        },
+        "rotation3d": [],
+        "scale": {
+          "y": 0.42224911935323,
+          "x": 0.42224911935323
+        },
+        "alpha": 1,
+        "flip": {
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "material": {
+        "shadow_angle": 0,
+        "global_alpha": 1,
+        "border_width": 0,
+        "resource_id": "6940208530096016671",
+        "name": "秘，马赛克，挡脸，遮挡 ",
+        "shadow_smoothing": 0,
+        "shadow_distance": 0,
+        "path": "/Users/kin/Movies/JianyingPro/User Data/Cache/artistEffect/6940208530096016671/2744d7491e04eb0ef73a64f043d4fee4",
+        "border_color": "",
+        "shadow_alpha": 0.8
+      }
+    }
+  ],
+  "audio": {
+    "narration_db": 10,
+    "bgm": "Void",
+    "inner_volume": 0.147981137037277,
+    "inner_db": -16.595872800576213,
+    "compound_outer_volume": 1,
+    "preserve_loop_crossovers": true,
+    "later_loop_fade_in_us": 3633333
+  },
+  "filter": {
+    "name": "佳能G12",
+    "effect_id": "7485292050917657906",
+    "value": 1
+  },
+  "vignette": {
+    "name": "暗角",
+    "effect_id": "7399495012515433728",
+    "value": 1,
+    "texture": 1
+  },
+  "warning": {
+    "name": "预警警示-红色危险警告",
+    "resource_id": "7073423033473453349",
+    "preserve_nested_compound": true
+  }
+}
