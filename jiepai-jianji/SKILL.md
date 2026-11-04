@@ -47,6 +47,12 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 
 街拍开头必须轮回使用：**按画面组用完一轮，再进入下一轮**，不得每批重建一份七条小池，也不能只换文件名、裁切或同场景动作就声称换新。执行普通街拍开头选材前，读取 [references/opening-rotation.md](references/opening-rotation.md)，使用其中的持久台账及计划/提交流程。它只管理街拍开头，不改变正文、CTA、自然流女主台账或已交付草稿。
 
+## AI混剪：仅换素材源与跨视频冷却（用户确认）
+
+AI混剪沿用当前街拍混剪的剪辑、字幕、声音、特效和转场，只把普通街拍视频换成AI视频，不套自然流单图包装或独立AI换镜节奏。可加入156女主目录中的视频；语义匹配是参考，不强求逐句直译，但相邻镜头必须在场景、动作或构图类型上交错，不能仅把同场景换女主当作多样化。
+
+普通AI视频执行**三条视频冷却**：在第N条使用后，第N+1、N+2条禁止使用，最早第N+3条（第1条用过，最早第4条）恢复候选；本条仍不能重复同源。所有连贯试剪、批量制作和跨批次共用持久记录，不得每次重置。执行前读取 [references/ai-source-cooldown.md](references/ai-source-cooldown.md)，用 `scripts/ai_source_cooldown.py` 检查选材并在正式交付时提交记录。它只约束AI混剪普通视频源，不改变Windows街拍开头轮回、自然流女主台账或固定品牌包装。
+
 ## Requirements
 
 - Use Python 3.
