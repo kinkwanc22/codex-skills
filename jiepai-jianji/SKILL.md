@@ -46,7 +46,7 @@ Prefer cuts at real sentence endings. Use word timestamps from Whisper/faster-wh
 - Default Windows street-shot/B-roll material directory: `E:\工作用\视频素材\街拍片段`.
 - 新增并用街拍库（用户2026-11-05更新）：`/Users/kin/男性素材库/00_待分类/太古里_可用片段`。与旧街拍库共同参与正文和CTA的语义/情绪选材，不替换旧库、不设机械配比；不因同名就与 `/Users/kin/Downloads/太古里_可用片段` 视为相同内容或全部已审，按实际路径及源文件哈希核对审查记录与同源去重。
 - 新增库必须注意审核：优先已筛选且记录可核验的文件，仍复查实际剪入区间和文案组合；普通短裙、露肩、正常贴身及少量自然露腰不单独淘汰，仍排除浴袍、明显露胸、深露背至腰、刻意胸臀腹局部构图、挑逗/性暗示动作。检查黑帧、跳切和停顿，不能因目录叫“可用”直接放行；水印/原字幕不作为本次衣着筛选淘汰依据，成片中的去除/遮挡处理另行检查。记录本地视觉检查与平台审核为不同状态，不保证通过。
-- Preferred first-segment material directory (用户2026-11-05更新): `/Users/kin/男性素材库/00_待分类/可用开头库`。今后街拍混剪优先从此本机开头库选材；旧 Windows 开头库 `E:\工作用\视频素材\街拍片段\可用` 保留作备用，不再默认为首选。
+- Preferred first-segment material directory (用户2026-11-05最新更新): `/Users/kin/男性素材库/00_待分类/可用开头库_去水印/`。街拍开头改用此去水印库；原本机未处理库及旧 Windows `E:\工作用\视频素材\街拍片段\可用` 仅保留，不静默回退。去水印同源文件沿用原画面组和使用历史，不因哈希变化重置轮回；按画面与原文件对应关系复核实际区间。
 - When the user provides only narration audio and script, use this directory as `--videos` unless they name another material folder.
 - 每次制作显式传入本批实际开头库；首选本机库，若不可访问、轮回组数或合适区间不足，先记录具体原因再考虑旧库备用，不静默回退。此更新仅改变街拍开头素材源优先级，不更换正文/CTA库、包装、画幅或审核版本；目录名“可用”不等于使用区间免检。
 - Keep outputs in the current thread's `outputs/` folder unless the user asks for another destination.
@@ -101,7 +101,7 @@ AI混剪沿用当前街拍混剪的剪辑、字幕、声音、特效和转场，
    - Use `medium` or `large-v3` for a more accurate final pass if the user accepts the slower runtime.
 
 4. Render with `scripts/make_street_cut_video.py`.
-   - 本机执行显式传入 `--opening-videos "/Users/kin/男性素材库/00_待分类/可用开头库"`。Windows 执行先将所选本机开头安全暂存到可访问路径并记录原路径/哈希，不把 Mac 路径直接传给 Windows，也不因执行端不同恢复旧库优先级；旧 Windows 库仅作已记录原因的备用。
+   - 本机执行显式传入 `--opening-videos "/Users/kin/男性素材库/00_待分类/可用开头库_去水印/"`。Windows 执行先将所选本机开头安全暂存到可访问路径并记录原路径/哈希，不把 Mac 路径直接传给 Windows，也不因执行端不同恢复旧库优先级；库不可用时记录缺口，不自动回退未去水印版。
    - If `--opening-videos` is omitted, the renderer automatically uses a `可用` subfolder under `--videos` when it exists.
    - Use `--cut-mode timed-sentence-silence` when a timed JSON exists.
    - Use `--cut-mode sentence-silence` when no timed JSON exists but the script should still influence cut points.
@@ -185,7 +185,7 @@ python ".\scripts\make_street_cut_video.py" `
 - Direct MP4 render: no crossfade by default. Jianying draft: default to native `叠化`, with other transitions only for justified exceptions.
 - Add a small audio-duration cushion on the last segment so FFmpeg does not truncate narration.
 - Use a random seed for reproducibility when iterating.
-- First segment: 优先本机 `可用开头库`，按画面组轮回选材；旧 Windows `可用` 仅备用。后续按原正文/CTA素材库和语义匹配规则执行。
+- First segment: 使用本机 `可用开头库_去水印`，按原画面组轮回选材，不因去水印副本重新计为未用。后续按原正文/CTA素材库和语义匹配规则执行。
 - Candidate safety: strict platform-vulgarity review of sampled frames and exact selected ranges is mandatory; clothing coverage, file names, and folder placement are not sufficient evidence that a clip is acceptable.
 - Material selection: narration-to-picture semantic matching is mandatory. Pure rotation, random stacking, or repeatedly using different videos generated from the same opening image is not acceptable.
 - Batch diversity: passing single-draft duplicate checks is insufficient. Optimize assignments across the entire batch, enforce the overlap gates above, and preserve distinct visual identities for separate manuscripts.
