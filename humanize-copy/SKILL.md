@@ -15,6 +15,8 @@ Transform stiff, generic, over-polished Chinese drafts into writing that sounds 
 
 这是特定用户/账号的参考，不改变其他文体的balanced默认值，不把样本中的知识结论、错字或旧CTA自动推广到新稿。
 
+Gary轻修时，原钩子、句式、因果链、反差和排比都是需要保留的结构，不只保留论点或段落数。用户要求“只改词／不改框架”时，以该限制优先于下文通用的换节奏、补细节、重组等建议；没有必要改的原句不动。Gary千川文稿的词级窄修与结果导向边界，见[Gary表达参考的千川校准](references/gary-voice.md#千川轻修校准2026-11-06)；仅千川用途或用户明确调用这套尺度时使用，不接管普通自然流长稿。
+
 ## Workflow
 
 1. Identify the text type: social post, article, short-video script, newsletter, product copy, academic-adjacent prose, speech, or other.
