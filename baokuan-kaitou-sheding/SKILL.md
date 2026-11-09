@@ -5,6 +5,10 @@ description: Learn, store, and use the user's approved Douyin copy opening formu
 
 # 爆款开头设定
 
+## 2026-11-10 新增：第三视角案例的三种认可完整开头
+
+用户明确认可并要求保存PC01痛点版、PC02爽点版、PC03痒点版，见[完整原文与调用规则](references/case-openings-pain-satisfaction-curiosity-2026-11-10.md)及[JSON](references/case-openings-pain-satisfaction-curiosity-2026-11-10.json)。组合为“按正文从热门库匹配开场整句→第三视角短案例（痛/爽/痒择一）→攻略方法与强结果”。痛点写期待受挫到推进停滞；爽点批评案例中的不合理要求并共情男性；痒点写方法带来的反差反应与机制缺口。换场景不减弱原推进力度；短而有过程，不展开长故事，不压成标签。样例原文不加CTA，正式自然流交付仍按下节新版CTA在模板外加一次。PC为认可组合样例，H/L固定模板仍32条、原件不动、封存批次继续停用。
+
 ## 2026-11-10 自然流开头固定CTA更新
 
 用户已更新收藏、豆包及咨询导读。完整自然流开头/文稿交付时，按[新版固定CTA](references/naturalflow-intro-cta-2026-11-10.md)在模板外接一次，替换旧同功能导读，仅替换当篇问题变量。此项优先于下文历史不自动恢复/不额外叠CTA的同功能限制；H/L模板原件不动，只看模板原版、当篇无CTA或原始返回不改时不追加。不改变千川CTA。
