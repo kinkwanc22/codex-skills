@@ -5,6 +5,10 @@ description: Complete Douyin copy production workflow, including Gary大号2.0�
 
 # Douyin Copy Production Workflow
 
+## 2026-11-10 自然流开头固定CTA更新
+
+Gary自然流长稿最终交付时，开头“另外说一下”至“好，我们直接进入正题。”采用[新版固定CTA](../baokuan-kaitou-sheding/references/naturalflow-intro-cta-2026-11-10.md)，按当篇实际卡点填写唯一变量，仅保留一次。覆盖历史对同功能旧导读逐字保留的默认要求；模型raw、原生成提示和旧会话不改，记录交付阶段替换。用户当篇明确无CTA/原始返回不改时服从当篇要求，不批量改旧稿，不改中段/结尾或千川CTA。
+
 ## 千川用途统一尺度（2026-11-05）
 
 版本先行：用户可调用“过审版”或“风险版”；先按共享标准的版本路由选择。以下新增保守尺度仅约束过审版；风险版读取其保存的旧流程快照，不自动改成过审版。
