@@ -5,6 +5,10 @@ description: Learn, store, and use the user's approved Douyin copy opening formu
 
 # 爆款开头设定
 
+## 2026-11-10 PC案例表达更新
+
+写PC案例前读取[后续表达校正](references/case-openings-pain-satisfaction-curiosity-2026-11-10.md#2026-11-10-后续表达校正)：具体动作、当事人误判、碰壁原话和受挫反应要连成一件事；入口完整包含时间、人物和来找我/问我/反馈的动作，自然变化，不列空泛行为。无核实材料不伪造真实咨询。此项不修改H/L原模板。
+
 ## 2026-11-10 最新默认：每篇同时匹配两个开头
 
 用户明确要求：以后按文案内容，原本的爆款开头和PC系列各匹配一个，一共两个，供选择。
