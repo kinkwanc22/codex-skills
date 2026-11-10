@@ -1,0 +1,4 @@
+interface:
+  display_name: "开头混剪"
+  short_description: "全程使用开头库非街拍视频，按口播语义混剪并交付独立剪映草稿"
+  default_prompt: "使用 $kaitou-hunjian 将这篇文案制作成开头混剪，沿用已保存的全程非街拍视频形式。"
