@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gary 1.1 短扩写"
+  short_description: "Gary男性口播短扩写，完整开头与短CTA，整篇1000至1500字"
+  default_prompt: "使用 $gary-11-short-expansion 按1.1短模式处理这篇原稿，整篇1000至1500字。"

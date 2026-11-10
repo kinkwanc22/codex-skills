@@ -5,6 +5,11 @@ description: 1000-2000字重写 for short Douyin copy rewriting. Use for 短重�
 
 # 1000-2000字重写
 
+## 1系列短模式与1.1（2026-11-10正式命名）
+
+用户规定以后1系列均为短模式，当前已实现 **1.1**：指定1.1、1.1扩写或本次新短模式时，优先读取 [gary-11-short-expansion](../gary-11-short-expansion/SKILL.md)。整篇口播1000—1500中文字，包含原稿开头、固定短CTA、固定“回到刚刚的话题”转场和结尾。原稿短全文作开头，长取首段；不继承普通2.5长稿字数、长CTA或通用多版开头。未来其他1.x仅确定属于短模式，具体合同另设，不擅自虚构版本。其他明确版本仍按原路由。
+
+
 Use this skill for the user's 1000-2000 character Douyin copy rewrite workflow when Gemini rewriting must not alter the existing `douyin-copy-production-workflow-custom` conversation or `gemini_session.json`.
 
 ## Core Outcome

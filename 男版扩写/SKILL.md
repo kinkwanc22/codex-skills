@@ -1,9 +1,14 @@
 ---
 name: 男版扩写
-description: 男性向长文案扩写工作流。Use for 男版扩写, 男号文案, 男性向情感文案, 男性版2.5/2.6/2.7扩写, 4.0换芯扩写, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end Gary-style male-audience Douyin copy production.
+description: 男性向文案扩写工作流，支持1.1短模式和原有长稿模式。Use for 男版扩写, 男号文案, 男性向情感文案, 男性版2.5/2.6/2.7扩写, 4.0换芯扩写, Gemini本地命令扩写, 三版开头, 长文稿Word导出, and end-to-end Gary-style male-audience Douyin copy production.
 ---
 
 # 男版扩写
+
+## 1系列短模式与1.1（2026-11-10正式命名）
+
+用户规定以后1系列均为短模式，当前已实现 **1.1**：指定1.1、1.1扩写或本次新短模式时，优先读取 [gary-11-short-expansion](../gary-11-short-expansion/SKILL.md)。整篇口播1000—1500中文字，包含原稿开头、固定短CTA、固定“回到刚刚的话题”转场和结尾。原稿短全文作开头，长取首段；不继承普通2.5长稿字数、长CTA或通用多版开头。未来其他1.x仅确定属于短模式，具体合同另设，不擅自虚构版本。其他明确版本仍按原路由。
+
 
 This is the short, UI-friendly Chinese alias for the full male-facing skill:
 
