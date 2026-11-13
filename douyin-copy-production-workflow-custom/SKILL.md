@@ -1,6 +1,6 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow, including Gary短模式1.1、Gary大号2.0分段多系统融合、2.1直投整稿扩写和2.2原稿直扩.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow, including Gary短模式1.1与1.2、Gary大号2.0分段多系统融合、2.1直投整稿扩写和2.2原稿直扩.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
@@ -9,6 +9,10 @@ description: Complete Douyin copy production workflow, including Gary短模式1.
 
 用户规定以后1系列均为短模式，当前已实现 **1.1**：指定1.1、1.1扩写或本次新短模式时，优先读取 [gary-11-short-expansion](../gary-11-short-expansion/SKILL.md)。整篇口播1000—1500中文字，包含原稿开头、固定短CTA、固定“回到刚刚的话题”转场和结尾。原稿短全文作开头，长取首段；不继承普通2.5长稿字数、长CTA或通用多版开头。未来其他1.x仅确定属于短模式，具体合同另设，不擅自虚构版本。其他明确版本仍按原路由。
 
+
+## 1.2 91轮限字短扩写
+
+用户指定 `1.2` 或 `用1.2处理` 时，读取 [1.2 91轮限字短扩写](references/1.2-91-round-short-expansion.md)。在完整原稿前只加一句字数限制，用91轮会话生成；成稿采用原文开头、1.1固定短CTA和转场，逐字保留Gemini正文与总结。1.1继续按原技能运行。
 
 ## 2026-11-10 自然流开头固定CTA更新
 
