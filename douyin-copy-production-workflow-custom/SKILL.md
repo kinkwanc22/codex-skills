@@ -1,6 +1,6 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow, including Gary短模式1.1与1.2、Gary大号2.0分段多系统融合、2.1直投整稿扩写、2.2原稿直扩和2.51扩写.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow, including Gary短模式1.1与1.2、Gary大号2.0分段多系统融合、2.1直投整稿扩写、2.2原稿直扩和2.5b直投扩写.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
@@ -57,7 +57,7 @@ Gary自然流长稿最终交付时，开头“另外说一下”至“好，我�
 
 ## 2.5会话复制锁（2026-10-09用户校正，最高优先级）
 
-用户明确指定 `2.51` 或 `用2.51扩写` 时，执行 [2.51 扩写](references/2.51-91-round-expansion.md)。按普通2.5扩写处理，会话来源改为每篇独立复制固定91轮母本。本分支的会话与调用方式优先于下方普通2.5复制规则。
+用户明确指定 `2.5b` 时，执行 [2.5b 直投扩写](references/2.5b-91-round-expansion.md)。每篇独立复制固定91轮母本，只发送完整原稿。返回后按普通2.5的标准验收与交付。本分支的会话与输入规则优先于下方普通2.5规则。
 
 每次使用2.5扩写，包括原文直扩、3.1/3.2/3.3及其他以2.5为扩写引擎的流程，必须先读 [references/2.5-legacy-session-copy.md](references/2.5-legacy-session-copy.md)。每篇从同一份完整固定旧2.5会话复制独立工作副本，再配该流程的完整提示词和本篇稿子；不得使用空白 `--isolated` 请求，不得串用上一篇生成后的会话。此项取代下文及旧引用中2.5空白请求和其他2.5语感会话默认值；只改变会话来源，不更换各流程提示词、母题锁、数量锁或验收规则。2.8/2.9/3.6等非2.5引擎不变。
 
