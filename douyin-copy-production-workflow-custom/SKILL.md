@@ -1,6 +1,6 @@
 ---
 name: douyin-copy-production-workflow-custom
-description: Complete Douyin copy production workflow, including Gary短模式1.1与1.2、Gary大号2.0分段多系统融合、2.1直投整稿扩写和2.2原稿直扩.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
+description: Complete Douyin copy production workflow, including Gary短模式1.1与1.2、Gary大号2.0分段多系统融合、2.1直投整稿扩写、2.2原稿直扩和2.51扩写.  Use for 抖音文案工作流, 处理这批文案, Gemini本地命令扩写, 3.1知识库换芯, 3.5混合换芯, 3.6安全换新扩写, 4.0换芯扩写, 批量换芯接旧2.5副本, Codex先设计知识库辅助, 3.1中段CTA, 3.2换芯扩写, 3.3独立换芯扩写, 旧版3.1改为3.3, Codex独立设计新观点, 2.5成稿换芯, 三版开头, 长文稿Word导出, 3.0千川素材, 保头压中自然转化, 热门原稿植入CTA, 1500字内成稿, 直接TTS Word, and end-to-end male relationship copy production.
 ---
 
 # Douyin Copy Production Workflow
@@ -56,6 +56,8 @@ Gary自然流长稿最终交付时，开头“另外说一下”至“好，我�
 普通2.5生成后先读 [2.5验收规则与认可样本](references/2.5-acceptance.md)。以人间清醒君120第一次返回的力度、心理学包装与连续推演为认可方向；不因Codex觉得比喻像机器、用词正式或术语多，就判废、付费重跑或切换系统。硬缺项与风格偏好分开，局部问题先局部处理，用户认可稿保留为主；无依据的事实结论单独核对，不把写作认可冒充科学验证。本条只改验收，不新增生成提示、不更换固定旧会话，也不取消用户当次明确的修句/去CTA要求。
 
 ## 2.5会话复制锁（2026-10-09用户校正，最高优先级）
+
+用户明确指定 `2.51` 或 `用2.51扩写` 时，执行 [2.51 扩写](references/2.51-91-round-expansion.md)。按普通2.5扩写处理，会话来源改为每篇独立复制固定91轮母本。本分支的会话与调用方式优先于下方普通2.5复制规则。
 
 每次使用2.5扩写，包括原文直扩、3.1/3.2/3.3及其他以2.5为扩写引擎的流程，必须先读 [references/2.5-legacy-session-copy.md](references/2.5-legacy-session-copy.md)。每篇从同一份完整固定旧2.5会话复制独立工作副本，再配该流程的完整提示词和本篇稿子；不得使用空白 `--isolated` 请求，不得串用上一篇生成后的会话。此项取代下文及旧引用中2.5空白请求和其他2.5语感会话默认值；只改变会话来源，不更换各流程提示词、母题锁、数量锁或验收规则。2.8/2.9/3.6等非2.5引擎不变。
 
