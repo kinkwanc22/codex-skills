@@ -38,6 +38,8 @@ For this user, Chinese long-form narration, Douyin manuscripts, ContentFactory o
 
 Use `xiangongyun-tts` as the default when the user wants to provide a document or manuscript and receive final audio. That workflow automatically handles Xiangongyun API instance preflight, Gradio TTS synthesis, silence filtering, QC, and SRT generation.
 
+For this user, each newly synthesized narration defaults to **three independent candidates of the same frozen script, voice and speed**, followed by content checks and actual listening to select the most natural take. Preserve all three under the project and record the selected take and comparison; only that take enters final audio/subtitle alignment. Follow the three-candidate selection section in `../xiangongyun-tts/SKILL.md`; copying, gain changes or speed changes do not constitute independent takes. Existing-audio reuse/cropping and explicit user exceptions do not trigger resynthesis.
+
 ## Hard Constraints
 
 - Always check CLI auth following `shared/cli-authentication.md`

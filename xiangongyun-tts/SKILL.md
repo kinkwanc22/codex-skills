@@ -80,19 +80,30 @@ Boundaries:
 - If login, CAPTCHA, payment, verification, or account-risk prompts appear, stop and ask the user to handle that step.
 - If the WebUi URL is blocked or unavailable after the instance is `运行中`, report the blocker instead of guessing another service URL.
 
+## 三版生成、自然度择优（用户2026-11-20新增默认）
+
+每次为本用户生成配音，同一份冻结文案独立合成 **3个完整候选版本**，再选最自然的一版交付或进入剪辑。此规则也适用于千川新配音、固定CTA重配及局部补录；仅裁接或复用已有音频不重新合成，用户明确指定例外时按本次要求执行。不追溯重做已完成的草稿。
+
+- 三版使用同一文案、音色、语速与既定参数；分别提交真实合成请求，不能复制同一WAV充数，也不靠变速、音高或音量处理制造差别。长稿按同一合成策略生成三个完整成稿；局部补录则对同一待补片段三选一后拼回。
+- 依次生成并保存 `work/voice_candidates/v01`、`v02`、`v03`，各保留原始音频、按同一停顿规则处理后的候选及参数记录。不要覆盖候选；未选两版留在项目作备选，正式音频目录只放选中的成稿。
+- 先排除漏读、错读、重复、吞字、断尾等内容错误，再实际试听比较语气是否自然、句内气口、重音、句尾、段落衔接和整篇连贯性；长稿额外比较开头、每段起句、拼接点和全部异常处。不得仅凭ASR置信度、峰值或时长宣布“最自然”。
+- 保存 `voice_selection.json`：冻结文案哈希、三版路径/合成参数/时长、内容问题、实际试听范围、自然度比较理由和最终选中编号。没有实际试听证据时标记“自然度待听审”，不冒称三选一已完成。
+- 三版均有问题时，先针对具体错误补录或修复，并保留修复记录；仍无可用版则报告具体问题，不无限追加整篇生成。最终字幕和剪映音轨必须以实际选中的音频重新对齐，不沿用被淘汰版本的时间轴。
+- 本条只改变配音候选数量与择优步骤，不自行更换音色、修改文案、改变已确认的源音量/剪映增益、切换收费机型或修改开关机设置。
+
 ## Workflow
 
 1. Run the Xiangongyun Instance Preflight above and confirm the `语音生成` Gradio WebUi is reachable.
 2. Extract the text to synthesize from the user's request, pasted text, or provided document.
 3. Use `浩威青叔4.0.pt` unless the user names another voice.
 4. Use speed `1.0` unless the user gives a value from `0.5` to `2.0`.
-5. Choose the synthesis strategy:
+5. Choose the synthesis strategy, generate three independent candidates, then perform the selection above:
    - Short text or quick test: run `scripts/generate_xiangongyun_tts.mjs`.
    - Long narration: prefer `scripts/generate_hybrid_xiangongyun_tts.mjs`.
    - Full segmentation is a fallback only when long-body synthesis repeatedly misreads content.
 6. Save final deliverable audio under `/Users/kin/工作用（同步）/GARY素材音频/扩写长音频` on this Mac by default.
 7. Automatically run the AutoCutVideo-style silence/pause filter on the generated WAV unless the user explicitly asks to keep the raw TTS audio.
-8. Treat the filtered WAV as the final deliverable. Keep raw WAVs as intermediates under the current project's `work/` directory when possible; do not leave raw WAVs in the final output directory unless the user explicitly asks to keep them there.
+8. Treat the selected candidate’s filtered WAV as the final deliverable. Keep raw WAVs as intermediates under the current project's `work/` directory when possible; do not leave raw WAVs in the final output directory unless the user explicitly asks to keep them there.
 9. Do not generate SRT by default. Generate subtitles only when the user explicitly asks.
 10. Return the filtered `.wav` and summarize technical QC findings.
 
